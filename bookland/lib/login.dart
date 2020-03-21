@@ -26,7 +26,14 @@ class _LoginPageState extends State<LoginStatefulWidget> {
   String _password;
 
   bool _isLoginForm = true;
+  bool passwordVisible;
   int _count = 0;
+
+  @override
+  // ignore: must_call_super
+  void initState() {
+    passwordVisible = false;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -85,10 +92,25 @@ class _LoginPageState extends State<LoginStatefulWidget> {
         padding: const EdgeInsets.fromLTRB(0.0, 15.0, 0.0, 0.0),
         child: new TextFormField(
           maxLines: 1,
-          obscureText: true,
+          obscureText: passwordVisible,
           autofocus: false,
           decoration: new InputDecoration(
             hintText: 'Password',
+
+            // Password visibility is added here
+            suffixIcon: IconButton(
+              icon: Icon(
+                passwordVisible
+                ? Icons.visibility
+                      : Icons.visibility_off,
+                color: Theme.of(context).primaryColorDark,
+              ),
+              onPressed: () {
+                setState(() {
+                  passwordVisible = !passwordVisible;
+                });
+              },
+            ),
             icon: new Icon(
               Icons.lock,
               color: Colors.grey,
