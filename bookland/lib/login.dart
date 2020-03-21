@@ -22,6 +22,9 @@ class LoginStatefulWidget extends StatefulWidget {
 
 class _LoginPageState extends State<LoginStatefulWidget> {
   String _email;
+  String _password;
+
+  bool _isLoginForm = true;
   int _count = 0;
 
   @override
@@ -33,8 +36,24 @@ class _LoginPageState extends State<LoginStatefulWidget> {
       ),
       body: Stack(
         children: <Widget>[
-          showEmailInput()
+          _showForm()
         ],
+      ),
+    );
+  }
+
+  Widget _showForm() {
+    return new Container(
+      padding: EdgeInsets.all(16.0),
+      child: new Form(
+        child: new ListView(
+          shrinkWrap: true,
+          children: <Widget>[
+            showEmailInput(),
+            showPasswordInput(),
+            showLoginButton(),
+          ],
+        ),
       ),
     );
   }
@@ -56,6 +75,41 @@ class _LoginPageState extends State<LoginStatefulWidget> {
         validator: (value) => value.isEmpty ? 'Email cannot be empty' : null,
         onSaved: (value) => _email = value.trim(),
       ),
+    );
+  }
+
+  Widget showPasswordInput() {
+    return Padding(
+        padding: const EdgeInsets.fromLTRB(0.0, 15.0, 0.0, 0.0),
+        child: new TextFormField(
+          maxLines: 1,
+          obscureText: true,
+          autofocus: false,
+          decoration: new InputDecoration(
+            hintText: 'Password',
+            icon: new Icon(
+              Icons.lock,
+              color: Colors.grey,
+            )
+          ),
+          validator: (value) => value.isEmpty ? 'Password cannot be empty' : null,
+          onSaved: (value) => _password = value.trim(),
+        ),
+    );
+  }
+
+  Widget showLoginButton() {
+    return new Padding(
+        padding: EdgeInsets.fromLTRB(0.0, 45.0, 0.0, 0.0),
+        child: new RaisedButton(
+            elevation: 5.0,
+            shape: new RoundedRectangleBorder(
+              borderRadius: new BorderRadius.circular(30.0)),
+            color: Colors.green,
+            child: new Text(_isLoginForm ? 'Login' : 'Create account',
+            style: new TextStyle(fontSize: 20.0, color: Colors.white)),
+            // TODO onPressed should be updated
+            onPressed: null),
     );
   }
 }
