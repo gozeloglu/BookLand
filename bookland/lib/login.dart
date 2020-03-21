@@ -61,6 +61,7 @@ class _LoginPageState extends State<LoginStatefulWidget> {
             showPasswordInput(),
             showLoginButton(),
             showForgotPasswordButton(),
+            showSignUpButton(),
           ],
         ),
       ),
@@ -141,8 +142,19 @@ class _LoginPageState extends State<LoginStatefulWidget> {
     return new FlatButton(
         onPressed: null,
         child: new Text(
-          _isLoginForm ? 'Forgot My Password' : 'Have an account? Sign in',
+          // WARNING _isLoginForm may not be true variable for this one
+           'Forgot My Password',
           style: new TextStyle(fontSize: 18.0, fontWeight: FontWeight.w300))
+    );
+  }
+
+  Widget showSignUpButton() {
+    return new FlatButton(
+        onPressed: null,
+        child: new Text(
+          'Sign Up',
+          style: new TextStyle(fontSize: 18.0, fontWeight: FontWeight.w300)
+        )
     );
   }
 }
