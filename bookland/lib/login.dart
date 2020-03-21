@@ -41,6 +41,7 @@ class _LoginPageState extends State<LoginStatefulWidget> {
     return new Scaffold(
       appBar: new AppBar(
         title: new Text('Login'),
+        centerTitle: true,
       ),
       body: Stack(
         children: <Widget>[
