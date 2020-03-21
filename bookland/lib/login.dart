@@ -21,19 +21,40 @@ class LoginStatefulWidget extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginStatefulWidget> {
-
+  String _email;
   int _count = 0;
 
+  @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('Sample Code'),
+    // TODO this function will be filled
+    return new Scaffold(
+      appBar: new AppBar(
+        title: new Text('Login'),
       ),
-      body: Center(child: Text('You have pressed the button $_count times.')),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () => setState(() => _count++),
-        tooltip: 'Increment Counter',
-        child: const Icon(Icons.add),
+      body: Stack(
+        children: <Widget>[
+          showEmailInput()
+        ],
+      ),
+    );
+  }
+
+  Widget showEmailInput() {
+    return Padding(
+        padding: const EdgeInsets.fromLTRB(0.0, 100.0, 0.0, 0.0),
+      child: new TextFormField(
+        maxLines: 1,
+        keyboardType: TextInputType.emailAddress,
+        autofocus: false,
+        decoration: new InputDecoration(
+          hintText: 'Email',
+          icon: new Icon(
+            Icons.mail,
+            color: Colors.grey,
+          )
+        ),
+        validator: (value) => value.isEmpty ? 'Email cannot be empty' : null,
+        onSaved: (value) => _email = value.trim(),
       ),
     );
   }
