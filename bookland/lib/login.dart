@@ -21,6 +21,7 @@ class LoginStatefulWidget extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginStatefulWidget> {
+  // Note: These variables are about backend
   String _email;
   String _password;
 
@@ -52,6 +53,7 @@ class _LoginPageState extends State<LoginStatefulWidget> {
             showEmailInput(),
             showPasswordInput(),
             showLoginButton(),
+            showForgotPasswordButton(),
           ],
         ),
       ),
@@ -110,6 +112,15 @@ class _LoginPageState extends State<LoginStatefulWidget> {
             style: new TextStyle(fontSize: 20.0, color: Colors.white)),
             // TODO onPressed should be updated
             onPressed: null),
+    );
+  }
+
+  Widget showForgotPasswordButton() {
+    return new FlatButton(
+        onPressed: null,
+        child: new Text(
+          _isLoginForm ? 'Forgot My Password' : 'Have an account? Sign in',
+          style: new TextStyle(fontSize: 18.0, fontWeight: FontWeight.w300))
     );
   }
 }
