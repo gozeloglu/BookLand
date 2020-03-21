@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:bookland/login.dart';
 
 void main() => runApp(MyApp());
 
@@ -74,8 +75,23 @@ class _MyLoginPageState extends State<LoginStatefulWidget> {
       appBar: AppBar(
         // Here we take the value from the LoginPage object that was created by
         // the App.build method, and use it to set our appbar title.
-        title: const Text("Login"),
+        title: const Text("BookLand"),
         centerTitle: true,
+        actions: <Widget>[
+          IconButton(
+            icon: Icon(
+              Icons.account_circle,
+              color: Colors.white,
+
+            ),
+            onPressed: () {
+              Navigator.push(
+                  context, new MaterialPageRoute(builder: (context) => new Login()),
+              );
+              // TODO Login page will be here
+            },
+          )
+        ],
       ),
       body: Center(
         child: _widgetOptions.elementAt(_selectedIndex),
