@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:bookland/signUp.dart';
+
 
 class Login extends StatelessWidget {
   static const String _title = 'Login';
@@ -151,7 +153,9 @@ class _LoginPageState extends State<LoginStatefulWidget> {
 
   Widget showSignUpButton() {
     return new FlatButton(
-        onPressed: null,
+        onPressed: () {Navigator.push(
+          context, new MaterialPageRoute(builder: (context) => new SignUp()),
+        );},
         child: new Text(
           'Sign Up',
           style: new TextStyle(fontSize: 18.0, fontWeight: FontWeight.w300)
