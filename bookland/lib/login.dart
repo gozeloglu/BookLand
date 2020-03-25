@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:bookland/signUp.dart';
 
-
+var globalContext;
 class Login extends StatelessWidget {
   static const String _title = 'Login';
 
   @override
   Widget build(BuildContext context) {
+    globalContext = context;
     // TODO: implement build
     return MaterialApp(
       title: _title,
@@ -42,6 +43,10 @@ class _LoginPageState extends State<LoginStatefulWidget> {
     // TODO this function will be filled
     return new Scaffold(
       appBar: new AppBar(
+        leading: new IconButton(
+          icon: new Icon(Icons.arrow_back, color: Colors.black),
+          onPressed: () => Navigator.pop(globalContext),
+        ),
         title: new Text('Login'),
         centerTitle: true,
       ),

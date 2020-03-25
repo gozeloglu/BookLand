@@ -3,12 +3,15 @@ import 'package:flutter/material.dart';
 
 import 'login.dart';
 import 'main.dart';
+var globalContext;
 
 class SignUp extends StatelessWidget {
   static const String _title = 'Sign-Up';
 
   @override
   Widget build(BuildContext context) {
+    globalContext = context;
+
     // TODO: implement build
     return MaterialApp(
       title: _title,
@@ -46,9 +49,12 @@ class _SignUpPageState extends State<SignUpStatefulWidget> {
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
-    return MaterialApp(
-      home: Scaffold(
+    return  Scaffold(
         appBar: AppBar(
+          leading: new IconButton(
+            icon: new Icon(Icons.arrow_back, color: Colors.black),
+            onPressed: () => Navigator.pop(globalContext),
+          ),
           title: const Text('BookLand-Sign Up',
               style:
                   TextStyle(color: Colors.white, fontWeight: FontWeight.bold)),
@@ -74,8 +80,7 @@ class _SignUpPageState extends State<SignUpStatefulWidget> {
             ),
           ),
         ),
-      ),
-    );
+      );
   }
 
   Widget FirstnameArg() {
