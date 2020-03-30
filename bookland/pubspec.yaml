@@ -17,6 +17,7 @@ environment:
   sdk: ">=2.1.0 <3.0.0"
 
 dependencies:
+  grouped_buttons: ^1.0.4
   flutter:
     sdk: flutter
 
@@ -27,6 +28,7 @@ dependencies:
 dev_dependencies:
   flutter_test:
     sdk: flutter
+
 
 
 # For information on the generic Dart part of this file, see the
@@ -50,6 +52,14 @@ flutter:
     - assets/campaign.png
     - assets/person.jpg
     - assets/bookland__pp.png
+    - assets/booking/book1.jpg
+    - assets/booking/book2.jpg
+    - assets/booking/book3.jpg
+    - assets/booking/book4.jpg
+    - assets/booking/book5.jpg
+    - assets/booking/book6.jpg
+    - assets/booking/book7.jpg
+    - assets/filter_books.jpg
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.

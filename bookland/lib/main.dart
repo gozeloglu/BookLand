@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:bookland/login.dart';
-
+import 'package:bookland/explore.dart';
 
 void main() {
   runApp(MyApp());
@@ -282,7 +282,9 @@ class MyStatelessWidget extends StatelessWidget {
                       icon : Icon(Icons.explore),
 
                       onPressed :() {
-                        print("Icon explore Pressed !!");
+                        Navigator.push(
+                          context, new MaterialPageRoute(builder: (context) => new Explore()),
+                        );
                       }
                   ),
                   Text("           "),
