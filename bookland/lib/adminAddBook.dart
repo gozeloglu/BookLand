@@ -70,7 +70,7 @@ class _AdminAddBookPageState extends State<adminAddBookStatefulWidget> {
         child: new ListView(
           shrinkWrap: true,
           children: <Widget>[
-            showBookIDInput(),
+            showLinkInput(),
             showBookNameInput(),
             showCategoryInput(),
             showSubcategoryInput(),
@@ -131,7 +131,7 @@ class _AdminAddBookPageState extends State<adminAddBookStatefulWidget> {
             borderSide: const BorderSide(color: Colors.grey, width: 0.0),
           ),
         ),
-        validator: (value) => value.isEmpty ? 'BookID cannot be empty' : null,
+        validator: (value) => value.isEmpty ? 'Book Link cannot be empty' : null,
         //onSaved: (value) => _email = value.trim(),
       ),
     );
