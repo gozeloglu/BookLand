@@ -27,10 +27,6 @@ public class CustomerController {
 
         @PostMapping(value = "/saveCustomer")
         public Customer saveCustomer(@RequestBody Customer customer){
-
-                /*System.out.println("İstek atıldı");
-                System.out.println(String.format("id= %d , name= %s, surname= %s, email= %s, password= %s",customer.getCustomerId(),
-                        customer.getFirstname(),customer.getSurname(),customer.getEmail(),customer.getPassword()));*/
                 return customerServices.saveCustomer(customer);
         }
 }
