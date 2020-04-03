@@ -1,70 +1,38 @@
 package com.bookland.demobookland.model;
 
+
+import lombok.Data;
+
+import javax.persistence.*;
+import java.text.DateFormat;
+
+@Entity
+@Data
+@Table(name = "customer")
 public class Customer {
-    private String name;
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "CustomerId", nullable = false)
+    private int customerId;
+
+    @Column(name = "Name", nullable = false)
+    private String firstName;
+
+    @Column(name = "Surname", nullable = false)
     private String surname;
-    private String doB;
-    private String phoneNumber;
+
+    @Column(name = "Username", nullable = false)
     private String email;
+
+    @Column(name = "Password", nullable = false)
     private String password;
 
-    public Customer(String name, String surname, String doB, String phoneNumber, String email, String password) {
-        this.name = name;
-        this.surname = surname;
-        this.doB = doB;
-        this.phoneNumber = phoneNumber;
-        this.email = email;
-        this.password = password;
-    }
+    @Column(name = "DateOfBirth")
+    private DateFormat dateOfBirth;
 
-    public Customer() {
-    }
+    @Column(name = "PhoneNumber")
+    private String phoneNumber;
 
-    public String getName() {
-        return name;
-    }
 
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getSurname() {
-        return surname;
-    }
-
-    public void setSurname(String surname) {
-        this.surname = surname;
-    }
-
-    public String getDoB() {
-        return doB;
-    }
-
-    public void setDoB(String doB) {
-        doB = doB;
-    }
-
-    public String getPhoneNumber() {
-        return phoneNumber;
-    }
-
-    public void setPhoneNumber(String phoneNumber) {
-        this.phoneNumber = phoneNumber;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
 }
