@@ -5,12 +5,17 @@ import com.bookland.demobookland.model.Customer;
 import com.bookland.demobookland.services.CustomerServices;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @RestController
 public class CustomerController {
+
+        @Autowired
+        PasswordEncoder encoder;
 
         @Autowired
         private CustomerServices customerServices;
@@ -26,7 +31,12 @@ public class CustomerController {
         }
 
         @PostMapping(value = "/saveCustomer")
-        public Customer saveCustomer(@RequestBody Customer customer){
+        public Customer saveCustomer(@Valid @RequestBody Customer customer){
+                //if(customerServices.UniqueEmail(customer.getEmail())==Boolean.TRUE)
+
+                customer.setPassword(encoder.encode(customer.getPassword()));
+                /*System.out.println(String.format("id= %d , name= %s, surname= %s, email= %s, password= %s",customer.getCustomerId(),
+                        customer.getFirstName(),customer.getSurname(),customer.getEmail(),customer.getPassword()));*/
                 return customerServices.saveCustomer(customer);
         }
 }
