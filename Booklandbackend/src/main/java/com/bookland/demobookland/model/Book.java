@@ -1,9 +1,10 @@
 package com.bookland.demobookland.model;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotBlank;
+import java.util.Date;
 
 @Entity
 @Data
@@ -12,16 +13,16 @@ public class Book {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "ISBN", nullable = false)
+    @Column(name = "ISBN", nullable = false, unique = true)
     private int bookId;
 
     @Column(name = "BookName", nullable = false)
     private String bookName;
 
-    @Column(name = "author", nullable = false)
+    @Column(name = "Author", nullable = false)
     private String author;
 
-    @Column(name = "Description", nullable = false)
+    @Column(name = "Description")
     private String description;
 
     @Column(name = "Category", nullable = false)
@@ -30,8 +31,8 @@ public class Book {
     @Column(name = "SubCategory", nullable = false)
     private String subCategory;
 
-    @Column(name = "In-Hotlist", nullable = false)
-    private boolean inHotList;
+    @Column(name = "InHotList", nullable = false)
+    private int inHotList;
 
     @Column(name = "Status", nullable = false)
     private int status;
@@ -39,5 +40,7 @@ public class Book {
     @Column(name = "BookImage", nullable = false)
     private String bookImage;
 
-    // TODO Relased time should be added --> Look at customer class (date of birth)
+    @Column(name = "ReleasedTime", nullable = false)
+    @JsonFormat(pattern = "yyyy-MM-dd")
+    private Date releasedTime;
 }
