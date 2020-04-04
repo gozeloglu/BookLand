@@ -27,4 +27,8 @@ public class CustomerServices {
         return customerRepository.save(customer);
     }
 
+    public Boolean UniqueEmail(String email){
+        return customerRepository.findByEmail(email);
+    }
+
 }
