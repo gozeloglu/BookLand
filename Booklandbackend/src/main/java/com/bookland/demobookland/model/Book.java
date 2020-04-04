@@ -28,19 +28,19 @@ public class Book {
     @Column(name = "Category", nullable = false)
     private String category;
 
-    @Column(name = "SubCategory", nullable = false)
+    @Column(name = "SubCategory")
     private String subCategory;
 
-    @Column(name = "InHotList", nullable = false)
+    @Column(name = "InHotList")
     private int inHotList;
 
-    @Column(name = "Status", nullable = false)
+    @Column(name = "Status")
     private int status;
 
     @Column(name = "BookImage", nullable = false)
     private String bookImage;
 
-    @Column(name = "ReleasedTime", nullable = false)
+    @Column(name = "ReleasedTime")
     @JsonFormat(pattern = "yyyy-MM-dd")
     private Date releasedTime;
 }
