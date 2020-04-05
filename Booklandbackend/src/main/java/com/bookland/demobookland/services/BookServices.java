@@ -124,4 +124,24 @@ public class BookServices {
     }
 
 
+    public List<Book> getBookByAuthor(Book book_author) {
+        List<Book> bookList = new ArrayList<>();
+        for (Book book : bookRepository.findAll()) {
+            boolean isFound = book.getAuthor().indexOf(book_author.getAuthor()) !=-1? true: false;
+            if( isFound ){
+                bookList.add(book);
+            }
+        }
+        return bookList;
+    }
+    public List<Book> getBookByTitle(Book book_title) {
+        List<Book> bookList = new ArrayList<>();
+        for (Book book : bookRepository.findAll()) {
+            boolean isFound = book.getBookName().indexOf(book_title.getBookName()) !=-1? true: false;
+            if( isFound ){
+                bookList.add(book);
+            }
+        }
+        return bookList;
+    }
 }

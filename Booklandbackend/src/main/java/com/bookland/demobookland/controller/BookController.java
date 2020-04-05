@@ -67,5 +67,13 @@ public class BookController {
         return bookServices.getBookById(book);
     }
 
+    @PostMapping(value = "/getBookByAuthor")
+    public List<Book> getBookByAuthor(@Valid @RequestBody Book book){
+        return bookServices.getBookByAuthor(book);
+    }
 
+    @PostMapping(value = "/getBookByTitle")
+    public List<Book> getBookByTitle(@Valid @RequestBody Book book){
+        return bookServices.getBookByTitle(book);
+    }
 }
