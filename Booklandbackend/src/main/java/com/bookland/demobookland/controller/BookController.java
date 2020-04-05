@@ -56,9 +56,6 @@ public class BookController {
     // GET All Books
     @RequestMapping(value = "/getLastReleased", produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.GET)
     public List<Book> getLastReleased() {
-        /** @:return All books in JSON type
-         *  GET request is handling here
-         * */
         return bookServices.getLastReleased();
     }
 
