@@ -4,12 +4,13 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
 
 import javax.persistence.*;
+import java.util.Comparator;
 import java.util.Date;
 
 @Entity
 @Data
 @Table(name="book")
-public class Book {
+public class Book  {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -43,4 +44,6 @@ public class Book {
     @Column(name = "ReleasedTime")
     @JsonFormat(pattern = "yyyy-MM-dd")
     private Date releasedTime;
+
+
 }
