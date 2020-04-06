@@ -25,18 +25,14 @@ public class CustomerController {
                 return customerServices.getallCustomer();
         }
 
-        @PostMapping(value = "/message")
+        /*@PostMapping(value = "/message")
         public String message(@RequestBody String s){
             return String.format("%s",s);
-        }
+        }*/
 
         @PostMapping(value = "/saveCustomer")
         public Customer saveCustomer(@Valid @RequestBody Customer customer){
-                //if(customerServices.UniqueEmail(customer.getEmail())==Boolean.TRUE)
-
                 customer.setPassword(encoder.encode(customer.getPassword()));
-                /*System.out.println(String.format("id= %d , name= %s, surname= %s, email= %s, password= %s",customer.getCustomerId(),
-                        customer.getFirstName(),customer.getSurname(),customer.getEmail(),customer.getPassword()));*/
                 return customerServices.saveCustomer(customer);
         }
 }
