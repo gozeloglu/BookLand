@@ -313,12 +313,10 @@ class _AdminAddBookPageState extends State<adminAddBookStatefulWidget> {
             Navigator.push(
               context,
               new MaterialPageRoute(
-                  builder: (context) => new MyHomePage(),
+                  builder: (context) => new MyApp(),
             )
             );
           }),
     );
   }
 }
-
-

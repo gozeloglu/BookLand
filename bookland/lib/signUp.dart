@@ -41,6 +41,7 @@ class _SignUpPageState extends State<SignUpStatefulWidget> {
   FocusNode textFourthFocusNode = new FocusNode();
   FocusNode textFifthFocusNode = new FocusNode();
   FocusNode textSixthFocusNode = new FocusNode();
+  FocusNode textSeventhFocusNode = new FocusNode();
   String _dateofbirth;
   String _email;
   String _password;
@@ -50,37 +51,37 @@ class _SignUpPageState extends State<SignUpStatefulWidget> {
   Widget build(BuildContext context) {
     // TODO: implement build
     return  Scaffold(
-        appBar: AppBar(
-          leading: new IconButton(
-            icon: new Icon(Icons.arrow_back, color: Colors.black),
-            onPressed: () => Navigator.pop(globalContext),
-          ),
-          title: const Text('BookLand-Sign Up',
-              style:
-                  TextStyle(color: Colors.white, fontWeight: FontWeight.bold)),
-          //title: Text("Sign Up"),
-          centerTitle: true,
+      appBar: AppBar(
+        leading: new IconButton(
+          icon: new Icon(Icons.arrow_back, color: Colors.black),
+          onPressed: () => Navigator.pop(globalContext),
         ),
-        body: Container(
-          width: double.infinity,
-          padding: EdgeInsets.only(top: 50, bottom: 50),
-          child: new SingleChildScrollView(
-            child: Column(
-              children: <Widget>[
-                FirstnameArg(),
-                surnameArg(),
-                DateofBirthArg(),
-                phoneNumberArg(),
-                emailArg(),
-                passwordArg(),
-                PasswordAgainArg(),
-                AlreadyHaveAccount(),
-                showSignUpButton(),
-              ],
-            ),
+        title: const Text('BookLand-Sign Up',
+            style:
+            TextStyle(color: Colors.white, fontWeight: FontWeight.bold)),
+        //title: Text("Sign Up"),
+        centerTitle: true,
+      ),
+      body: Container(
+        width: double.infinity,
+        padding: EdgeInsets.only(top: 50, bottom: 50),
+        child: new SingleChildScrollView(
+          child: Column(
+            children: <Widget>[
+              FirstnameArg(),
+              surnameArg(),
+              DateofBirthArg(),
+              phoneNumberArg(),
+              emailArg(),
+              passwordArg(),
+              PasswordAgainArg(),
+              AlreadyHaveAccount(),
+              showSignUpButton(),
+            ],
           ),
         ),
-      );
+      ),
+    );
   }
 
   Widget FirstnameArg() {
@@ -112,15 +113,6 @@ class _SignUpPageState extends State<SignUpStatefulWidget> {
               },
             ),
           ),
-          /*  validator: (String value) {
-                          if (value.isEmpty) {
-                            setState(() {
-                              showTooltipFirstname = true; //Toggles the tooltip
-                            });
-                            return "";
-                          }
-                          return "";
-                        }*/
         ),
         Positioned(
           bottom: 50,
@@ -128,20 +120,20 @@ class _SignUpPageState extends State<SignUpStatefulWidget> {
           //You can use your own custom tooltip widget over here in place of below Container
           child: showTooltipFirstname
               ? Container(
-                  width: 100,
-                  height: 50,
-                  decoration: BoxDecoration(
-                      color: Colors.white,
-                      border: Border.all(color: Colors.red, width: 2.0),
-                      borderRadius: BorderRadius.circular(10)),
-                  padding: EdgeInsets.symmetric(horizontal: 10),
-                  child: Center(
-                    child: Text(
-                      "Firstname field cannot be empty",
-                      style: TextStyle(fontWeight: FontWeight.bold),
-                    ),
-                  ),
-                )
+            width: 100,
+            height: 50,
+            decoration: BoxDecoration(
+                color: Colors.white,
+                border: Border.all(color: Colors.red, width: 2.0),
+                borderRadius: BorderRadius.circular(10)),
+            padding: EdgeInsets.symmetric(horizontal: 10),
+            child: Center(
+              child: Text(
+                "Firstname field cannot be empty",
+                style: TextStyle(fontWeight: FontWeight.bold),
+              ),
+            ),
+          )
               : Container(),
         ),
       ],
@@ -190,23 +182,22 @@ class _SignUpPageState extends State<SignUpStatefulWidget> {
         Positioned(
           bottom: 50,
           right: 10,
-          //You can use your own custom tooltip widget over here in place of below Container
           child: showTooltipSurname
               ? Container(
-                  width: 100,
-                  height: 50,
-                  decoration: BoxDecoration(
-                      color: Colors.white,
-                      border: Border.all(color: Colors.red, width: 2.0),
-                      borderRadius: BorderRadius.circular(10)),
-                  padding: EdgeInsets.symmetric(horizontal: 10),
-                  child: Center(
-                    child: Text(
-                      "Surname field cannot be empty",
-                      style: TextStyle(fontWeight: FontWeight.bold),
-                    ),
-                  ),
-                )
+            width: 100,
+            height: 50,
+            decoration: BoxDecoration(
+                color: Colors.white,
+                border: Border.all(color: Colors.red, width: 2.0),
+                borderRadius: BorderRadius.circular(10)),
+            padding: EdgeInsets.symmetric(horizontal: 10),
+            child: Center(
+              child: Text(
+                "Surname field cannot be empty",
+                style: TextStyle(fontWeight: FontWeight.bold),
+              ),
+            ),
+          )
               : Container(),
         ),
       ],
@@ -233,9 +224,9 @@ class _SignUpPageState extends State<SignUpStatefulWidget> {
   Widget phoneNumberArg() {
     return new TextFormField(
         keyboardType: TextInputType.phone,
-        focusNode: textThirdFocusNode,
+        focusNode: textFourthFocusNode,
         onFieldSubmitted: (String value) {
-          FocusScope.of(context).requestFocus(textFourthFocusNode);
+          FocusScope.of(context).requestFocus(textFifthFocusNode);
         },
         decoration: new InputDecoration(
           hintText: "Phone Number",
@@ -254,9 +245,9 @@ class _SignUpPageState extends State<SignUpStatefulWidget> {
       children: <Widget>[
         new TextFormField(
             keyboardType: TextInputType.emailAddress,
-            focusNode: textFourthFocusNode,
+            focusNode: textFifthFocusNode,
             onFieldSubmitted: (String value) {
-              FocusScope.of(context).requestFocus(textFifthFocusNode);
+              FocusScope.of(context).requestFocus(textSixthFocusNode);
             },
             decoration: new InputDecoration(
               hintText: "Email",
@@ -289,23 +280,22 @@ class _SignUpPageState extends State<SignUpStatefulWidget> {
         Positioned(
           bottom: 50,
           right: 10,
-          //You can use your own custom tooltip widget over here in place of below Container
           child: showTooltipEmail
               ? Container(
-                  width: 100,
-                  height: 50,
-                  decoration: BoxDecoration(
-                      color: Colors.white,
-                      border: Border.all(color: Colors.red, width: 2.0),
-                      borderRadius: BorderRadius.circular(10)),
-                  padding: EdgeInsets.symmetric(horizontal: 10),
-                  child: Center(
-                    child: Text(
-                      "Enter a Valid Email",
-                      style: TextStyle(fontWeight: FontWeight.bold),
-                    ),
-                  ),
-                )
+            width: 100,
+            height: 50,
+            decoration: BoxDecoration(
+                color: Colors.white,
+                border: Border.all(color: Colors.red, width: 2.0),
+                borderRadius: BorderRadius.circular(10)),
+            padding: EdgeInsets.symmetric(horizontal: 10),
+            child: Center(
+              child: Text(
+                "Enter a Valid Email",
+                style: TextStyle(fontWeight: FontWeight.bold),
+              ),
+            ),
+          )
               : Container(),
         ),
       ],
@@ -318,9 +308,9 @@ class _SignUpPageState extends State<SignUpStatefulWidget> {
       overflow: Overflow.visible,
       children: <Widget>[
         new TextFormField(
-          focusNode: textFifthFocusNode,
+          focusNode: textSixthFocusNode,
           onFieldSubmitted: (String value) {
-            FocusScope.of(context).requestFocus(textSixthFocusNode);
+            FocusScope.of(context).requestFocus(textSeventhFocusNode);
           },
           decoration: new InputDecoration(
             hintText: "Password",
@@ -343,7 +333,7 @@ class _SignUpPageState extends State<SignUpStatefulWidget> {
           ),
           obscureText: true,
           validator: (value) =>
-              value.isEmpty ? 'Password cannot be blank' : null,
+          value.isEmpty ? 'Password cannot be blank' : null,
         ),
         Positioned(
           top: 55,
@@ -351,20 +341,20 @@ class _SignUpPageState extends State<SignUpStatefulWidget> {
           //You can use your own custom tooltip widget over here in place of below Container
           child: showTooltipPassword
               ? Container(
-                  width: 200,
-                  height: 50,
-                  decoration: BoxDecoration(
-                      color: Colors.white,
-                      border: Border.all(color: Colors.red, width: 2.0),
-                      borderRadius: BorderRadius.circular(10)),
-                  padding: EdgeInsets.symmetric(horizontal: 10),
-                  child: Center(
-                    child: Text(
-                      "Password must at least 8 characters.",
-                      style: TextStyle(fontWeight: FontWeight.bold),
-                    ),
-                  ),
-                )
+            width: 200,
+            height: 50,
+            decoration: BoxDecoration(
+                color: Colors.white,
+                border: Border.all(color: Colors.red, width: 2.0),
+                borderRadius: BorderRadius.circular(10)),
+            padding: EdgeInsets.symmetric(horizontal: 10),
+            child: Center(
+              child: Text(
+                "Password must at least 8 characters.",
+                style: TextStyle(fontWeight: FontWeight.bold),
+              ),
+            ),
+          )
               : Container(),
         ),
       ],
@@ -373,7 +363,7 @@ class _SignUpPageState extends State<SignUpStatefulWidget> {
 
   Widget PasswordAgainArg() {
     return new TextFormField(
-      focusNode: textSixthFocusNode,
+      focusNode: textSeventhFocusNode,
       decoration: new InputDecoration(
         hintText: "Password Again",
         fillColor: Colors.white,
@@ -381,17 +371,6 @@ class _SignUpPageState extends State<SignUpStatefulWidget> {
             borderRadius: new BorderRadius.circular(25.0),
             borderSide: new BorderSide()),
         hintStyle: new TextStyle(fontSize: 22.0),
-        /*suffixIcon: IconButton(
-                      icon: Icon(
-                        Icons.error,
-                        color: Colors.red,
-                      ),
-                      onPressed: () {
-                        setState(() {
-                          showTooltipPasswordAgain = !showTooltipPasswordAgain;
-                        });
-                      },
-                    ),*/
       ),
       obscureText: true,
       validator: (value) => value.isEmpty ? 'Password cannot be blank' : null,

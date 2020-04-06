@@ -11,7 +11,7 @@ import java.util.List;
 
 @Service
 public class CustomerServices {
-    @Autowired
+    @Autowired/*Injection of repository*/
     private CustomerRepository customerRepository;
 
     public List<Customer> getallCustomer() {
@@ -22,6 +22,8 @@ public class CustomerServices {
         return customerList;
     }
 
+
+    /*Saving the registered customer to the database*/
     @Transactional
     public Customer saveCustomer(Customer customer) {
         return customerRepository.save(customer);
