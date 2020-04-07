@@ -10,6 +10,6 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface CustomerRepository extends CrudRepository<Customer,Integer> {
 
-   Boolean findByEmail(String email);
+   Customer findByEmail(String email);
 
 }

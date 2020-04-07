@@ -17,24 +17,24 @@ public class Customer {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "CustomerId", nullable = false)
+    @Column(name = "CustomerId")
     private int customerId;
 
-    @Column(name = "Name", nullable = false)
-    @NotBlank(message = "Name is Necessary")
+    @Column(name = "Name")
+    //@NotBlank(message = "Name is Necessary")
     private String firstName;
 
-    @Column(name = "Surname", nullable = false)
-    @NotBlank(message = "Surname is Necessary")
+    @Column(name = "Surname")
+    //@NotBlank(message = "Surname is Necessary")
     private String surname;
 
-    @Column(name = "Username", nullable = false)
+    @Column(name = "Username")
     @Email(message = "Email must be a valid email address")
-    @NotBlank(message = "Username is Necessary")
+   // @NotBlank(message = "Username is Necessary")
     private String email;
 
-    @Column(name = "Password", nullable = false)
-    @NotBlank(message = "Password is Necessary")
+    @Column(name = "Password")
+    //@NotBlank(message = "Password is Necessary")
     @Size(min = 8,message = "Your password must be at least 8 characters")
     private String password;
 
@@ -44,5 +44,8 @@ public class Customer {
 
     @Column(name = "PhoneNumber")
     private String phoneNumber;
+
+  /*  @OneToMany(fetch = FetchType.LAZY             , mappedBy = "customer")  /*CustomerAddress de ki bu ilişkiye karşı gelen ilişkinin variable name'i yazılıyo*/
+  //  private List<CustomerAddress> customerAddressList;
 
 }
