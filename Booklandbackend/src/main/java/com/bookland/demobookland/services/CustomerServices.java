@@ -1,8 +1,10 @@
 package com.bookland.demobookland.services;
 
+import com.bookland.demobookland.model.Book;
 import com.bookland.demobookland.model.Customer;
 import com.bookland.demobookland.repository.CustomerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -10,8 +12,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Service
+
 public class CustomerServices {
     @Autowired/*Injection of repository*/
+            PasswordEncoder encoder;
+
+    @Autowired
+
     private CustomerRepository customerRepository;
 
     public List<Customer> getallCustomer() {
@@ -29,8 +36,25 @@ public class CustomerServices {
         return customerRepository.save(customer);
     }
 
+
+    public String  getLogin(Customer customer) {
+        Customer loginUser = customerRepository.findByEmail(customer.getEmail());
+
+       if(loginUser != null ){
+           System.out.println(customer.getPassword());
+           System.out.println(loginUser.getPassword());
+           System.out.println(encoder.encode(customer.getPassword()));
+           if(encoder.matches(customer.getPassword(), loginUser.getPassword())){
+               return "Successfully Login";
+
+           }
+       }
+       return "Username or Password is not correct!";
+    }
+
     public Boolean UniqueEmail(String email){
-        return customerRepository.findByEmail(email);
+       // return customerRepository.findByEmail(email);
+        return true;
     }
 
 }
