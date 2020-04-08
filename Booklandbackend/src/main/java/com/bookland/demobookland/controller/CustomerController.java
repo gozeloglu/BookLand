@@ -1,6 +1,7 @@
 package com.bookland.demobookland.controller;
 
 
+import com.bookland.demobookland.model.Book;
 import com.bookland.demobookland.model.Customer;
 import com.bookland.demobookland.services.CustomerServices;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,14 +26,16 @@ public class CustomerController {
                 return customerServices.getallCustomer();
         }
 
-        /*@PostMapping(value = "/message")
-        public String message(@RequestBody String s){
-            return String.format("%s",s);
-        }*/
-
         @PostMapping(value = "/saveCustomer")
         public Customer saveCustomer(@Valid @RequestBody Customer customer){
                 customer.setPassword(encoder.encode(customer.getPassword()));
                 return customerServices.saveCustomer(customer);
         }
+
+        @PostMapping(value = "/login")
+        public String getLogin(@Valid @RequestBody Customer customer){
+                return customerServices.getLogin(customer);
+        }
+
+
 }
