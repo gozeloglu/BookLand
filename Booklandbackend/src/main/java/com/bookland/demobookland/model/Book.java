@@ -1,6 +1,7 @@
 package com.bookland.demobookland.model;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Data;
 
 import javax.persistence.*;
@@ -9,6 +10,7 @@ import java.util.Date;
 
 @Entity
 @Data
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 @Table(name="book")
 public class Book  {
 
@@ -37,6 +39,9 @@ public class Book  {
 
     @Column(name = "Status")
     private int status;
+
+    @Column(name = "Quantity")
+    private int quantity;
 
     @Column(name = "BookImage", nullable = false)
     private String bookImage;

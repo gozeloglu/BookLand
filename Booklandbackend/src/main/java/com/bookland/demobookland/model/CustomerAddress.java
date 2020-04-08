@@ -1,5 +1,6 @@
 package com.bookland.demobookland.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Data;
 
 import javax.persistence.*;
@@ -9,7 +10,9 @@ import java.io.Serializable;
 
 @Entity
 @Table(name = "customeraddress")
-public class CustomerAddress implements Serializable {
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+
+public class CustomerAddress{
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
