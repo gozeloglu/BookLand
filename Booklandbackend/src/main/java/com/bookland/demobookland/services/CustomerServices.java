@@ -41,20 +41,12 @@ public class CustomerServices {
         Customer loginUser = customerRepository.findByEmail(customer.getEmail());
 
        if(loginUser != null ){
-           System.out.println(customer.getPassword());
-           System.out.println(loginUser.getPassword());
-           System.out.println(encoder.encode(customer.getPassword()));
            if(encoder.matches(customer.getPassword(), loginUser.getPassword())){
                return "Successfully Login";
 
            }
        }
        return "Username or Password is not correct!";
-    }
-
-    public Boolean UniqueEmail(String email){
-       // return customerRepository.findByEmail(email);
-        return true;
     }
 
 }

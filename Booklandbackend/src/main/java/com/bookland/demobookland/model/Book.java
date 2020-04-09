@@ -1,21 +1,22 @@
 package com.bookland.demobookland.model;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Data;
 
 import javax.persistence.*;
-import java.util.Comparator;
 import java.util.Date;
 
 @Entity
 @Data
-@Table(name="book")
-public class Book  {
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+@Table(name = "book")
+public class Book {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "ISBN", nullable = false, unique = true)
-    private int bookId;
+    @Column(name = "ISBN", nullable = false)
+    private Integer bookId;
 
     @Column(name = "BookName", nullable = false)
     private String bookName;
@@ -33,17 +34,21 @@ public class Book  {
     private String subCategory;
 
     @Column(name = "InHotList")
-    private int inHotList;
+    private Integer inHotList;
 
     @Column(name = "Status")
-    private int status;
+    private Integer status = 1;
+
+    @Column(name = "Quantity", nullable = false)
+    private Integer quantity=0;
 
     @Column(name = "BookImage", nullable = false)
     private String bookImage;
 
-    @Column(name = "ReleasedTime")
-    @JsonFormat(pattern = "yyyy-MM-dd")
-    private Date releasedTime;
+    @Temporal(TemporalType.TIMESTAMP)
+    @Column(name = "ReleasedTime", columnDefinition = "TIMESTAMP default CURRENT_TIMESTAMP on update CURRENT_TIMESTAMP")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss.SS")
+    private Date releasedTime = new Date();
 
 
 }
