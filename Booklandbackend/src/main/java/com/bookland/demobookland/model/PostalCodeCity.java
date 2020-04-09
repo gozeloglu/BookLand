@@ -1,5 +1,6 @@
 package com.bookland.demobookland.model;
 
+
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Data;
@@ -20,13 +21,17 @@ public class PostalCodeCity {
     @Column(name = "PostalCode", nullable = false)
     private String postalCode;
 
+
     //@JsonManagedReference
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.MERGE)
+
     @JoinColumn(name = "city")
     private CityCountry city;
 
     /*For result set and the relationship*/
+
     @JsonBackReference
+
     @OneToMany(fetch = FetchType.LAZY
             , mappedBy = "postalCodeCity")
     private List<Address> addressList;

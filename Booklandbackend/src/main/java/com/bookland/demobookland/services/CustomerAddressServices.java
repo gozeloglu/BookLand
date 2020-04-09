@@ -1,5 +1,6 @@
 package com.bookland.demobookland.services;
 
+
 import com.bookland.demobookland.model.CustomerAddress;
 import com.bookland.demobookland.repository.CustomerAddressRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,6 +30,4 @@ public class CustomerAddressServices {
     public List<CustomerAddress> showAddresses(int id) {
         return customerAddressRepository.findByCustomerId(id);
     }
-
-
 }

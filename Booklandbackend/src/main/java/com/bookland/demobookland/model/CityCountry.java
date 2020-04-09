@@ -1,11 +1,12 @@
 package com.bookland.demobookland.model;
 
 
+
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Data;
-import lombok.ToString;
+import lombok.ToStr
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
@@ -16,6 +17,7 @@ import java.util.List;
 @Data
 @Table(name = "city_country")
 @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+
 public class CityCountry {
 
     @Id
@@ -27,6 +29,7 @@ public class CityCountry {
     private String country;
 
     @JsonBackReference
+
     @OneToMany(fetch = FetchType.LAZY,
             mappedBy = "city")
             //orphanRemoval = true)
