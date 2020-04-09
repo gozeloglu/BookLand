@@ -129,7 +129,11 @@ packages:
       name: pedantic
       url: "https://pub.dartlang.org"
     source: hosted
+<<<<<<< HEAD
     version: "1.8.0+1"
+=======
+    version: "1.9.0"
+>>>>>>> bc05edba72914fa9310b49d930226c69cf22dc3f
   petitparser:
     dependency: transitive
     description:

@@ -1,14 +1,12 @@
 package com.bookland.demobookland.controller;
 
 import com.bookland.demobookland.model.Book;
-import com.bookland.demobookland.model.Customer;
 import com.bookland.demobookland.services.BookServices;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
-
+import javax.persistence.criteria.CriteriaBuilder;
 import javax.validation.Valid;
 import java.util.List;
 
@@ -18,9 +16,8 @@ public class BookController {
     private BookServices bookServices;
 
 
-
     // GET All Books
-    @RequestMapping(value = "/allBooks", produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.GET)
+    @GetMapping(value = "/allBooks", produces = MediaType.APPLICATION_JSON_VALUE)
     public List<Book> getBooks() {
         /** @:return All books in JSON type
          *  GET request is handling here
@@ -29,49 +26,76 @@ public class BookController {
     }
 
     @PostMapping(value = "/addBook")
-    public Book addBook(@Valid @RequestBody Book book){
+    public String addBook(@Valid @RequestBody Book book) {
         return bookServices.addBook(book);
     }
 
-    @PostMapping(value = "/deleteBook")
-    public void deleteBook(@Valid @RequestBody Book book){
-         bookServices.deleteBook(book);
+    @DeleteMapping(value = "/deleteBook/{id}")
+    public String deleteBook(@PathVariable Integer id) {
+        String response;
+        try {
+            bookServices.deleteBook(id);
+            response = "Book Deleted";
+            return response;
+        }catch (Exception e){
+            response = "Some Problem Occured";
+            return response;
+        }
+
     }
 
-    @PostMapping(value = "/updateBook")
-    public void updateBook(@Valid @RequestBody Book book){
-        bookServices.updateBook(book);
+    @PutMapping(value = "/updateBook/{id}")
+    public String updateBook(@PathVariable Integer id, @Valid @RequestBody Book book) {
+        return bookServices.updateBook(id,book);
     }
-    @PostMapping(value = "/getCategory")
-    public List<Book> getCategory(@Valid @RequestBody Book book){
-        return bookServices.getCategory(book);
+
+    /*List of all distinct categories of books*/
+
+    @GetMapping(value = "/getCategory", produces = MediaType.APPLICATION_JSON_VALUE)
+    public List<String> getCategory() {
+        return bookServices.getCategory();
     }
-    @PostMapping(value = "/getSubCategory")
-    public List<Book> getSubCategory(@Valid @RequestBody Book book){
-        return bookServices.getSubCategory(book);
+
+    @GetMapping(value = "/getSubCategory",produces = MediaType.APPLICATION_JSON_VALUE)
+    public List<String> getSubCategory() {
+        return bookServices.getSubCategory();
     }
-    @PostMapping(value = "/getHotList")
-    public List<Book> getHotList(@Valid @RequestBody Book book){
-        return bookServices.getHotList(book);
+
+    @GetMapping(value = "/getHotList", produces = MediaType.APPLICATION_JSON_VALUE)
+    public List<String> getHotList() {
+        return bookServices.getHotList();
     }
+
     // GET All Books
-    @RequestMapping(value = "/getLastReleased", produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.GET)
+    @GetMapping(value = "/getLastReleased", produces = MediaType.APPLICATION_JSON_VALUE)
     public List<Book> getLastReleased() {
         return bookServices.getLastReleased();
     }
 
-    @PostMapping(value = "/getBookById")
-    public List<Book> getBookById(@Valid @RequestBody Book book){
-        return bookServices.getBookById(book);
+    /*Ana sayfada resmin üzerine basınca bu fonksiyon çalışıcak
+    * ISBN ye göre aramak isterse de aynısı çalışcak çünkü ISBN unique*/
+    @GetMapping(value = "/getBookDetails", produces = MediaType.APPLICATION_JSON_VALUE)
+    public Book getBookById(Integer ISBN) {
+        return bookServices.getBookById(ISBN);
     }
 
-    @PostMapping(value = "/getBookByAuthor")
-    public List<Book> getBookByAuthor(@Valid @RequestBody Book book){
-        return bookServices.getBookByAuthor(book);
+    @GetMapping(value = "/SearchByAuthor",produces = MediaType.APPLICATION_JSON_VALUE)
+    public List<Book> getBookByAuthor(String author) {
+        return bookServices.getBookByAuthor(author);
     }
 
-    @PostMapping(value = "/getBookByTitle")
-    public List<Book> getBookByTitle(@Valid @RequestBody Book book){
-        return bookServices.getBookByTitle(book);
+    @GetMapping(value = "/SearchByBookName",produces = MediaType.APPLICATION_JSON_VALUE)
+    public List<Book> getBookByName(String bookName) {
+        return bookServices.getBookByTitle(bookName);
+    }
+
+    @GetMapping(value = "/SearchByCategory",produces = MediaType.APPLICATION_JSON_VALUE)
+    public List<Book> getBookByCategory(String category) {
+        return bookServices.getBookByCategory(category);
+    }
+
+    @GetMapping(value = "/SearchBySubCategory",produces = MediaType.APPLICATION_JSON_VALUE)
+    public List<Book> getBookBySubCategory(String subCategory) {
+        return bookServices.getBookBySubCategory(subCategory);
     }
 }
