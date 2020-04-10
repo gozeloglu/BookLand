@@ -1,27 +1,136 @@
 import 'package:flutter/material.dart';
 import 'package:grouped_buttons/grouped_buttons.dart';
+import 'package:bookland/books_model.dart';
+import 'package:bookland/http_service.dart';
 
+class Explore extends StatelessWidget {
+  final HttpService httpService = HttpService();
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text("Posts"),
+      ),
+      body: FutureBuilder(
+        future: httpService.getPosts(),
+        builder: (BuildContext context, AsyncSnapshot<List<Post>> snapshot) {
+          if (snapshot.hasData) {
+            List<Post> posts = snapshot.data;
+            return ListView(
+              children: posts
+                  .map(
+                    (Post post) => ListTile(
+                  title: Text(post.title),
+                  subtitle: Text("${post.userId}"),
+                  onTap: () => Navigator.of(context).push(
+                    MaterialPageRoute(
+                      builder: (context) => null
+                    ),
+                  ),
+                ),
+              )
+                  .toList(),
+            );
+          } else {
+            return Center(child: CircularProgressIndicator());
+          }
+        },
+      ),
+    );
+  }
+}
+
+/*
 var globalContext;
 final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
 class Explore extends StatelessWidget {
+
+  // HTTP object is created
+  final HttpService httpService = HttpService();
+
   static const String _title = 'Explore';
   @override Widget build(BuildContext context) {
     globalContext = context;
     // TODO: implement build
     return MaterialApp(
       title: _title,
-      home: ExploreStatelessWidget(),
+      home: ExploreStatefulWidget(),
     );
   }
 }
 //final items = List<String>.generate(10000, (i) => "Item $i");
 
-class ExploreStatelessWidget extends StatelessWidget {
+class ExploreStatefulWidget extends StatefulWidget {
+  ExploreStatefulWidget({Key key}) : super(key: key);
 
-  ExploreStatelessWidget({Key key}) : super(key: key);
   @override
+  _ExploreStatefulWidget createState() => _ExploreStatefulWidget();
+}
+
+class _ExploreStatefulWidget extends State<ExploreStatefulWidget> {
+
+  Future<String> _calculation = Future<String>.delayed(
+    Duration(seconds: 2),
+      () => 'Data Loaded',
+  );
+  ///ExploreStatelessWidget({Key key}) : super(key: key);
+  //@override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return FutureBuilder<String> (
+      future: _calculation,
+      builder: (BuildContext context, AsyncSnapshot<String> snapshot) {
+        List<Widget> children;
+
+        if (snapshot.hasData) {
+          children = <Widget>[
+            Icon(
+              Icons.check_circle_outline,
+              color: Colors.green,
+              size: 60,
+            ),
+            Padding(
+              padding: const EdgeInsests(top: 16),
+              child: Text('Result:, ${snapshot.data}'),
+            )
+          ];
+        } else if (snapshot.hasError) {
+          children = <Widget> [
+            Icon(
+              Icons.error_outline,
+              color: Colors.red,
+              size: 60,
+            ),
+            Padding(
+              padding: const EdgeInsets.only(top: 16),
+              child: Text('Error: ${snapshot.error}'),
+            )
+          ];
+        } else {
+          children = <Widget>[
+            SizedBox(
+              child: CircularProgressIndicator(),
+              width: 60,
+              height: 60,
+            ),
+            const Padding(
+                padding: EdgeInsets.only(top: 16),
+              child: Text('Awaiting result...'),
+            )
+          ];
+        }
+        return Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: children,
+          ),
+        );
+      },
+    );
+
+    */
+    /*return Scaffold(
 
       backgroundColor: Colors.white,
       key :_scaffoldKey ,
@@ -29,7 +138,8 @@ class ExploreStatelessWidget extends StatelessWidget {
           leading: new IconButton(
               icon: new Icon(Icons.filter_list),
               onPressed: () => _scaffoldKey.currentState.openDrawer()),
-        title:  const Text('BookLand', style: TextStyle(color: Colors.white,fontWeight: FontWeight.bold)),
+        title:  const Text('BookLand',
+            style: TextStyle(color: Colors.white,fontWeight: FontWeight.bold)),
         actions: <Widget>[
           Container(
 
@@ -224,5 +334,5 @@ class ExploreStatelessWidget extends StatelessWidget {
 
   }
 }
-
+*/
 

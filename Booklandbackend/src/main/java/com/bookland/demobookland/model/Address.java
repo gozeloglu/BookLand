@@ -1,8 +1,8 @@
 package com.bookland.demobookland.model;
 
-
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import lombok.Data;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
@@ -14,17 +14,18 @@ import javax.validation.constraints.Size;
 @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 
 /*Json objects are necessary for avoiding infinite recursion*/
+
 public class Address {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-
     @Column(name = "AddressId", nullable = false)
     private int addressId;
 
     @Column(name = "AddressLine", nullable = false)
     @NotBlank(message = "AddressLine is Necessary")
-    @Size(max = 255, message = "Give a valid Address Information")    private String addressLine;
+    @Size(max = 255, message = "Give a valid Address Information")
+    private String addressLine;
 
     @Column(name = "AddressTitle", nullable = false)
     @NotBlank(message = "Address Title is Necessary")

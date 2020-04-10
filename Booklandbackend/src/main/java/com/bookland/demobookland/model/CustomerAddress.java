@@ -32,4 +32,5 @@ public class CustomerAddress{
     @JoinColumn(name = "AddressId") /*Mapped by name is corresponds to relation on the other entity*/
     private Address address;
 
+
 }
