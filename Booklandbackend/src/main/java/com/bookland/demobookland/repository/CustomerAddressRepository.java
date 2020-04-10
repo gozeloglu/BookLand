@@ -10,4 +10,5 @@ import java.util.List;
 public interface CustomerAddressRepository extends CrudRepository<CustomerAddress, Integer> {
     List<CustomerAddress> findByCustomerId(int id);
 
+    CustomerAddress findByCustomerIdAndAddressId(int customer_id, int address_id);
 }
