@@ -23,12 +23,12 @@ public class Address {
     private int addressId;
 
     @Column(name = "AddressLine", nullable = false)
-    @NotBlank(message = "AddressLine is Necessary")
+    //@NotBlank(message = "AddressLine is Necessary")
     @Size(max = 255, message = "Give a valid Address Information")
     private String addressLine;
 
     @Column(name = "AddressTitle", nullable = false)
-    @NotBlank(message = "Address Title is Necessary")
+    //@NotBlank(message = "Address Title is Necessary")
     private String addressTitle;
 
     /*Merge updates if the postal code exist.For example if we have a record in database like 06530-Ankara

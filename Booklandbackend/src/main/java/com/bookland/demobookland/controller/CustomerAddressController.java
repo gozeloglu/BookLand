@@ -67,5 +67,11 @@ public class CustomerAddressController {
         return Addresses;
     }
 
+    @Transactional
+    @PutMapping(value = "/UpdateMyAddress/{customer_id}/{address_id}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public Address updateAddress(@PathVariable Integer customer_id, @PathVariable Integer address_id, @Valid @RequestBody Address updatedAddress) {
+        return customerAddressServices.updateAddress(customer_id, address_id, updatedAddress);
+    }
+
 
 }
