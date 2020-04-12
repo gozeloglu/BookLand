@@ -1,11 +1,14 @@
 package com.bookland.demobookland.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.Data;
 
 import javax.persistence.*;
 import java.util.Date;
+import java.util.List;
 
 @Entity
 @Data
@@ -50,5 +53,7 @@ public class Book {
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss.SS")
     private Date releasedTime = new Date();
 
-
+    //@JsonManagedReference
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "bookPrices")
+    private List<Price> priceList;
 }

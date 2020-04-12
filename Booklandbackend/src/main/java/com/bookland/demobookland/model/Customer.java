@@ -50,7 +50,7 @@ public class Customer {
 
 
     /*CustomerAddress de ki bu ilişkiye karşı gelen ilişkinin variable name'i yazılıyo*/
-    @JsonBackReference
+    @JsonBackReference /*Eğer customerı çektiğim zaman adreslerininde gelmesini istersem jsonback i customeraddresse yazcan*/
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "customer")
     private List<CustomerAddress> customerAddressList;
 
