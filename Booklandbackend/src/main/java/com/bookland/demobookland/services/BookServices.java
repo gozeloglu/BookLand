@@ -1,22 +1,25 @@
 package com.bookland.demobookland.services;
 
 import com.bookland.demobookland.model.Book;
+import com.bookland.demobookland.model.Price;
 import com.bookland.demobookland.repository.BookRepository;
+import com.bookland.demobookland.repository.PriceRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
 
 @Service
 public class BookServices {
 
-    private static Book ReleasedTimeComparator;
     @Autowired
     private BookRepository bookRepository;
+
+    /*Price is a weak entity that means without book it can't exist so price repository needs to be in book service also*/
+    @Autowired
+    private PriceRepository priceRepository;
 
     /**
      * @:return All books are returned in database
@@ -38,14 +41,18 @@ public class BookServices {
     public String addBook(Book book) {
         String response;
         try {
+            System.out.println(book.getPriceList());
             bookRepository.save(book);
+            Price newPrice = new Price();
+            newPrice.setISBN(book.getBookId());
+            newPrice.setPrice(book.getPriceList().get(0).getPrice());
+            priceRepository.save(newPrice);
             response = "Book added";
             return response;
         } catch (Exception e) {
             response = " Book could not added.";
             return response;
         }
-
 
     }
 
@@ -89,6 +96,13 @@ public class BookServices {
             if (book.getQuantity() != 0) {
                 current_book.setQuantity(book.getQuantity());
             }
+            if (book.getPriceList() != null) {
+                Price newPrice = new Price();
+                newPrice.setISBN(current_book.getBookId());
+                newPrice.setPrice(book.getPriceList().get(0).getPrice());
+                priceRepository.save(newPrice);
+            }
+
             bookRepository.save(current_book);
             response = "Book Properties Updated";
             return response;
@@ -119,7 +133,7 @@ public class BookServices {
 
     /*get last released books limit 10*/
     public List<Book> getLastReleased() {
-       return bookRepository.findTop10ByOrderByReleasedTimeDesc();
+        return bookRepository.findTop10ByOrderByReleasedTimeDesc();
     }
 
     /*Get book details by id*/
@@ -128,7 +142,7 @@ public class BookServices {
     }
 
     /*get all books when you search the key word book_author
-    * it will bring all the books which contains the searched author name*/
+     * it will bring all the books which contains the searched author name*/
     public List<Book> getBookByAuthor(String book_author) {
         return bookRepository.findByAuthorContains(book_author);
     }
@@ -136,18 +150,37 @@ public class BookServices {
     /*get all books when you search the key word bookName
      * it will bring all the books which contains the searched author name*/
     public List<Book> getBookByTitle(String bookName) {
-       return  bookRepository.findByBookNameContains(bookName);
+        return bookRepository.findByBookNameContains(bookName);
     }
 
     /*get all books when you search the key word bookName
      * it will bring all the books which contains the searched author name*/
     public List<Book> getBookByCategory(String bookName) {
-        return  bookRepository.findByCategoryContains(bookName);
+        return bookRepository.findByCategoryContains(bookName);
     }
 
     /*get all books when you search the key word bookName
      * it will bring all the books which contains the searched author name*/
     public List<Book> getBookBySubCategory(String bookName) {
-        return  bookRepository.findBySubCategoryContains(bookName);
+        return bookRepository.findBySubCategoryContains(bookName);
+    }
+
+    @Transactional /*Applied discount to a single item*/
+    public String applyDiscount(Integer book_id, Integer percentage) {
+
+        if(percentage<=0)
+            return "Please Give a Valid Percentage";
+
+        Book book = bookRepository.findByBookId(book_id);
+        int last_price = book.getPriceList().size() - 1;
+        Float currentPrice = book.getPriceList().get(last_price).getPrice();
+        Float newPrice = currentPrice - (currentPrice * percentage) / 100;
+
+        Price discountPrice = new Price();
+        discountPrice.setISBN(book.getBookId());
+        discountPrice.setPrice(newPrice);
+        priceRepository.save(discountPrice);
+
+        return String.format("Old price = %.2f. New Price is =%.2f ", currentPrice, newPrice);
     }
 }

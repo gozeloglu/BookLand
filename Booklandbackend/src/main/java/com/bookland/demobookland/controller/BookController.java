@@ -98,4 +98,10 @@ public class BookController {
     public List<Book> getBookBySubCategory(String subCategory) {
         return bookServices.getBookBySubCategory(subCategory);
     }
+
+    @PutMapping(value = "/applyDiscount/{book_id}/{percentage}",produces = MediaType.APPLICATION_JSON_VALUE)
+    public String applyDiscount(@PathVariable Integer book_id,@PathVariable Integer percentage){
+        return bookServices.applyDiscount(book_id,percentage);
+    }
+
 }
