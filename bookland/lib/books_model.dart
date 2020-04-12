@@ -2,32 +2,48 @@ import 'package:flutter/foundation.dart';
 
 /// This class contains the objects which is the same in GET allBooks method
 
-/*class Book {
-  final int bookId;
-  final String bookName;
-  final String author;
-  final String description;
-  final String category;
-  final String subCategory;
-  final int inHotList;
-  final int status;
-  final String image;
-  final DateTime releasedTime;
+class Book {
+  int bookId;
+  String bookName;
+  String author;
+  String description;
+  String category;
+  String subCategory;
+  int inHotList;
+  int status;
+  int quantity;
+  String bookImage;
+  DateTime releasedTime;
   // TODO price will be added here
 
   Book({
-    @required this.bookId,
-    @required this.bookName,
-    @required this.author,
-    @required this.image,
-    @required this.category,
-    @required this.description,
-    @required this.subCategory,
-    @required this.inHotList,
-    @required this.status,
-    @required this.releasedTime,
+    this.bookId,
+    this.bookName,
+    this.author,
+    this.description,
+    this.category,
+    this.subCategory,
+    this.inHotList,
+    this.status,
+    this.quantity,
+    this.bookImage,
+    this.releasedTime,
 });
 
+  Book.fromJson(Map<String, dynamic> json) {
+    bookId = json['bookId'];
+    bookName = json['bookName'];
+    author = json['author'];
+    description = json['description'];
+    category = json['category'];
+    subCategory = json['subCategory'];
+    inHotList = json['inHotList'];
+    status = json['status'];
+    quantity = json['quantity'];
+    bookImage = json['bookImage'];
+    releasedTime = json['releasedTime'];
+  }
+  /*
   factory Book.fromJson(Map<String, dynamic> json) {
     return Book(
       bookId: json['bookId'] as int,
@@ -38,12 +54,13 @@ import 'package:flutter/foundation.dart';
       subCategory: json['subCategory'] as String,
       inHotList: json['inHotList'] as int,
       status: json['status'] as int,
-      image: json['bookImage'] as String,
+      quantity: json['quantity'] as int,
+      bookImage: json['bookImage'] as String,
       releasedTime: json['releasedTime'] as DateTime,
     );
-  }
-}*/
-class Post {
+  }*/
+}
+/*class Post {
   final int userId;
   final int id;
   final String title;
@@ -64,4 +81,4 @@ class Post {
       body: json['body'] as String,
     );
   }
-}
+}*/
