@@ -74,8 +74,8 @@ public class BookController {
 
     /*Ana sayfada resmin üzerine basınca bu fonksiyon çalışıcak
     * ISBN ye göre aramak isterse de aynısı çalışcak çünkü ISBN unique*/
-    @GetMapping(value = "/getBookDetails", produces = MediaType.APPLICATION_JSON_VALUE)
-    public Book getBookById(Integer ISBN) {
+    @GetMapping(value = "/getBookDetails/{ISBN}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public Book getBookById(@PathVariable Integer ISBN) {
         return bookServices.getBookById(ISBN);
     }
 
@@ -103,5 +103,8 @@ public class BookController {
     public String applyDiscount(@PathVariable Integer book_id,@PathVariable Integer percentage){
         return bookServices.applyDiscount(book_id,percentage);
     }
-
+    @GetMapping(value = "/hello",produces = MediaType.APPLICATION_JSON_VALUE)
+    public String hello(String isbn) {
+        return "{isbn:'1', bookname:'İçimizdeki Şeytan'}";
+    }
 }

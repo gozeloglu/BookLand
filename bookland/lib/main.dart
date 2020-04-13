@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:bookland/login.dart';
 import 'package:bookland/explore.dart';
+import 'package:bookland/bookview.dart';
 
 void main() {
   runApp(MyApp());
@@ -169,7 +170,12 @@ class MyStatelessWidget extends StatelessWidget {
                 child : new FlatButton(
                   //child: new Text('OK', style: new TextStyle(color: Colors.white)),
                   child: new Image.asset('assets/look_l.png'),
-                  onPressed: () {},
+                  onPressed: () {
+                    Navigator.push(
+                      context, new MaterialPageRoute(builder: (context) => new BookView()),
+                    );
+
+                  },
                   color: Colors.lightBlueAccent,
 
                 )
