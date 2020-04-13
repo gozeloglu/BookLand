@@ -1,6 +1,8 @@
 import 'dart:convert';
+import 'dart:io';
 import 'package:bookland/books_model.dart';
-import 'package:http/http.dart';
+import 'package:http/http.dart' as http;
+import 'package:http_auth/http_auth.dart' as http_auth;
 /*
 class HttpService {
   final String getAllBooksURL = "http://localhost:8080/";
@@ -20,22 +22,48 @@ class HttpService {
   }
 
 }*/
+
+
 class HttpService {
-  final String postsURL = "https://localhost:8080/allBooks";
 
-  Future<List<Post>> getPosts() async {
-    Response res = await get(postsURL);
+  Future<List<Book>> getBooks() async {
+    /*var client = http_auth.BasicAuthClient('Daryl', 'WalkingDead');
+    var url = "http://localhost:8080/allBooks";
+    print(url);
+    var response = await client.get('http://localhost:8080/allBooks/basic-auth/Daryl/WalkingDead');*/
+    var client = http.Client();
+    var url = "http://10.0.2.2:8080/allBooks";
+    String username = 'Daryl';
+    String password = 'WalkingDead';
+    String basicAuth =
+        'Basic ' + base64Encode(utf8.encode('$username:$password'));
+    print("Before GET");
+    //127.0.0.1:8554
+    http.Response response = await http.get('http://10.0.2.2:8080/allBooks',
+    headers: <String, String>{'authorization': basicAuth},);
+    /*http.Response response = await http.get('10.0.2.2:8080/allBooks',
+      headers: {HttpHeaders.authorizationHeader: basicAuth},);*/
+    print("Geçti");
+    //http.Response responseJSON = json.decode(response.body);
+    print("Geçti");
+    print(response.statusCode);
+    print("Response body : $response.body");
+    if (response.statusCode == 200) {
+      print("just after if");
 
-    if (res.statusCode == 200) {
-      List<dynamic> body = jsonDecode(res.body);
-
-      List<Post> posts = body
-          .map(
-            (dynamic item) => Post.fromJson(item),
-      )
-          .toList();
-
-      return posts;
+      List<dynamic> body = jsonDecode(response.body);
+      print("after jsonDecode");
+      print(response.body.length);
+      print(response.body);
+      print("******************");
+      // TODO Below line should be fixed
+      List<Book> books = body.map((dynamic item) => Book.fromJson(item),).toList();
+      print("After List");
+      print("RESPONSE ==>");
+      print(response.body);
+      print("=========");
+      print(books.length);
+      return books;
     } else {
       throw "Can't get posts.";
     }

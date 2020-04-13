@@ -10,19 +10,20 @@ class Explore extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Posts"),
+        title: Text("Books"),
       ),
       body: FutureBuilder(
-        future: httpService.getPosts(),
-        builder: (BuildContext context, AsyncSnapshot<List<Post>> snapshot) {
+        future: httpService.getBooks(),
+        builder: (BuildContext context, AsyncSnapshot<List<Book>> snapshot) {
           if (snapshot.hasData) {
-            List<Post> posts = snapshot.data;
+            print("snapshot has data");
+            List<Book> books = snapshot.data;
             return ListView(
-              children: posts
+              children: books
                   .map(
-                    (Post post) => ListTile(
-                  title: Text(post.title),
-                  subtitle: Text("${post.userId}"),
+                    (Book book) => ListTile(
+                  title: Text(book.bookName),
+                  subtitle: Text("${book.bookId}"),
                   onTap: () => Navigator.of(context).push(
                     MaterialPageRoute(
                       builder: (context) => null
