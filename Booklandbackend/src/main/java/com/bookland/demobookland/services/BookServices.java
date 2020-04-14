@@ -1,8 +1,10 @@
 package com.bookland.demobookland.services;
 
 import com.bookland.demobookland.model.Book;
+import com.bookland.demobookland.model.ExplorePageProjection;
 import com.bookland.demobookland.model.Price;
 import com.bookland.demobookland.repository.BookRepository;
+import com.bookland.demobookland.model.HotlistProjection;
 import com.bookland.demobookland.repository.PriceRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -26,10 +28,10 @@ public class BookServices {
      * All books are retrieved from database
      * bookList stores the Book objects
      */
-    public List<Book> getAllBooks() {
-        List<Book> bookList = new ArrayList<>();
-        for (Book book : bookRepository.findAll()) {
-            bookList.add(book);
+    public List<ExplorePageProjection> getAllBooks() {
+        List<ExplorePageProjection> bookList = new ArrayList<>();
+        for (ExplorePageProjection explorePageProjection : bookRepository.findAllProjectedBy()) {
+            bookList.add(explorePageProjection);
         }
         return bookList;
     }
@@ -43,6 +45,8 @@ public class BookServices {
         try {
             System.out.println(book.getPriceList());
             bookRepository.save(book);
+
+            /*If admin is going to add books without the price if-else is going to add*/
             Price newPrice = new Price();
             newPrice.setISBN(book.getBookId());
             newPrice.setPrice(book.getPriceList().get(0).getPrice());
@@ -127,7 +131,7 @@ public class BookServices {
     }
 
     /*Get hot-list*/
-    public List<String> getHotList() {
+    public List<HotlistProjection> getHotList() {
         return bookRepository.findByInHotList();
     }
 
