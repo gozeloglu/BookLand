@@ -56,8 +56,15 @@ class HttpService {
       ////Map<String, dynamic> body = jsonDecode(response.body);
       List bookResponse = jsonDecode(response.body);
       print("Before return");
-      print(bookResponse);
-      return bookResponse.map((book) => new Book.fromJson(book)).toList();
+      // print(bookResponse[0]);
+      List<Book> books = new List();
+      for (int i = 0; i < 5; i++) {
+        books.add(bookResponse[i]);
+      }
+      print(books.length);
+      print(books);
+      return books;
+      /// return bookResponse.map((book) => new Book.fromJson(book)).toList();
       //var book = Book.fromJson(json.decode(bookResponse));
       /*print("after jsonDecode");
       print(response.body.length);
