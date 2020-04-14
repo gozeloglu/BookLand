@@ -3,6 +3,48 @@ import 'package:grouped_buttons/grouped_buttons.dart';
 import 'package:bookland/books_model.dart';
 import 'package:bookland/http_service.dart';
 
+import 'package:flutter_pagination_helper/pagination_helper/event_model.dart';
+import 'package:flutter_pagination_helper/pagination_helper/item_list_callback.dart';
+import 'package:flutter_pagination_helper/pagination_helper/list_helper.dart';
+
+class CustomProgressWidget extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      home: Scaffold(
+        body: PaginatedListWidget(
+            progressWidget: Center(
+              child: Text("Loading..."),
+            ),
+            itemListCallback: OnScrollCallback()),
+      ),
+    );
+  }
+}
+
+class OnScrollCallback<T extends Widget> extends ItemListCallback {
+  @override
+  Future<EventModel<T>> getItemList() {
+    // TODO: implement getItemList
+    return null;
+  }
+}
+
+class EventModel<T extends Widget> {
+  /// Progress bar while loading data
+  final bool progress;
+  /// List of widgets which will be displayed in the list view
+  /// This field will contain items which are not retrieved on previous call
+  final List<T> data;
+  /// error message when api fails and it will be displayed as SnackBar.
+  final String error;
+  ///  will be true when all items are retrieved and we need to stop pagination.
+  final bool stopLoading;
+
+  EventModel({this.progress, this.data, this.error, this.stopLoading});
+}
+
+/*
 class Explore extends StatelessWidget {
   final HttpService httpService = HttpService();
 
@@ -40,7 +82,7 @@ class Explore extends StatelessWidget {
       ),
     );
   }
-}
+}*/
 
 /*
 var globalContext;

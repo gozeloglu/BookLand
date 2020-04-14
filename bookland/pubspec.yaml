@@ -19,6 +19,7 @@ environment:
 dependencies:
   http: ^0.12.0+4
   http_auth: ^0.2.9
+  flutter_pagination_helper: ^1.0.1+2
   grouped_buttons: ^1.0.4
   flutter:
     sdk: flutter

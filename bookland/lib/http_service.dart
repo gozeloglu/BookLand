@@ -3,6 +3,8 @@ import 'dart:io';
 import 'package:bookland/books_model.dart';
 import 'package:http/http.dart' as http;
 import 'package:http_auth/http_auth.dart' as http_auth;
+
+
 /*
 class HttpService {
   final String getAllBooksURL = "http://localhost:8080/";
@@ -39,7 +41,7 @@ class HttpService {
         'Basic ' + base64Encode(utf8.encode('$username:$password'));
     print("Before GET");
     //127.0.0.1:8554
-    http.Response response = await http.get('http://10.0.2.2:8080/allBooks',
+    final response = await http.get('http://10.0.2.2:8080/allBooks',
     headers: <String, String>{'authorization': basicAuth},);
     /*http.Response response = await http.get('10.0.2.2:8080/allBooks',
       headers: {HttpHeaders.authorizationHeader: basicAuth},);*/
@@ -51,21 +53,26 @@ class HttpService {
     if (response.statusCode == 200) {
       print("just after if");
 
-      List<dynamic> body = jsonDecode(response.body);
-      print("after jsonDecode");
+      ////Map<String, dynamic> body = jsonDecode(response.body);
+      List bookResponse = jsonDecode(response.body);
+      print("Before return");
+      print(bookResponse);
+      return bookResponse.map((book) => new Book.fromJson(book)).toList();
+      //var book = Book.fromJson(json.decode(bookResponse));
+      /*print("after jsonDecode");
       print(response.body.length);
       print(response.body);
-      print("******************");
+      print("******************");*/
       // TODO Below line should be fixed
-      List<Book> books = body.map((dynamic item) => Book.fromJson(item),).toList();
-      print("After List");
+      /////List<Book> books = body.map((String item) => Book.fromJson(item),).toList();
+      /*print("After List");
       print("RESPONSE ==>");
       print(response.body);
-      print("=========");
-      print(books.length);
-      return books;
+      print("=========");*/
+      // print(book.length);
+      //return book;
     } else {
-      throw "Can't get posts.";
+      throw Exception("Can't get books.");
     }
   }
 }
