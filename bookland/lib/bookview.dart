@@ -1,52 +1,104 @@
+import 'dart:ffi';
+
 import 'package:flutter/material.dart';
+import 'package:flutter/foundation.dart';
+import 'package:bookland/http_book.dart';
+import 'package:bookland/model_book.dart';
+/// This class contains the objects which is the same in GET allBooks method
 
 
-class BookView extends StatelessWidget{
+class BookView extends StatelessWidget {
+  final HttpBook httpBook = HttpBook();
   static const String _title = 'BookView';
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      title: _title,
-      home: BookViewStatefulWidget(),
-    );    throw UnimplementedError();
-  }
-
-}
-
-class BookViewStatefulWidget extends StatefulWidget{
-  BookViewStatefulWidget({Key key}) : super(key: key);
-  @override
-  _BookViewState createState() => _BookViewState();
-
-}
-class _BookViewState extends State<BookViewStatefulWidget>{
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Bookland'),
+        title: Text("Book"),
       ),
-      body: Container(
-        width: double.infinity,
-        padding: EdgeInsets.only(top: 20, bottom: 20),
-        child: new SingleChildScrollView(
-          child: Column(
-            children: <Widget>[
-              imageBook(),
-              stars(),
-              author(),
-              fiyatBook(),
-              sepeteEkleButton(),
-            ],
+      body: FutureBuilder(
+        future: httpBook.getBook("1"),
+        builder: (BuildContext context, AsyncSnapshot snapshot) {
+          if (snapshot.hasData) {
+            print("snapshot has data");
+            //Book returnedBook = snapshot.data;
+            print("Here");
+            //return Text(snapshot.data.bookName);
+            return Container(
+              width: double.infinity,
+              padding: EdgeInsets.only(top: 20, bottom: 20),
+              child: new SingleChildScrollView(
+                child: Column(
+                  children: <Widget>[
+                    name((snapshot.data.bookName).toString()),
+                    imageBook((snapshot.data.bookImage).toString()),
+                    stars(),
+                    author((snapshot.data.author).toString()),
+                    priceBook((snapshot.data.price).toString()),
+                    sepeteEkleButton(),
+                    description((snapshot.data.description).toString()),
+                  ],
+                ),
+              ),
+            );
+          } else if (snapshot.hasError) {
+            print("HEREERROROO");
+            return Text("${snapshot.error}");
+          }else {
+            return Center(child: CircularProgressIndicator());
+          }
+        },
+      ),
+        bottomNavigationBar: BottomAppBar(
+          child : Container(
+              height : 50.0,
+
+              child : Row(
+                  children : <Widget>[
+                    Text("           "),
+                    IconButton(
+                        icon :  Icon(Icons.home),
+
+                        onPressed :() {
+                          print("Icon home Pressed !!");
+                        }
+                    ),
+                    Text("           "),
+                    IconButton(
+                        icon : Icon(Icons.category),
+
+                        onPressed :() {
+                          print("Icon category Pressed !!");
+                        }
+                    ),
+                    Text("           "),
+                    IconButton(
+                        icon : Icon(Icons.explore),
+
+                        onPressed :() {
+
+                        }
+                    ),
+                    Text("           "),
+                    IconButton(
+                        icon : Icon(Icons.shopping_basket),
+
+                        onPressed :() {
+                          print("Icon shopping_basket Pressed !!");
+                        }
+                    ),
+                  ]
+
+              )
+
           ),
-        ),
-      ),
-    );
-  }
-  Widget imageBook(){
+          color : Colors.blue,
+        ));
+  }Widget imageBook(String url){
     return new Stack(
       children: <Widget>[
-        Image.asset('assets/image/book.jpg', height: 300, width: 200,)
+        //Image.asset('assets/image/book.jpg', height: 300, width: 200,)
+    Image.network(url)
       ],
     );
   }
@@ -62,22 +114,50 @@ class _BookViewState extends State<BookViewStatefulWidget>{
       ],
     );
   }
-  Widget author(){
+  Widget name(String text){
     return Text(
-      'Orhan Pamuk',
+      text,
+      style: TextStyle(
+        fontSize: 80,
+        fontWeight: FontWeight.bold,
+
+      ),);
+  }
+  Widget author(String text){
+    return Text(
+      'Author-'+text,
       style: TextStyle(
         fontSize: 20,
         fontWeight: FontWeight.bold,
 
       ),);
   }
-  Widget fiyatBook(){
+  Widget description(String text){
+    return Text(
+      'Description-'+text,
+      style: TextStyle(
+        fontSize: 10,
+        fontWeight: FontWeight.bold,
+
+      ),);
+  }
+  Widget priceBook(String price){
+    price = '9.99';
+    String full_part = price;
+    String fractional_part = "00";
+    if(price.contains(".")){
+      String full_part = price.split(".")[0];
+      String fractional_part = price.split(".")[1];
+
+    }
+    print(full_part);
+    print(fractional_part);
     var fiyatNum = Row(
       mainAxisAlignment: MainAxisAlignment.start,
 
       children: <Widget>[
         Text(
-          '32,',
+          full_part + ",",
           style: TextStyle(
             fontSize: 30,
             fontWeight: FontWeight.bold,
@@ -85,7 +165,7 @@ class _BookViewState extends State<BookViewStatefulWidget>{
           ),
         ),
         Text(
-          '90 TL',
+          fractional_part,
           style: TextStyle(
             fontSize: 15,
             fontWeight: FontWeight.bold,
@@ -127,7 +207,5 @@ class _BookViewState extends State<BookViewStatefulWidget>{
   Widget comments(){
     // TODO comments gelecek ama nasıl olacak emin değilim
   }
-
-
-
 }
+

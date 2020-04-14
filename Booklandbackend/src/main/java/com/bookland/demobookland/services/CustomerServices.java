@@ -30,23 +30,29 @@ public class CustomerServices {
     }
 
 
-    /*Saving the registered customer to the database*/
+    /*Saving the registered customer to the database and return the id of the new customer*/
     @Transactional
-    public Customer saveCustomer(Customer customer) {
-        return customerRepository.save(customer);
+    public Integer saveCustomer(Customer customer) {
+        Customer existingCustomer = customerRepository.findByEmail(customer.getEmail());
+        if(existingCustomer == null){
+            customerRepository.save(customer);
+            return customer.getCustomerId();
+        }else {
+            return 0;
+        }
     }
 
 
-    public String  getLogin(Customer customer) {
+    /*Returns existing customer id if login is successful*/
+    public Integer  getLogin(Customer customer) {
         Customer loginUser = customerRepository.findByEmail(customer.getEmail());
 
        if(loginUser != null ){
            if(encoder.matches(customer.getPassword(), loginUser.getPassword())){
-               return "Successfully Login";
-
+               return loginUser.getCustomerId();
            }
        }
-       return "Username or Password is not correct!";
+       return 0;
     }
 
 }

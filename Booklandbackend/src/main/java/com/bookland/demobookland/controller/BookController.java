@@ -1,12 +1,13 @@
 package com.bookland.demobookland.controller;
 
 import com.bookland.demobookland.model.Book;
+import com.bookland.demobookland.model.ExplorePageProjection;
+import com.bookland.demobookland.model.HotlistProjection;
 import com.bookland.demobookland.services.BookServices;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
-import javax.persistence.criteria.CriteriaBuilder;
 import javax.validation.Valid;
 import java.util.List;
 
@@ -18,7 +19,7 @@ public class BookController {
 
     // GET All Books
     @GetMapping(value = "/allBooks", produces = MediaType.APPLICATION_JSON_VALUE)
-    public List<Book> getBooks() {
+    public List<ExplorePageProjection> getBooks() {
         /** @:return All books in JSON type
          *  GET request is handling here
          * */
@@ -62,7 +63,7 @@ public class BookController {
     }
 
     @GetMapping(value = "/getHotList", produces = MediaType.APPLICATION_JSON_VALUE)
-    public List<String> getHotList() {
+    public List<HotlistProjection> getHotList() {
         return bookServices.getHotList();
     }
 
@@ -74,8 +75,8 @@ public class BookController {
 
     /*Ana sayfada resmin üzerine basınca bu fonksiyon çalışıcak
     * ISBN ye göre aramak isterse de aynısı çalışcak çünkü ISBN unique*/
-    @GetMapping(value = "/getBookDetails", produces = MediaType.APPLICATION_JSON_VALUE)
-    public Book getBookById(Integer ISBN) {
+    @GetMapping(value = "/getBookDetails/{ISBN}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public Book getBookById(@PathVariable Integer ISBN) {
         return bookServices.getBookById(ISBN);
     }
 
@@ -103,5 +104,8 @@ public class BookController {
     public String applyDiscount(@PathVariable Integer book_id,@PathVariable Integer percentage){
         return bookServices.applyDiscount(book_id,percentage);
     }
-
+    @GetMapping(value = "/hello",produces = MediaType.APPLICATION_JSON_VALUE)
+    public String hello(String isbn) {
+        return "{isbn:'1', bookname:'İçimizdeki Şeytan'}";
+    }
 }
