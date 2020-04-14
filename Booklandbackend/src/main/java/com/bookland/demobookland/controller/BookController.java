@@ -1,8 +1,8 @@
 package com.bookland.demobookland.controller;
 
 import com.bookland.demobookland.model.Book;
-import com.bookland.demobookland.model.ExplorePageProjection;
-import com.bookland.demobookland.model.HotlistProjection;
+import com.bookland.demobookland.model.projections.ExplorePageProjection;
+import com.bookland.demobookland.model.projections.HotlistProjection;
 import com.bookland.demobookland.services.BookServices;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
@@ -18,12 +18,12 @@ public class BookController {
 
 
     // GET All Books
-    @GetMapping(value = "/allBooks", produces = MediaType.APPLICATION_JSON_VALUE)
-    public List<ExplorePageProjection> getBooks() {
+    @GetMapping(value = "/allBooks/{pageNo}/{pageSize}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public List<ExplorePageProjection> getBooks(@PathVariable Integer pageNo,@PathVariable Integer pageSize) {
         /** @:return All books in JSON type
          *  GET request is handling here
          * */
-        return bookServices.getAllBooks();
+        return bookServices.getAllBooks(pageNo,pageSize);
     }
 
     @PostMapping(value = "/addBook")

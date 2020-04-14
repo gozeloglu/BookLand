@@ -1,6 +1,5 @@
 package com.bookland.demobookland.services;
 
-import com.bookland.demobookland.model.Book;
 import com.bookland.demobookland.model.Customer;
 import com.bookland.demobookland.repository.CustomerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,11 +13,11 @@ import java.util.List;
 @Service
 
 public class CustomerServices {
-    @Autowired/*Injection of repository*/
-            PasswordEncoder encoder;
+    /*Injection of repository*/
+    @Autowired
+    PasswordEncoder encoder;
 
     @Autowired
-
     private CustomerRepository customerRepository;
 
     public List<Customer> getallCustomer() {
@@ -34,25 +33,25 @@ public class CustomerServices {
     @Transactional
     public Integer saveCustomer(Customer customer) {
         Customer existingCustomer = customerRepository.findByEmail(customer.getEmail());
-        if(existingCustomer == null){
+        if (existingCustomer == null) {
             customerRepository.save(customer);
             return customer.getCustomerId();
-        }else {
+        } else {
             return 0;
         }
     }
 
 
     /*Returns existing customer id if login is successful*/
-    public Integer  getLogin(Customer customer) {
+    public Integer getLogin(Customer customer) {
         Customer loginUser = customerRepository.findByEmail(customer.getEmail());
 
-       if(loginUser != null ){
-           if(encoder.matches(customer.getPassword(), loginUser.getPassword())){
-               return loginUser.getCustomerId();
-           }
-       }
-       return 0;
+        if (loginUser != null) {
+            if (encoder.matches(customer.getPassword(), loginUser.getPassword())) {
+                return loginUser.getCustomerId();
+            }
+        }
+        return 0;
     }
 
 }

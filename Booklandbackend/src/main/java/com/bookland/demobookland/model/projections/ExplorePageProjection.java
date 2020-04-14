@@ -1,4 +1,6 @@
-package com.bookland.demobookland.model;
+package com.bookland.demobookland.model.projections;
+
+import com.bookland.demobookland.model.Price;
 
 import java.util.List;
 

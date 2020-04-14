@@ -1,4 +1,4 @@
-package com.bookland.demobookland.model;
+package com.bookland.demobookland.model.projections;
 
 
 public interface HotlistProjection {
