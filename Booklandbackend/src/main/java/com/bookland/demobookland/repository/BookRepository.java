@@ -1,20 +1,22 @@
 package com.bookland.demobookland.repository;
 
 import com.bookland.demobookland.model.Book;
-import com.bookland.demobookland.model.ExplorePageProjection;
-import com.bookland.demobookland.model.HotlistProjection;
+import com.bookland.demobookland.model.projections.ExplorePageProjection;
+import com.bookland.demobookland.model.projections.HotlistProjection;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.Query;
-import org.springframework.data.repository.CrudRepository;
+import org.springframework.data.repository.PagingAndSortingRepository;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
 @Repository
-public interface BookRepository extends CrudRepository<Book, Integer> {
+public interface BookRepository extends PagingAndSortingRepository<Book, Integer> {
     /*,,b.priceList as priceList */
     /*@Query("SELECT  b.bookImage as bookImage, b.bookName as bookName," +
             "b.author as author,b.bookId as bookId,b.priceList as priceList FROM Book b")*/
-    List<ExplorePageProjection> findAllProjectedBy();
+    Page<ExplorePageProjection> findAllProjectedBy(Pageable paging);
 
     /*Find distinct categories*/
     @Query("SELECT DISTINCT b.category FROM Book b")

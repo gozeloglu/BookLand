@@ -1,16 +1,18 @@
 package com.bookland.demobookland.services;
 
 import com.bookland.demobookland.model.Book;
-import com.bookland.demobookland.model.ExplorePageProjection;
 import com.bookland.demobookland.model.Price;
+import com.bookland.demobookland.model.projections.ExplorePageProjection;
+import com.bookland.demobookland.model.projections.HotlistProjection;
 import com.bookland.demobookland.repository.BookRepository;
-import com.bookland.demobookland.model.HotlistProjection;
 import com.bookland.demobookland.repository.PriceRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
-import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -23,22 +25,14 @@ public class BookServices {
     @Autowired
     private PriceRepository priceRepository;
 
-    /**
-     * @:return All books are returned in database
-     * All books are retrieved from database
-     * bookList stores the Book objects
-     */
-    public List<ExplorePageProjection> getAllBooks() {
-        List<ExplorePageProjection> bookList = new ArrayList<>();
-        for (ExplorePageProjection explorePageProjection : bookRepository.findAllProjectedBy()) {
-            bookList.add(explorePageProjection);
-        }
-        return bookList;
+    public List<ExplorePageProjection> getAllBooks(Integer pageNo, Integer pageSize) {
+        Pageable paging = PageRequest.of(pageNo, pageSize);
+
+        Page<ExplorePageProjection> pagedResult = bookRepository.findAllProjectedBy(paging);
+        return pagedResult.toList();
     }
 
     /* Add operation for book*/
-
-
     @Transactional
     public String addBook(Book book) {
         String response;
@@ -172,7 +166,7 @@ public class BookServices {
     @Transactional /*Applied discount to a single item*/
     public String applyDiscount(Integer book_id, Integer percentage) {
 
-        if(percentage<=0)
+        if (percentage <= 0)
             return "Please Give a Valid Percentage";
 
         Book book = bookRepository.findByBookId(book_id);
