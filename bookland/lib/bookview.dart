@@ -17,7 +17,7 @@ class BookView extends StatelessWidget {
         title: Text("Book"),
       ),
       body: FutureBuilder(
-        future: httpBook.getBook("1"),
+        future: httpBook.getBook("2"),
         builder: (BuildContext context, AsyncSnapshot snapshot) {
           if (snapshot.hasData) {
             print("snapshot has data");
@@ -134,7 +134,7 @@ class BookView extends StatelessWidget {
   }
   Widget description(String text){
     return Text(
-      'Description-'+text,
+      '\n\nDescription-'+text,
       style: TextStyle(
         fontSize: 10,
         fontWeight: FontWeight.bold,

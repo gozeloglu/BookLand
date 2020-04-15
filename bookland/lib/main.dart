@@ -172,7 +172,7 @@ class MyStatelessWidget extends StatelessWidget {
                   child: new Image.asset('assets/look_l.png'),
                   onPressed: () {
                     Navigator.push(
-                      context, new MaterialPageRoute(builder: (context) => new BookView()),
+                      context, new MaterialPageRoute(builder: (context) => new BookView() )  ,
                     );
 
                   },
@@ -200,10 +200,6 @@ class MyStatelessWidget extends StatelessWidget {
 
             new UserAccountsDrawerHeader(accountName: new  Text('Nurbüke TEKER'),
               accountEmail: new Text('nurbuke.teker7@gmail.com'),
-              currentAccountPicture: new CircleAvatar(
-                backgroundColor: Colors.black,
-                child: new Text("NT"),
-              ),
               decoration: BoxDecoration(
                 image: DecorationImage(
                   image: AssetImage("assets/bookland__pp.png"),
