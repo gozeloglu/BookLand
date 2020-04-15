@@ -19,7 +19,7 @@ class HttpBook {
         'Basic ' + base64Encode(utf8.encode('$username:$password'));
     print("Before GET");
     //127.0.0.1:8554
-    http.Response response = await http.get('http://10.0.2.2:8080/getBookDetails/2',
+    http.Response response = await http.get('http://10.0.2.2:8080/getBookDetails/${isbn}',
       headers: <String, String>{'authorization': basicAuth});
     /*http.Response response = await http.get('10.0.2.2:8080/allBooks',
       headers: {HttpHeaders.authorizationHeader: basicAuth},);*/
