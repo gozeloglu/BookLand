@@ -1,11 +1,13 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
+
 import 'login.dart';
 import 'main.dart';
 var globalContext;
 
 class SignUp extends StatelessWidget {
+
   static const String _title = 'Sign-Up';
 
   @override

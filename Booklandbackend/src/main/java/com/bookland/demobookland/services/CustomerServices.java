@@ -1,6 +1,7 @@
 package com.bookland.demobookland.services;
 
 import com.bookland.demobookland.model.Customer;
+import com.bookland.demobookland.model.projections.LoginInterface;
 import com.bookland.demobookland.repository.CustomerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -43,15 +44,15 @@ public class CustomerServices {
 
 
     /*Returns existing customer id if login is successful*/
-    public Integer getLogin(Customer customer) {
-        Customer loginUser = customerRepository.findByEmail(customer.getEmail());
+    public LoginInterface getLogin(Customer customer) {
+        LoginInterface loginUser = customerRepository.findAllByEmail(customer.getEmail());
 
         if (loginUser != null) {
             if (encoder.matches(customer.getPassword(), loginUser.getPassword())) {
-                return loginUser.getCustomerId();
+                return loginUser;
             }
         }
-        return 0;
+        return null;
     }
 
 }

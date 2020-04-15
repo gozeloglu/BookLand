@@ -2,6 +2,7 @@ package com.bookland.demobookland.controller;
 
 
 import com.bookland.demobookland.model.Customer;
+import com.bookland.demobookland.model.projections.LoginInterface;
 import com.bookland.demobookland.services.CustomerServices;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
@@ -35,7 +36,7 @@ public class CustomerController {
     }
 
     @PostMapping(value = "/login")
-    public Integer getLogin(@Valid @RequestBody Customer customer) {
+    public LoginInterface getLogin(@Valid @RequestBody Customer customer) {
         return customerServices.getLogin(customer);
     }
 
