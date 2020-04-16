@@ -2,6 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:bookland/login.dart';
 import 'package:bookland/explore.dart';
 import 'package:bookland/bookview.dart';
+import 'package:bookland/adminAddBook.dart';
+
+import 'package:bookland/adminOrders.dart';
 
 void main() {
   runApp(MyApp());
@@ -294,6 +297,9 @@ class MyStatelessWidget extends StatelessWidget {
                       icon : Icon(Icons.shopping_basket),
 
                       onPressed :() {
+                        Navigator.push(
+                          context, new MaterialPageRoute(builder: (context) => new adminOrders ()), //adminAddBook()
+                        );
                         print("Icon shopping_basket Pressed !!");
                       }
                   ),

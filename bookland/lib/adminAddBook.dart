@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'main.dart';
 import 'dart:io';
 import 'dart:convert';
-
+import 'package:bookland/http_admin.dart';
 
 
 
@@ -27,7 +27,27 @@ class adminAddBookStatefulWidget extends StatefulWidget{
 }
 
 class _AdminAddBookPageState extends State<adminAddBookStatefulWidget> {
+  final HttpAdmin httpAdmin = HttpAdmin();
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+  String isbn;
+  String book_name;
+  String book_category;
+  String book_sub_category;
+  String book_author;
+  String book_img;
+  String book_description;
+  String book_price;
+
+
+  TextEditingController isbnController = new TextEditingController();
+  TextEditingController book_nameController = new TextEditingController();
+  TextEditingController book_categoryController = new TextEditingController();
+  TextEditingController book_sub_categoryController = new TextEditingController();
+  TextEditingController book_authorController = new TextEditingController();
+  TextEditingController book_imgController = new TextEditingController();
+  TextEditingController book_descriptionController = new TextEditingController();
+  TextEditingController book_priceController = new TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
@@ -70,12 +90,12 @@ class _AdminAddBookPageState extends State<adminAddBookStatefulWidget> {
         child: new ListView(
           shrinkWrap: true,
           children: <Widget>[
-            showLinkInput(),
+            showISBNInput(),
             showBookNameInput(),
+            showAuthorInput(),
             showCategoryInput(),
             showSubcategoryInput(),
-            showISBNInput(),
-            showAuthorInput(),
+            showLinkInput(),
             showPriceInput(),
             showDescriptionInput(),
             showAddBookButton()
@@ -89,6 +109,7 @@ class _AdminAddBookPageState extends State<adminAddBookStatefulWidget> {
     return Padding(
       padding: const EdgeInsets.fromLTRB(0.0, 10, 0.0, 0.0),
       child: new TextFormField(
+        controller: book_nameController,
         maxLines: 1,
         keyboardType: TextInputType.text,
         autofocus: false,
@@ -115,6 +136,7 @@ class _AdminAddBookPageState extends State<adminAddBookStatefulWidget> {
     return Padding(
       padding: const EdgeInsets.fromLTRB(0.0, 10.0, 0.0, 0.0),
       child: new TextFormField(
+        controller: book_imgController,
         maxLines: 1,
         keyboardType: TextInputType.text,
         autofocus: false,
@@ -141,6 +163,7 @@ class _AdminAddBookPageState extends State<adminAddBookStatefulWidget> {
     return Padding(
       padding: const EdgeInsets.fromLTRB(0.0, 10.0, 0.0, 0.0),
       child: new TextFormField(
+        controller: book_categoryController,
         maxLines: 1,
         keyboardType: TextInputType.text,
         autofocus: false,
@@ -167,6 +190,7 @@ class _AdminAddBookPageState extends State<adminAddBookStatefulWidget> {
     return Padding(
       padding: const EdgeInsets.fromLTRB(0.0, 10.0, 0.0, 0.0),
       child: new TextFormField(
+        controller: book_sub_categoryController,
         maxLines: 1,
         keyboardType: TextInputType.text,
         autofocus: false,
@@ -193,6 +217,7 @@ class _AdminAddBookPageState extends State<adminAddBookStatefulWidget> {
     return Padding(
       padding: const EdgeInsets.fromLTRB(0.0, 10.0, 0.0, 0.0),
       child: new TextFormField(
+        controller: isbnController,
         maxLines: 1,
         keyboardType: TextInputType.text,
         autofocus: false,
@@ -219,6 +244,7 @@ class _AdminAddBookPageState extends State<adminAddBookStatefulWidget> {
     return Padding(
       padding: const EdgeInsets.fromLTRB(0.0, 10.0, 0.0, 0.0),
       child: new TextFormField(
+        controller: book_authorController,
         maxLines: 1,
         keyboardType: TextInputType.text,
         autofocus: false,
@@ -246,6 +272,7 @@ class _AdminAddBookPageState extends State<adminAddBookStatefulWidget> {
     return Padding(
       padding: const EdgeInsets.fromLTRB(0.0, 10.0, 0.0, 0.0),
       child: new TextFormField(
+        controller: book_priceController,
         maxLines: 1,
         keyboardType: TextInputType.text,
         autofocus: false,
@@ -273,6 +300,7 @@ class _AdminAddBookPageState extends State<adminAddBookStatefulWidget> {
     return Padding(
       padding: const EdgeInsets.fromLTRB(0.0, 10.0, 0.0, 0.0),
       child: new TextFormField(
+        controller: book_descriptionController,
         maxLines: 10,
         keyboardType: TextInputType.text,
         autofocus: false,
@@ -309,13 +337,34 @@ class _AdminAddBookPageState extends State<adminAddBookStatefulWidget> {
               style: new TextStyle(fontSize: 20.0, color: Colors.black87)),
           // TODO onPressed should be updated
           onPressed: () {
-            _formKey.currentState.validate();
-            Navigator.push(
+            //_formKey.currentState.validate();
+            isbn = isbnController.text;
+            print(isbn);
+            book_name = book_nameController.text;
+            print(book_name);
+            book_category = book_categoryController.text;
+            book_sub_category = book_sub_categoryController.text;
+            book_author = book_authorController.text;
+            book_img = book_imgController.text;
+            book_description = book_descriptionController.text;
+            book_price = book_priceController.text ;
+            print("*******");
+            //print(isbn book_name,book_category,book_sub_category,book_author,book_img,book_description ,book_price);
+            print("*******");
+            var result =  httpAdmin.adminAddBook(isbn,book_name,book_category,book_sub_category,book_author,book_img,book_description ,book_price);
+            print(result);
+
+            //TODO kullanıcya mesaj döndürülmeli
+
+
+            /*Navigator.push(
               context,
               new MaterialPageRoute(
                   builder: (context) => new MyApp(),
             )
-            );
+            );*/
+
+
           }),
     );
   }
