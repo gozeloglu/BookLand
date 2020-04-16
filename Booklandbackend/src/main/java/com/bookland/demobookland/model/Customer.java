@@ -50,7 +50,7 @@ public class Customer {
 
     @Column(name = "IsAdmin")
     //@NotBlank(message = "Name is Necessary")
-    private Integer isAdmin;
+    private Integer isAdmin = 0;
 
     /*CustomerAddress de ki bu ilişkiye karşı gelen ilişkinin variable name'i yazılıyo*/
     @JsonBackReference /*Eğer customerı çektiğim zaman adreslerininde gelmesini istersem jsonback i customeraddresse yazcan*/
