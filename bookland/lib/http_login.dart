@@ -15,21 +15,22 @@ class HttpLogin {
         'Basic ' + base64Encode(utf8.encode('$username:$password'));
 
     http.Response response = await http.post('http://10.0.2.2:8080/login',
-        headers: <String, String>{'authorization': basicAuth,'Content-Type': 'application/json; charset=UTF-8',
+        headers: <String, String>{'Authorization': basicAuth,'Content-Type': 'application/json; charset=UTF-8',
         },
         body: jsonEncode(<String, String>{
-          'name': name,
-          'password':pass,
+          'email': 'a@a',
+          'password':'buralarhepsifre',
         }
         ),
     );
 
     print(response.statusCode);
-    if (response.statusCode == 200) {
+    if (response.statusCode < 400) {
       // If the server did return a 201 CREATED response,
       // then parse the JSON.
-      User user = User.fromJson(json.decode(response.body));
-      print(user.name);
+     // User user = User.fromJson(json.decode(response.body));
+      //print(user.FirstName);
+      print(response.body);
     } else {
       // If the server did not return a 201 CREATED response,
       // then throw an exception.
