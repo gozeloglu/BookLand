@@ -49,4 +49,34 @@ class HttpAdmin {
       return "SORRRY" ;
     }
   }
+  Future<String> adminDeleteBook(String isbn) async {
+    var client = http.Client();
+    var url = "http://10.0.2.2:8080";
+    String username = 'Daryl';
+    String password = 'WalkingDead';
+    String basicAuth =
+        'Basic ' + base64Encode(utf8.encode('$username:$password'));
+
+    http.Response response = await http.delete('http://10.0.2.2:8080/deleteBook/${isbn}',
+      headers: <String, String>{'Authorization': basicAuth,'Content-Type': 'application/json; charset=UTF-8',
+      },
+    );
+
+    print(response.statusCode);
+    if (response.statusCode < 400) {
+      // If the server did return a 201 CREATED response,
+      // then parse the JSON.
+      // User user = User.fromJson(json.decode(response.body));
+      //print(user.FirstName);
+      print(response.body);
+      print("YEHUUUU");
+      return  "PERFECT";
+    } else {
+      // If the server did not return a 201 CREATED response,
+      // then throw an exception.
+      print("Bloweddd");
+      throw Exception('Failed to load album');
+      return "SORRRY" ;
+    }
+  }
 }

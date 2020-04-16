@@ -7,7 +7,7 @@ import 'package:bookland/adminDiscount.dart';
 import 'package:bookland/adminUpdateBook.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-
+import 'package:bookland/http_admin.dart';
 
 
 void main(){
@@ -74,7 +74,9 @@ class DeletePage extends StatefulWidget {
 
 class _DeletePageState extends State<DeletePage> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
-
+  final HttpAdmin httpAdmin = HttpAdmin();
+  String isbn;
+  TextEditingController isbnController = new TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -93,7 +95,9 @@ class _DeletePageState extends State<DeletePage> {
               children: <Widget>[
                 Padding(
                   padding: const EdgeInsets.all(30.0),
-                  child: TextField(onChanged: (value) {},
+                  child: TextField(
+                    controller: isbnController,
+                    onChanged: (value) {},
                     decoration: InputDecoration(
                         labelText: "ISBN",
                         hintText: "Enter the ISBN",
@@ -114,6 +118,9 @@ class _DeletePageState extends State<DeletePage> {
                     padding: EdgeInsets.all(10.0),
                     splashColor: Colors.red,
                     onPressed: (){
+                      isbn = isbnController.text;
+                      var result =  httpAdmin.adminDeleteBook(isbn);
+                      print(result);
                     },
                     child: Text("Delete", style: TextStyle(fontSize: 22)),
                   ),
