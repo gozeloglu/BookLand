@@ -6,6 +6,8 @@ import 'main.dart';
 import 'dart:io';
 import 'dart:convert';
 
+import 'package:bookland/http_admin.dart';
+
 void openPage(BuildContext context) {
   Navigator.push(context, MaterialPageRoute(
     builder: (BuildContext context) {
@@ -72,7 +74,29 @@ class adminUpdateBookStatefulWidget extends StatefulWidget{
 }
 
 class _AdminUpdateBookPageState extends State<adminUpdateBookStatefulWidget> {
+  final HttpAdmin httpAdmin = HttpAdmin();
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+  String isbn;
+  //String book_name;
+  //String book_category;
+  //String book_sub_category;
+  //String book_author;
+  //String book_img;
+  String book_description;
+  String book_price;
+  String book_quantity ;
+
+  TextEditingController isbnController = new TextEditingController();
+  //TextEditingController book_nameController = new TextEditingController();
+  //TextEditingController book_categoryController = new TextEditingController();
+  //TextEditingController book_sub_categoryController = new TextEditingController();
+  //TextEditingController book_authorController = new TextEditingController();
+  //TextEditingController book_imgController = new TextEditingController();
+  TextEditingController book_descriptionController = new TextEditingController();
+  TextEditingController book_priceController = new TextEditingController();
+  TextEditingController book_quantityController = new TextEditingController();
+
+
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
@@ -255,6 +279,7 @@ class _AdminUpdateBookPageState extends State<adminUpdateBookStatefulWidget> {
     return Padding(
       padding: const EdgeInsets.fromLTRB(0.0, 10.0, 0.0, 0.0),
       child: new TextFormField(
+        controller: isbnController,
         maxLines: 1,
         keyboardType: TextInputType.text,
         autofocus: false,
@@ -282,6 +307,7 @@ class _AdminUpdateBookPageState extends State<adminUpdateBookStatefulWidget> {
     return Padding(
       padding: const EdgeInsets.fromLTRB(0.0, 10.0, 0.0, 0.0),
       child: new TextFormField(
+        controller: book_priceController,
         maxLines: 1,
         keyboardType: TextInputType.text,
         autofocus: false,
@@ -309,6 +335,7 @@ class _AdminUpdateBookPageState extends State<adminUpdateBookStatefulWidget> {
     return Padding(
       padding: const EdgeInsets.fromLTRB(0.0, 10.0, 0.0, 0.0),
       child: new TextFormField(
+        controller: book_quantityController,
         maxLines: 1,
         keyboardType: TextInputType.number,
         autofocus: false,
@@ -334,6 +361,7 @@ class _AdminUpdateBookPageState extends State<adminUpdateBookStatefulWidget> {
     return Padding(
       padding: const EdgeInsets.fromLTRB(0.0, 10.0, 0.0, 0.0),
       child: new TextFormField(
+        controller: book_descriptionController,
         maxLines: 10,
         keyboardType: TextInputType.text,
         autofocus: false,
@@ -370,13 +398,19 @@ class _AdminUpdateBookPageState extends State<adminUpdateBookStatefulWidget> {
               style: new TextStyle(fontSize: 20.0, color: Colors.black87)),
           // TODO onPressed should be updated
           onPressed: () {
-            _formKey.currentState.validate();
-            Navigator.push(
+            //_formKey.currentState.validate();
+            isbn = isbnController.text;
+            book_quantity = book_quantityController.text;
+            book_price = book_priceController.text;
+            book_description = book_descriptionController.text;
+            var result =  httpAdmin.adminUpdateBook(isbn,book_quantity,book_price,book_description);
+            print(result);
+            /*Navigator.push(
                 context,
                 new MaterialPageRoute(
                   builder: (context) => new MyApp(),
                 )
-            );
+            );*/
           }),
     );
   }
