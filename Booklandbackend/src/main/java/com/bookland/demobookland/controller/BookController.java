@@ -3,12 +3,13 @@ package com.bookland.demobookland.controller;
 import com.bookland.demobookland.model.Book;
 import com.bookland.demobookland.model.projections.ExplorePageProjection;
 import com.bookland.demobookland.model.projections.HotlistProjection;
+import com.bookland.demobookland.model.validationGroups.AddBookGroup;
 import com.bookland.demobookland.services.BookServices;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
-import javax.validation.Valid;
 import java.util.List;
 
 @RestController
@@ -27,7 +28,7 @@ public class BookController {
     }
 
     @PostMapping(value = "/addBook")
-    public String addBook(@Valid @RequestBody Book book) {
+    public String addBook(@Validated(AddBookGroup.class) @RequestBody Book book) {
         return bookServices.addBook(book);
     }
 
@@ -46,7 +47,7 @@ public class BookController {
     }
 
     @PutMapping(value = "/updateBook/{id}")
-    public String updateBook(@PathVariable Integer id, @Valid @RequestBody Book book) {
+    public String updateBook(@PathVariable Integer id, @RequestBody Book book) {
         return bookServices.updateBook(id, book);
     }
 
