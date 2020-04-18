@@ -223,7 +223,7 @@ class MyStatelessWidget extends StatelessWidget {
               title: new Text("Orders"),
               trailing: new Icon(Icons.add_shopping_cart),
               onTap: (){
-              },
+            },
             ),
 //Section Line
             new Divider(),
