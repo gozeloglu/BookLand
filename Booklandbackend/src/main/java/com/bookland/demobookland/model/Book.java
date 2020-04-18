@@ -1,12 +1,15 @@
 package com.bookland.demobookland.model;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.bookland.demobookland.model.validationGroups.AddBookGroup;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.Data;
 
 import javax.persistence.*;
+import javax.validation.GroupSequence;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import java.util.Date;
 import java.util.List;
 
@@ -14,6 +17,7 @@ import java.util.List;
 @Data
 @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 @Table(name = "book")
+@GroupSequence({Book.class, AddBookGroup.class})
 public class Book {
 
     @Id
@@ -22,18 +26,22 @@ public class Book {
     private Integer bookId;
 
     @Column(name = "BookName", nullable = false)
+    @NotBlank(message = "Book name cannot be empty", groups = AddBookGroup.class)
     private String bookName;
 
     @Column(name = "Author", nullable = false)
+    @NotBlank(message = "Author field cannot be empty", groups = AddBookGroup.class)
     private String author;
 
     @Column(name = "Description")
     private String description;
 
     @Column(name = "Category", nullable = false)
+    @NotBlank(message = "Category field cannot be empty", groups = AddBookGroup.class)
     private String category;
 
     @Column(name = "SubCategory")
+    @NotBlank(message = "Sub-Category field cannot be empty", groups = AddBookGroup.class)
     private String subCategory;
 
     @Column(name = "InHotList")
@@ -43,9 +51,12 @@ public class Book {
     private Integer status = 1;
 
     @Column(name = "Quantity", nullable = false)
-    private Integer quantity=0;
+    @NotNull(message = "Quantity field cannot be empty", groups = AddBookGroup.class)
+    @Min(value = 1, groups = AddBookGroup.class, message = "Quantity must be more than zero")
+    private Integer quantity /*= 0*/;
 
     @Column(name = "BookImage", nullable = false)
+    @NotBlank(message = "Book image cannot be empty", groups = AddBookGroup.class)
     private String bookImage;
 
     @Temporal(TemporalType.TIMESTAMP)
@@ -55,5 +66,6 @@ public class Book {
 
     //@JsonManagedReference
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "bookPrices")
+    @NotNull(message = "Define a price", groups = AddBookGroup.class)
     private List<Price> priceList;
 }
