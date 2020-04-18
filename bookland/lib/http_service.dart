@@ -28,20 +28,25 @@ class HttpService {
 
 class HttpService {
 
-  Future<List<Book>> getBooks() async {
+
+  Future<List<Book>> getBooks(int pageNum) async {
     /*var client = http_auth.BasicAuthClient('Daryl', 'WalkingDead');
     var url = "http://localhost:8080/allBooks";
     print(url);
     var response = await client.get('http://localhost:8080/allBooks/basic-auth/Daryl/WalkingDead');*/
     var client = http.Client();
-    var url = "http://10.0.2.2:8080/allBooks";
+    var url = "http://10.0.2.2:8080/allBooks/";
+    String page = pageNum.toString();
+    url += page;
+    url += "/5/";
+    print(url);
     String username = 'Daryl';
     String password = 'WalkingDead';
     String basicAuth =
         'Basic ' + base64Encode(utf8.encode('$username:$password'));
     print("Before GET");
     //127.0.0.1:8554
-    final response = await http.get('http://10.0.2.2:8080/allBooks',
+    final response = await http.get(url,
     headers: <String, String>{'authorization': basicAuth},);
     /*http.Response response = await http.get('10.0.2.2:8080/allBooks',
       headers: {HttpHeaders.authorizationHeader: basicAuth},);*/

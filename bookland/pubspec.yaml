@@ -21,6 +21,7 @@ dependencies:
   http_auth: ^0.2.9
   flutter_pagination_helper: ^1.0.1+2
   grouped_buttons: ^1.0.4
+  flutter_paginator: ^0.0.6
   flutter:
     sdk: flutter
   # The following adds the Cupertino Icons font to your application.

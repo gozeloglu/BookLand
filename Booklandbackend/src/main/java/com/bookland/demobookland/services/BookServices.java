@@ -26,7 +26,7 @@ public class BookServices {
     private PriceRepository priceRepository;
 
     public List<ExplorePageProjection> getAllBooks(Integer pageNo, Integer pageSize) {
-        Pageable paging = PageRequest.of(pageNo, pageSize);
+        Pageable paging = PageRequest.of(pageNo-1, pageSize);
 
         Page<ExplorePageProjection> pagedResult = bookRepository.findAllProjectedBy(paging);
         return pagedResult.toList();
