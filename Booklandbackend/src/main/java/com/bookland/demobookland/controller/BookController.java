@@ -27,6 +27,7 @@ public class BookController {
         return bookServices.getAllBooks(pageNo, pageSize);
     }
 
+
     @PostMapping(value = "/addBook")
     public String addBook(@Validated(AddBookGroup.class) @RequestBody Book book) {
         return bookServices.addBook(book);
@@ -56,6 +57,11 @@ public class BookController {
     @GetMapping(value = "/getCategory", produces = MediaType.APPLICATION_JSON_VALUE)
     public List<String> getCategory() {
         return bookServices.getCategory();
+    }
+
+    @GetMapping(value = "/getBookCount", produces = MediaType.APPLICATION_JSON_VALUE)
+    public Long getBookCount() {
+        return bookServices.getBookCount();
     }
 
     @GetMapping(value = "/getSubCategory", produces = MediaType.APPLICATION_JSON_VALUE)

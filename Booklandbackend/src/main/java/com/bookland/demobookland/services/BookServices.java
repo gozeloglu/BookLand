@@ -117,6 +117,10 @@ public class BookServices {
         return bookRepository.findDistinctByCategory();
     }
 
+    public Long getBookCount() {
+        return bookRepository.count();
+    }
+
     /*Get distinct sub-categories*/
 
 
