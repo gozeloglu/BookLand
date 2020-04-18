@@ -1,6 +1,9 @@
+import 'package:bookland/adminOrders.dart';
+import 'package:bookland/main.dart';
+import 'package:bookland/services/globalVariable.dart';
 import 'package:flutter/material.dart';
 import 'package:bookland/signUp.dart';
-import 'package:bookland/http_login.dart';
+import 'package:bookland/services/HTTP.dart';
 
 var globalContext;
 class Login extends StatelessWidget {
@@ -27,7 +30,7 @@ class LoginStatefulWidget extends StatefulWidget {
 
 class _LoginPageState extends State<LoginStatefulWidget> {
   // Note: These variables are about backend
-  final HttpLogin httpLogin = HttpLogin();
+  final HTTPAll loginUser = HTTPAll();
   String _email;
   String _password;
   TextEditingController emailController = new TextEditingController();
@@ -153,10 +156,25 @@ class _LoginPageState extends State<LoginStatefulWidget> {
             // TODO onPressed should be updated
             onPressed: (){
               _email = emailController.text;
-              print(_email);
               _password = passwordController.text;
-              print(_password);
-              httpLogin.getUser(_email, _password);
+              loginUser.getUser(_email, _password);
+              if (isAnyUserLogin){
+                if(ISADMIN == 0){
+                  print("admin değil");
+                 /* Navigator.push(
+                    context, new MaterialPageRoute(builder: (context) => new MyApp()),
+                  );*/
+                }else if(ISADMIN == 1){
+                  print("admin");
+                  /*Navigator.push(
+                    context, new MaterialPageRoute(builder: (context) => new adminOrders()),
+                  );*/
+                }else{
+                  //print(errorMessage);
+                }
+              }
+
+
 
             }),
     );
