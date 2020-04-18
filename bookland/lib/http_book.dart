@@ -31,9 +31,9 @@ class HttpBook {
     if (response.statusCode == 200) {
       print("just after if");
       Book obj = Book.fromJson(json.decode(response.body));
-      print("******");
+
       print(obj.bookId);
-      print("------");
+
       return obj;
     } else {
       throw "Can't get posts.";
