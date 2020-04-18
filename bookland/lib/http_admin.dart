@@ -21,7 +21,7 @@ class HttpAdmin {
       headers: <String, String>{'Authorization': basicAuth,'Content-Type': 'application/json; charset=UTF-8',
       },
       body: jsonEncode(<String, dynamic>{
-        'bookId': isbn,
+        //'bookId': isbn,
         "bookName": book_name,
         "bookImage": book_img,
         "author": book_author,
