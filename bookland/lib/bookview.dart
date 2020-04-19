@@ -8,6 +8,8 @@ import 'package:bookland/model_book.dart';
 
 
 class BookView extends StatelessWidget {
+  final String isbn;
+  BookView({Key key, @required this.isbn}) : super(key: key);
   final HttpBook httpBook = HttpBook();
   static const String _title = 'BookView';
   @override
@@ -17,7 +19,7 @@ class BookView extends StatelessWidget {
         title: Text("Book"),
       ),
       body: FutureBuilder(
-        future: httpBook.getBook("1"),
+        future: httpBook.getBook(isbn),
         builder: (BuildContext context, AsyncSnapshot snapshot) {
           if (snapshot.hasData) {
             print("snapshot has data");
@@ -32,9 +34,12 @@ class BookView extends StatelessWidget {
                   children: <Widget>[
                     name((snapshot.data.bookName).toString()),
                     imageBook((snapshot.data.bookImage).toString()),
+                    Text("\n"),
                     stars(),
                     author((snapshot.data.author).toString()),
+                    Text("\n"),
                     priceBook((snapshot.data.price).toString()),
+                    Text("\n"),
                     sepeteEkleButton(),
                     description((snapshot.data.description).toString()),
                   ],
@@ -118,7 +123,7 @@ class BookView extends StatelessWidget {
     return Text(
       text,
       style: TextStyle(
-        fontSize: 80,
+        fontSize: 50,
         fontWeight: FontWeight.bold,
 
       ),);
@@ -134,21 +139,22 @@ class BookView extends StatelessWidget {
   }
   Widget description(String text){
     return Text(
-      'Description-'+text,
+      '\n\nDescription:\n'+text,
       style: TextStyle(
-        fontSize: 10,
+        fontSize: 18,
         fontWeight: FontWeight.bold,
 
       ),);
   }
   Widget priceBook(String price){
-    price = '9.99';
+    print("*****");
+    print(price);
+    //price = '9.99';
     String full_part = price;
     String fractional_part = "00";
     if(price.contains(".")){
-      String full_part = price.split(".")[0];
-      String fractional_part = price.split(".")[1];
-
+      full_part = price.split(".")[0];
+      fractional_part = price.split(".")[1];
     }
     print(full_part);
     print(fractional_part);
@@ -171,6 +177,13 @@ class BookView extends StatelessWidget {
             fontWeight: FontWeight.bold,
           ),
         ),
+        Text(
+          '\$',
+          style: TextStyle(
+            fontSize: 30,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
       ],
     );
     var fiyat =
@@ -189,6 +202,7 @@ class BookView extends StatelessWidget {
         ]
     );
   }
+
   Widget sepeteEkleButton(){
     return RaisedButton(
       onPressed: () {},

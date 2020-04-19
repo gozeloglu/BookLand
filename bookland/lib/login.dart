@@ -1,8 +1,13 @@
+import 'package:bookland/adminOrders.dart';
+import 'package:bookland/main.dart';
+import 'package:bookland/services/globalVariable.dart';
 import 'package:flutter/material.dart';
 import 'package:bookland/signUp.dart';
+import 'package:bookland/services/HTTP.dart';
 
 var globalContext;
 class Login extends StatelessWidget {
+
   static const String _title = 'Login';
 
   @override
@@ -25,8 +30,12 @@ class LoginStatefulWidget extends StatefulWidget {
 
 class _LoginPageState extends State<LoginStatefulWidget> {
   // Note: These variables are about backend
+  final HTTPAll loginUser = HTTPAll();
   String _email;
   String _password;
+  TextEditingController emailController = new TextEditingController();
+  TextEditingController passwordController = new TextEditingController();
+
 
   bool _isLoginForm = true;
   bool passwordVisible;
@@ -35,7 +44,7 @@ class _LoginPageState extends State<LoginStatefulWidget> {
   @override
   // ignore: must_call_super
   void initState() {
-    passwordVisible = false;
+    passwordVisible = true;
   }
 
   @override
@@ -78,8 +87,9 @@ class _LoginPageState extends State<LoginStatefulWidget> {
 
   Widget showEmailInput() {
     return Padding(
-        padding: const EdgeInsets.fromLTRB(0.0, 100.0, 0.0, 0.0),
+      padding: const EdgeInsets.fromLTRB(0.0, 100.0, 0.0, 0.0),
       child: new TextFormField(
+        controller: emailController,
         maxLines: 1,
         keyboardType: TextInputType.emailAddress,
         autofocus: false,
@@ -94,12 +104,14 @@ class _LoginPageState extends State<LoginStatefulWidget> {
         onSaved: (value) => _email = value.trim(),
       ),
     );
+
   }
 
   Widget showPasswordInput() {
     return Padding(
         padding: const EdgeInsets.fromLTRB(0.0, 15.0, 0.0, 0.0),
         child: new TextFormField(
+          controller: passwordController,
           maxLines: 1,
           obscureText: passwordVisible,
           autofocus: false,
@@ -142,7 +154,29 @@ class _LoginPageState extends State<LoginStatefulWidget> {
             child: new Text(_isLoginForm ? 'Login' : 'Create account',
             style: new TextStyle(fontSize: 20.0, color: Colors.white)),
             // TODO onPressed should be updated
-            onPressed: null),
+            onPressed: (){
+              _email = emailController.text;
+              _password = passwordController.text;
+              loginUser.getUser(_email, _password);
+              if (isAnyUserLogin){
+                if(ISADMIN == 0){
+                  print("admin değil");
+                 /* Navigator.push(
+                    context, new MaterialPageRoute(builder: (context) => new MyApp()),
+                  );*/
+                }else if(ISADMIN == 1){
+                  print("admin");
+                  /*Navigator.push(
+                    context, new MaterialPageRoute(builder: (context) => new adminOrders()),
+                  );*/
+                }else{
+                  //print(errorMessage);
+                }
+              }
+
+
+
+            }),
     );
   }
 

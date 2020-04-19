@@ -2,6 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:bookland/login.dart';
 import 'package:bookland/explore.dart';
 import 'package:bookland/bookview.dart';
+import 'package:bookland/adminAddBook.dart';
+
+import 'package:bookland/adminOrders.dart';
 
 void main() {
   runApp(MyApp());
@@ -172,7 +175,7 @@ class MyStatelessWidget extends StatelessWidget {
                   child: new Image.asset('assets/look_l.png'),
                   onPressed: () {
                     Navigator.push(
-                      context, new MaterialPageRoute(builder: (context) => new BookView()),
+                      context, new MaterialPageRoute(builder: (context) => new BookView() )  ,
                     );
 
                   },
@@ -200,10 +203,6 @@ class MyStatelessWidget extends StatelessWidget {
 
             new UserAccountsDrawerHeader(accountName: new  Text('Nurbüke TEKER'),
               accountEmail: new Text('nurbuke.teker7@gmail.com'),
-              currentAccountPicture: new CircleAvatar(
-                backgroundColor: Colors.black,
-                child: new Text("NT"),
-              ),
               decoration: BoxDecoration(
                 image: DecorationImage(
                   image: AssetImage("assets/bookland__pp.png"),
@@ -224,7 +223,7 @@ class MyStatelessWidget extends StatelessWidget {
               title: new Text("Orders"),
               trailing: new Icon(Icons.add_shopping_cart),
               onTap: (){
-              },
+            },
             ),
 //Section Line
             new Divider(),
@@ -289,7 +288,7 @@ class MyStatelessWidget extends StatelessWidget {
 
                       onPressed :() {
                         Navigator.push(
-                          context, new MaterialPageRoute(builder: (context) => new Explore()),
+                          context, new MaterialPageRoute(builder: (context) => new ExploreStateless()),
                         );
                       }
                   ),
@@ -298,6 +297,9 @@ class MyStatelessWidget extends StatelessWidget {
                       icon : Icon(Icons.shopping_basket),
 
                       onPressed :() {
+                        Navigator.push(
+                          context, new MaterialPageRoute(builder: (context) => new adminOrders ()), //adminAddBook()
+                        );
                         print("Icon shopping_basket Pressed !!");
                       }
                   ),

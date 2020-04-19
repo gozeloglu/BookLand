@@ -8,6 +8,7 @@ import 'package:http/http.dart' as http;
 
 import 'package:flutter_paginator/flutter_paginator.dart';
 import 'package:flutter_paginator/enums.dart';
+int total = 0;
 
 class ExploreStateless extends StatelessWidget {
 
@@ -79,9 +80,32 @@ class ExploreState extends State<ExplorePage> {
       ),
     );
   }
+  void getTotalCount() async {
+    try {
+      String username = 'Daryl';
+      String password = 'WalkingDead';
+      String basicAuth =
+          'Basic ' + base64Encode(utf8.encode('$username:$password'));
+      var url_book_count = "http://10.0.2.2:8080/getBookCount";
+      String _url_book_count = Uri.encodeFull(url_book_count);
+      http.Response response_count = await http.get(_url_book_count,
+        headers: <String, String>{'authorization': basicAuth},);
+      if (response_count.statusCode == 200) {
+        total = json.decode(response_count.body);
+        print(total);
+      } else {
+        print(response_count.statusCode);
+      }
+    } catch (e) {
+        print("SocketException");
+        return null; // Exception("SocketException");
 
+    }
+  }
   Future<BooksData> sendBooksDataRequest(int page) async {
     try {
+      getTotalCount();
+      print("TOTAL ------------------> $total");
       /// var url = 'http://api.worldbank.org/v2/country?page=$page&format=json';
       var url = "http://10.0.2.2:8080/allBooks/$page/5";
       //String _page = page.toString();
@@ -95,6 +119,7 @@ class ExploreState extends State<ExplorePage> {
       String _url = Uri.encodeFull(url);
       http.Response response = await http.get(_url,
         headers: <String, String>{'authorization': basicAuth},);
+      //int total = 32;
       return BooksData.fromResponse(response);
     } catch (e) {
       if (e is IOException) {
@@ -107,11 +132,19 @@ class ExploreState extends State<ExplorePage> {
   }
 
   List<dynamic> listBooksGetter(BooksData booksData) {
-    List<String> list = [];
+    List<String> bookNameList = [];
+    List<String> authorList = [];
+    List<double> priceList = [];
    for (int i = 0; i < booksData.books.length; i++) {
-     list.add(booksData.books[i]);
+     String val = "Book:\t" + booksData.books[i] + "\n" + "Author:\t" + booksData.authors[i] + "\n" +
+         "Price:\t" + booksData.prices[i].toString();
+     bookNameList.add(val);
+
+     //bookNameList.add(booksData.books[i]);
+     authorList.add(booksData.authors[i]);
+     priceList.add(booksData.prices[i]);
    }
-    return list;
+    return bookNameList;
     ///return list;
   }
 
@@ -124,7 +157,7 @@ class ExploreState extends State<ExplorePage> {
   }
 
   Widget listBookBuilder(value, int index) {
-    return ListView(
+    /*return ListView(
       padding: const EdgeInsets.all(16),
       children: <Widget>[
         Container(
@@ -132,14 +165,14 @@ class ExploreState extends State<ExplorePage> {
           child: Center(child: value),
         )
       ],
-    );
-    /*return ListTile(
+    );*/
+    return ListTile(
       leading: Text(index.toString()),
       title: Text(value),
       onTap: () {
         Navigator.push(context, MaterialPageRoute(builder: (context) => new BookView(isbn: index.toString()),
         ));
-      });*/
+      });
   }
 
   Widget errorWidgetMaker(BooksData booksData, retryListener) {
@@ -166,7 +199,7 @@ class ExploreState extends State<ExplorePage> {
 
   int totalPagesGetter(BooksData booksData) {
     // TODO This should be fixed
-    return booksData.total;
+    return total;
     //return 20;
   }
 
@@ -178,9 +211,10 @@ class ExploreState extends State<ExplorePage> {
 class BooksData {
   ///Map<String, dynamic> books;
   List<dynamic> books = new List<dynamic>();
+  List<dynamic> authors = new List<dynamic>();
+  List<dynamic> prices = new List<dynamic>();
   int statusCode;
   String errorMessage;
-  int total = 32;
   int nItems;
 
   int bookId;
@@ -211,6 +245,16 @@ class BooksData {
       print(jsonData[i]);
       print(jsonData[i].runtimeType);
       books.add(jsonData[i]["bookName"]);
+      authors.add(jsonData[i]["author"]);
+      double lastPrice = 0;
+      //if (jsonData[i]["PriceList"].length >= 1) {
+        lastPrice += jsonData[i]["priceList"][0]["price"];
+      //}
+      if (jsonData[i]["priceList"].length >= 2) {
+        lastPrice += jsonData[i]["priceList"][1]["price"];
+      }
+      lastPrice /= 2;
+      prices.add(lastPrice);
     }
     // TODO total should be considered
     // TODO nItems should be fixed
