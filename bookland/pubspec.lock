@@ -69,6 +69,20 @@ packages:
     description: flutter
     source: sdk
     version: "0.0.0"
+  flutter_pagination_helper:
+    dependency: "direct main"
+    description:
+      name: flutter_pagination_helper
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "1.0.1+2"
+  flutter_paginator:
+    dependency: "direct main"
+    description:
+      name: flutter_paginator
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.0.6"
   flutter_test:
     dependency: "direct dev"
     description: flutter
@@ -238,6 +252,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "0.2.15"
+  turkish:
+    dependency: "direct main"
+    description:
+      name: turkish
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.1.0+2"
   typed_data:
     dependency: transitive
     description:

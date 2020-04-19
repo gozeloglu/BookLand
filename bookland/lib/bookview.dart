@@ -8,6 +8,8 @@ import 'package:bookland/model_book.dart';
 
 
 class BookView extends StatelessWidget {
+  final String isbn;
+  BookView({Key key, @required this.isbn}) : super(key: key);
   final HttpBook httpBook = HttpBook();
   static const String _title = 'BookView';
   @override
@@ -17,7 +19,7 @@ class BookView extends StatelessWidget {
         title: Text("Book"),
       ),
       body: FutureBuilder(
-        future: httpBook.getBook("5"),
+        future: httpBook.getBook(isbn),
         builder: (BuildContext context, AsyncSnapshot snapshot) {
           if (snapshot.hasData) {
             print("snapshot has data");
