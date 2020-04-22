@@ -11,6 +11,8 @@ import 'package:sprintf/sprintf.dart';
 class HttpAdmin {
   Future<String> adminAddBook(String isbn,String book_name,String book_category,String book_sub_category,String book_author,String book_img,String book_description ,String book_price) async {
     var client = http.Client();
+
+
     var url = "http://10.0.2.2:8080";
     String username = 'Daryl';
     String password = 'WalkingDead';
@@ -21,13 +23,14 @@ class HttpAdmin {
       headers: <String, String>{'Authorization': basicAuth,'Content-Type': 'application/json; charset=UTF-8',
       },
       body: jsonEncode(<String, dynamic>{
-        //'bookId': isbn,
+        'realIsbn':  isbn,
         "bookName": book_name,
         "bookImage": book_img,
         "author": book_author,
         "description": book_description,
         "category" : book_category,
         "subCategory" : book_sub_category,
+        "quantity" : 10,
         "priceList": [
           {
             "price": book_price
@@ -50,6 +53,7 @@ class HttpAdmin {
       return "SORRRY" ;
     }
   }
+
   Future<String> adminDeleteBook(String isbn) async {
     var client = http.Client();
     var url = "http://10.0.2.2:8080";
