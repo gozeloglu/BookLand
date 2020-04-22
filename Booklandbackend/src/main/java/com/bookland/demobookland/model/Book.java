@@ -27,7 +27,7 @@ public class Book {
 
     @Column(name = "Real_Isbn", nullable = false)
     @NotNull(message = "ISBN cannot be empty", groups = AddBookGroup.class)
-    private Integer realIsbn;
+    private Long realIsbn;
 
     @Column(name = "BookName", nullable = false)
     @NotBlank(message = "Book name cannot be empty", groups = AddBookGroup.class)

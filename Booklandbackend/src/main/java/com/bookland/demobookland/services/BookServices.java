@@ -67,9 +67,10 @@ public class BookServices {
     public String updateBook(Integer id, Book book) {
         String response;
         try {
-
             Book current_book = bookRepository.findByBookId(id);
-
+            if (book.getRealIsbn() != null) {
+                current_book.setRealIsbn(book.getRealIsbn());
+            }
             if (book.getAuthor() != null) {
                 current_book.setAuthor(book.getAuthor());
             }
@@ -100,7 +101,7 @@ public class BookServices {
                 newPrice.setPrice(book.getPriceList().get(0).getPrice());
                 priceRepository.save(newPrice);
             }
-
+            System.out.println(current_book.getQuantity());
             bookRepository.save(current_book);
             response = "Book Properties Updated";
             return response;
