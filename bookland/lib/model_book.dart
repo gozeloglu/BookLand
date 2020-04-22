@@ -4,6 +4,7 @@ import 'package:flutter/foundation.dart';
 
 class Book {
   final int bookId;
+  final int real_isbn;
   final String bookName;
   final String author;
   String description;
@@ -19,6 +20,7 @@ class Book {
 
   Book({
     this.bookId,
+    this.real_isbn,
     this.bookName,
     this.author,
     this.description,
@@ -42,6 +44,7 @@ class Book {
     print(real_price);
     return Book(
         bookId: json['bookId'],
+        real_isbn: json['realIsbn'],
         bookName: json['bookName'],
         author: json['author'],
         description: json['description'],

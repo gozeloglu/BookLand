@@ -1,22 +1,31 @@
 import 'dart:ffi';
 
+import 'package:bookland/http_admin.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/foundation.dart';
 import 'package:bookland/http_book.dart';
 import 'package:bookland/model_book.dart';
+import 'package:bookland/AdminDeleteBook.dart';
+import 'package:bookland/adminUpdateBook.dart';
+
+import 'package:bookland/explore.dart';
+
 /// This class contains the objects which is the same in GET allBooks method
 
 
 class BookView extends StatelessWidget {
   final String isbn;
   BookView({Key key, @required this.isbn}) : super(key: key);
+
   final HttpBook httpBook = HttpBook();
+  final HttpAdmin httpAdmin = HttpAdmin();
   static const String _title = 'BookView';
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: Text("Book"),
+        backgroundColor : Colors.red,
       ),
       body: FutureBuilder(
         future: httpBook.getBook(isbn),
@@ -33,6 +42,7 @@ class BookView extends StatelessWidget {
                 child: Column(
                   children: <Widget>[
                     name((snapshot.data.bookName).toString()),
+
                     imageBook((snapshot.data.bookImage).toString()),
                     Text("\n"),
                     stars(),
@@ -40,8 +50,14 @@ class BookView extends StatelessWidget {
                     Text("\n"),
                     priceBook((snapshot.data.price).toString()),
                     Text("\n"),
-                    sepeteEkleButton(),
-                    description((snapshot.data.description).toString()),
+                    Row(
+                        children: <Widget>[
+                          Text("\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t"),
+                      updateButton(context,snapshot),
+                          Text("      \t\t\t"),
+                      deleteButton(context,(snapshot.data.bookId).toString()),
+                    ]),
+                    //description((snapshot.data.description).toString()),
                   ],
                 ),
               ),
@@ -97,7 +113,7 @@ class BookView extends StatelessWidget {
               )
 
           ),
-          color : Colors.blue,
+          color : Colors.red,
         ));
   }Widget imageBook(String url){
     return new Stack(
@@ -203,18 +219,49 @@ class BookView extends StatelessWidget {
     );
   }
 
-  Widget sepeteEkleButton(){
+  Widget updateButton(BuildContext context ,AsyncSnapshot snapshot){
     return RaisedButton(
-      onPressed: () {},
+      onPressed: () {
+        print("------");
+        print(snapshot.data.bookId.toString());
+        print("------");
+        Navigator.push(
+          context, new MaterialPageRoute(builder: (context) => new adminUpdateBook(book :  snapshot)),
+        );
+      },
       textColor: Colors.white,
       padding: const EdgeInsets.all(0.0),
       child: Container(
         color: Colors.red,
         padding: const EdgeInsets.all(10.0),
         child: const Text(
-            'Sepete Ekle',
+            'Update',
             style: TextStyle(fontSize: 20)
         ),
+      ),
+    );
+  }
+  Widget deleteButton(BuildContext context,String bookId){
+    return RaisedButton(
+      onPressed: (){
+        var result =  httpAdmin.adminDeleteBook(bookId);
+        print(result);
+        Navigator.push(
+          context, new MaterialPageRoute(builder: (context) => new ExploreStateless()),
+        );
+      },
+      textColor: Colors.white,
+      padding: const EdgeInsets.all(0.0),
+
+      child: Container(
+
+        color: Colors.orangeAccent,
+        padding: const EdgeInsets.all(10.0),
+        child: const Text(
+            'Delete',
+            style: TextStyle(fontSize: 20)
+        ),
+
       ),
     );
   }
