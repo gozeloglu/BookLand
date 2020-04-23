@@ -25,6 +25,10 @@ public class Book {
     @Column(name = "ISBN", nullable = false)
     private Integer bookId;
 
+    @Column(name = "Real_Isbn", nullable = false)
+    @NotNull(message = "ISBN cannot be empty", groups = AddBookGroup.class)
+    private Long realIsbn;
+
     @Column(name = "BookName", nullable = false)
     @NotBlank(message = "Book name cannot be empty", groups = AddBookGroup.class)
     private String bookName;

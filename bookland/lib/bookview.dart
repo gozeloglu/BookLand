@@ -1,23 +1,34 @@
 import 'dart:ffi';
 
+import 'package:bookland/http_admin.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/foundation.dart';
 import 'package:bookland/http_book.dart';
 import 'package:bookland/model_book.dart';
+import 'package:bookland/AdminDeleteBook.dart';
+import 'package:bookland/adminUpdateBook.dart';
+
+import 'package:bookland/explore.dart';
+
 /// This class contains the objects which is the same in GET allBooks method
 
 
 class BookView extends StatelessWidget {
+  final String isbn;
+  BookView({Key key, @required this.isbn}) : super(key: key);
+
   final HttpBook httpBook = HttpBook();
+  final HttpAdmin httpAdmin = HttpAdmin();
   static const String _title = 'BookView';
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: Text("Book"),
+        backgroundColor : Colors.red,
       ),
       body: FutureBuilder(
-        future: httpBook.getBook("2"),
+        future: httpBook.getBook(isbn),
         builder: (BuildContext context, AsyncSnapshot snapshot) {
           if (snapshot.hasData) {
             print("snapshot has data");
@@ -31,12 +42,22 @@ class BookView extends StatelessWidget {
                 child: Column(
                   children: <Widget>[
                     name((snapshot.data.bookName).toString()),
+
                     imageBook((snapshot.data.bookImage).toString()),
+                    Text("\n"),
                     stars(),
                     author((snapshot.data.author).toString()),
+                    Text("\n"),
                     priceBook((snapshot.data.price).toString()),
-                    sepeteEkleButton(),
-                    description((snapshot.data.description).toString()),
+                    Text("\n"),
+                    Row(
+                        children: <Widget>[
+                          Text("\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t"),
+                      updateButton(context,snapshot),
+                          Text("      \t\t\t"),
+                      deleteButton(context,(snapshot.data.bookId).toString()),
+                    ]),
+                    //description((snapshot.data.description).toString()),
                   ],
                 ),
               ),
@@ -92,7 +113,7 @@ class BookView extends StatelessWidget {
               )
 
           ),
-          color : Colors.blue,
+          color : Colors.red,
         ));
   }Widget imageBook(String url){
     return new Stack(
@@ -118,7 +139,7 @@ class BookView extends StatelessWidget {
     return Text(
       text,
       style: TextStyle(
-        fontSize: 80,
+        fontSize: 50,
         fontWeight: FontWeight.bold,
 
       ),);
@@ -134,21 +155,22 @@ class BookView extends StatelessWidget {
   }
   Widget description(String text){
     return Text(
-      '\n\nDescription-'+text,
+      '\n\nDescription:\n'+text,
       style: TextStyle(
-        fontSize: 10,
+        fontSize: 18,
         fontWeight: FontWeight.bold,
 
       ),);
   }
   Widget priceBook(String price){
-    price = '9.99';
+    print("*****");
+    print(price);
+    //price = '9.99';
     String full_part = price;
     String fractional_part = "00";
     if(price.contains(".")){
-      String full_part = price.split(".")[0];
-      String fractional_part = price.split(".")[1];
-
+      full_part = price.split(".")[0];
+      fractional_part = price.split(".")[1];
     }
     print(full_part);
     print(fractional_part);
@@ -171,6 +193,13 @@ class BookView extends StatelessWidget {
             fontWeight: FontWeight.bold,
           ),
         ),
+        Text(
+          '\$',
+          style: TextStyle(
+            fontSize: 30,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
       ],
     );
     var fiyat =
@@ -189,18 +218,50 @@ class BookView extends StatelessWidget {
         ]
     );
   }
-  Widget sepeteEkleButton(){
+
+  Widget updateButton(BuildContext context ,AsyncSnapshot snapshot){
     return RaisedButton(
-      onPressed: () {},
+      onPressed: () {
+        print("------");
+        print(snapshot.data.bookId.toString());
+        print("------");
+        Navigator.push(
+          context, new MaterialPageRoute(builder: (context) => new adminUpdateBook(book :  snapshot)),
+        );
+      },
       textColor: Colors.white,
       padding: const EdgeInsets.all(0.0),
       child: Container(
         color: Colors.red,
         padding: const EdgeInsets.all(10.0),
         child: const Text(
-            'Sepete Ekle',
+            'Update',
             style: TextStyle(fontSize: 20)
         ),
+      ),
+    );
+  }
+  Widget deleteButton(BuildContext context,String bookId){
+    return RaisedButton(
+      onPressed: (){
+        var result =  httpAdmin.adminDeleteBook(bookId);
+        print(result);
+        Navigator.push(
+          context, new MaterialPageRoute(builder: (context) => new ExploreStateless()),
+        );
+      },
+      textColor: Colors.white,
+      padding: const EdgeInsets.all(0.0),
+
+      child: Container(
+
+        color: Colors.orangeAccent,
+        padding: const EdgeInsets.all(10.0),
+        child: const Text(
+            'Delete',
+            style: TextStyle(fontSize: 20)
+        ),
+
       ),
     );
   }

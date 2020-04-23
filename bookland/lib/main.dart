@@ -173,10 +173,10 @@ class MyStatelessWidget extends StatelessWidget {
                 child : new FlatButton(
                   //child: new Text('OK', style: new TextStyle(color: Colors.white)),
                   child: new Image.asset('assets/look_l.png'),
-                  onPressed: () {
+                  onPressed: () {/*
                     Navigator.push(
                       context, new MaterialPageRoute(builder: (context) => new BookView() )  ,
-                    );
+                    );*/
 
                   },
                   color: Colors.lightBlueAccent,
@@ -223,7 +223,7 @@ class MyStatelessWidget extends StatelessWidget {
               title: new Text("Orders"),
               trailing: new Icon(Icons.add_shopping_cart),
               onTap: (){
-              },
+            },
             ),
 //Section Line
             new Divider(),
@@ -288,7 +288,7 @@ class MyStatelessWidget extends StatelessWidget {
 
                       onPressed :() {
                         Navigator.push(
-                          context, new MaterialPageRoute(builder: (context) => new Explore()),
+                          context, new MaterialPageRoute(builder: (context) => new ExploreStateless()),
                         );
                       }
                   ),

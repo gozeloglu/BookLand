@@ -1,7 +1,7 @@
 import 'package:flutter/foundation.dart';
+//import 'package:json_annotation/json_annotation.dart';
 
 /// This class contains the objects which is the same in GET allBooks method
-
 class Book {
   int bookId;
   String bookName;
@@ -14,7 +14,7 @@ class Book {
   int quantity;
   String bookImage;
   DateTime releasedTime;
-  // TODO price will be added here
+  List<double> priceList;
 
   Book({
     this.bookId,
@@ -28,21 +28,39 @@ class Book {
     this.quantity,
     this.bookImage,
     this.releasedTime,
+    this.priceList,
 });
 
-  Book.fromJson(Map<String, dynamic> json) {
-    bookId = json['bookId'];
-    bookName = json['bookName'];
-    author = json['author'];
-    description = json['description'];
-    category = json['category'];
-    subCategory = json['subCategory'];
-    inHotList = json['inHotList'];
-    status = json['status'];
-    quantity = json['quantity'];
-    bookImage = json['bookImage'];
-    releasedTime = json['releasedTime'];
-  }
+  factory Book.fromJson(Map<String, dynamic> json) {
+    return Book(
+    bookId: json['bookId'],
+    bookName: json['bookName'],
+    author: json['author'],
+    description: json['description'],
+    category: json['category'],
+    subCategory: json['subCategory'],
+    inHotList: json['inHotList'],
+    status: json['status'],
+    quantity: json['quantity'],
+    bookImage: json['bookImage'],
+    releasedTime: json['releasedTime'],
+    priceList: json['priceList'],);
+    }
+  /*Map<String, dynamic> toJson() =>
+      {
+        'bookId': bookId,
+        'bookName': bookName,
+        'author': author,
+        'description': description,
+        'category': category,
+        'subCategory': subCategory,
+        'inHotList': inHotList,
+        'status': status,
+        'quantity': quantity,
+        'bookImage': bookImage,
+        'releasedTime': releasedTime,
+        'priceList': priceList,
+      };*/
   /*
   factory Book.fromJson(Map<String, dynamic> json) {
     return Book(

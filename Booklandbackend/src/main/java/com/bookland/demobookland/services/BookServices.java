@@ -26,7 +26,7 @@ public class BookServices {
     private PriceRepository priceRepository;
 
     public List<ExplorePageProjection> getAllBooks(Integer pageNo, Integer pageSize) {
-        Pageable paging = PageRequest.of(pageNo, pageSize);
+        Pageable paging = PageRequest.of(pageNo-1, pageSize);
 
         Page<ExplorePageProjection> pagedResult = bookRepository.findAllProjectedBy(paging);
         return pagedResult.toList();
@@ -67,9 +67,10 @@ public class BookServices {
     public String updateBook(Integer id, Book book) {
         String response;
         try {
-
             Book current_book = bookRepository.findByBookId(id);
-
+            if (book.getRealIsbn() != null) {
+                current_book.setRealIsbn(book.getRealIsbn());
+            }
             if (book.getAuthor() != null) {
                 current_book.setAuthor(book.getAuthor());
             }
@@ -100,7 +101,7 @@ public class BookServices {
                 newPrice.setPrice(book.getPriceList().get(0).getPrice());
                 priceRepository.save(newPrice);
             }
-
+            System.out.println(current_book.getQuantity());
             bookRepository.save(current_book);
             response = "Book Properties Updated";
             return response;
@@ -115,6 +116,10 @@ public class BookServices {
 
     public List<String> getCategory() {
         return bookRepository.findDistinctByCategory();
+    }
+
+    public Long getBookCount() {
+        return bookRepository.count();
     }
 
     /*Get distinct sub-categories*/
