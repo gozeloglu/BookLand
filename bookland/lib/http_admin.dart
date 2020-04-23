@@ -9,7 +9,8 @@ import 'package:http_auth/http_auth.dart' as http_auth;
 import 'package:sprintf/sprintf.dart';
 
 class HttpAdmin {
-  Future<String> adminAddBook(String isbn,String book_name,String book_category,String book_sub_category,String book_author,String book_img,String book_description ,String book_price) async {
+  Future<String> adminAddBook(String isbn,String book_name,String book_category,String book_sub_category,String book_author,
+      String book_quantity, String book_hotlist, String book_status, String book_img,String book_description ,String book_price) async {
     var client = http.Client();
 
     var url = "http://10.0.2.2:8080";
@@ -26,6 +27,9 @@ class HttpAdmin {
         "bookName": book_name,
         "bookImage": book_img,
         "author": book_author,
+        "quantity": book_quantity,
+        "inHotList": book_hotlist,
+        "status" : book_status,
         "description": book_description,
         "category" : book_category,
         "subCategory" : book_sub_category,
