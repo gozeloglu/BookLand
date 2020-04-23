@@ -11,6 +11,9 @@ class HttpBook {
     var url = "http://localhost:8080/allBooks";
     print(url);
     var response = await client.get('http://localhost:8080/allBooks/basic-auth/Daryl/WalkingDead');*/
+    print("****");
+    print(isbn);
+    print("****");
     var client = http.Client();
     var url = "http://10.0.2.2:8080";
     String username = 'Daryl';
@@ -31,9 +34,9 @@ class HttpBook {
     if (response.statusCode == 200) {
       print("just after if");
       Book obj = Book.fromJson(json.decode(response.body));
-      print("******");
+
       print(obj.bookId);
-      print("------");
+
       return obj;
     } else {
       throw "Can't get posts.";
