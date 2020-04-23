@@ -5,16 +5,17 @@ import 'dart:io';
 
 import 'package:bookland/bookview.dart';
 import 'package:bookland/main.dart';
+import 'package:bookland/adminOrders.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
 import 'package:flutter_paginator/flutter_paginator.dart';
+
 int total = 0;
 SplayTreeSet isbnSet = new SplayTreeSet();
 var globalExploreContext;
 
 class ExploreStateless extends StatelessWidget {
-
   @override
   Widget build(BuildContext context) {
     globalExploreContext = context;
@@ -33,7 +34,7 @@ class ExplorePage extends StatefulWidget {
 }
 
 class ExploreState extends State<ExplorePage> {
-  GlobalKey<PaginatorState> paginatorGlobalKey  = GlobalKey();
+  GlobalKey<PaginatorState> paginatorGlobalKey = GlobalKey();
 
   @override
   Widget build(BuildContext context) {
@@ -43,24 +44,69 @@ class ExploreState extends State<ExplorePage> {
         centerTitle: true,
         leading: new IconButton(
             icon: Icon(Icons.arrow_back),
-            onPressed: () => Navigator.pop(globalExploreContext)
-        ),
-
+            onPressed: () => Navigator.pop(globalExploreContext)),
       ),
       body: Paginator.listView(
         key: paginatorGlobalKey,
-          pageLoadFuture: sendBooksDataRequest,
-          pageItemsGetter: listBooksGetter,
-          listItemBuilder: listBookBuilder,
-          loadingWidgetBuilder: loadingWidgetMaker,
-          errorWidgetBuilder: errorWidgetMaker,
-          emptyListWidgetBuilder: emptyListWidgetMaker,
-          totalItemsGetter: totalPagesGetter,
-          pageErrorChecker: pageErrorChecker,
-          scrollPhysics: BouncingScrollPhysics(),
+        pageLoadFuture: sendBooksDataRequest,
+        pageItemsGetter: listBooksGetter,
+        listItemBuilder: listBookBuilder,
+        loadingWidgetBuilder: loadingWidgetMaker,
+        errorWidgetBuilder: errorWidgetMaker,
+        emptyListWidgetBuilder: emptyListWidgetMaker,
+        totalItemsGetter: totalPagesGetter,
+        pageErrorChecker: pageErrorChecker,
+        scrollPhysics: BouncingScrollPhysics(),
+      ),
+      bottomNavigationBar: BottomAppBar(
+        child: Container(
+            height: 50.0,
+            child: Row(children: <Widget>[
+              Text("           "),
+              IconButton(
+                  icon: Icon(Icons.home),
+                  onPressed: () {
+                    Navigator.push(
+                    context,
+                    new MaterialPageRoute(
+                        builder: (context) => new MyApp()),
+                    );
+                    print("Icon home Pressed !!");
+                  }),
+              Text("           "),
+              IconButton(
+                  icon: Icon(Icons.category),
+                  onPressed: () {
+                    print("Icon category Pressed !!");
+                  }),
+              Text("           "),
+              IconButton(
+                  icon: Icon(Icons.explore),
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      new MaterialPageRoute(
+                          builder: (context) => new ExploreStateless()),
+                    );
+                  }),
+              Text("           "),
+              IconButton(
+                  icon: Icon(Icons.shopping_basket),
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      new MaterialPageRoute(
+                          builder: (context) =>
+                              new adminOrders()), //adminAddBook()
+                    );
+                    print("Icon shopping_basket Pressed !!");
+                  }),
+            ])),
+        color: Colors.blue,
       ),
     );
   }
+
   void getTotalCount() async {
     try {
       String username = 'Daryl';
@@ -70,8 +116,10 @@ class ExploreState extends State<ExplorePage> {
       var urlBookCount = "http://10.0.2.2:8080/getBookCount";
 
       String _urlBookCount = Uri.encodeFull(urlBookCount);
-      http.Response responseCount = await http.get(_urlBookCount,
-        headers: <String, String>{'authorization': basicAuth},);
+      http.Response responseCount = await http.get(
+        _urlBookCount,
+        headers: <String, String>{'authorization': basicAuth},
+      );
 
       if (responseCount.statusCode == 200) {
         total = json.decode(responseCount.body);
@@ -81,8 +129,8 @@ class ExploreState extends State<ExplorePage> {
         throw Exception("Books are not retrieved!");
       }
     } catch (e) {
-        print("SocketException");
-        return null; // Exception("SocketException");
+      print("SocketException");
+      return null; // Exception("SocketException");
     }
   }
 
@@ -96,8 +144,10 @@ class ExploreState extends State<ExplorePage> {
       String basicAuth =
           'Basic ' + base64Encode(utf8.encode('$username:$password'));
       String _url = Uri.encodeFull(url);
-      http.Response response = await http.get(_url,
-        headers: <String, String>{'authorization': basicAuth},);
+      http.Response response = await http.get(
+        _url,
+        headers: <String, String>{'authorization': basicAuth},
+      );
       return BooksData.fromResponse(response);
     } catch (e) {
       if (e is IOException) {
@@ -112,12 +162,17 @@ class ExploreState extends State<ExplorePage> {
   List<dynamic> listBooksGetter(BooksData booksData) {
     List<dynamic> bookNameList = [];
     List<int> isbnList = [];
-   for (int i = 0; i < booksData.books.length; i++) {
-     String val = "Book:\t" + booksData.books[i] + "\n" +
-         "Author:\t" + booksData.authors[i] + "\n" +
-         "Price:\t" + booksData.prices[i].toString();
-     bookNameList.add(val);
-   }
+    for (int i = 0; i < booksData.books.length; i++) {
+      String val = "Book:\t" +
+          booksData.books[i] +
+          "\n" +
+          "Author:\t" +
+          booksData.authors[i] +
+          "\n" +
+          "Price:\t" +
+          booksData.prices[i].toString();
+      bookNameList.add(val);
+    }
     return bookNameList;
   }
 
@@ -132,12 +187,16 @@ class ExploreState extends State<ExplorePage> {
   Widget listBookBuilder(value, int index) {
     // TODO BookView isbn should be changed with isbn
     return ListTile(
-      leading: Text(index.toString()),
-      title: Text(value),
-      onTap: () {
-        Navigator.push(context, MaterialPageRoute(builder: (context) => new BookView(isbn: isbnSet.elementAt(index).toString()),
-        ));
-      });
+        leading: Text(index.toString()),
+        title: Text(value),
+        onTap: () {
+          Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) =>
+                    new BookView(isbn: isbnSet.elementAt(index).toString()),
+              ));
+        });
   }
 
   // TODO If there is no book in DB --> print an error message
@@ -199,8 +258,7 @@ class BooksData {
     this.statusCode = response.statusCode;
     List jsonData = json.decode(response.body);
 
-    for (int i = 0 ; i < jsonData.length; i++) {
-
+    for (int i = 0; i < jsonData.length; i++) {
       books.add(jsonData[i]["bookName"]);
       authors.add(jsonData[i]["author"]);
 
