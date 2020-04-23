@@ -173,10 +173,10 @@ class MyStatelessWidget extends StatelessWidget {
                 child : new FlatButton(
                   //child: new Text('OK', style: new TextStyle(color: Colors.white)),
                   child: new Image.asset('assets/look_l.png'),
-                  onPressed: () {
+                  onPressed: () {/*
                     Navigator.push(
                       context, new MaterialPageRoute(builder: (context) => new BookView() )  ,
-                    );
+                    );*/
 
                   },
                   color: Colors.lightBlueAccent,
