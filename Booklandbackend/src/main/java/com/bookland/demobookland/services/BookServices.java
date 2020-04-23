@@ -92,7 +92,7 @@ public class BookServices {
             if (book.getBookImage() != null) {
                 current_book.setBookImage(book.getBookImage());
             }
-            if (book.getQuantity() != 0) {
+            if (book.getQuantity() != null) {
                 current_book.setQuantity(book.getQuantity());
             }
             if (book.getPriceList() != null) {

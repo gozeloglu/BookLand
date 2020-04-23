@@ -10,12 +10,24 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
 import 'package:flutter_paginator/flutter_paginator.dart';
+// TODO GlobalKey Duplicate must be fixed
 
 int total = 0;
 SplayTreeSet isbnSet = new SplayTreeSet();
 var globalExploreContext;
+int deletedBookId = -1;
+
+void afterDelete(int bookId) {
+  deletedBookId = bookId;
+  ExploreState();
+}
 
 class ExploreStateless extends StatelessWidget {
+
+  ExploreStateless(int bookId) {
+    deletedBookId = bookId;
+  }
+
   @override
   Widget build(BuildContext context) {
     globalExploreContext = context;
@@ -67,9 +79,8 @@ class ExploreState extends State<ExplorePage> {
                   icon: Icon(Icons.home),
                   onPressed: () {
                     Navigator.push(
-                    context,
-                    new MaterialPageRoute(
-                        builder: (context) => new MyApp()),
+                      context,
+                      new MaterialPageRoute(builder: (context) => new MyApp()),
                     );
                     print("Icon home Pressed !!");
                   }),
@@ -86,7 +97,7 @@ class ExploreState extends State<ExplorePage> {
                     Navigator.push(
                       context,
                       new MaterialPageRoute(
-                          builder: (context) => new ExploreStateless()),
+                          builder: (context) => new ExploreStateless(-1)),
                     );
                   }),
               Text("           "),
@@ -187,7 +198,6 @@ class ExploreState extends State<ExplorePage> {
   Widget listBookBuilder(value, int index) {
     // TODO BookView isbn should be changed with isbn
     return ListTile(
-        leading: Text(index.toString()),
         title: Text(value),
         onTap: () {
           Navigator.push(
@@ -258,6 +268,9 @@ class BooksData {
     this.statusCode = response.statusCode;
     List jsonData = json.decode(response.body);
 
+    if (isbnSet.contains(deletedBookId)) {
+      isbnSet.remove(deletedBookId);
+    }
     for (int i = 0; i < jsonData.length; i++) {
       books.add(jsonData[i]["bookName"]);
       authors.add(jsonData[i]["author"]);

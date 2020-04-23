@@ -288,7 +288,7 @@ class MyStatelessWidget extends StatelessWidget {
 
                       onPressed :() {
                         Navigator.push(
-                          context, new MaterialPageRoute(builder: (context) => new ExploreStateless()),
+                          context, new MaterialPageRoute(builder: (context) => new ExploreStateless(-1)),
                         );
                       }
                   ),

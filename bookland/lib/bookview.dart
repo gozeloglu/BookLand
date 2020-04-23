@@ -247,7 +247,7 @@ class BookView extends StatelessWidget {
         var result =  httpAdmin.adminDeleteBook(bookId);
         print(result);
         Navigator.push(
-          context, new MaterialPageRoute(builder: (context) => new ExploreStateless()),
+          context, new MaterialPageRoute(builder: (context) => new ExploreStateless(int.parse(bookId))),
         );
       },
       textColor: Colors.white,
