@@ -4,6 +4,7 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:bookland/bookview.dart';
+import 'package:bookland/customerBookView.dart';
 import 'package:bookland/main.dart';
 import 'package:bookland/adminOrders.dart';
 import 'package:flutter/material.dart';
@@ -23,9 +24,11 @@ void afterDelete(int bookId) {
 }
 
 class ExploreStateless extends StatelessWidget {
-
   ExploreStateless(int bookId) {
     deletedBookId = bookId;
+    if (isbnSet.contains(deletedBookId)) {
+      isbnSet.remove(deletedBookId);
+    }
   }
 
   @override
@@ -54,9 +57,9 @@ class ExploreState extends State<ExplorePage> {
       appBar: AppBar(
         title: Text("Explore"),
         centerTitle: true,
-        leading: new IconButton(
-            icon: Icon(Icons.arrow_back),
-            onPressed: () => Navigator.pop(globalExploreContext)),
+        //leading: new IconButton(
+        //  icon: Icon(Icons.arrow_back),
+        //onPressed: () => Navigator.pop(globalExploreContext)),
       ),
       body: Paginator.listView(
         key: paginatorGlobalKey,
@@ -155,10 +158,12 @@ class ExploreState extends State<ExplorePage> {
       String basicAuth =
           'Basic ' + base64Encode(utf8.encode('$username:$password'));
       String _url = Uri.encodeFull(url);
+      print("sıkıntı");
       http.Response response = await http.get(
         _url,
         headers: <String, String>{'authorization': basicAuth},
       );
+      print("before return");
       return BooksData.fromResponse(response);
     } catch (e) {
       if (e is IOException) {
@@ -209,7 +214,6 @@ class ExploreState extends State<ExplorePage> {
         });
   }
 
-  // TODO If there is no book in DB --> print an error message
   Widget errorWidgetMaker(BooksData booksData, retryListener) {
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
@@ -266,8 +270,11 @@ class BooksData {
 
   BooksData.fromResponse(http.Response response) {
     this.statusCode = response.statusCode;
+    print(statusCode);
     List jsonData = json.decode(response.body);
+    print(jsonData);
 
+    // isbnSet.clear();
     if (isbnSet.contains(deletedBookId)) {
       isbnSet.remove(deletedBookId);
     }
@@ -276,18 +283,23 @@ class BooksData {
       authors.add(jsonData[i]["author"]);
 
       isbnSet.add(jsonData[i]["bookId"]);
+      int priceListLen = jsonData[i]["priceList"].length;
       double lastPrice = 0;
-      lastPrice += jsonData[i]["priceList"][0]["price"];
+      lastPrice += jsonData[i]["priceList"][priceListLen - 1]["price"];
       bool moreThanOne = false;
       if (jsonData[i]["priceList"].length >= 2) {
-        lastPrice += jsonData[i]["priceList"][1]["price"];
+        lastPrice += jsonData[i]["priceList"][priceListLen - 2]["price"];
         moreThanOne = true;
       }
       if (moreThanOne) {
         lastPrice /= 2;
       }
+      // TODO Last 2 price should be taken
+      // TODO Add image
       prices.add(lastPrice);
     }
+    print(isbnSet);
+    print(books);
     // TODO total should be considered
     // TODO nItems should be fixed
     nItems = books.length;
