@@ -200,7 +200,7 @@ class MyStatelessWidget extends StatelessWidget {
         child: ListView(
           padding: EdgeInsets.zero,
           children: <Widget>[
-
+          //  if(isAnyUserLogin == true)
             new UserAccountsDrawerHeader(accountName: new  Text('Nurbüke TEKER'),
               accountEmail: new Text('nurbuke.teker7@gmail.com'),
               decoration: BoxDecoration(
