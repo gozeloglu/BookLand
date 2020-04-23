@@ -54,40 +54,14 @@ void openPage(BuildContext context) {
 }
 
 
-/***class adminUpdateBook extends StatelessWidget{
 
-
+class admin_drawer_update_book extends StatelessWidget {
   static const String _title = 'AdminUpdateBook';
-  @override
-  Widget build(BuildContext context) {
-    // TODO: implement build
-    return MaterialApp(
-      title: _title,
-      home: createState() => _AdminUpdateBookPageState(book : book),
-    );
-  }
 
-}
-
-class adminUpdateBookStatefulWidget extends StatefulWidget{
-  //adminUpdateBookStatefulWidget({Key key}) : super(key: key);
-  //final String bookId;
-  //adminUpdateBookStatefulWidget({Key key, @required this.bookId}) : super(key: key);
-
-  @override
-  _AdminUpdateBookPageState createState() => _AdminUpdateBookPageState();
-}**/
-
-class adminUpdateBook extends StatelessWidget {
-  static const String _title = 'AdminUpdateBook';
-  final AsyncSnapshot book ;
-  adminUpdateBook({Key key, @required this.book}) : super(key: key);
-
-  //final AsyncSnapshot book ;
-  //_AdminUpdateBookPageState({Key key, @required this.book}) : super(key: key);
 
   final HttpAdmin httpAdmin = HttpAdmin();
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+
   String isbn ;
   //String book_name;
   //String book_category;
@@ -129,95 +103,95 @@ class adminUpdateBook extends StatelessWidget {
             padding: EdgeInsets.only(top: 10, bottom: 10),
             child: new Stack(
               children: <Widget>[
-                _showForm(book,context)
+                _showForm()
               ],
             ),
 
 
           ),
 
-            drawer: new Drawer(
-              child: new ListView(
-                children: <Widget>[
-                  new UserAccountsDrawerHeader(
-                    accountName: Text("Hello, Admin", style: TextStyle(fontSize: 35)),
+          drawer: new Drawer(
+            child: new ListView(
+              children: <Widget>[
+                new UserAccountsDrawerHeader(
+                  accountName: Text("Hello, Admin", style: TextStyle(fontSize: 35)),
 
-                    decoration: new BoxDecoration(
-                        color: Colors.red
-                    ),
-                    margin: const EdgeInsets.only(bottom: 10.0),
+                  decoration: new BoxDecoration(
+                      color: Colors.red
                   ),
+                  margin: const EdgeInsets.only(bottom: 10.0),
+                ),
 
 
-                  InkWell(
-                    onTap: (){
-                      Navigator.push(
-                        context, new MaterialPageRoute(builder: (context) => new adminAddBook()),
-                      );
-                    },
-                    child: ListTile(
-                      title: Text("Add Book", style: TextStyle(fontSize: 18)), leading: Icon(Icons.add),
+                InkWell(
+                  onTap: (){
+                    Navigator.push(
+                      context, new MaterialPageRoute(builder: (context) => new adminAddBook()),
+                    );
+                  },
+                  child: ListTile(
+                    title: Text("Add Book", style: TextStyle(fontSize: 18)), leading: Icon(Icons.add),
 
-                    ),
                   ),
+                ),
 
-                  InkWell(
-                    onTap: (){
-                      Navigator.push(
-                        context, new MaterialPageRoute(builder: (context) => new DeletePage()),
-                      );
-                    },
-                    child: ListTile(
-                      title: Text("Delete Book", style: TextStyle(fontSize: 18)), leading: Icon(Icons.delete),
+                InkWell(
+                  onTap: (){
+                    Navigator.push(
+                      context, new MaterialPageRoute(builder: (context) => new DeletePage()),
+                    );
+                  },
+                  child: ListTile(
+                    title: Text("Delete Book", style: TextStyle(fontSize: 18)), leading: Icon(Icons.delete),
 
-                    ),
                   ),
+                ),
 
-                  InkWell(
-                    onTap: (){Navigator.push(
-                      context, new MaterialPageRoute(builder: (context) => new adminUpdateBook()),
-                    );},
-                    child: ListTile(
-                      title: Text("Update Book", style: TextStyle(fontSize: 18)), leading: Icon(Icons.update),
+                InkWell(
+                  onTap: (){Navigator.push(
+                    context, new MaterialPageRoute(builder: (context) => new admin_drawer_update_book()),
+                  );},
+                  child: ListTile(
+                    title: Text("Update Book", style: TextStyle(fontSize: 18)), leading: Icon(Icons.update),
 
-                    ),
                   ),
+                ),
 
-                  InkWell(
-                    onTap: (){Navigator.push(
-                      context, new MaterialPageRoute(builder: (context) => new adminDiscount()),
-                    );},
-                    child: ListTile(
-                      title: Text("Discount", style: TextStyle(fontSize: 18)), leading: Icon(Icons.arrow_drop_down),
+                InkWell(
+                  onTap: (){Navigator.push(
+                    context, new MaterialPageRoute(builder: (context) => new adminDiscount()),
+                  );},
+                  child: ListTile(
+                    title: Text("Discount", style: TextStyle(fontSize: 18)), leading: Icon(Icons.arrow_drop_down),
 
-                    ),
                   ),
+                ),
 
-                  InkWell(
-                    onTap: (){},
-                    child: ListTile(
-                      title: Text("Orders", style: TextStyle(fontSize: 18)), leading: Icon(Icons.check),
+                InkWell(
+                  onTap: (){},
+                  child: ListTile(
+                    title: Text("Orders", style: TextStyle(fontSize: 18)), leading: Icon(Icons.check),
 
-                    ),
                   ),
+                ),
 
-                  Container(
-                    margin: const EdgeInsets.only(top: 50.0),
-                    child: FlatButton(
-                      color: Colors.redAccent,
-                      textColor: Colors.white,
-                      disabledColor: Colors.grey,
-                      disabledTextColor: Colors.black,
-                      padding: EdgeInsets.all(10.0),
-                      splashColor: Colors.red,
-                      onPressed: (){},
-                      child: Text("Logout", style: TextStyle(fontSize: 22)),
-                    ),
-                  )
-                ],
+                Container(
+                  margin: const EdgeInsets.only(top: 50.0),
+                  child: FlatButton(
+                    color: Colors.redAccent,
+                    textColor: Colors.white,
+                    disabledColor: Colors.grey,
+                    disabledTextColor: Colors.black,
+                    padding: EdgeInsets.all(10.0),
+                    splashColor: Colors.red,
+                    onPressed: (){},
+                    child: Text("Logout", style: TextStyle(fontSize: 22)),
+                  ),
+                )
+              ],
 
-              ),
             ),
+          ),
 
 
           bottomNavigationBar: BottomAppBar(
@@ -268,18 +242,18 @@ class adminUpdateBook extends StatelessWidget {
 
 
   }
-  Widget _showForm(AsyncSnapshot book,BuildContext context) {
+  Widget _showForm() {
     return new Container(
       padding: EdgeInsets.all(1.0),
       child: new Form(
         child: new ListView(
           shrinkWrap: true,
           children: <Widget>[
-            //showISBNInput(book),
-            showPriceInput(book.data.price.toString()),
-            showStockInput(book.data.quantity.toString()),
-            showDescriptionInput(book.data.description.toString()),
-            showUpdateBookButton(book.data.bookId.toString(),context)
+            showISBNInput(),
+            showPriceInput(),
+            showStockInput(),
+            showDescriptionInput(),
+            showUpdateBookButton()
           ],
         ),
       ),
@@ -288,50 +262,37 @@ class adminUpdateBook extends StatelessWidget {
 
 
 
-  Widget showISBNInput(AsyncSnapshot book) {
-    print("***xxxx");
-    print(book.hasData);
-    print("***xxx");
-    try{
-      if (book.hasData != null) {
-
-      }
-    }
-    on Exception catch (exception){
-      print("Catch itttt");
-      return Padding(
-        padding: const EdgeInsets.fromLTRB(0.0, 10.0, 0.0, 0.0),
-        child: new TextFormField(
-          controller: isbnController,
-          maxLines: 1,
-          keyboardType: TextInputType.text,
-          autofocus: false,
-          /**decoration: new InputDecoration(
-              hintText: isbn,
-              icon: new Icon(
-              Icons.label_important,
-              color: Colors.grey,
-              ),
-              enabledBorder: const OutlineInputBorder(
-              borderSide: const BorderSide(color: Colors.grey, width: 0.0),
-              ),
-              focusedBorder: const OutlineInputBorder(
-              borderSide: const BorderSide(color: Colors.grey, width: 0.0),
-              ),
-              ),*/
-          validator: (value) =>
-          value.isEmpty
-              ? 'Book ISBN cannot be empty'
-              : null,
-          //onSaved: (value) => _email = value.trim(),
+  Widget showISBNInput() {
+    return Padding(
+      padding: const EdgeInsets.fromLTRB(0.0, 10.0, 0.0, 0.0),
+      child: new TextFormField(
+        controller: isbnController,
+        maxLines: 1,
+        keyboardType: TextInputType.text,
+        autofocus: false,
+        decoration: new InputDecoration(
+          hintText: 'Book ID',
+          icon: new Icon(
+            Icons.label_important,
+            color: Colors.grey,
+          ),
+          enabledBorder: const OutlineInputBorder(
+            borderSide: const BorderSide(color: Colors.grey, width: 0.0),
+          ),
+          focusedBorder: const OutlineInputBorder(
+            borderSide: const BorderSide(color: Colors.grey, width: 0.0),
+          ),
         ),
-      );
+        validator: (value) => value.isEmpty ? 'Book ISBN cannot be empty' : null,
+        //onSaved: (value) => _email = value.trim(),
+      ),
+    );
   }
 
-  }
 
 
-  Widget showPriceInput(String price){
+
+  Widget showPriceInput( ){
 
     return Padding(
       padding: const EdgeInsets.fromLTRB(0.0, 10.0, 0.0, 0.0),
@@ -341,7 +302,7 @@ class adminUpdateBook extends StatelessWidget {
         keyboardType: TextInputType.text,
         autofocus: false,
         decoration: new InputDecoration(
-          hintText: price,
+          hintText: "Price",
           icon: new Icon(
             Icons.attach_money,
             color: Colors.grey,
@@ -360,7 +321,7 @@ class adminUpdateBook extends StatelessWidget {
 
   }
 
-  Widget showStockInput(String quantity) {
+  Widget showStockInput( ) {
     return Padding(
       padding: const EdgeInsets.fromLTRB(0.0, 10.0, 0.0, 0.0),
       child: new TextFormField(
@@ -369,7 +330,7 @@ class adminUpdateBook extends StatelessWidget {
         keyboardType: TextInputType.number,
         autofocus: false,
         decoration: new InputDecoration(
-          hintText: quantity,
+          hintText: "Quantity",
           icon: new Icon(
             Icons.confirmation_number,
             color: Colors.grey,
@@ -386,7 +347,7 @@ class adminUpdateBook extends StatelessWidget {
     );
   }
 
-  Widget showDescriptionInput(String description){
+  Widget showDescriptionInput( ){
     return Padding(
       padding: const EdgeInsets.fromLTRB(0.0, 10.0, 0.0, 0.0),
       child: new TextFormField(
@@ -395,7 +356,7 @@ class adminUpdateBook extends StatelessWidget {
         keyboardType: TextInputType.text,
         autofocus: false,
         decoration: new InputDecoration(
-          hintText: description,
+          hintText: "Description",
           icon: new Icon(
             Icons.description,
             color: Colors.grey,
@@ -413,7 +374,7 @@ class adminUpdateBook extends StatelessWidget {
     );
   }
 
-  Widget showUpdateBookButton(String bookId,BuildContext context) {
+  Widget showUpdateBookButton() {
     return new Padding(
       padding: EdgeInsets.fromLTRB(10.0, 10.0, 10.0, 0.0),
       child: new RaisedButton(
@@ -429,16 +390,13 @@ class adminUpdateBook extends StatelessWidget {
           onPressed: () {
             //_formKey.currentState.validate();
 
-            isbn = bookId;
-            print("******");
-            print(bookId);
-            print("******");
+            isbn = isbnController.text;
             book_quantity = book_quantityController.text;
             book_price = book_priceController.text;
             book_description = book_descriptionController.text;
             var result =  httpAdmin.adminUpdateBook(isbn,book_quantity,book_price,book_description);
             print(result);
-            Navigator.pop(context);
+
             /*Navigator.push(
                 context,
                 new MaterialPageRoute(
