@@ -12,7 +12,6 @@ class HttpAdmin {
   Future<String> adminAddBook(String isbn,String book_name,String book_category,String book_sub_category,String book_author,String book_img,String book_description ,String book_price) async {
     var client = http.Client();
 
-
     var url = "http://10.0.2.2:8080";
     String username = 'Daryl';
     String password = 'WalkingDead';

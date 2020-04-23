@@ -67,7 +67,10 @@ public class BookServices {
     public String updateBook(Integer id, Book book) {
         String response;
         try {
-
+            //System.out.println("-----");
+            //System.out.println(id);
+            //System.out.println(book.getQuantity());
+            //System.out.println(book.getBookId())
             Book current_book = bookRepository.findByBookId(id);
 
             if (book.getAuthor() != null) {

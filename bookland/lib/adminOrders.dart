@@ -1,5 +1,6 @@
 import 'package:bookland/AdminDeleteBook.dart';
-import 'package:bookland/adminUpdateBook.dart';
+import 'package:bookland/admin_drawer_update_book.dart';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'adminDiscount.dart';
@@ -127,7 +128,7 @@ class _AdminOrdersState extends State<adminOrdersStatefulWidget> {
                 InkWell(
                   onTap: (){
                     Navigator.push(
-                      context, new MaterialPageRoute(builder: (context) => new adminUpdateBook()),
+                      context, new MaterialPageRoute(builder: (context) => new admin_drawer_update_book()),
                     );
                   },
                   child: ListTile(
