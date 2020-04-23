@@ -67,22 +67,25 @@ class ExploreState extends State<ExplorePage> {
       String password = 'WalkingDead';
       String basicAuth =
           'Basic ' + base64Encode(utf8.encode('$username:$password'));
-      var url_book_count = "http://10.0.2.2:8080/getBookCount";
-      String _url_book_count = Uri.encodeFull(url_book_count);
-      http.Response response_count = await http.get(_url_book_count,
+      var urlBookCount = "http://10.0.2.2:8080/getBookCount";
+
+      String _urlBookCount = Uri.encodeFull(urlBookCount);
+      http.Response responseCount = await http.get(_urlBookCount,
         headers: <String, String>{'authorization': basicAuth},);
-      if (response_count.statusCode == 200) {
-        total = json.decode(response_count.body);
+
+      if (responseCount.statusCode == 200) {
+        total = json.decode(responseCount.body);
         print(total);
       } else {
-        print(response_count.statusCode);
+        print(responseCount.statusCode);
+        throw Exception("Books are not retrieved!");
       }
     } catch (e) {
         print("SocketException");
         return null; // Exception("SocketException");
-
     }
   }
+
   Future<BooksData> sendBooksDataRequest(int page) async {
     try {
       getTotalCount();
@@ -127,16 +130,6 @@ class ExploreState extends State<ExplorePage> {
   }
 
   Widget listBookBuilder(value, int index) {
-    /*return ListView(
-      padding: const EdgeInsets.all(16),
-      children: <Widget>[
-        Container(
-          height: 50,
-          child: Center(child: value),
-        )
-      ],
-    );*/
-    print(value);
     // TODO BookView isbn should be changed with isbn
     return ListTile(
       leading: Text(index.toString()),
@@ -173,7 +166,6 @@ class ExploreState extends State<ExplorePage> {
   int totalPagesGetter(BooksData booksData) {
     // TODO This should be fixed
     return total;
-    //return 20;
   }
 
   bool pageErrorChecker(BooksData booksData) {
@@ -182,7 +174,6 @@ class ExploreState extends State<ExplorePage> {
 }
 
 class BooksData {
-  ///Map<String, dynamic> books;
   List<dynamic> books = new List<dynamic>();
   List<dynamic> authors = new List<dynamic>();
   List<dynamic> prices = new List<dynamic>();
@@ -206,25 +197,14 @@ class BooksData {
 
   BooksData.fromResponse(http.Response response) {
     this.statusCode = response.statusCode;
-    print("Status Code : $statusCode");
-    print("BODY-1 : $response.body");
     List jsonData = json.decode(response.body);
-    print("Status Code-2 : $statusCode");
-    print("BODY :");
-    print(response.body);
-    print(jsonData.runtimeType);
-    print(json.decode(response.body).runtimeType);
-    /// books = jsonData[1];
+
     for (int i = 0 ; i < jsonData.length; i++) {
-      print(jsonData[i]);
-      print(jsonData[i].runtimeType);
+
       books.add(jsonData[i]["bookName"]);
       authors.add(jsonData[i]["author"]);
-      int id = jsonData[i]["bookId"];
-      print(id);
-      //isbnBookList.add(jsonData[i]["bookId"]);
+
       isbnSet.add(jsonData[i]["bookId"]);
-      //print("------------------------------------------------------------ $jsonData[i]['bookId']");
       double lastPrice = 0;
       lastPrice += jsonData[i]["priceList"][0]["price"];
       bool moreThanOne = false;
