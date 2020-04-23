@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:collection';
 import 'dart:convert';
 import 'dart:io';
 
@@ -9,6 +10,7 @@ import 'package:http/http.dart' as http;
 import 'package:flutter_paginator/flutter_paginator.dart';
 import 'package:flutter_paginator/enums.dart';
 int total = 0;
+SplayTreeSet isbnSet = new SplayTreeSet();
 
 class ExploreStateless extends StatelessWidget {
 
@@ -35,36 +37,8 @@ class ExploreState extends State<ExplorePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Explore Pagination Page"),
-        actions: <Widget>[
-          IconButton(
-            icon: Icon(Icons.format_list_bulleted),
-            onPressed: () {
-              paginatorGlobalKey.currentState.changeState(
-                listType: ListType.LIST_VIEW
-              );
-            },
-          ),
-          IconButton(
-            icon: Icon(Icons.grid_on),
-            onPressed: () {
-              paginatorGlobalKey.currentState.changeState(
-                listType: ListType.LIST_VIEW,
-                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: 2
-                ),
-              );
-            },
-          ),
-          IconButton(
-            icon: Icon(Icons.library_books),
-            onPressed: () {
-              paginatorGlobalKey.currentState.changeState(
-                listType: ListType.PAGE_VIEW
-              );
-            },
-          ),
-        ],
+        title: Text("Explore"),
+        centerTitle: true,
       ),
       body: Paginator.listView(
         key: paginatorGlobalKey,
@@ -132,17 +106,13 @@ class ExploreState extends State<ExplorePage> {
   }
 
   List<dynamic> listBooksGetter(BooksData booksData) {
-    List<String> bookNameList = [];
-    List<String> authorList = [];
-    List<double> priceList = [];
+    List<dynamic> bookNameList = [];
+    List<int> isbnList = [];
    for (int i = 0; i < booksData.books.length; i++) {
      String val = "Book:\t" + booksData.books[i] + "\n" + "Author:\t" + booksData.authors[i] + "\n" +
          "Price:\t" + booksData.prices[i].toString();
      bookNameList.add(val);
-
-     //bookNameList.add(booksData.books[i]);
-     authorList.add(booksData.authors[i]);
-     priceList.add(booksData.prices[i]);
+     //bookNameList.add(booksData.isbn[i]);
    }
     return bookNameList;
     ///return list;
@@ -166,15 +136,18 @@ class ExploreState extends State<ExplorePage> {
         )
       ],
     );*/
+    print(value);
+    // TODO BookView isbn should be changed with isbn
     return ListTile(
       leading: Text(index.toString()),
       title: Text(value),
       onTap: () {
-        Navigator.push(context, MaterialPageRoute(builder: (context) => new BookView(isbn: index.toString()),
+        Navigator.push(context, MaterialPageRoute(builder: (context) => new BookView(isbn: isbnSet.elementAt(index).toString()),
         ));
       });
   }
 
+  // TODO If there is no book in DB --> print an error message
   Widget errorWidgetMaker(BooksData booksData, retryListener) {
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
@@ -213,6 +186,7 @@ class BooksData {
   List<dynamic> books = new List<dynamic>();
   List<dynamic> authors = new List<dynamic>();
   List<dynamic> prices = new List<dynamic>();
+  List<dynamic> isbn = new List<dynamic>();
   int statusCode;
   String errorMessage;
   int nItems;
@@ -246,6 +220,11 @@ class BooksData {
       print(jsonData[i].runtimeType);
       books.add(jsonData[i]["bookName"]);
       authors.add(jsonData[i]["author"]);
+      int id = jsonData[i]["bookId"];
+      print(id);
+      //isbnBookList.add(jsonData[i]["bookId"]);
+      isbnSet.add(jsonData[i]["bookId"]);
+      //print("------------------------------------------------------------ $jsonData[i]['bookId']");
       double lastPrice = 0;
       //if (jsonData[i]["PriceList"].length >= 1) {
         lastPrice += jsonData[i]["priceList"][0]["price"];
