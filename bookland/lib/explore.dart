@@ -12,11 +12,13 @@ import 'package:flutter_paginator/flutter_paginator.dart';
 import 'package:flutter_paginator/enums.dart';
 int total = 0;
 SplayTreeSet isbnSet = new SplayTreeSet();
+var globalExploreContext;
 
 class ExploreStateless extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    globalExploreContext = context;
     return MaterialApp(
       title: 'Explore Page',
       home: ExplorePage(),
@@ -40,6 +42,11 @@ class ExploreState extends State<ExplorePage> {
       appBar: AppBar(
         title: Text("Explore"),
         centerTitle: true,
+        leading: new IconButton(
+            icon: Icon(Icons.arrow_back),
+            onPressed: () => Navigator.pop(globalExploreContext)
+        ),
+
       ),
       body: Paginator.listView(
         key: paginatorGlobalKey,
