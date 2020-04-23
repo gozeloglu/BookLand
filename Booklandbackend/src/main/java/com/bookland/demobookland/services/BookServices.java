@@ -26,7 +26,7 @@ public class BookServices {
     private PriceRepository priceRepository;
 
     public List<ExplorePageProjection> getAllBooks(Integer pageNo, Integer pageSize) {
-        Pageable paging = PageRequest.of(pageNo-1, pageSize);
+        Pageable paging = PageRequest.of(pageNo, pageSize);
 
         Page<ExplorePageProjection> pagedResult = bookRepository.findAllProjectedBy(paging);
         return pagedResult.toList();
@@ -68,40 +68,51 @@ public class BookServices {
         String response;
         try {
             Book current_book = bookRepository.findByBookId(id);
+            System.out.println(current_book.getPriceList().get(0).getPrice());
+
             if (book.getRealIsbn() != null) {
                 current_book.setRealIsbn(book.getRealIsbn());
             }
+
             if (book.getAuthor() != null) {
                 current_book.setAuthor(book.getAuthor());
             }
+
             if (book.getBookName() != null) {
                 current_book.setBookName(book.getBookName());
             }
+
             if (book.getCategory() != null) {
                 current_book.setCategory(book.getCategory());
             }
+
             if (book.getSubCategory() != null) {
                 current_book.setSubCategory(book.getSubCategory());
             }
+
             if (book.getInHotList() != null) {
                 current_book.setInHotList(book.getInHotList());
             }
+
             if (book.getDescription() != null) {
                 current_book.setDescription(book.getDescription());
             }
+
             if (book.getBookImage() != null) {
                 current_book.setBookImage(book.getBookImage());
             }
-            if (book.getQuantity() != 0) {
+
+            if (book.getQuantity() != null) {
                 current_book.setQuantity(book.getQuantity());
             }
             if (book.getPriceList() != null) {
-                Price newPrice = new Price();
-                newPrice.setISBN(current_book.getBookId());
-                newPrice.setPrice(book.getPriceList().get(0).getPrice());
-                priceRepository.save(newPrice);
+                if(book.getPriceList().get(0).getPrice() != null){
+                    Price newPrice = new Price();
+                    newPrice.setISBN(current_book.getBookId());
+                    newPrice.setPrice(book.getPriceList().get(0).getPrice());
+                    priceRepository.save(newPrice);
+                }
             }
-            System.out.println(current_book.getQuantity());
             bookRepository.save(current_book);
             response = "Book Properties Updated";
             return response;

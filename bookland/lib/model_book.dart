@@ -26,9 +26,9 @@ class Book {
     this.description,
     this.category,
     this.subCategory,
+    this.quantity,
     this.inHotList,
     this.status,
-    this.quantity,
     this.bookImage,
     this.releasedTime,
     this.price,
@@ -50,9 +50,9 @@ class Book {
         description: json['description'],
         category: json['category'],
         subCategory: json['subCategory'],
+        quantity: json['quantity'],
         inHotList: json['inHotList'],
         status: json['status'],
-        quantity: json['quantity'],
         bookImage: json['bookImage'],
         price: real_price
 
