@@ -3,13 +3,13 @@ import 'package:flutter/foundation.dart';
 
 
 class User{
-  String firstName;
+  String FirstName;
   String CustomerId;
   String Password;
   int IsAdmin;
 
   User({
-    this.firstName,
+    this.FirstName,
     this.CustomerId,
     this.Password,
     this.IsAdmin
@@ -17,7 +17,7 @@ class User{
 
   factory User.fromJson(Map<String, dynamic> json) {
     return User(
-        firstName: json['firstname'],
+        FirstName: json['firstName'],
         CustomerId: json['customerId'],
         Password: json['password'],
       IsAdmin: json['isAdmin']
