@@ -24,7 +24,7 @@ public class BookController {
         /** @:return All books in JSON type
          *  GET request is handling here
          * */
-        return bookServices.getAllBooks(pageNo, pageSize);
+        return bookServices.getAllBooks(pageNo-1, pageSize);
     }
 
 

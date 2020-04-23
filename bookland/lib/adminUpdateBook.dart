@@ -433,9 +433,17 @@ class adminUpdateBook extends StatelessWidget {
             print("******");
             print(bookId);
             print("******");
+
             book_quantity = book_quantityController.text;
             book_price = book_priceController.text;
             book_description = book_descriptionController.text;
+            print("------------------------------");
+            print(book_price);
+            print(book_quantity);
+            print("-----------------------------");
+            if (book_quantity == null) {
+
+            }
             var result =  httpAdmin.adminUpdateBook(isbn,book_quantity,book_price,book_description);
             print(result);
             Navigator.pop(context);

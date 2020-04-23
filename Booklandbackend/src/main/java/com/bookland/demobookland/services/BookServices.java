@@ -106,7 +106,7 @@ public class BookServices {
                 current_book.setQuantity(book.getQuantity());
             }
             if (book.getPriceList() != null) {
-                if(!book.getPriceList().isEmpty()){
+                if(book.getPriceList().get(0).getPrice() != null){
                     Price newPrice = new Price();
                     newPrice.setISBN(current_book.getBookId());
                     newPrice.setPrice(book.getPriceList().get(0).getPrice());
