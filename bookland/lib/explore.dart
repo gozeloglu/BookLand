@@ -5,6 +5,8 @@ import 'dart:io';
 
 import 'package:bookland/bookview.dart';
 import 'package:bookland/customerBookView.dart';
+import 'package:bookland/elements/appBar.dart';
+import 'package:bookland/elements/bottomNavigatorBar.dart';
 import 'package:bookland/main.dart';
 import 'package:bookland/adminOrders.dart';
 import 'package:flutter/material.dart';
@@ -29,6 +31,9 @@ class ExploreStateless extends StatelessWidget {
   Widget build(BuildContext context) {
     globalExploreContext = context;
     return MaterialApp(
+      theme: ThemeData(
+        primarySwatch: Colors.red,
+      ),
       title: 'Explore Page',
       home: ExplorePage(),
     );
@@ -48,13 +53,7 @@ class ExploreState extends State<ExplorePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text("Explore"),
-        centerTitle: true,
-        //leading: new IconButton(
-        //  icon: Icon(Icons.arrow_back),
-        //onPressed: () => Navigator.pop(globalExploreContext)),
-      ),
+      appBar: MyAppBar(pageTitle: "Explore", back: true,),
       body: Paginator.listView(
         key: paginatorGlobalKey,
         pageLoadFuture: sendBooksDataRequest,
@@ -74,52 +73,7 @@ class ExploreState extends State<ExplorePage> {
         },
         child: Icon(Icons.refresh),
       ),
-      bottomNavigationBar: BottomAppBar(
-        child: Container(
-            height: 50.0,
-            child: Row(children: <Widget>[
-              // EdgeInsets.fromLTRB(10, 5, 10, 5);
-              Text("           "),
-              IconButton(
-                  icon: Icon(Icons.home),
-                  onPressed: () {
-                    Navigator.push(
-                      context,
-                      new MaterialPageRoute(builder: (context) => new MyApp()),
-                    );
-                    print("Icon home Pressed !!");
-                  }),
-              Text("           "),
-              IconButton(
-                  icon: Icon(Icons.category),
-                  onPressed: () {
-                    print("Icon category Pressed !!");
-                  }),
-              Text("           "),
-              IconButton(
-                  icon: Icon(Icons.explore),
-                  onPressed: () {
-                    Navigator.push(
-                      context,
-                      new MaterialPageRoute(
-                          builder: (context) => new ExploreStateless(-1)),
-                    );
-                  }),
-              Text("           "),
-              IconButton(
-                  icon: Icon(Icons.shopping_basket),
-                  onPressed: () {
-                    Navigator.push(
-                      context,
-                      new MaterialPageRoute(
-                          builder: (context) =>
-                              new adminOrders()), //adminAddBook()
-                    );
-                    print("Icon shopping_basket Pressed !!");
-                  }),
-            ])),
-        color: Colors.red,
-      ),
+      bottomNavigationBar: MyBottomNavigatorBar(),
     );
   }
 

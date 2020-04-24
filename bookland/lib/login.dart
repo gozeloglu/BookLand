@@ -5,6 +5,8 @@ import 'package:flutter/material.dart';
 import 'package:bookland/signUp.dart';
 import 'package:bookland/services/HTTP.dart';
 
+import 'elements/appBar.dart';
+
 var globalContext;
 class Login extends StatelessWidget {
 
@@ -51,13 +53,8 @@ class _LoginPageState extends State<LoginStatefulWidget> {
   Widget build(BuildContext context) {
     // TODO this function will be filled
     return new Scaffold(
-      appBar: new AppBar(
-        leading: new IconButton(
-          icon: new Icon(Icons.arrow_back, color: Colors.black),
-          onPressed: () => Navigator.pop(globalContext),
-        ),
-        title: new Text('Login'),
-        centerTitle: true,
+      appBar: MyAppBar(
+        pageTitle: "Login", back: true,
       ),
       body: Stack(
         children: <Widget>[
