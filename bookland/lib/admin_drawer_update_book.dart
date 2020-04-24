@@ -63,24 +63,26 @@ class admin_drawer_update_book extends StatelessWidget {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
   String isbn ;
-  //String book_name;
-  //String book_category;
-  //String book_sub_category;
-  //String book_author;
-  //String book_img;
+  String book_name;
+  String book_category;
+  String book_sub_category;
+  String book_author;
+  String book_img;
   String book_description;
   String book_price;
   String book_quantity ;
+  String book_hotlist;
 
   TextEditingController isbnController = new TextEditingController();
-  //TextEditingController book_nameController = new TextEditingController();
-  //TextEditingController book_categoryController = new TextEditingController();
-  //TextEditingController book_sub_categoryController = new TextEditingController();
-  //TextEditingController book_authorController = new TextEditingController();
-  //TextEditingController book_imgController = new TextEditingController();
+  TextEditingController book_nameController = new TextEditingController();
+  TextEditingController book_categoryController = new TextEditingController();
+  TextEditingController book_sub_categoryController = new TextEditingController();
+  TextEditingController book_authorController = new TextEditingController();
+  TextEditingController book_imgController = new TextEditingController();
   TextEditingController book_descriptionController = new TextEditingController();
   TextEditingController book_priceController = new TextEditingController();
   TextEditingController book_quantityController = new TextEditingController();
+  TextEditingController book_hotlistController = new TextEditingController();
 
 
   @override
@@ -250,9 +252,15 @@ class admin_drawer_update_book extends StatelessWidget {
           shrinkWrap: true,
           children: <Widget>[
             showISBNInput(),
+            showNameInput(),
+            showAuthorInput(),
+            showCategoryInput(),
+            showSubcategoryInput(),
+            showImageInput(),
             showPriceInput(),
             showStockInput(),
             showDescriptionInput(),
+            showHotlistInput(),
             showUpdateBookButton()
           ],
         ),
@@ -289,8 +297,179 @@ class admin_drawer_update_book extends StatelessWidget {
     );
   }
 
+  Widget showNameInput( ){
 
+    return Padding(
+      padding: const EdgeInsets.fromLTRB(0.0, 10.0, 0.0, 0.0),
+      child: new TextFormField(
+        controller: book_nameController,
+        maxLines: 1,
+        keyboardType: TextInputType.text,
+        autofocus: false,
+        decoration: new InputDecoration(
+          hintText: "Name",
+          icon: new Icon(
+            Icons.book,
+            color: Colors.grey,
+          ),
+          enabledBorder: const OutlineInputBorder(
+            borderSide: const BorderSide(color: Colors.grey, width: 0.0),
+          ),
+          focusedBorder: const OutlineInputBorder(
+            borderSide: const BorderSide(color: Colors.grey, width: 0.0),
+          ),
+        ),
+        validator: (value) => value.isEmpty ? 'Book Name cannot be empty' : null,
+        //onSaved: (value) => _email = value.trim(),
+      ),
+    );
 
+  }
+
+  Widget showAuthorInput( ){
+
+    return Padding(
+      padding: const EdgeInsets.fromLTRB(0.0, 10.0, 0.0, 0.0),
+      child: new TextFormField(
+        controller: book_authorController,
+        maxLines: 1,
+        keyboardType: TextInputType.text,
+        autofocus: false,
+        decoration: new InputDecoration(
+          hintText: "Author",
+          icon: new Icon(
+            Icons.person,
+            color: Colors.grey,
+          ),
+          enabledBorder: const OutlineInputBorder(
+            borderSide: const BorderSide(color: Colors.grey, width: 0.0),
+          ),
+          focusedBorder: const OutlineInputBorder(
+            borderSide: const BorderSide(color: Colors.grey, width: 0.0),
+          ),
+        ),
+        validator: (value) => value.isEmpty ? 'Book author cannot be empty' : null,
+        //onSaved: (value) => _email = value.trim(),
+      ),
+    );
+
+  }
+
+  Widget showCategoryInput( ){
+
+    return Padding(
+      padding: const EdgeInsets.fromLTRB(0.0, 10.0, 0.0, 0.0),
+      child: new TextFormField(
+        controller: book_categoryController,
+        maxLines: 1,
+        keyboardType: TextInputType.text,
+        autofocus: false,
+        decoration: new InputDecoration(
+          hintText: "Category",
+          icon: new Icon(
+            Icons.category,
+            color: Colors.grey,
+          ),
+          enabledBorder: const OutlineInputBorder(
+            borderSide: const BorderSide(color: Colors.grey, width: 0.0),
+          ),
+          focusedBorder: const OutlineInputBorder(
+            borderSide: const BorderSide(color: Colors.grey, width: 0.0),
+          ),
+        ),
+        validator: (value) => value.isEmpty ? 'Book Category cannot be empty' : null,
+        //onSaved: (value) => _email = value.trim(),
+      ),
+    );
+
+  }
+
+  Widget showSubcategoryInput( ){
+
+    return Padding(
+      padding: const EdgeInsets.fromLTRB(0.0, 10.0, 0.0, 0.0),
+      child: new TextFormField(
+        controller: book_sub_categoryController,
+        maxLines: 1,
+        keyboardType: TextInputType.text,
+        autofocus: false,
+        decoration: new InputDecoration(
+          hintText: "Sub Category",
+          icon: new Icon(
+            Icons.category,
+            color: Colors.grey,
+          ),
+          enabledBorder: const OutlineInputBorder(
+            borderSide: const BorderSide(color: Colors.grey, width: 0.0),
+          ),
+          focusedBorder: const OutlineInputBorder(
+            borderSide: const BorderSide(color: Colors.grey, width: 0.0),
+          ),
+        ),
+        validator: (value) => value.isEmpty ? 'Book subCategory cannot be empty' : null,
+        //onSaved: (value) => _email = value.trim(),
+      ),
+    );
+
+  }
+
+  Widget showImageInput( ){
+
+    return Padding(
+      padding: const EdgeInsets.fromLTRB(0.0, 10.0, 0.0, 0.0),
+      child: new TextFormField(
+        controller: book_imgController,
+        maxLines: 1,
+        keyboardType: TextInputType.text,
+        autofocus: false,
+        decoration: new InputDecoration(
+          hintText: "Image",
+          icon: new Icon(
+            Icons.link,
+            color: Colors.grey,
+          ),
+          enabledBorder: const OutlineInputBorder(
+            borderSide: const BorderSide(color: Colors.grey, width: 0.0),
+          ),
+          focusedBorder: const OutlineInputBorder(
+            borderSide: const BorderSide(color: Colors.grey, width: 0.0),
+          ),
+        ),
+        //validator: (value) => value.isEmpty ? 'Book Image cannot be empty' : null,
+        //onSaved: (value) => _email = value.trim(),
+      ),
+    );
+
+  }
+
+  Widget showHotlistInput( ){
+
+    return Padding(
+      padding: const EdgeInsets.fromLTRB(0.0, 10.0, 0.0, 0.0),
+      child: new TextFormField(
+        controller: book_hotlistController,
+        maxLines: 1,
+        keyboardType: TextInputType.text,
+        autofocus: false,
+        decoration: new InputDecoration(
+          hintText: "In Hotlist?",
+          icon: new Icon(
+            Icons.playlist_add_check,
+            color: Colors.grey,
+          ),
+          enabledBorder: const OutlineInputBorder(
+            borderSide: const BorderSide(color: Colors.grey, width: 0.0),
+          ),
+          focusedBorder: const OutlineInputBorder(
+            borderSide: const BorderSide(color: Colors.grey, width: 0.0),
+          ),
+        ),
+        //validator: (value) => value.isEmpty ? 'Book Price cannot be empty' : null,
+        //onSaved: (value) => _email = value.trim(),
+      ),
+    );
+
+  }
 
   Widget showPriceInput( ){
 
@@ -394,7 +573,14 @@ class admin_drawer_update_book extends StatelessWidget {
             book_quantity = book_quantityController.text;
             book_price = book_priceController.text;
             book_description = book_descriptionController.text;
-            var result =  httpAdmin.adminUpdateBook(isbn,book_quantity,book_price,book_description);
+            book_hotlist = book_hotlistController.text;
+            book_name = book_nameController.text;
+            book_author = book_authorController.text;
+            book_category = book_categoryController.text;
+            book_sub_category = book_sub_categoryController.text;
+            book_img = book_imgController.text;
+            var result =  httpAdmin.adminUpdateBook(isbn, book_name, book_author, book_category, book_sub_category,
+                book_img, book_hotlist, book_quantity,  book_price, book_description);
             print(result);
 
             /*Navigator.push(

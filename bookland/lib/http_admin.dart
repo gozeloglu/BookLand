@@ -10,7 +10,7 @@ import 'package:sprintf/sprintf.dart';
 
 class HttpAdmin {
   Future<String> adminAddBook(String isbn,String book_name,String book_category,String book_sub_category,String book_author,
-      String book_quantity, String book_hotlist, String book_status, String book_img,String book_description ,String book_price) async {
+      String book_quantity, String book_hotlist, String book_img,String book_description ,String book_price) async {
     var client = http.Client();
 
     var url = "http://10.0.2.2:8080";
@@ -29,7 +29,6 @@ class HttpAdmin {
         "author": book_author,
         "quantity": book_quantity,
         "inHotList": book_hotlist,
-        "status" : book_status,
         "description": book_description,
         "category" : book_category,
         "subCategory" : book_sub_category,
@@ -83,7 +82,8 @@ class HttpAdmin {
       return "SORRRY" ;
     }
   }
-  Future<String> adminUpdateBook(String isbn,String book_quantity,String book_price,String book_description) async {
+  Future<String> adminUpdateBook(String isbn, String book_name, String book_author, String book_category, String book_sub_category,
+      String book_image, String book_hotlist, String book_quantity,String book_price,String book_description) async {
     var client = http.Client();
     var url = "http://10.0.2.2:8080";
     String username = 'Daryl';
@@ -95,6 +95,12 @@ class HttpAdmin {
       headers: <String, String>{'Authorization': basicAuth,'Content-Type': 'application/json; charset=UTF-8',
       },
         body: jsonEncode(<String, dynamic>{
+          "bookName" : book_name,
+          "author" : book_author,
+          "category" : book_category,
+          "subCategory" : book_sub_category,
+          "inHotList" : book_hotlist,
+          "bookImage" : book_image,
         "priceList": [
           {
             "price": book_price
