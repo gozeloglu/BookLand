@@ -118,7 +118,7 @@ class ExploreState extends State<ExplorePage> {
                     print("Icon shopping_basket Pressed !!");
                   }),
             ])),
-        color: Colors.blue,
+        color: Colors.red,
       ),
     );
   }
