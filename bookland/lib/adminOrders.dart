@@ -1,5 +1,7 @@
 import 'package:bookland/AdminDeleteBook.dart';
 import 'package:bookland/admin_drawer_update_book.dart';
+import 'package:bookland/elements/appBar.dart';
+import 'package:bookland/elements/bottomNavigatorBar.dart';
 import 'package:bookland/elements/drawer.dart';
 import 'package:bookland/services/globalVariable.dart';
 import 'package:flutter/cupertino.dart';
@@ -85,12 +87,8 @@ class _AdminOrdersState extends State<adminOrdersStatefulWidget> {
           primarySwatch: Colors.red,
         ),
         home: Scaffold(
-          appBar: AppBar(
-            title: const Text('Orders',
-                style: TextStyle(
-                    color: Colors.white, fontWeight: FontWeight.bold)),
-            //title: Text("Sign Up"),
-            centerTitle: true,
+          appBar: MyAppBar(
+            pageTitle: "Order",
           ),
           drawer: MyDrawer(
             drawerHeader: "Hello Admin",
@@ -126,37 +124,8 @@ class _AdminOrdersState extends State<adminOrdersStatefulWidget> {
             ],
           )),
 
-          bottomNavigationBar: BottomAppBar(
-            child: Container(
-                height: 50.0,
-                child: Row(children: <Widget>[
-                  Text("           "),
-                  IconButton(
-                      icon: Icon(Icons.home),
-                      onPressed: () {
-                        print("Icon home Pressed !!");
-                      }),
-                  Text("           "),
-                  IconButton(
-                      icon: Icon(Icons.category),
-                      onPressed: () {
-                        print("Icon category Pressed !!");
-                      }),
-                  Text("           "),
-                  IconButton(
-                      icon: Icon(Icons.search),
-                      onPressed: () {
-                        openPage(context);
-                      }),
-                  Text("           "),
-                  IconButton(
-                      icon: Icon(Icons.shopping_basket),
-                      onPressed: () {
-                        print("Icon shopping_basket Pressed !!");
-                      }),
-                ])),
-            color: Colors.red,
-          ),
-        ));
+          bottomNavigationBar: MyBottomNavigatorBar(),
+        )
+    );
   }
 }
