@@ -1,3 +1,4 @@
+import 'package:bookland/elements/appBar.dart';
 import 'package:bookland/services/HTTP.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -31,7 +32,7 @@ class SignUpStatefulWidget extends StatefulWidget {
 }
 
 class _SignUpPageState extends State<SignUpStatefulWidget> {
-  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+  //final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   final HTTPAll signUpUser = HTTPAll();
   bool _obscureText = true;
   bool showTooltipFirstname = false;
@@ -55,17 +56,7 @@ class _SignUpPageState extends State<SignUpStatefulWidget> {
   Widget build(BuildContext context) {
     // TODO: implement build
     return  Scaffold(
-      appBar: AppBar(
-        leading: new IconButton(
-          icon: new Icon(Icons.arrow_back, color: Colors.black),
-          onPressed: () => Navigator.pop(globalContext),
-        ),
-        title: const Text('BookLand-Sign Up',
-            style:
-            TextStyle(color: Colors.white, fontWeight: FontWeight.bold)),
-        //title: Text("Sign Up"),
-        centerTitle: true,
-      ),
+      appBar: MyAppBar(pageTitle: "Sig Up", back: true,),
       body: Container(
         width: double.infinity,
         padding: EdgeInsets.only(top: 50, bottom: 50),

@@ -1,12 +1,12 @@
+import 'package:bookland/elements/appBar.dart';
+import 'package:bookland/elements/drawer.dart';
 import 'package:flutter/material.dart';
 import 'main.dart';
 import 'dart:io';
 import 'dart:convert';
 import 'package:bookland/http_admin.dart';
 
-
-
-class adminAddBook extends StatelessWidget{
+class adminAddBook extends StatelessWidget {
   static const String _title = 'AdminAddBook';
   @override
   Widget build(BuildContext context) {
@@ -16,10 +16,9 @@ class adminAddBook extends StatelessWidget{
       home: adminAddBookStatefulWidget(),
     );
   }
-
 }
 
-class adminAddBookStatefulWidget extends StatefulWidget{
+class adminAddBookStatefulWidget extends StatefulWidget {
   adminAddBookStatefulWidget({Key key}) : super(key: key);
 
   @override
@@ -40,16 +39,17 @@ class _AdminAddBookPageState extends State<adminAddBookStatefulWidget> {
   String book_description;
   String book_price;
 
-
   TextEditingController isbnController = new TextEditingController();
   TextEditingController book_nameController = new TextEditingController();
   TextEditingController book_categoryController = new TextEditingController();
-  TextEditingController book_sub_categoryController = new TextEditingController();
+  TextEditingController book_sub_categoryController =
+      new TextEditingController();
   TextEditingController book_authorController = new TextEditingController();
   TextEditingController book_quantityController = new TextEditingController();
   TextEditingController book_hotlistController = new TextEditingController();
   TextEditingController book_imgController = new TextEditingController();
-  TextEditingController book_descriptionController = new TextEditingController();
+  TextEditingController book_descriptionController =
+      new TextEditingController();
   TextEditingController book_priceController = new TextEditingController();
 
   @override
@@ -60,33 +60,17 @@ class _AdminAddBookPageState extends State<adminAddBookStatefulWidget> {
           primarySwatch: Colors.red,
         ),
         home: Scaffold(
-        appBar: AppBar(
-        title: const Text('BookLand-AdminAddBook',
-        style:
-        TextStyle(color: Colors.white, fontWeight: FontWeight.bold)),
-    //title: Text("Sign Up"),
-    centerTitle: true,
-    ),
-    body: Container(
-      width: double.infinity,
-      padding: EdgeInsets.only(top: 10, bottom: 10),
-      child: new Stack(
-        children: <Widget>[
-          _showForm()
-        ],
-      ),
-
-
-    ),
-
-    )
-    );
-
-
-
-
-
+          appBar: MyAppBar(pageTitle: "Add Book", back: true,),
+          body: Container(
+            width: double.infinity,
+            padding: EdgeInsets.only(top: 10, bottom: 10),
+            child: new Stack(
+              children: <Widget>[_showForm()],
+            ),
+          ),
+        ));
   }
+
   Widget _showForm() {
     return new Container(
       padding: EdgeInsets.all(1.0),
@@ -111,7 +95,7 @@ class _AdminAddBookPageState extends State<adminAddBookStatefulWidget> {
     );
   }
 
-  Widget showQuantityInput(){
+  Widget showQuantityInput() {
     return Padding(
       padding: const EdgeInsets.fromLTRB(0.0, 10, 0.0, 0.0),
       child: new TextFormField(
@@ -138,7 +122,7 @@ class _AdminAddBookPageState extends State<adminAddBookStatefulWidget> {
     );
   }
 
-  Widget showHotlistInput(){
+  Widget showHotlistInput() {
     return Padding(
       padding: const EdgeInsets.fromLTRB(0.0, 10, 0.0, 0.0),
       child: new TextFormField(
@@ -165,7 +149,6 @@ class _AdminAddBookPageState extends State<adminAddBookStatefulWidget> {
     );
   }
 
-
   Widget showBookNameInput() {
     return Padding(
       padding: const EdgeInsets.fromLTRB(0.0, 10, 0.0, 0.0),
@@ -175,11 +158,11 @@ class _AdminAddBookPageState extends State<adminAddBookStatefulWidget> {
         keyboardType: TextInputType.text,
         autofocus: false,
         decoration: new InputDecoration(
-            hintText: 'Book Name',
-            icon: new Icon(
-              Icons.book,
-              color: Colors.grey,
-            ),
+          hintText: 'Book Name',
+          icon: new Icon(
+            Icons.book,
+            color: Colors.grey,
+          ),
           enabledBorder: const OutlineInputBorder(
             borderSide: const BorderSide(color: Colors.grey, width: 0.0),
           ),
@@ -202,11 +185,11 @@ class _AdminAddBookPageState extends State<adminAddBookStatefulWidget> {
         keyboardType: TextInputType.text,
         autofocus: false,
         decoration: new InputDecoration(
-            hintText: 'Link',
-            icon: new Icon(
-              Icons.link,
-              color: Colors.grey,
-            ),
+          hintText: 'Link',
+          icon: new Icon(
+            Icons.link,
+            color: Colors.grey,
+          ),
           enabledBorder: const OutlineInputBorder(
             borderSide: const BorderSide(color: Colors.grey, width: 0.0),
           ),
@@ -214,7 +197,8 @@ class _AdminAddBookPageState extends State<adminAddBookStatefulWidget> {
             borderSide: const BorderSide(color: Colors.grey, width: 0.0),
           ),
         ),
-        validator: (value) => value.isEmpty ? 'Book Link cannot be empty' : null,
+        validator: (value) =>
+            value.isEmpty ? 'Book Link cannot be empty' : null,
         //onSaved: (value) => _email = value.trim(),
       ),
     );
@@ -229,11 +213,11 @@ class _AdminAddBookPageState extends State<adminAddBookStatefulWidget> {
         keyboardType: TextInputType.text,
         autofocus: false,
         decoration: new InputDecoration(
-            hintText: 'Book Category',
-            icon: new Icon(
-              Icons.category,
-              color: Colors.grey,
-            ),
+          hintText: 'Book Category',
+          icon: new Icon(
+            Icons.category,
+            color: Colors.grey,
+          ),
           enabledBorder: const OutlineInputBorder(
             borderSide: const BorderSide(color: Colors.grey, width: 0.0),
           ),
@@ -256,11 +240,11 @@ class _AdminAddBookPageState extends State<adminAddBookStatefulWidget> {
         keyboardType: TextInputType.text,
         autofocus: false,
         decoration: new InputDecoration(
-            hintText: 'Book Sub-Category',
-            icon: new Icon(
-              Icons.category,
-              color: Colors.grey,
-            ),
+          hintText: 'Book Sub-Category',
+          icon: new Icon(
+            Icons.category,
+            color: Colors.grey,
+          ),
           enabledBorder: const OutlineInputBorder(
             borderSide: const BorderSide(color: Colors.grey, width: 0.0),
           ),
@@ -268,7 +252,8 @@ class _AdminAddBookPageState extends State<adminAddBookStatefulWidget> {
             borderSide: const BorderSide(color: Colors.grey, width: 0.0),
           ),
         ),
-        validator: (value) => value.isEmpty ? 'Subcategory cannot be empty' : null,
+        validator: (value) =>
+            value.isEmpty ? 'Subcategory cannot be empty' : null,
         //onSaved: (value) => _email = value.trim(),
       ),
     );
@@ -283,11 +268,11 @@ class _AdminAddBookPageState extends State<adminAddBookStatefulWidget> {
         keyboardType: TextInputType.text,
         autofocus: false,
         decoration: new InputDecoration(
-            hintText: 'Book ISBN',
-            icon: new Icon(
-              Icons.label_important,
-              color: Colors.grey,
-            ),
+          hintText: 'Book ISBN',
+          icon: new Icon(
+            Icons.label_important,
+            color: Colors.grey,
+          ),
           enabledBorder: const OutlineInputBorder(
             borderSide: const BorderSide(color: Colors.grey, width: 0.0),
           ),
@@ -295,13 +280,14 @@ class _AdminAddBookPageState extends State<adminAddBookStatefulWidget> {
             borderSide: const BorderSide(color: Colors.grey, width: 0.0),
           ),
         ),
-        validator: (value) => value.isEmpty ? 'Book ISBN cannot be empty' : null,
+        validator: (value) =>
+            value.isEmpty ? 'Book ISBN cannot be empty' : null,
         //onSaved: (value) => _email = value.trim(),
       ),
     );
   }
 
-  Widget showAuthorInput(){
+  Widget showAuthorInput() {
     return Padding(
       padding: const EdgeInsets.fromLTRB(0.0, 10.0, 0.0, 0.0),
       child: new TextFormField(
@@ -322,14 +308,14 @@ class _AdminAddBookPageState extends State<adminAddBookStatefulWidget> {
             borderSide: const BorderSide(color: Colors.grey, width: 0.0),
           ),
         ),
-        validator: (value) => value.isEmpty ? 'Book author cannot be empty' : null,
+        validator: (value) =>
+            value.isEmpty ? 'Book author cannot be empty' : null,
         //onSaved: (value) => _email = value.trim(),
       ),
     );
-
   }
 
-  Widget showPriceInput(){
+  Widget showPriceInput() {
     return Padding(
       padding: const EdgeInsets.fromLTRB(0.0, 10.0, 0.0, 0.0),
       child: new TextFormField(
@@ -350,14 +336,14 @@ class _AdminAddBookPageState extends State<adminAddBookStatefulWidget> {
             borderSide: const BorderSide(color: Colors.grey, width: 0.0),
           ),
         ),
-        validator: (value) => value.isEmpty ? 'Book Price cannot be empty' : null,
+        validator: (value) =>
+            value.isEmpty ? 'Book Price cannot be empty' : null,
         //onSaved: (value) => _email = value.trim(),
       ),
     );
-
   }
 
-  Widget showDescriptionInput(){
+  Widget showDescriptionInput() {
     return Padding(
       padding: const EdgeInsets.fromLTRB(0.0, 10.0, 0.0, 0.0),
       child: new TextFormField(
@@ -408,18 +394,26 @@ class _AdminAddBookPageState extends State<adminAddBookStatefulWidget> {
             book_author = book_authorController.text;
             book_img = book_imgController.text;
             book_description = book_descriptionController.text;
-            book_price = book_priceController.text ;
+            book_price = book_priceController.text;
             book_quantity = book_quantityController.text;
             book_hotlist = book_hotlistController.text;
             print("*******");
             //print(isbn book_name,book_category,book_sub_category,book_author,book_img,book_description ,book_price);
             print("*******");
-            var result =  httpAdmin.adminAddBook(isbn,book_name,book_category,book_sub_category,book_author, book_quantity, book_hotlist,
-                 book_img,book_description ,book_price);
+            var result = httpAdmin.adminAddBook(
+                isbn,
+                book_name,
+                book_category,
+                book_sub_category,
+                book_author,
+                book_quantity,
+                book_hotlist,
+                book_img,
+                book_description,
+                book_price);
             print(result);
 
             //TODO kullanıcya mesaj döndürülmeli
-
 
             /*Navigator.push(
               context,
@@ -427,8 +421,6 @@ class _AdminAddBookPageState extends State<adminAddBookStatefulWidget> {
                   builder: (context) => new MyApp(),
             )
             );*/
-
-
           }),
     );
   }

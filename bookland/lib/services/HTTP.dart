@@ -45,7 +45,7 @@ class HTTPAll{
       body: jsonEncode(<String, dynamic>{
       "firstName": "yu",
       "surname": "fu",
-      "email": "a@ccc",
+      "email": "v@ccc",
       "password": "12345678",
       "isAdmin": "0",
       "dateOfBirth": null,
@@ -56,14 +56,17 @@ class HTTPAll{
 
     print(response.statusCode);
     if (response.statusCode < 400) {
-      print(response.body);
+      if(response.body == 0){
+        print("oooy ooo");
+      }
+      else{
+        print("bişiler yaptık");
+      }
     } else {
       // If the server did not return a 201 CREATED response,
       // then throw an exception.
       Error msg = Error.fromJson(json.decode(response.body));
       errorMessage = msg.error;
-      print(errorMessage);
-
     }
   }
 

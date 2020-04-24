@@ -1,3 +1,4 @@
+import 'package:bookland/adminUpdateBook.dart';
 import 'package:bookland/services/globalVariable.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -51,7 +52,7 @@ class MyDrawer extends StatelessWidget {
               Navigator.push(
                 context,
                 new MaterialPageRoute(
-                    builder: (context) => new admin_drawer_update_book()),
+                    builder: (context) => new adminUpdateBook(book: null)),
               );
             },
             child: ListTile(

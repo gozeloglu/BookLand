@@ -1,5 +1,9 @@
+import 'package:bookland/adminOrders.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+
+import '../explore.dart';
+import '../main.dart';
 
 class MyBottomNavigatorBar extends StatelessWidget{
   @override
@@ -8,11 +12,13 @@ class MyBottomNavigatorBar extends StatelessWidget{
       child: Container(
           height: 50.0,
           child: Row(children: <Widget>[
-            Text("           "),
+            Text("           "), //TODO Değiştirilmesi gerek bu şekilde boşluk koymamalıyız
             IconButton(
                 icon: Icon(Icons.home),
                 onPressed: () {
-                  print("Icon home Pressed !!");
+                  Navigator.push(
+                    context, new MaterialPageRoute(builder: (context) => new adminOrders()),
+                  );
                 }),
             Text("           "),
             IconButton(
@@ -23,8 +29,10 @@ class MyBottomNavigatorBar extends StatelessWidget{
             Text("           "),
             IconButton(
                 icon: Icon(Icons.search),
-                onPressed: () {
-                  //openPage(context);
+                onPressed :() {
+                  Navigator.push(
+                    context, new MaterialPageRoute(builder: (context) => new ExploreStateless(-1)),
+                  );
                 }),
             Text("           "),
             IconButton(
