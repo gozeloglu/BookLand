@@ -119,13 +119,7 @@ class adminUpdateBook extends StatelessWidget {
           primarySwatch: Colors.red,
         ),
         home: Scaffold(
-          appBar: AppBar(
-            title: const Text('BookLand-Update Book',
-                style: TextStyle(
-                    color: Colors.white, fontWeight: FontWeight.bold)),
-            //title: Text("Sign Up"),
-            centerTitle: true,
-          ),
+          appBar: MyAppBar(pageTitle: "Update Book", back: true,),
           body: Container(
             width: double.infinity,
             padding: EdgeInsets.only(top: 10, bottom: 10),
