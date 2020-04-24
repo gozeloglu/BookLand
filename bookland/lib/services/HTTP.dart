@@ -43,11 +43,11 @@ class HTTPAll{
       },
 
       body: jsonEncode(<String, dynamic>{
-      "firstName": "kassa",
-      "surname": "Grimes",
-      "email": "admin@a",
+      "firstName": "yu",
+      "surname": "fu",
+      "email": "a@ccc",
       "password": "12345678",
-      "isAdmin": "1",
+      "isAdmin": "0",
       "dateOfBirth": null,
       "phoneNumber": "05426547869",
       }
@@ -60,9 +60,10 @@ class HTTPAll{
     } else {
       // If the server did not return a 201 CREATED response,
       // then throw an exception.
-      print("Bloweddd");
-      throw Exception('Failed to load album');
-      return "SORRRY" ;
+      Error msg = Error.fromJson(json.decode(response.body));
+      errorMessage = msg.error;
+      print(errorMessage);
+
     }
   }
 
