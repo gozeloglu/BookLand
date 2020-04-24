@@ -1,3 +1,4 @@
+import 'package:bookland/services/globalVariable.dart';
 import 'package:flutter/material.dart';
 import 'package:bookland/login.dart';
 import 'package:bookland/explore.dart';
@@ -200,9 +201,9 @@ class MyStatelessWidget extends StatelessWidget {
         child: ListView(
           padding: EdgeInsets.zero,
           children: <Widget>[
-
-            new UserAccountsDrawerHeader(accountName: new  Text('Nurbüke TEKER'),
-              accountEmail: new Text('nurbuke.teker7@gmail.com'),
+          //  if(isAnyUserLogin == true)
+            new UserAccountsDrawerHeader(accountName: new  Text("HELLO\n" + FIRSTNAME),
+             // accountEmail: new Text('nurbuke.teker7@gmail.com'),
               decoration: BoxDecoration(
                 image: DecorationImage(
                   image: AssetImage("assets/bookland__pp.png"),
