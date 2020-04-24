@@ -171,7 +171,7 @@ class BookView extends StatelessWidget {
       ],
     );
     var fiyat = Text(
-      'Fiyat : ',
+      'Price : ',
       style: TextStyle(
         fontSize: 25,
       ),
