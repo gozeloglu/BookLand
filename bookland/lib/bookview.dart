@@ -118,7 +118,7 @@ class BookView extends StatelessWidget {
   }Widget imageBook(String url){
     return new Stack(
       children: <Widget>[
-        //Image.asset('assets/book1.jpg', height: 300, width: 200,)
+        Image.asset('assets/booking/book1.jpg', height: 300, width: 200,),
         Image.network(url)
       ],
     );
