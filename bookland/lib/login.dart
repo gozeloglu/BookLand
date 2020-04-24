@@ -159,6 +159,8 @@ class _LoginPageState extends State<LoginStatefulWidget> {
               _password = passwordController.text;
               loginUser.getUser(_email, _password);
               if (isAnyUserLogin){
+                print("geldşm");
+
                 if(ISADMIN == 0){
                   print("admin değil");
                  /* Navigator.push(
@@ -166,9 +168,9 @@ class _LoginPageState extends State<LoginStatefulWidget> {
                   );*/
                 }else if(ISADMIN == 1){
                   print("admin");
-                  /*Navigator.push(
+                  Navigator.push(
                     context, new MaterialPageRoute(builder: (context) => new adminOrders()),
-                  );*/
+                  );
                 }else{
                   //print(errorMessage);
                 }

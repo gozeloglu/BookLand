@@ -96,7 +96,9 @@ class adminUpdateBook extends StatelessWidget {
   //String book_img;
   String book_description;
   String book_price;
+  String book_hotlist;
   String book_quantity ;
+  String book_status;
 
   TextEditingController isbnController = new TextEditingController();
   //TextEditingController book_nameController = new TextEditingController();
@@ -107,6 +109,8 @@ class adminUpdateBook extends StatelessWidget {
   TextEditingController book_descriptionController = new TextEditingController();
   TextEditingController book_priceController = new TextEditingController();
   TextEditingController book_quantityController = new TextEditingController();
+  TextEditingController book_hotlistController = new TextEditingController();
+  TextEditingController book_statusController = new TextEditingController();
 
 
   @override
@@ -278,6 +282,8 @@ class adminUpdateBook extends StatelessWidget {
             //showISBNInput(book),
             showPriceInput(book.data.price.toString()),
             showStockInput(book.data.quantity.toString()),
+            showStatusInput(book.data.status.toString()),
+            showHotlistInput(book.data.inHotList.toString()),
             showDescriptionInput(book.data.description.toString()),
             showUpdateBookButton(book.data.bookId.toString(),context)
           ],
@@ -330,9 +336,63 @@ class adminUpdateBook extends StatelessWidget {
 
   }
 
+  Widget showStatusInput(String status){
+    return Padding(
+      padding: const EdgeInsets.fromLTRB(0.0, 10.0, 0.0, 0.0),
+      child: new TextFormField(
+        controller: book_statusController,
+        maxLines: 1,
+        keyboardType: TextInputType.text,
+        autofocus: false,
+        decoration: new InputDecoration(
+          hintText: status,
+          icon: new Icon(
+            Icons.assignment_turned_in,
+            color: Colors.grey,
+          ),
+          enabledBorder: const OutlineInputBorder(
+            borderSide: const BorderSide(color: Colors.grey, width: 0.0),
+          ),
+          focusedBorder: const OutlineInputBorder(
+            borderSide: const BorderSide(color: Colors.grey, width: 0.0),
+          ),
+        ),
+        //validator: (value) => value.isEmpty ? 'Book Price cannot be empty' : null,
+        //onSaved: (value) => _email = value.trim(),
+      ),
+    );
+
+  }
+
+  Widget showHotlistInput(String inHotList){
+    return Padding(
+      padding: const EdgeInsets.fromLTRB(0.0, 10.0, 0.0, 0.0),
+      child: new TextFormField(
+        controller: book_hotlistController,
+        maxLines: 1,
+        keyboardType: TextInputType.text,
+        autofocus: false,
+        decoration: new InputDecoration(
+          hintText: inHotList,
+          icon: new Icon(
+            Icons.playlist_add_check,
+            color: Colors.grey,
+          ),
+          enabledBorder: const OutlineInputBorder(
+            borderSide: const BorderSide(color: Colors.grey, width: 0.0),
+          ),
+          focusedBorder: const OutlineInputBorder(
+            borderSide: const BorderSide(color: Colors.grey, width: 0.0),
+          ),
+        ),
+        //validator: (value) => value.isEmpty ? 'Book Price cannot be empty' : null,
+        //onSaved: (value) => _email = value.trim(),
+      ),
+    );
+
+  }
 
   Widget showPriceInput(String price){
-
     return Padding(
       padding: const EdgeInsets.fromLTRB(0.0, 10.0, 0.0, 0.0),
       child: new TextFormField(
