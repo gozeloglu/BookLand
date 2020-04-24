@@ -118,8 +118,8 @@ class BookView extends StatelessWidget {
   }Widget imageBook(String url){
     return new Stack(
       children: <Widget>[
-        //Image.asset('assets/image/book.jpg', height: 300, width: 200,)
-    Image.network(url)
+        //Image.asset('assets/book1.jpg', height: 300, width: 200,)
+        Image.network(url)
       ],
     );
   }
@@ -233,7 +233,7 @@ class BookView extends StatelessWidget {
       padding: const EdgeInsets.all(0.0),
       child: Container(
         color: Colors.red,
-        padding: const EdgeInsets.all(10.0),
+        padding: const EdgeInsets.all(15.0),
         child: const Text(
             'Update',
             style: TextStyle(fontSize: 20)
@@ -246,10 +246,10 @@ class BookView extends StatelessWidget {
       onPressed: (){
         var result =  httpAdmin.adminDeleteBook(bookId);
         print(result);
-        /*Navigator.push(
+        Navigator.push(
           context, new MaterialPageRoute(builder: (context) => new ExploreStateless(int.parse(bookId))),
-        );*/
-        Navigator.pop(context, true);
+        );
+        //Navigator.pop(context, true);
       },
       textColor: Colors.white,
       padding: const EdgeInsets.all(0.0),
@@ -257,7 +257,7 @@ class BookView extends StatelessWidget {
       child: Container(
 
         color: Colors.orangeAccent,
-        padding: const EdgeInsets.all(10.0),
+        padding: const EdgeInsets.all(15.0),
         child: const Text(
             'Delete',
             style: TextStyle(fontSize: 20)

@@ -11,17 +11,11 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
 import 'package:flutter_paginator/flutter_paginator.dart';
-// TODO GlobalKey Duplicate must be fixed
 
 int total = 0;
 SplayTreeSet isbnSet = new SplayTreeSet();
 var globalExploreContext;
 int deletedBookId = -1;
-
-void afterDelete(int bookId) {
-  deletedBookId = bookId;
-  ExploreState();
-}
 
 class ExploreStateless extends StatelessWidget {
   ExploreStateless(int bookId) {
@@ -73,10 +67,18 @@ class ExploreState extends State<ExplorePage> {
         pageErrorChecker: pageErrorChecker,
         scrollPhysics: BouncingScrollPhysics(),
       ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          paginatorGlobalKey.currentState.changeState(
+              pageLoadFuture: sendBooksDataRequest, resetState: true);
+        },
+        child: Icon(Icons.refresh),
+      ),
       bottomNavigationBar: BottomAppBar(
         child: Container(
             height: 50.0,
             child: Row(children: <Widget>[
+              // EdgeInsets.fromLTRB(10, 5, 10, 5);
               Text("           "),
               IconButton(
                   icon: Icon(Icons.home),
@@ -144,26 +146,24 @@ class ExploreState extends State<ExplorePage> {
       }
     } catch (e) {
       print("SocketException");
-      return null; // Exception("SocketException");
+      throw Exception(e);
     }
   }
 
   Future<BooksData> sendBooksDataRequest(int page) async {
     try {
       getTotalCount();
-      var url = "http://10.0.2.2:8080/allBooks/$page/5";
+      var url = "http://10.0.2.2:8080/allBooks/$page/10";
       print(url);
       String username = 'Daryl';
       String password = 'WalkingDead';
       String basicAuth =
           'Basic ' + base64Encode(utf8.encode('$username:$password'));
       String _url = Uri.encodeFull(url);
-      print("sıkıntı");
       http.Response response = await http.get(
         _url,
         headers: <String, String>{'authorization': basicAuth},
       );
-      print("before return");
       return BooksData.fromResponse(response);
     } catch (e) {
       if (e is IOException) {
@@ -231,6 +231,10 @@ class ExploreState extends State<ExplorePage> {
   }
 
   Widget emptyListWidgetMaker(BooksData booksData) {
+    isbnSet.clear();
+    booksData.books.clear();
+    booksData.authors.clear();
+    booksData.prices.clear();
     return Center(
       child: Text("No books in the list"),
     );
@@ -270,7 +274,6 @@ class BooksData {
 
   BooksData.fromResponse(http.Response response) {
     this.statusCode = response.statusCode;
-    print(statusCode);
     List jsonData = json.decode(response.body);
     print(jsonData);
 
@@ -278,6 +281,7 @@ class BooksData {
     if (isbnSet.contains(deletedBookId)) {
       isbnSet.remove(deletedBookId);
     }
+
     for (int i = 0; i < jsonData.length; i++) {
       books.add(jsonData[i]["bookName"]);
       authors.add(jsonData[i]["author"]);
@@ -294,14 +298,12 @@ class BooksData {
       if (moreThanOne) {
         lastPrice /= 2;
       }
-      // TODO Last 2 price should be taken
-      // TODO Add image
+
       prices.add(lastPrice);
     }
     print(isbnSet);
     print(books);
-    // TODO total should be considered
-    // TODO nItems should be fixed
+
     nItems = books.length;
   }
 
