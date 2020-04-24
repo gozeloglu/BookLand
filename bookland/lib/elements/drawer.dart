@@ -7,7 +7,8 @@ import '../adminAddBook.dart';
 import '../adminDiscount.dart';
 import '../admin_drawer_update_book.dart';
 import '../main.dart';
-class MyDrawer extends StatelessWidget{
+
+class MyDrawer extends StatelessWidget {
   final String drawerHeader;
 
   const MyDrawer({Key key, this.drawerHeader}) : super(key: key);
@@ -18,69 +19,68 @@ class MyDrawer extends StatelessWidget{
         children: <Widget>[
           new UserAccountsDrawerHeader(
             accountName: Text(drawerHeader, style: TextStyle(fontSize: 35)),
-
-            decoration: new BoxDecoration(
-                color: Colors.red
-            ),
+            decoration: new BoxDecoration(color: Colors.red),
             margin: const EdgeInsets.only(bottom: 10.0),
           ),
-
-
           InkWell(
-            onTap: (){
+            onTap: () {
               Navigator.push(
-                context, new MaterialPageRoute(builder: (context) => new adminAddBook()),
+                context,
+                new MaterialPageRoute(builder: (context) => new adminAddBook()),
               );
             },
             child: ListTile(
-              title: Text("Add Book", style: TextStyle(fontSize: 18)), leading: Icon(Icons.add),
-
+              title: Text("Add Book", style: TextStyle(fontSize: 18)),
+              leading: Icon(Icons.add),
             ),
           ),
-
           InkWell(
-            onTap: (){
+            onTap: () {
               Navigator.push(
-                context, new MaterialPageRoute(builder: (context) => new DeletePage()),
+                context,
+                new MaterialPageRoute(builder: (context) => new DeletePage()),
               );
             },
             child: ListTile(
-              title: Text("Delete Book", style: TextStyle(fontSize: 18)), leading: Icon(Icons.delete),
-
+              title: Text("Delete Book", style: TextStyle(fontSize: 18)),
+              leading: Icon(Icons.delete),
             ),
           ),
-
           InkWell(
-            onTap: (){Navigator.push(
-              context, new MaterialPageRoute(builder: (context) => new admin_drawer_update_book()),
-            );},
+            onTap: () {
+              Navigator.push(
+                context,
+                new MaterialPageRoute(
+                    builder: (context) => new admin_drawer_update_book()),
+              );
+            },
             child: ListTile(
-              title: Text("Update Book", style: TextStyle(fontSize: 18)), leading: Icon(Icons.update),
-
+              title: Text("Update Book", style: TextStyle(fontSize: 18)),
+              leading: Icon(Icons.update),
             ),
           ),
-
           InkWell(
-            onTap: (){Navigator.push(
-              context, new MaterialPageRoute(builder: (context) => new adminDiscount()),
-            );},
+            onTap: () {
+              Navigator.push(
+                context,
+                new MaterialPageRoute(
+                    builder: (context) => new adminDiscount()),
+              );
+            },
             child: ListTile(
-              title: Text("Discount", style: TextStyle(fontSize: 18)), leading: Icon(Icons.arrow_drop_down),
-
+              title: Text("Discount", style: TextStyle(fontSize: 18)),
+              leading: Icon(Icons.arrow_drop_down),
             ),
           ),
-
           InkWell(
-            onTap: (){},
+            onTap: () {},
             child: ListTile(
-              title: Text("Orders", style: TextStyle(fontSize: 18)), leading: Icon(Icons.check),
-
+              title: Text("Orders", style: TextStyle(fontSize: 18)),
+              leading: Icon(Icons.check),
             ),
           ),
-
           Container(
             margin: const EdgeInsets.only(top: 50.0),
-
             child: FlatButton(
               color: Colors.redAccent,
               textColor: Colors.white,
@@ -88,22 +88,19 @@ class MyDrawer extends StatelessWidget{
               disabledTextColor: Colors.black,
               padding: EdgeInsets.all(10.0),
               splashColor: Colors.red,
-              onPressed: (){
+              onPressed: () {
                 print("heeyyosdjslkn");
                 isAnyUserLogin = false;
                 Navigator.push(
-                  context, new MaterialPageRoute(builder: (context) => new MyApp()),
+                  context,
+                  new MaterialPageRoute(builder: (context) => new MyApp()),
                 );
               },
               child: Text("Logout", style: TextStyle(fontSize: 22)),
-
             ),
           )
         ],
-
       ),
-
     );
   }
-
 }
