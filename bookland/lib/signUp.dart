@@ -1,3 +1,4 @@
+import 'package:bookland/services/HTTP.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -31,6 +32,7 @@ class SignUpStatefulWidget extends StatefulWidget {
 
 class _SignUpPageState extends State<SignUpStatefulWidget> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+  final HTTPAll signUpUser = HTTPAll();
   bool _obscureText = true;
   bool showTooltipFirstname = false;
   bool showTooltipSurname = false;
@@ -408,12 +410,9 @@ class _SignUpPageState extends State<SignUpStatefulWidget> {
               style: new TextStyle(fontSize: 20.0, color: Colors.black87)),
           // TODO onPressed should be updated
           onPressed: () {
-            _formKey.currentState.validate();
-            Navigator.push(
-              context,
-              new MaterialPageRoute(
-                  builder: (context) => new MyStatelessWidget()),
-            );
+            //_formKey.currentState.validate();
+            signUpUser.saveCustomer("isbn");
+
           }),
     );
   }
