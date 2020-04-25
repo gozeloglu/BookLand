@@ -80,6 +80,8 @@ class adminUpdateBookStatefulWidget extends StatefulWidget{
 class adminUpdateBook extends StatelessWidget {
   static const String _title = 'AdminUpdateBook';
   final AsyncSnapshot book;
+
+
   adminUpdateBook({Key key, @required this.book}) : super(key: key);
 
   //final AsyncSnapshot book ;
@@ -124,7 +126,9 @@ class adminUpdateBook extends StatelessWidget {
             width: double.infinity,
             padding: EdgeInsets.only(top: 10, bottom: 10),
             child: new Stack(
+
               children: <Widget>[_showForm(book, context)],
+
             ),
           ),
           drawer: MyDrawer(drawerHeader: "Hello Admin",),
@@ -132,6 +136,9 @@ class adminUpdateBook extends StatelessWidget {
         ));
   }
 
+
+  
+  
   Widget _showForm(AsyncSnapshot book, BuildContext context) {
     return new Container(
       padding: EdgeInsets.all(1.0),
@@ -450,6 +457,29 @@ class adminUpdateBook extends StatelessWidget {
           onPressed: () {
             //_formKey.currentState.validate();
 
+            // TODO SHOW DIALOG KONTROL EDİLMELİİİ!!
+            showDialog(
+              context: context,
+              builder: (BuildContext context) {
+                // return object of type Dialog
+                return AlertDialog(
+                  title: new Text("Update Book"),
+                  content: new Text("Updating Book is Succesful!"),
+                  actions: <Widget>[
+                    // usually buttons at the bottom of the dialog
+                    new FlatButton(
+                      child: new Text("Close"),
+                      onPressed: () {
+                        Navigator.of(context).pop();
+                      },
+                    ),
+                  ],
+                );
+              },
+            );
+
+            // TODO KONTROL EDİLMELİİİİİİ
+            
             isbn = bookId;
             print("******");
             print(bookId);
@@ -492,3 +522,4 @@ class adminUpdateBook extends StatelessWidget {
     );
   }
 }
+
