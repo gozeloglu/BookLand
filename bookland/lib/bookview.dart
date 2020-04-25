@@ -1,5 +1,7 @@
 import 'dart:ffi';
 
+import 'package:flutter/material.dart';
+
 import 'package:bookland/elements/appBar.dart';
 import 'package:bookland/elements/bottomNavigatorBar.dart';
 import 'package:bookland/http_admin.dart';
@@ -23,12 +25,17 @@ class BookView extends StatelessWidget {
   static const String _title = 'BookView';
   @override
   Widget build(BuildContext context) {
+
     return Scaffold(
         appBar: MyAppBar(
           pageTitle: "Book",
+         // backgroundColor: Color(0xFFFF1744),
           back: true,
+
+
         ),
         body: FutureBuilder(
+
           future: httpBook.getBook(isbn),
           builder: (BuildContext context, AsyncSnapshot snapshot) {
             if (snapshot.hasData) {
@@ -42,12 +49,18 @@ class BookView extends StatelessWidget {
                 child: new SingleChildScrollView(
                   child: Column(
                     children: <Widget>[
+                      real_isbn((snapshot.data.real_isbn).toString()),
+                      Text("\n"),
                       name((snapshot.data.bookName).toString()),
-
+                      Text("\n"),
                       imageBook((snapshot.data.bookImage).toString()),
                       Text("\n"),
                       stars(),
                       author((snapshot.data.author).toString()),
+                      Text("\n"),
+                      category((snapshot.data.category).toString()),
+                      Text("\n"),
+                      quantity((snapshot.data.quantity).toString()),
                       Text("\n"),
                       priceBook((snapshot.data.price).toString()),
                       Text("\n"),
@@ -114,7 +127,7 @@ class BookView extends StatelessWidget {
 
   Widget author(String text) {
     return Text(
-      'Author-' + text,
+      '\nAuthor-' + text,
       style: TextStyle(
         fontSize: 20,
         fontWeight: FontWeight.bold,
@@ -127,6 +140,32 @@ class BookView extends StatelessWidget {
       '\n\nDescription:\n' + text,
       style: TextStyle(
         fontSize: 18,
+        fontWeight: FontWeight.bold,
+      ),
+    );
+  }
+  Widget real_isbn(String text) {
+    return Text(
+      '\n\nISBN:' + text,
+      style: TextStyle(
+        fontSize: 18,
+        fontWeight: FontWeight.bold,
+      ),
+    );
+  }  Widget quantity(String text) {
+    return Text(
+      'Quantity: ' + text,
+      style: TextStyle(
+        fontSize: 20,
+        fontWeight: FontWeight.bold,
+      ),
+    );
+  }
+  Widget category(String text) {
+    return Text(
+      'Category: ' + text,
+      style: TextStyle(
+        fontSize: 20,
         fontWeight: FontWeight.bold,
       ),
     );
@@ -173,7 +212,8 @@ class BookView extends StatelessWidget {
     var fiyat = Text(
       'Price : ',
       style: TextStyle(
-        fontSize: 25,
+        fontSize: 20,
+        fontWeight: FontWeight.bold,
       ),
     );
 
