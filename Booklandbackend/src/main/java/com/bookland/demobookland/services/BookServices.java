@@ -37,7 +37,6 @@ public class BookServices {
     public String addBook(Book book) {
         String response;
         try {
-            System.out.println(book.getPriceList());
             bookRepository.save(book);
 
             /*If admin is going to add books without the price if-else is going to add*/
