@@ -37,7 +37,6 @@ public class BookServices {
     public String addBook(Book book) {
         String response;
         try {
-            System.out.println(book.getPriceList());
             bookRepository.save(book);
 
             /*If admin is going to add books without the price if-else is going to add*/
@@ -68,8 +67,6 @@ public class BookServices {
         String response;
         try {
             Book current_book = bookRepository.findByBookId(id);
-            System.out.println(current_book.getPriceList().get(0).getPrice());
-
             if (book.getRealIsbn() != null) {
                 current_book.setRealIsbn(book.getRealIsbn());
             }
