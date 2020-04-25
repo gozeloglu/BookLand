@@ -11,6 +11,8 @@ import 'dart:convert';
 
 import 'package:bookland/http_admin.dart';
 
+import 'package:bookland/bookview.dart';
+
 void openPage(BuildContext context) {
   Navigator.push(context, MaterialPageRoute(
     builder: (BuildContext context) {
@@ -512,7 +514,13 @@ class adminUpdateBook extends StatelessWidget {
                 book_price,
                 book_description);
             print(result);
-            Navigator.pop(context);
+            //Navigator.pop(context);
+            Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) =>
+                  new BookView(isbn: isbn),
+                ));
             /*Navigator.push(
                 context,
                 new MaterialPageRoute(
