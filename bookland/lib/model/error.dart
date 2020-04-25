@@ -7,7 +7,7 @@ class Error{
 
   factory Error.fromJson(Map<String, dynamic> json) {
     return Error(
-        error: json['error'],
+        error: json['errors'],
     );
   }
 }

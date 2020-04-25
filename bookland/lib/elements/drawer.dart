@@ -47,6 +47,7 @@ class MyDrawer extends StatelessWidget {
               leading: Icon(Icons.delete),
             ),
           ),
+          /*
           InkWell(
             onTap: () {
               Navigator.push(
@@ -59,7 +60,7 @@ class MyDrawer extends StatelessWidget {
               title: Text("Update Book", style: TextStyle(fontSize: 18)),
               leading: Icon(Icons.update),
             ),
-          ),
+          ),*/
           InkWell(
             onTap: () {
               Navigator.push(
@@ -90,8 +91,9 @@ class MyDrawer extends StatelessWidget {
               padding: EdgeInsets.all(10.0),
               splashColor: Colors.red,
               onPressed: () {
-                print("heeyyosdjslkn");
                 isAnyUserLogin = false;
+                ISADMIN = 0;
+                FIRSTNAME = "Please LogIn";
                 Navigator.push(
                   context,
                   new MaterialPageRoute(builder: (context) => new MyApp()),
