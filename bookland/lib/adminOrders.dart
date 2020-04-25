@@ -88,7 +88,7 @@ class _AdminOrdersState extends State<adminOrdersStatefulWidget> {
         ),
         home: Scaffold(
           appBar: MyAppBar(
-            pageTitle: "Order",
+            pageTitle: "Order", back: false,
           ),
           drawer: MyDrawer(
             drawerHeader: "Hello Admin",
