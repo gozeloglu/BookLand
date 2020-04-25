@@ -147,16 +147,16 @@ class adminUpdateBook extends StatelessWidget {
           shrinkWrap: true,
           children: <Widget>[
             //showISBNInput(book),
-            showNameInput(book == null ? null : book.data.bookName.toString()),
-            showAuthorInput(book == null ? null : book.data.author.toString()),
-            showCategoryInput(book == null ? null : book.data.category.toString()),
-            showSubcategoryInput(book == null ? null : book.data.subCategory.toString()),
-            showImageInput(book == null ? null : book.data.bookImage.toString()),
-            showPriceInput(book == null ? null : book.data.price.toString()),
-            showStockInput(book == null ? null : book.data.quantity.toString()),
-            showHotlistInput(book == null ? null : book.data.inHotList.toString()),
-            showDescriptionInput(book == null ? null : book.data.description.toString()),
-            showUpdateBookButton(book == null ? null : book.data.bookId.toString(), context)
+            showNameInput(book == null ? "BookName" :book.data.bookName.toString()), //book == null ? "BookName" :
+            showAuthorInput(book == null ? null : book.data.author.toString()), //book == null ? null :
+            showCategoryInput(book == null ? null :book.data.category.toString()), //book == null ? null :
+            showSubcategoryInput(book == null ? null :book.data.subCategory.toString()), //book == null ? null :
+            showImageInput(book == null ? null : book.data.bookImage.toString()), //book == null ? null :
+            showPriceInput(book == null ? null :book.data.price.toString()), //book == null ? null :
+            showStockInput(book == null ? null : book.data.quantity.toString()), //book == null ? null :
+            showHotlistInput(book == null ? null : book.data.inHotList.toString()), //book == null ? null :
+            showDescriptionInput(book == null ? null : book.data.description.toString()), //book == null ? null :
+            showUpdateBookButton(book == null ? null :book.data.bookId.toString(), context) //book == null ? null :
           ],
         ),
       ),
@@ -203,12 +203,13 @@ class adminUpdateBook extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.fromLTRB(0.0, 10.0, 0.0, 0.0),
       child: new TextFormField(
+      //  initialValue: "meraba",//bookName == null ? "Book Name" : bookName,
         controller: book_nameController,
         maxLines: 1,
         keyboardType: TextInputType.text,
         autofocus: false,
         decoration: new InputDecoration(
-          hintText: bookName == null ? "Book Name" : bookName,
+          hintText:bookName, // bookName == null ? "Book Name" :
           icon: new Icon(
             Icons.book,
             color: Colors.grey,
@@ -235,7 +236,7 @@ class adminUpdateBook extends StatelessWidget {
         keyboardType: TextInputType.text,
         autofocus: false,
         decoration: new InputDecoration(
-          hintText: author == null ? "Author" : author,
+          hintText: author, //author == null ? "Author" :
           icon: new Icon(
             Icons.person,
             color: Colors.grey,
@@ -262,7 +263,7 @@ class adminUpdateBook extends StatelessWidget {
         keyboardType: TextInputType.text,
         autofocus: false,
         decoration: new InputDecoration(
-          hintText: category == null ? "Category" : category,
+          hintText: category, //category == null ? "Category" :
           icon: new Icon(
             Icons.category,
             color: Colors.grey,
@@ -289,7 +290,7 @@ class adminUpdateBook extends StatelessWidget {
         keyboardType: TextInputType.text,
         autofocus: false,
         decoration: new InputDecoration(
-          hintText: subCategory == null ? "Sub Category" : subCategory,
+          hintText:subCategory, // subCategory == null ? "Sub Category" :
           icon: new Icon(
             Icons.category,
             color: Colors.grey,
@@ -316,7 +317,7 @@ class adminUpdateBook extends StatelessWidget {
         keyboardType: TextInputType.text,
         autofocus: false,
         decoration: new InputDecoration(
-          hintText: bookImage == null ? "Book Image Link" : bookImage,
+          hintText:  bookImage,// bookImage == null ? "Book Image Link" :
           icon: new Icon(
             Icons.link,
             color: Colors.grey,
@@ -343,7 +344,7 @@ class adminUpdateBook extends StatelessWidget {
         keyboardType: TextInputType.text,
         autofocus: false,
         decoration: new InputDecoration(
-          hintText: inHotList == null ? "In Hot List" : inHotList,
+          hintText:  inHotList, //inHotList == null ? "In Hot List" :
           icon: new Icon(
             Icons.playlist_add_check,
             color: Colors.grey,
@@ -370,7 +371,7 @@ class adminUpdateBook extends StatelessWidget {
         keyboardType: TextInputType.text,
         autofocus: false,
         decoration: new InputDecoration(
-          hintText: price == null ? "Price" : price,
+          hintText: price ,//== null ? "Price" : price,
           icon: new Icon(
             Icons.attach_money,
             color: Colors.grey,
@@ -398,7 +399,7 @@ class adminUpdateBook extends StatelessWidget {
         keyboardType: TextInputType.number,
         autofocus: false,
         decoration: new InputDecoration(
-          hintText: quantity == null ? "Quantity" : quantity,
+          hintText: quantity,// == null ? "Quantity" : quantity,
           icon: new Icon(
             Icons.confirmation_number,
             color: Colors.grey,
@@ -423,7 +424,7 @@ class adminUpdateBook extends StatelessWidget {
         keyboardType: TextInputType.text,
         autofocus: false,
         decoration: new InputDecoration(
-          hintText: description == null ? "Description" : description,
+          hintText: description ,//== null ? "Description" : description,
           icon: new Icon(
             Icons.description,
             color: Colors.grey,
@@ -501,11 +502,11 @@ class adminUpdateBook extends StatelessWidget {
             if (book_quantity == null) {}
             var result = httpAdmin.adminUpdateBook(
                 isbn,
-                book_name,
-                book_author,
-                book_category,
-                book_sub_category,
-                book_img,
+                book_name.isEmpty == true ? null : book_name ,
+                book_author.isEmpty == true ? null : book_author ,
+                book_category.isEmpty == true ? null : book_category ,
+                book_sub_category.isEmpty == true ? null : book_sub_category ,
+                book_img.isEmpty == true ? null : book_name ,
                 book_hotlist,
                 book_quantity,
                 book_price,
