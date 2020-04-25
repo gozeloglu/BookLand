@@ -143,6 +143,7 @@ class ExploreState extends State<ExplorePage> {
           booksData.prices[i].toString();
       bookNameList.add(val);
     }
+
     return bookNameList;
   }
 
@@ -245,13 +246,14 @@ class BooksData {
       double lastPrice = 0;
       lastPrice += jsonData[i]["priceList"][priceListLen - 1]["price"];
       bool moreThanOne = false;
-      if (jsonData[i]["priceList"].length >= 2) {
+
+      /**if (jsonData[i]["priceList"].length >= 2) {
         lastPrice += jsonData[i]["priceList"][priceListLen - 2]["price"];
         moreThanOne = true;
       }
       if (moreThanOne) {
         lastPrice /= 2;
-      }
+      }*/
 
       prices.add(lastPrice);
     }

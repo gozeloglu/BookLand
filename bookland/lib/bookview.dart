@@ -63,6 +63,7 @@ class BookView extends StatelessWidget {
                       quantity((snapshot.data.quantity).toString()),
                       Text("\n"),
                       priceBook((snapshot.data.price).toString()),
+                      description((snapshot.data.description).toString()),
                       Text("\n"),
                       Row(children: <Widget>[
                         Text(
@@ -72,7 +73,6 @@ class BookView extends StatelessWidget {
                         deleteButton(
                             context, (snapshot.data.bookId).toString()),
                       ]),
-                      //description((snapshot.data.description).toString()),
                     ],
                   ),
                 ),
@@ -92,11 +92,11 @@ class BookView extends StatelessWidget {
   Widget imageBook(String url) {
     return new Stack(
       children: <Widget>[
-        Image.asset(
+        /**Image.asset(
           'assets/booking/book1.jpg',
           height: 300,
           width: 200,
-        ),
+        ),**/
         Image.network(url)
       ],
     );
@@ -137,7 +137,7 @@ class BookView extends StatelessWidget {
 
   Widget description(String text) {
     return Text(
-      '\n\nDescription:\n' + text,
+      '\nDescription:\n' + text,
       style: TextStyle(
         fontSize: 18,
         fontWeight: FontWeight.bold,
