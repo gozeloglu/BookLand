@@ -68,8 +68,6 @@ public class BookServices {
         String response;
         try {
             Book current_book = bookRepository.findByBookId(id);
-            System.out.println(current_book.getPriceList().get(0).getPrice());
-
             if (book.getRealIsbn() != null) {
                 current_book.setRealIsbn(book.getRealIsbn());
             }

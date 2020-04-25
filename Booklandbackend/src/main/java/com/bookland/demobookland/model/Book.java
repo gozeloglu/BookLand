@@ -51,9 +51,6 @@ public class Book {
     @Column(name = "InHotList")
     private Integer inHotList;
 
-    @Column(name = "Status")
-    private Integer status = 1;
-
     @Column(name = "Quantity", nullable = false)
     @NotNull(message = "Quantity field cannot be empty", groups = AddBookGroup.class)
     @Min(value = 1, groups = AddBookGroup.class, message = "Quantity must be more than zero")
