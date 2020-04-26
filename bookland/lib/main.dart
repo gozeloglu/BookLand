@@ -26,7 +26,6 @@ class MyApp extends StatelessWidget {
 }
 
 //final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
-final SnackBar snackBar = const SnackBar(content: Text('Showing Snackbar'));
 
 final duplicateItems = List<String>.generate(10000, (i) => "Item $i");
 var items = List<String>();
@@ -100,14 +99,6 @@ class MyStatelessWidget extends StatelessWidget {
                   // TODO Login page will be here
                 },
               )
-              /***child : FlatButton(
-
-                  //child: new Text('OK', style: new TextStyle(color: Colors.white)),
-                  child: new Image.asset('assets/person.jpg'),
-                  padding: EdgeInsets.all(0.0),
-                  onPressed: () {},
-                  color: Colors.blue,
-                  )*/
               ,
               width: 30.0,
               height: 30.0),
@@ -271,13 +262,11 @@ class MyStatelessWidget extends StatelessWidget {
               IconButton(
                   icon: Icon(Icons.home),
                   onPressed: () {
-                    print("Icon home Pressed !!");
                   }),
               Text("           "),
               IconButton(
                   icon: Icon(Icons.category),
                   onPressed: () {
-                    print("Icon category Pressed !!");
 
                   }),
               Text("           "),
@@ -294,7 +283,6 @@ class MyStatelessWidget extends StatelessWidget {
               IconButton(
                   icon: Icon(Icons.shopping_basket),
                   onPressed: () {
-                    print("Icon shopping_basket Pressed !!");
                   }),
             ])),
         color: Colors.blue,
