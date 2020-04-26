@@ -202,7 +202,8 @@ class MyStatelessWidget extends StatelessWidget {
           children: <Widget>[
             //  if(isAnyUserLogin == true)
             new UserAccountsDrawerHeader(
-              accountName: new Text("HELLO\n" + FIRSTNAME),
+              accountName: new Text("HELLO\n" + FIRSTNAME ,
+            style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 25)),
               // accountEmail: new Text('nurbuke.teker7@gmail.com'),
               decoration: BoxDecoration(
                 image: DecorationImage(
@@ -246,9 +247,17 @@ class MyStatelessWidget extends StatelessWidget {
             ),
             new Divider(),
             new ListTile(
-              title: new Text("Exit"),
+              title: new Text("Logout"),
               trailing: new Icon(Icons.exit_to_app),
-              onTap: () {},
+              onTap: () {
+                isAnyUserLogin = false;
+                FIRSTNAME = "Please LogIn";
+                Navigator.push(
+                  context,
+                  new MaterialPageRoute(
+                      builder: (context) => new MyApp()),
+                );
+              },
             ),
             new Divider(),
           ],
