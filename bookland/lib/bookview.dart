@@ -1,5 +1,7 @@
+import 'dart:async';
 import 'dart:ffi';
 
+import 'package:bookland/services/globalVariable.dart';
 import 'package:flutter/material.dart';
 
 import 'package:bookland/elements/appBar.dart';
@@ -243,11 +245,60 @@ class BookView extends StatelessWidget {
     return RaisedButton(
       onPressed: () {
         var result = httpAdmin.adminDeleteBook(bookId);
-        Navigator.push(
-          context,
-          new MaterialPageRoute(
-              builder: (context) => new ExploreStateless(int.parse(bookId))),
-        );
+
+
+        Timer(Duration(seconds: 1), () {
+          if (errorControl == false){
+            showDialog(
+              context: context,
+              builder: (BuildContext context) {
+                // return object of type Dialog
+                return AlertDialog(
+                  title: new Text("Delete Book"),
+                  content: new Text("Deleting Book is Successful!"),
+                  actions: <Widget>[
+                    // usually buttons at the bottom of the dialog
+                    new FlatButton(
+                      child: new Text("Close"),
+                      onPressed: () {
+                        Navigator.of(context).pop();
+                      },
+                    ),
+                  ],
+                );
+              },
+            );
+            Navigator.push(
+              context,
+              new MaterialPageRoute(
+                  builder: (context) => new ExploreStateless(int.parse(bookId))),
+            );
+          } else {
+            errorControl = false;
+            showDialog(
+              context: context,
+              builder: (BuildContext context) {
+                // return object of type Dialog
+                return AlertDialog(
+                  title: new Text("Delete Book"),
+                  content: new Text(errorMessage),
+                  actions: <Widget>[
+                    // usually buttons at the bottom of the dialog
+                    new FlatButton(
+                      child: new Text("Close"),
+                      onPressed: () {
+                        Navigator.of(context).pop();
+                      },
+                    ),
+                  ],
+                );
+              },
+            );
+
+          }
+        });
+
+
         //Navigator.pop(context, true);
       },
       textColor: Colors.white,
