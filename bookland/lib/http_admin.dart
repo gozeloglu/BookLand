@@ -74,6 +74,8 @@ class HttpAdmin {
     if (response.statusCode < 400) {
       return  "PERFECT";
     } else {
+      errorControl = true;
+      errorMessage = "Deleting Book has Failed";
       // If the server did not return a 201 CREATED response,
       // then throw an exception.
       throw Exception('Failed to load album');
