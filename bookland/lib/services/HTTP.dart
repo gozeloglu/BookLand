@@ -30,14 +30,17 @@ class HTTPAll{
 
     } else {
       print(response.body);
-      //Error msg = Error.fromJson(json.decode(response.body));
+
+     // Error msg = Error.fromJson(json.decode(response.body));
+     // print(msg.errors[0].toString());
       isAnyUserLogin = false;
 
     }
   }
 
 
-  Future<String> saveCustomer(String isbn) async {
+  Future<String> saveCustomer(String firstName, String surname, String email,
+      String password, int isAdmin, String phoneNumber) async {
     http.Response response = await http.post('http://10.0.2.2:8080/saveCustomer',
       headers: <String, String>{
         'Authorization': HTTPAll.basicAuth,
@@ -45,27 +48,23 @@ class HTTPAll{
       },
 
       body: jsonEncode(<String, dynamic>{
-      "firstName": "yu",
-      "surname": "fu",
-      "email": "v@ccc",
-      "password": "12345678",
-      "isAdmin": "0",
+      "firstName": firstName,
+      "surname": surname,
+      "email": email,
+      "password": password,
+      "isAdmin": isAdmin,
       "dateOfBirth": null,
-      "phoneNumber": "05426547869",
+      "phoneNumber": phoneNumber,
       }
       ),
     );
 
     print(response.statusCode);
+    print(response.body);
     if (response.statusCode < 400) {
-      if(response.body == 0){
-      }
-      else{
-      }
+
     } else {
-      // If the server did not return a 201 CREATED response,
-      // then throw an exception.
-      Error msg = Error.fromJson(json.decode(response.body));
+      //Error msg = Error.fromJson(json.decode(response.body));
       //errorMessage = msg.error;
     }
   }
