@@ -115,9 +115,11 @@ class HttpAdmin {
       print(response.body);
       return  "PERFECT";
     } else {
+      errorControl = true;
+      errorMessage = "Updating Book has Failed";
       // If the server did not return a 201 CREATED response,
       // then throw an exception.
-      throw Exception('Failed to load album');
+      //throw Exception('Failed to load album');
       return "SORRRY" ;
     }
   }
