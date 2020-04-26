@@ -257,8 +257,6 @@ class BooksData {
 
       prices.add(lastPrice);
     }
-    print(isbnSet);
-    print(books);
 
     nItems = books.length;
   }

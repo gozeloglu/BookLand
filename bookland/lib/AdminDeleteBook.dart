@@ -200,13 +200,11 @@ class _DeletePageState extends State<DeletePage> {
               IconButton(
                   icon: Icon(Icons.home),
                   onPressed: () {
-                    print("Icon home Pressed !!");
                   }),
               Text("           "),
               IconButton(
                   icon: Icon(Icons.category),
                   onPressed: () {
-                    print("Icon category Pressed !!");
                   }),
               Text("           "),
               IconButton(
@@ -218,7 +216,6 @@ class _DeletePageState extends State<DeletePage> {
               IconButton(
                   icon: Icon(Icons.shopping_basket),
                   onPressed: () {
-                    print("Icon shopping_basket Pressed !!");
                   }),
             ])),
         color: Colors.red,

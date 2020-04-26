@@ -482,11 +482,9 @@ class adminUpdateBook extends StatelessWidget {
             );
 
             // TODO KONTROL EDİLMELİİİİİİ
-            
+
             isbn = bookId;
-            print("******");
             print(bookId);
-            print("******");
 
             book_hotlist = book_hotlistController.text;
             book_quantity = book_quantityController.text;
@@ -497,10 +495,7 @@ class adminUpdateBook extends StatelessWidget {
             book_category = book_categoryController.text;
             book_sub_category = book_sub_categoryController.text;
             book_img = book_imgController.text;
-            print("------------------------------");
-            print(book_price);
-            print(book_quantity);
-            print("-----------------------------");
+
             if (book_quantity == null) {}
             var result = httpAdmin.adminUpdateBook(
                 isbn,
