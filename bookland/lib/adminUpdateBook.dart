@@ -1,8 +1,11 @@
+import 'dart:async';
+
 import 'package:bookland/AdminDeleteBook.dart';
 import 'package:bookland/adminAddBook.dart';
 import 'package:bookland/adminDiscount.dart';
 import 'package:bookland/elements/bottomNavigatorBar.dart';
 import 'package:bookland/elements/drawer.dart';
+import 'package:bookland/services/globalVariable.dart';
 import 'package:flutter/material.dart';
 import 'elements/appBar.dart';
 import 'main.dart';
@@ -460,31 +463,8 @@ class adminUpdateBook extends StatelessWidget {
           onPressed: () {
             //_formKey.currentState.validate();
 
-            // TODO SHOW DIALOG KONTROL EDİLMELİİİ!!
-            showDialog(
-              context: context,
-              builder: (BuildContext context) {
-                // return object of type Dialog
-                return AlertDialog(
-                  title: new Text("Update Book"),
-                  content: new Text("Updating Book is Succesful!"),
-                  actions: <Widget>[
-                    // usually buttons at the bottom of the dialog
-                    new FlatButton(
-                      child: new Text("Close"),
-                      onPressed: () {
-                        Navigator.of(context).pop();
-                      },
-                    ),
-                  ],
-                );
-              },
-            );
-
-            // TODO KONTROL EDİLMELİİİİİİ
 
             isbn = bookId;
-            print(bookId);
 
             book_hotlist = book_hotlistController.text;
             book_quantity = book_quantityController.text;
@@ -508,7 +488,52 @@ class adminUpdateBook extends StatelessWidget {
                 book_quantity,
                 book_price,
                 book_description);
-            print(result);
+
+            Timer(Duration(seconds: 1), () {
+              if (errorControl == false){
+                showDialog(
+                  context: context,
+                  builder: (BuildContext context) {
+                    // return object of type Dialog
+                    return AlertDialog(
+                      title: new Text("Update Book"),
+                      content: new Text("Updating Book is Successful!"),
+                      actions: <Widget>[
+                        // usually buttons at the bottom of the dialog
+                        new FlatButton(
+                          child: new Text("Close"),
+                          onPressed: () {
+                            Navigator.of(context).pop();
+                          },
+                        ),
+                      ],
+                    );
+                  },
+                );
+              } else {
+                errorControl = false;
+                showDialog(
+                  context: context,
+                  builder: (BuildContext context) {
+                    // return object of type Dialog
+                    return AlertDialog(
+                      title: new Text("Update Book"),
+                      content: new Text(errorMessage),
+                      actions: <Widget>[
+                        // usually buttons at the bottom of the dialog
+                        new FlatButton(
+                          child: new Text("Close"),
+                          onPressed: () {
+                            Navigator.of(context).pop();
+                          },
+                        ),
+                      ],
+                    );
+                  },
+                );
+
+              }
+            });
             //Navigator.pop(context);
             Navigator.push(
                 context,
