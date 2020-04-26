@@ -78,7 +78,7 @@ class BookView extends StatelessWidget {
                 ),
               );
             } else if (snapshot.hasError) {
-              print("HEREERROROO");
+              print("Snapshot has error*");
               return Text("${snapshot.error}");
             } else {
               return Center(child: CircularProgressIndicator());
@@ -172,8 +172,6 @@ class BookView extends StatelessWidget {
   }
 
   Widget priceBook(String price) {
-    print("*****");
-    print(price);
     //price = '9.99';
     String full_part = price;
     String fractional_part = "00";
@@ -181,8 +179,6 @@ class BookView extends StatelessWidget {
       full_part = price.split(".")[0];
       fractional_part = price.split(".")[1];
     }
-    print(full_part);
-    print(fractional_part);
     var fiyatNum = Row(
       mainAxisAlignment: MainAxisAlignment.start,
       children: <Widget>[
@@ -226,9 +222,7 @@ class BookView extends StatelessWidget {
   Widget updateButton(BuildContext context, AsyncSnapshot snapshot) {
     return RaisedButton(
       onPressed: () {
-        print("------");
         print(snapshot.data.bookId.toString());
-        print("------");
         Navigator.push(
           context,
           new MaterialPageRoute(
@@ -249,7 +243,6 @@ class BookView extends StatelessWidget {
     return RaisedButton(
       onPressed: () {
         var result = httpAdmin.adminDeleteBook(bookId);
-        print(result);
         Navigator.push(
           context,
           new MaterialPageRoute(

@@ -3,10 +3,12 @@ import 'dart:io';
 import 'package:bookland/adminAddBook.dart';
 import 'package:bookland/adminUpdateBook.dart';
 import 'package:bookland/model_book.dart';
+import 'package:bookland/services/globalVariable.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:http_auth/http_auth.dart' as http_auth;
 import 'package:sprintf/sprintf.dart';
+import 'package:bookland/model/error.dart';
 
 class HttpAdmin {
   Future<String> adminAddBook(String isbn,String book_name,String book_category,String book_sub_category,String book_author,
@@ -42,16 +44,16 @@ class HttpAdmin {
       ),
     );
 
-    print(response.statusCode);
     if (response.statusCode < 400) {
-      print(response.body);
-      print("YEHUUUU");
       return  "PERFECT";
     } else {
-      // If the server did not return a 201 CREATED response,
-      // then throw an exception.
-      print("Bloweddd");
-      throw Exception('Failed to load album');
+      Error msg = Error.fromJson(json.decode(response.body));
+      errorControl = true;
+      errorMessage = msg.errors[0].toString();
+      print(response.body);
+      print(msg.errors[0].toString());
+      //throw Exception('Failed to load album');
+      print("-----" + errorControl.toString());
       return "SORRRY" ;
     }
   }
@@ -69,15 +71,11 @@ class HttpAdmin {
       },
     );
 
-    print(response.statusCode);
     if (response.statusCode < 400) {
-      print(response.body);
-      print("YEHUUUU");
       return  "PERFECT";
     } else {
       // If the server did not return a 201 CREATED response,
       // then throw an exception.
-      print("Bloweddd");
       throw Exception('Failed to load album');
       return "SORRRY" ;
     }
@@ -115,12 +113,10 @@ class HttpAdmin {
     print(response.statusCode);
     if (response.statusCode < 400) {
       print(response.body);
-      print("YEHUUUU");
       return  "PERFECT";
     } else {
       // If the server did not return a 201 CREATED response,
       // then throw an exception.
-      print("Bloweddd");
       throw Exception('Failed to load album');
       return "SORRRY" ;
     }

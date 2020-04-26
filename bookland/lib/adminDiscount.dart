@@ -196,14 +196,12 @@ class _AdminDiscountState extends State<adminDiscountStatefulWidget> {
                       IconButton(
                           icon :  Icon(Icons.home),
                           onPressed :() {
-                            print("Icon home Pressed !!");
                           }
                       ),
                       Text("           "),
                       IconButton(
                           icon : Icon(Icons.category),
                           onPressed :() {
-                            print("Icon category Pressed !!");
                           }
                       ),
                       Text("           "),
@@ -217,7 +215,6 @@ class _AdminDiscountState extends State<adminDiscountStatefulWidget> {
                       IconButton(
                           icon : Icon(Icons.shopping_basket),
                           onPressed :() {
-                            print("Icon shopping_basket Pressed !!");
                           }
                       ),
                     ]

@@ -206,14 +206,12 @@ class admin_drawer_update_book extends StatelessWidget {
                       IconButton(
                           icon :  Icon(Icons.home),
                           onPressed :() {
-                            print("Icon home Pressed !!");
                           }
                       ),
                       Text("           "),
                       IconButton(
                           icon : Icon(Icons.category),
                           onPressed :() {
-                            print("Icon category Pressed !!");
                           }
                       ),
                       Text("           "),
@@ -227,7 +225,6 @@ class admin_drawer_update_book extends StatelessWidget {
                       IconButton(
                           icon : Icon(Icons.shopping_basket),
                           onPressed :() {
-                            print("Icon shopping_basket Pressed !!");
                           }
                       ),
                     ]
@@ -581,7 +578,7 @@ class admin_drawer_update_book extends StatelessWidget {
             book_img = book_imgController.text;
             var result =  httpAdmin.adminUpdateBook(isbn, book_name, book_author, book_category, book_sub_category,
                 book_img, book_hotlist, book_quantity,  book_price, book_description);
-            print(result);
+
 
             /*Navigator.push(
                 context,
