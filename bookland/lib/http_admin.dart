@@ -14,35 +14,54 @@ class HttpAdmin {
   Future<String> adminAddBook(String isbn,String book_name,String book_category,String book_sub_category,String book_author,
       String book_quantity, String book_hotlist, String book_img,String book_description ,String book_price) async {
     var client = http.Client();
-
     var url = "http://10.0.2.2:8080";
     String username = 'Daryl';
     String password = 'WalkingDead';
     String basicAuth =
         'Basic ' + base64Encode(utf8.encode('$username:$password'));
+    http.Response response;
+    if(book_price == null){
+      response = await http.post('http://10.0.2.2:8080/addBook',
+        headers: <String, String>{'Authorization': basicAuth,'Content-Type': 'application/json; charset=UTF-8',
+        },
+        body: jsonEncode(<String, dynamic>{
+          'realIsbn':  isbn,
+          "bookName": book_name,
+          "bookImage": "https://dictionary.cambridge.org/tr/images/thumb/book_noun_001_01679.jpg?version=5.0.75",
+          "author": book_author,
+          "quantity": book_quantity,
+          "inHotList": book_hotlist,
+          "description": book_description,
+          "category" : book_category,
+          "subCategory" : book_sub_category,
+        }
+        ),
+      );
+    }
+    else{
+      response = await http.post('http://10.0.2.2:8080/addBook',
+        headers: <String, String>{'Authorization': basicAuth,'Content-Type': 'application/json; charset=UTF-8',
+        },
+        body: jsonEncode(<String, dynamic>{
+          'realIsbn':  isbn,
+          "bookName": book_name,
+          "bookImage": book_img,
+          "author": book_author,
+          "quantity": book_quantity,
+          "inHotList": book_hotlist,
+          "description": book_description,
+          "category" : book_category,
+          "subCategory" : book_sub_category,
+          "priceList": [
+            {
+              "price": book_price
+            },
+          ],
+        }
+        ),
+      );
 
-    http.Response response = await http.post('http://10.0.2.2:8080/addBook',
-      headers: <String, String>{'Authorization': basicAuth,'Content-Type': 'application/json; charset=UTF-8',
-      },
-      body: jsonEncode(<String, dynamic>{
-        'realIsbn':  isbn,
-        "bookName": book_name,
-        "bookImage": book_img,
-        "author": book_author,
-        "quantity": book_quantity,
-        "inHotList": book_hotlist,
-        "description": book_description,
-        "category" : book_category,
-        "subCategory" : book_sub_category,
-        "quantity" : 10,
-        "priceList": [
-          {
-            "price": book_price
-          },
-        ],
-      }
-      ),
-    );
+    }
 
     if (response.statusCode < 400) {
       return  "PERFECT";
@@ -84,34 +103,38 @@ class HttpAdmin {
   }
   Future<String> adminUpdateBook(String isbn, String book_name, String book_author, String book_category, String book_sub_category,
       String book_image, String book_hotlist, String book_quantity,String book_price,String book_description) async {
+
     var client = http.Client();
     var url = "http://10.0.2.2:8080";
     String username = 'Daryl';
     String password = 'WalkingDead';
     String basicAuth =
         'Basic ' + base64Encode(utf8.encode('$username:$password'));
+    http.Response response;
+      response = await http.put(
+        'http://10.0.2.2:8080/updateBook/${isbn}',
+        headers: <String, String>{
+          'Authorization': basicAuth,
+          'Content-Type': 'application/json; charset=UTF-8',
+        },
 
-    http.Response response = await http.put('http://10.0.2.2:8080/updateBook/${isbn}',
-      headers: <String, String>{'Authorization': basicAuth,'Content-Type': 'application/json; charset=UTF-8',
-      },
         body: jsonEncode(<String, dynamic>{
-          "bookName" : book_name,
-          "author" : book_author,
-          "category" : book_category,
-          "subCategory" : book_sub_category,
-          "inHotList" : book_hotlist,
-          "bookImage" : book_image,
-        "priceList": [
-          {
-            "price": book_price
-          },
+          "bookName": book_name,
+          "author": book_author,
+          "category": book_category,
+          "subCategory": book_sub_category,
+          "inHotList": book_hotlist,
+          "bookImage": book_image,
+          "priceList": [
+            {
+              "price": book_price
+            },
           ],
-        "description": book_description,
-          "quantity" : book_quantity
+          "description": book_description,
+          "quantity": book_quantity
         }
-    ),
-    );
-
+        ),
+      );
     print(response.statusCode);
     if (response.statusCode < 400) {
       print(response.body);
