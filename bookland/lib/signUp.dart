@@ -443,7 +443,7 @@ class _SignUpPageState extends State<SignUpStatefulWidget> {
                   password_controller.text,
                   0,
                   phoneNumber_controller.text);
-              if(errorControl){
+              if(errorControl == false){
                 showDialog(
                   context: context,
                   builder: (BuildContext context) {
@@ -468,6 +468,7 @@ class _SignUpPageState extends State<SignUpStatefulWidget> {
                 );
               }
               else {
+                errorControl = false;
                 Timer(Duration(seconds: 3), () {
                   showDialog(
                     context: context,

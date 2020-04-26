@@ -29,7 +29,7 @@ class HTTPAll{
       isAnyUserLogin = true;
 
     } else {
-      print(response.body);
+      //print(response.body);
 
      // Error msg = Error.fromJson(json.decode(response.body));
      // print(msg.errors[0].toString());
@@ -59,13 +59,14 @@ class HTTPAll{
       ),
     );
 
-    print(response.statusCode);
-    print(response.body);
+    //print(response.statusCode);
+   // print(response.body);
     if (response.statusCode < 400) {
 
     } else {
-      //Error msg = Error.fromJson(json.decode(response.body));
-      //errorMessage = msg.error;
+      Error msg = Error.fromJson(json.decode(response.body));
+      errorControl == true;
+      errorMessage = msg.errors[0].toString();
     }
   }
 
