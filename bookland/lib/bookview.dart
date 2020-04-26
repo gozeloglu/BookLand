@@ -1,5 +1,7 @@
+import 'dart:async';
 import 'dart:ffi';
 
+import 'package:bookland/services/globalVariable.dart';
 import 'package:flutter/material.dart';
 
 import 'package:bookland/elements/appBar.dart';
@@ -78,7 +80,7 @@ class BookView extends StatelessWidget {
                 ),
               );
             } else if (snapshot.hasError) {
-              print("HEREERROROO");
+              print("Snapshot has error*");
               return Text("${snapshot.error}");
             } else {
               return Center(child: CircularProgressIndicator());
@@ -116,10 +118,10 @@ class BookView extends StatelessWidget {
   }
 
   Widget name(String text) {
-    return Text(
-      text,
+    return Text(text,
+      textAlign: TextAlign.center,
       style: TextStyle(
-        fontSize: 50,
+        fontSize: 30,
         fontWeight: FontWeight.bold,
       ),
     );
@@ -138,9 +140,9 @@ class BookView extends StatelessWidget {
   Widget description(String text) {
     return Text(
       '\nDescription:\n' + text,
+      textAlign: TextAlign.center,
       style: TextStyle(
         fontSize: 18,
-        fontWeight: FontWeight.bold,
       ),
     );
   }
@@ -172,8 +174,6 @@ class BookView extends StatelessWidget {
   }
 
   Widget priceBook(String price) {
-    print("*****");
-    print(price);
     //price = '9.99';
     String full_part = price;
     String fractional_part = "00";
@@ -181,8 +181,6 @@ class BookView extends StatelessWidget {
       full_part = price.split(".")[0];
       fractional_part = price.split(".")[1];
     }
-    print(full_part);
-    print(fractional_part);
     var fiyatNum = Row(
       mainAxisAlignment: MainAxisAlignment.start,
       children: <Widget>[
@@ -226,9 +224,7 @@ class BookView extends StatelessWidget {
   Widget updateButton(BuildContext context, AsyncSnapshot snapshot) {
     return RaisedButton(
       onPressed: () {
-        print("------");
         print(snapshot.data.bookId.toString());
-        print("------");
         Navigator.push(
           context,
           new MaterialPageRoute(
@@ -249,12 +245,60 @@ class BookView extends StatelessWidget {
     return RaisedButton(
       onPressed: () {
         var result = httpAdmin.adminDeleteBook(bookId);
-        print(result);
-        Navigator.push(
-          context,
-          new MaterialPageRoute(
-              builder: (context) => new ExploreStateless(int.parse(bookId))),
-        );
+
+
+        Timer(Duration(seconds: 1), () {
+          if (errorControl == false){
+            showDialog(
+              context: context,
+              builder: (BuildContext context) {
+                // return object of type Dialog
+                return AlertDialog(
+                  title: new Text("Delete Book"),
+                  content: new Text("Deleting Book is Successful!"),
+                  actions: <Widget>[
+                    // usually buttons at the bottom of the dialog
+                    new FlatButton(
+                      child: new Text("Close"),
+                      onPressed: () {
+                        Navigator.of(context).pop();
+                      },
+                    ),
+                  ],
+                );
+              },
+            );
+            Navigator.push(
+              context,
+              new MaterialPageRoute(
+                  builder: (context) => new ExploreStateless(int.parse(bookId))),
+            );
+          } else {
+            errorControl = false;
+            showDialog(
+              context: context,
+              builder: (BuildContext context) {
+                // return object of type Dialog
+                return AlertDialog(
+                  title: new Text("Delete Book"),
+                  content: new Text(errorMessage),
+                  actions: <Widget>[
+                    // usually buttons at the bottom of the dialog
+                    new FlatButton(
+                      child: new Text("Close"),
+                      onPressed: () {
+                        Navigator.of(context).pop();
+                      },
+                    ),
+                  ],
+                );
+              },
+            );
+
+          }
+        });
+
+
         //Navigator.pop(context, true);
       },
       textColor: Colors.white,

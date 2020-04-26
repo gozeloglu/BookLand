@@ -1,5 +1,8 @@
+import 'dart:async';
+
 import 'package:bookland/elements/appBar.dart';
 import 'package:bookland/services/HTTP.dart';
+import 'package:bookland/services/globalVariable.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -32,7 +35,7 @@ class SignUpStatefulWidget extends StatefulWidget {
 }
 
 class _SignUpPageState extends State<SignUpStatefulWidget> {
-  //final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   final HTTPAll signUpUser = HTTPAll();
   bool _obscureText = true;
   bool showTooltipFirstname = false;
@@ -47,16 +50,18 @@ class _SignUpPageState extends State<SignUpStatefulWidget> {
   FocusNode textFifthFocusNode = new FocusNode();
   FocusNode textSixthFocusNode = new FocusNode();
   FocusNode textSeventhFocusNode = new FocusNode();
-  String _dateofbirth;
-  String _email;
-  String _password;
-  String _passwordAgain;
-
+  TextEditingController firstName_controller = new TextEditingController();
+  TextEditingController surname_controller = new TextEditingController();
+  TextEditingController dateOfBirth_controller = new TextEditingController();
+  TextEditingController phoneNumber_controller = new TextEditingController();
+  TextEditingController email_controller = new TextEditingController();
+  TextEditingController password_controller = new TextEditingController();
+  TextEditingController passwordAgain_controller = new TextEditingController();
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
     return  Scaffold(
-      appBar: MyAppBar(pageTitle: "Sig Up", back: true,),
+      appBar: MyAppBar(pageTitle: "Sig Up", back: false,),
       body: Container(
         width: double.infinity,
         padding: EdgeInsets.only(top: 50, bottom: 50),
@@ -85,6 +90,7 @@ class _SignUpPageState extends State<SignUpStatefulWidget> {
       overflow: Overflow.visible,
       children: <Widget>[
         new TextFormField(
+          controller: firstName_controller,
           keyboardType: TextInputType.text,
           onFieldSubmitted: (String value) {
             FocusScope.of(context).requestFocus(textSecondFocusNode);
@@ -141,6 +147,7 @@ class _SignUpPageState extends State<SignUpStatefulWidget> {
       overflow: Overflow.visible,
       children: <Widget>[
         new TextFormField(
+          controller: surname_controller,
             keyboardType: TextInputType.text,
             focusNode: textSecondFocusNode,
             onFieldSubmitted: (String value) {
@@ -201,6 +208,7 @@ class _SignUpPageState extends State<SignUpStatefulWidget> {
 
   Widget DateofBirthArg() {
     return new TextFormField(
+      controller: dateOfBirth_controller,
         keyboardType: TextInputType.datetime,
         focusNode: textThirdFocusNode,
         onFieldSubmitted: (String value) {
@@ -218,6 +226,7 @@ class _SignUpPageState extends State<SignUpStatefulWidget> {
 
   Widget phoneNumberArg() {
     return new TextFormField(
+      controller: phoneNumber_controller,
         keyboardType: TextInputType.phone,
         focusNode: textFourthFocusNode,
         onFieldSubmitted: (String value) {
@@ -239,6 +248,7 @@ class _SignUpPageState extends State<SignUpStatefulWidget> {
       overflow: Overflow.visible,
       children: <Widget>[
         new TextFormField(
+          controller: email_controller,
             keyboardType: TextInputType.emailAddress,
             focusNode: textFifthFocusNode,
             onFieldSubmitted: (String value) {
@@ -303,6 +313,7 @@ class _SignUpPageState extends State<SignUpStatefulWidget> {
       overflow: Overflow.visible,
       children: <Widget>[
         new TextFormField(
+          controller: password_controller,
           focusNode: textSixthFocusNode,
           onFieldSubmitted: (String value) {
             FocusScope.of(context).requestFocus(textSeventhFocusNode);
@@ -358,6 +369,7 @@ class _SignUpPageState extends State<SignUpStatefulWidget> {
 
   Widget PasswordAgainArg() {
     return new TextFormField(
+      controller: passwordAgain_controller,
       focusNode: textSeventhFocusNode,
       decoration: new InputDecoration(
         hintText: "Password Again",
@@ -401,8 +413,86 @@ class _SignUpPageState extends State<SignUpStatefulWidget> {
               style: new TextStyle(fontSize: 20.0, color: Colors.black87)),
           // TODO onPressed should be updated
           onPressed: () {
-            //_formKey.currentState.validate();
-            signUpUser.saveCustomer("isbn");
+           // _formKey.currentState.validate();
+            if(password_controller.text != passwordAgain_controller.text){
+              showDialog(
+                context: context,
+                builder: (BuildContext context) {
+                  // return object of type Dialog
+                  return AlertDialog(
+                    title: new Text("SignUp"),
+                    content: new Text("Passwords must be equal!!!"),
+                    actions: <Widget>[
+                      // usually buttons at the bottom of the dialog
+                      new FlatButton(
+                        child: new Text("Close"),
+                        onPressed: () {
+                          Navigator.of(context).pop();
+                        },
+                      ),
+                    ],
+                  );
+                },
+              );
+
+            }
+            else{
+              signUpUser.saveCustomer(firstName_controller.text,
+                  surname_controller.text,
+                  email_controller.text,
+                  password_controller.text,
+                  0,
+                  phoneNumber_controller.text);
+              if(errorControl == false){
+                showDialog(
+                  context: context,
+                  builder: (BuildContext context) {
+                    // return object of type Dialog
+                    return AlertDialog(
+                      title: new Text("SignUp"),
+                      content: new Text("Succesfull SignUp!!!"),
+                      actions: <Widget>[
+                        // usually buttons at the bottom of the dialog
+                        new FlatButton(
+                          child: new Text("Close"),
+                          onPressed: () {
+                            Navigator.of(context).pop();
+                          },
+                        ),
+                      ],
+                    );
+                  },
+                );
+                Navigator.push(
+                  context, new MaterialPageRoute(builder: (context) => new Login()),
+                );
+              }
+              else {
+                errorControl = false;
+                Timer(Duration(seconds: 3), () {
+                  showDialog(
+                    context: context,
+                    builder: (BuildContext context) {
+                      // return object of type Dialog
+                      return AlertDialog(
+                        title: new Text("SignUp"),
+                        content: new Text(errorMessage),
+                        actions: <Widget>[
+                          // usually buttons at the bottom of the dialog
+                          new FlatButton(
+                            child: new Text("Close"),
+                            onPressed: () {
+                              Navigator.of(context).pop();
+                            },
+                          ),
+                        ],
+                      );
+                    },
+                  );
+                });
+              }
+              }
+
 
           }),
     );

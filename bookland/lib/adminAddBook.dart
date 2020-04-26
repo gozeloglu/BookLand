@@ -1,5 +1,8 @@
+import 'dart:async';
+
 import 'package:bookland/elements/appBar.dart';
 import 'package:bookland/elements/drawer.dart';
+import 'package:bookland/services/globalVariable.dart';
 import 'package:flutter/material.dart';
 import 'main.dart';
 import 'dart:io';
@@ -60,7 +63,10 @@ class _AdminAddBookPageState extends State<adminAddBookStatefulWidget> {
           primarySwatch: Colors.red,
         ),
         home: Scaffold(
-          appBar: MyAppBar(pageTitle: "Add Book", back: true,),
+          appBar: MyAppBar(
+            pageTitle: "Add Book",
+            back: true,
+          ),
           body: Container(
             width: double.infinity,
             padding: EdgeInsets.only(top: 10, bottom: 10),
@@ -386,9 +392,7 @@ class _AdminAddBookPageState extends State<adminAddBookStatefulWidget> {
           onPressed: () {
             //_formKey.currentState.validate();
             isbn = isbnController.text;
-            print(isbn);
             book_name = book_nameController.text;
-            print(book_name);
             book_category = book_categoryController.text;
             book_sub_category = book_sub_categoryController.text;
             book_author = book_authorController.text;
@@ -397,9 +401,8 @@ class _AdminAddBookPageState extends State<adminAddBookStatefulWidget> {
             book_price = book_priceController.text;
             book_quantity = book_quantityController.text;
             book_hotlist = book_hotlistController.text;
-            print("*******");
             //print(isbn book_name,book_category,book_sub_category,book_author,book_img,book_description ,book_price);
-            print("*******");
+
             var result = httpAdmin.adminAddBook(
                 isbn,
                 book_name,
@@ -410,9 +413,59 @@ class _AdminAddBookPageState extends State<adminAddBookStatefulWidget> {
                 book_hotlist,
                 book_img,
                 book_description,
-                book_price);
-            print(result);
+                book_price );
 
+           // print(result);
+            //print("****" + errorControl.toString());
+            Timer(Duration(seconds: 1), () {
+            if (errorControl == false) {
+              showDialog(
+                context: context,
+                builder: (BuildContext context) {
+                  // return object of type Dialog
+                  return AlertDialog(
+                    title: new Text("Add Book"),
+                    content: new Text("Adding book is successful"),
+                    actions: <Widget>[
+                      // usually buttons at the bottom of the dialog
+                      new FlatButton(
+                        child: new Text("Close"),
+                        onPressed: () {
+                          Navigator.of(context).pop();
+                        },
+                      ),
+                    ],
+                  );
+                },
+              );
+
+
+            }
+            else {
+              errorControl = false;
+              Timer(Duration(seconds: 1), () {
+                showDialog(
+                  context: context,
+                  builder: (BuildContext context) {
+                    // return object of type Dialog
+                    return AlertDialog(
+                      title: new Text("Add Book"),
+                      content: new Text(errorMessage),
+                      actions: <Widget>[
+                        // usually buttons at the bottom of the dialog
+                        new FlatButton(
+                          child: new Text("Close"),
+                          onPressed: () {
+                            Navigator.of(context).pop();
+                          },
+                        ),
+                      ],
+                    );
+                  },
+                );
+              });
+            }
+            });
             //TODO kullanıcya mesaj döndürülmeli
 
             /*Navigator.push(

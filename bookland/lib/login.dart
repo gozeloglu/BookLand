@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:bookland/adminOrders.dart';
 import 'package:bookland/main.dart';
 import 'package:bookland/services/globalVariable.dart';
@@ -54,7 +56,7 @@ class _LoginPageState extends State<LoginStatefulWidget> {
     // TODO this function will be filled
     return new Scaffold(
       appBar: MyAppBar(
-        pageTitle: "Login", back: true,
+        pageTitle: "Login", back: false,
       ),
       body: Stack(
         children: <Widget>[
@@ -155,23 +157,58 @@ class _LoginPageState extends State<LoginStatefulWidget> {
               _email = emailController.text;
               _password = passwordController.text;
               loginUser.getUser(_email, _password);
-              if (isAnyUserLogin){
-                print("geldşm");
-
-                if(ISADMIN == 0){
-                  print("admin değil");
-                 /* Navigator.push(
-                    context, new MaterialPageRoute(builder: (context) => new MyApp()),
-                  );*/
-                }else if(ISADMIN == 1){
-                  print("admin");
-                  Navigator.push(
-                    context, new MaterialPageRoute(builder: (context) => new adminOrders()),
+              Timer(Duration(seconds: 3), () {
+                if (isAnyUserLogin){
+                  showDialog(
+                    context: context,
+                    builder: (BuildContext context) {
+                      return AlertDialog(
+                        title: new Text("LOGIN"),
+                        content: new Text("Successful Login!!!"),
+                        actions: <Widget>[
+                          new FlatButton(
+                            child: new Text("Close"),
+                            onPressed: () {
+                              Navigator.of(context).pop();
+                            },
+                          ),
+                        ],
+                      );
+                    },
                   );
+                  if(ISADMIN == 0){
+                    Navigator.push(
+                      context, new MaterialPageRoute(builder: (context) => new MyApp()),
+                    );
+
+                  }else if(ISADMIN == 1){
+                    Navigator.push(
+                      context, new MaterialPageRoute(builder: (context) => new adminOrders()),
+                    );
+                  }
                 }else{
-                  //print(errorMessage);
+                  showDialog(
+                    context: context,
+                    builder: (BuildContext context) {
+                      // return object of type Dialog
+                      return AlertDialog(
+                        title: new Text("LOGIN"),
+                        content: new Text("Invalid Username or Password!!!!"),
+                        actions: <Widget>[
+                          // usually buttons at the bottom of the dialog
+                          new FlatButton(
+                            child: new Text("Close"),
+                            onPressed: () {
+                              Navigator.of(context).pop();
+                            },
+                          ),
+                        ],
+                      );
+                    },
+                  );
                 }
-              }
+
+              });
 
 
 

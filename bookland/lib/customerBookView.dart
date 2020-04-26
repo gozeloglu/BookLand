@@ -31,9 +31,7 @@ class CustomerBookView extends StatelessWidget {
           future: httpBook.getBook(isbn),
           builder: (BuildContext context, AsyncSnapshot snapshot) {
             if (snapshot.hasData) {
-              print("snapshot has data");
               //Book returnedBook = snapshot.data;
-              print("Here");
               //return Text(snapshot.data.bookName);
               return Container(
                 width: double.infinity,
@@ -56,7 +54,6 @@ class CustomerBookView extends StatelessWidget {
                 ),
               );
             } else if (snapshot.hasError) {
-              print("HEREERROROO");
               return Text("${snapshot.error}");
             }else {
               return Center(child: CircularProgressIndicator());
@@ -74,7 +71,6 @@ class CustomerBookView extends StatelessWidget {
                         icon :  Icon(Icons.home),
 
                         onPressed :() {
-                          print("Icon home Pressed !!");
                         }
                     ),
                     Text("           "),
@@ -82,7 +78,6 @@ class CustomerBookView extends StatelessWidget {
                         icon : Icon(Icons.category),
 
                         onPressed :() {
-                          print("Icon category Pressed !!");
                         }
                     ),
                     Text("           "),
@@ -98,7 +93,6 @@ class CustomerBookView extends StatelessWidget {
                         icon : Icon(Icons.shopping_basket),
 
                         onPressed :() {
-                          print("Icon shopping_basket Pressed !!");
                         }
                     ),
                   ]
@@ -156,8 +150,6 @@ class CustomerBookView extends StatelessWidget {
       ),);
   }
   Widget priceBook(String price){
-    print("*****");
-    print(price);
     //price = '9.99';
     String full_part = price;
     String fractional_part = "00";
@@ -165,8 +157,7 @@ class CustomerBookView extends StatelessWidget {
       full_part = price.split(".")[0];
       fractional_part = price.split(".")[1];
     }
-    print(full_part);
-    print(fractional_part);
+
     var fiyatNum = Row(
       mainAxisAlignment: MainAxisAlignment.start,
 
@@ -215,9 +206,6 @@ class CustomerBookView extends StatelessWidget {
   Widget updateButton(BuildContext context ,AsyncSnapshot snapshot){
     return RaisedButton(
       onPressed: () {
-        print("------");
-        print(snapshot.data.bookId.toString());
-        print("------");
         Navigator.push(
           context, new MaterialPageRoute(builder: (context) => new adminUpdateBook(book :  snapshot)),
         );
@@ -238,7 +226,6 @@ class CustomerBookView extends StatelessWidget {
     return RaisedButton(
       onPressed: (){
         var result =  httpAdmin.adminDeleteBook(bookId);
-        print(result);
         Navigator.push(
           context, new MaterialPageRoute(builder: (context) => new ExploreStateless(int.parse(bookId))),
         );

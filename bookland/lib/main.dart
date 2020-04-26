@@ -26,7 +26,6 @@ class MyApp extends StatelessWidget {
 }
 
 //final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
-final SnackBar snackBar = const SnackBar(content: Text('Showing Snackbar'));
 
 final duplicateItems = List<String>.generate(10000, (i) => "Item $i");
 var items = List<String>();
@@ -100,14 +99,6 @@ class MyStatelessWidget extends StatelessWidget {
                   // TODO Login page will be here
                 },
               )
-              /***child : FlatButton(
-
-                  //child: new Text('OK', style: new TextStyle(color: Colors.white)),
-                  child: new Image.asset('assets/person.jpg'),
-                  padding: EdgeInsets.all(0.0),
-                  onPressed: () {},
-                  color: Colors.blue,
-                  )*/
               ,
               width: 30.0,
               height: 30.0),
@@ -202,7 +193,8 @@ class MyStatelessWidget extends StatelessWidget {
           children: <Widget>[
             //  if(isAnyUserLogin == true)
             new UserAccountsDrawerHeader(
-              accountName: new Text("HELLO\n" + FIRSTNAME),
+              accountName: new Text("HELLO\n" + FIRSTNAME ,
+            style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 25)),
               // accountEmail: new Text('nurbuke.teker7@gmail.com'),
               decoration: BoxDecoration(
                 image: DecorationImage(
@@ -246,9 +238,17 @@ class MyStatelessWidget extends StatelessWidget {
             ),
             new Divider(),
             new ListTile(
-              title: new Text("Exit"),
+              title: new Text("Logout"),
               trailing: new Icon(Icons.exit_to_app),
-              onTap: () {},
+              onTap: () {
+                isAnyUserLogin = false;
+                FIRSTNAME = "Please LogIn";
+                Navigator.push(
+                  context,
+                  new MaterialPageRoute(
+                      builder: (context) => new MyApp()),
+                );
+              },
             ),
             new Divider(),
           ],
@@ -262,13 +262,11 @@ class MyStatelessWidget extends StatelessWidget {
               IconButton(
                   icon: Icon(Icons.home),
                   onPressed: () {
-                    print("Icon home Pressed !!");
                   }),
               Text("           "),
               IconButton(
                   icon: Icon(Icons.category),
                   onPressed: () {
-                    print("Icon category Pressed !!");
 
                   }),
               Text("           "),
@@ -285,7 +283,6 @@ class MyStatelessWidget extends StatelessWidget {
               IconButton(
                   icon: Icon(Icons.shopping_basket),
                   onPressed: () {
-                    print("Icon shopping_basket Pressed !!");
                   }),
             ])),
         color: Colors.blue,
