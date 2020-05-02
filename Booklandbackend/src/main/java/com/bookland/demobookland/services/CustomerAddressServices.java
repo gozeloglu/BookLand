@@ -3,6 +3,7 @@ package com.bookland.demobookland.services;
 import com.bookland.demobookland.model.Address;
 import com.bookland.demobookland.model.CustomerAddress;
 import com.bookland.demobookland.model.PostalCodeCity;
+import com.bookland.demobookland.repository.AddressRepository;
 import com.bookland.demobookland.repository.CustomerAddressRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -19,16 +20,19 @@ public class CustomerAddressServices {
     private CustomerAddressRepository customerAddressRepository;
 
     @Autowired
+    private AddressRepository addressRepository;
+
+    @Autowired
     private EntityManager em;
 
     @Transactional
-    public Boolean CreateCustomerAddress(CustomerAddress customerAddress) {
-        try {
-            customerAddressRepository.save(customerAddress);
-            return true;
-        } catch (Exception e) {
-            return false;
-        }
+    public String CreateAddress(Address customerAddress,Integer customerId){
+        addressRepository.save(customerAddress);
+        CustomerAddress customerAddress1 = new CustomerAddress();
+        customerAddress1.setAddressId(customerAddress.getAddressId());
+        customerAddress1.setCustomerId(customerId);
+        customerAddressRepository.save(customerAddress1);
+        return "Address saved";
     }
 
     public List<CustomerAddress> showAddresses(int id) {

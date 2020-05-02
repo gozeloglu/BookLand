@@ -57,8 +57,11 @@ public class Customer {
     private Integer isAdmin = 0;
 
     /*CustomerAddress de ki bu ilişkiye karşı gelen ilişkinin variable name'i yazılıyo*/
-    @JsonBackReference /*Eğer customerı çektiğim zaman adreslerininde gelmesini istersem jsonback i customeraddresse yazcan*/
+    @JsonBackReference(value = "customer-AddressList") /*Eğer customerı çektiğim zaman adreslerininde gelmesini istersem jsonback i customeraddresse yazcan*/
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "customer")
     private List<CustomerAddress> customerAddressList;
 
+    @JsonBackReference(value = "customer-OrdersList")
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "customer")
+    private List<Order> customerOrdersList;
 }
