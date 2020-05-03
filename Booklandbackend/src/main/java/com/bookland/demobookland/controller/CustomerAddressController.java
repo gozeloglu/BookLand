@@ -26,8 +26,8 @@ public class CustomerAddressController {
 
     @Transactional
     @PostMapping(value = "/saveAddress/{customerId}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public String saveAddress(@Validated(AddAddressGroup.class) @RequestBody Address address, @PathVariable Integer customerId){
-        return customerAddressServices.CreateAddress(address,customerId);
+    public String saveAddress(@Validated(AddAddressGroup.class) @RequestBody Address address, @PathVariable Integer customerId) {
+        return customerAddressServices.CreateAddress(address, customerId);
     }
     /*This function returns the customer information with address but we already have the customer info because
      * we've given customerID to process the query*/
@@ -57,9 +57,12 @@ public class CustomerAddressController {
 
     @Transactional
     @PutMapping(value = "/UpdateMyAddress/{customer_id}/{address_id}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public Address updateAddress(@PathVariable Integer customer_id, @PathVariable Integer address_id,@RequestBody Address updatedAddress) {
+    public Address updateAddress(@PathVariable Integer customer_id, @PathVariable Integer address_id, @RequestBody Address updatedAddress) {
         return customerAddressServices.updateAddress(customer_id, address_id, updatedAddress);
     }
 
-
+    @DeleteMapping(value = "/deleteAddress/{customerId}/{addressId}")
+    public String deleteBook(@PathVariable Integer customerId, @PathVariable Integer addressId) {
+        return customerAddressServices.deleteAddress(customerId, addressId);
+    }
 }

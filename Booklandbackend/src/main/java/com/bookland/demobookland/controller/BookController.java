@@ -24,7 +24,7 @@ public class BookController {
         /** @:return All books in JSON type
          *  GET request is handling here
          * */
-        return bookServices.getAllBooks(pageNo-1, pageSize);
+        return bookServices.getAllBooks(pageNo - 1, pageSize);
     }
 
 
@@ -48,7 +48,7 @@ public class BookController {
     }
 
     @PutMapping(value = "/updateBook/{id}")
-    public String updateBook(@PathVariable Integer id,@RequestBody(required = false) Book book) {
+    public String updateBook(@PathVariable Integer id, @RequestBody(required = false) Book book) {
         return bookServices.updateBook(id, book);
     }
 

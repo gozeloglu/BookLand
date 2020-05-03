@@ -11,4 +11,6 @@ public interface CustomerAddressRepository extends CrudRepository<CustomerAddres
     List<CustomerAddress> findByCustomerId(int id);
 
     CustomerAddress findByCustomerIdAndAddressId(int customer_id, int address_id);
+
+    void deleteByCustomerIdAndAddressId(int customer_id, int address_id);
 }
