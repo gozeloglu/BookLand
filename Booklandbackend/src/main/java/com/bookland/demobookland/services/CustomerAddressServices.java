@@ -26,7 +26,7 @@ public class CustomerAddressServices {
     private EntityManager em;
 
     @Transactional
-    public String CreateAddress(Address customerAddress,Integer customerId){
+    public String CreateAddress(Address customerAddress, Integer customerId) {
         addressRepository.save(customerAddress);
         CustomerAddress customerAddress1 = new CustomerAddress();
         customerAddress1.setAddressId(customerAddress.getAddressId());
@@ -94,5 +94,17 @@ public class CustomerAddressServices {
 
     }
 
+    @Transactional
+    public String deleteAddress(Integer customerId, Integer addressId) {
+        String response;
+        try {
+            customerAddressRepository.deleteByCustomerIdAndAddressId(customerId, addressId);
+            response = "Address deleted";
+            return response;
+        } catch (Exception e) {
+            response = "Address cannot be deleted";
+            return response;
+        }
+    }
 
 }

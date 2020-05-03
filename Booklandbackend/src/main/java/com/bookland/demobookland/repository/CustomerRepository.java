@@ -13,6 +13,7 @@ import org.springframework.stereotype.Repository;
 public interface CustomerRepository extends PagingAndSortingRepository<Customer,Integer> {
 
    Customer findByEmail(String email);
+   Customer findByCustomerId(Integer id);
    LoginInterface findAllByEmail(String email);
    Page<CustomerInfoProjection> findAllProjectedBy(Pageable paging);
 

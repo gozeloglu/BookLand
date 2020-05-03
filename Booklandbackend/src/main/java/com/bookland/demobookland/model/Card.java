@@ -1,12 +1,12 @@
 package com.bookland.demobookland.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Data;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Data
@@ -16,7 +16,7 @@ public class Card {
 
     @Id
     @Column(name = "CardNo", nullable = false)
-    private String postalCode;
+    private String cardNo;
 
     @Column(name = "OwnerName", nullable = false)
     private String ownerName;
@@ -24,4 +24,7 @@ public class Card {
     @Column(name = "OwnerSurname", nullable = false)
     private String ownerSurname;
 
+    @JsonBackReference
+    @ManyToMany(mappedBy = "customerCardList")
+    private List<Customer> customerList=new ArrayList<>();
 }
