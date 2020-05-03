@@ -1,12 +1,18 @@
 package com.bookland.demobookland.model;
 
+import com.bookland.demobookland.model.validationGroups.AddAddressGroup;
+import com.bookland.demobookland.model.validationGroups.AddBookGroup;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Data;
+import org.hibernate.validator.constraints.Length;
 
 import javax.persistence.*;
+import javax.validation.GroupSequence;
+import javax.validation.Valid;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
+import java.util.List;
 
 @Entity
 @Data
@@ -14,7 +20,7 @@ import javax.validation.constraints.Size;
 @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 
 /*Json objects are necessary for avoiding infinite recursion*/
-
+@GroupSequence({Address.class, AddAddressGroup.class})
 public class Address {
 
     @Id
@@ -23,12 +29,12 @@ public class Address {
     private int addressId;
 
     @Column(name = "AddressLine", nullable = false)
-    //@NotBlank(message = "AddressLine is Necessary")
-    @Size(max = 255, message = "Give a valid Address Information")
+    @NotBlank(message = "Address line cannot be empty", groups = AddAddressGroup.class)
+    @Length(min = 8,max = 255, message = "Give a valid Address Information", groups = AddAddressGroup.class)
     private String addressLine;
 
     @Column(name = "AddressTitle", nullable = false)
-    //@NotBlank(message = "Address Title is Necessary")
+    @NotBlank(message = "Give an address title", groups = AddAddressGroup.class)
     private String addressTitle;
 
     /*Merge updates if the postal code exist.For example if we have a record in database like 06530-Ankara
@@ -37,12 +43,17 @@ public class Address {
      * not create a problem*/
 
     //@JsonManagedReference
+    @Valid
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.MERGE)
     @JoinColumn(name = "postalCode")
     private PostalCodeCity postalCodeCity;
 
-    @JsonBackReference
+    @JsonBackReference(value = "customer-address")
     @OneToOne(fetch = FetchType.LAZY, mappedBy = "address")
     private CustomerAddress customerAddress;
+
+    @JsonBackReference(value = "customer-OrdersList")
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "address")
+    private List<Order> customerOrdersList;
 
 }

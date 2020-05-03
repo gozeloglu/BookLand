@@ -3,14 +3,15 @@ package com.bookland.demobookland.controller;
 
 import com.bookland.demobookland.model.Address;
 import com.bookland.demobookland.model.CustomerAddress;
+import com.bookland.demobookland.model.validationGroups.AddAddressGroup;
 import com.bookland.demobookland.services.CustomerAddressServices;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.persistence.EntityManager;
 import javax.transaction.Transactional;
-import javax.validation.Valid;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -24,23 +25,10 @@ public class CustomerAddressController {
     private EntityManager em;
 
     @Transactional
-    @PostMapping(value = "/saveCustomerAddress", produces = MediaType.APPLICATION_JSON_VALUE)
-    public String saveAddress(@Valid @RequestBody CustomerAddress customerAddress) {
-        String result = "";
-        try {
-            if (customerAddressServices.CreateCustomerAddress(customerAddress)) {
-                customerAddressServices.CreateCustomerAddress(customerAddress);
-                em.persist(customerAddress);
-                result = "Address Saved";
-            }
-            ;
-        } catch (Exception e) {
-            result = "Address is not saved";
-        }
-        return result;
+    @PostMapping(value = "/saveAddress/{customerId}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public String saveAddress(@Validated(AddAddressGroup.class) @RequestBody Address address, @PathVariable Integer customerId){
+        return customerAddressServices.CreateAddress(address,customerId);
     }
-
-
     /*This function returns the customer information with address but we already have the customer info because
      * we've given customerID to process the query*/
 
@@ -69,7 +57,7 @@ public class CustomerAddressController {
 
     @Transactional
     @PutMapping(value = "/UpdateMyAddress/{customer_id}/{address_id}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public Address updateAddress(@PathVariable Integer customer_id, @PathVariable Integer address_id, @Valid @RequestBody Address updatedAddress) {
+    public Address updateAddress(@PathVariable Integer customer_id, @PathVariable Integer address_id,@RequestBody Address updatedAddress) {
         return customerAddressServices.updateAddress(customer_id, address_id, updatedAddress);
     }
 
