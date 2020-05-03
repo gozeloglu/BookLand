@@ -57,10 +57,6 @@ public class Customer {
     @Column(name = "IsAdmin")
     private Integer isAdmin = 0;
 
-    /*CustomerAddress de ki bu ilişkiye karşı gelen ilişkinin variable name'i yazılıyo*/
-    @JsonBackReference(value = "customer-AddressList") /*Eğer customerı çektiğim zaman adreslerininde gelmesini istersem jsonback i customeraddresse yazcan*/
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "customer", orphanRemoval = true)
-    private List<CustomerAddress> customerAddressList;
 
     @JsonBackReference(value = "customer-OrdersList")
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "customer", orphanRemoval = true)
@@ -68,7 +64,13 @@ public class Customer {
 
     @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(name = "card_used_by",
-            joinColumns = { @JoinColumn(name = "CustomerId") },
-            inverseJoinColumns = { @JoinColumn(name = "CardNo") })
-    private List<Card> customerCardList=new ArrayList<>();
+            joinColumns = {@JoinColumn(name = "CustomerId")},
+            inverseJoinColumns = {@JoinColumn(name = "CardNo")})
+    private List<Card> customerCardList = new ArrayList<>();
+
+    @ManyToMany(cascade = CascadeType.ALL)
+    @JoinTable(name = "customeraddress",
+            joinColumns = {@JoinColumn(name = "CustomerId")},
+            inverseJoinColumns = {@JoinColumn(name = "addressid")})
+    private List<Address> customerAddressList = new ArrayList<>();
 }

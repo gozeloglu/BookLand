@@ -17,20 +17,18 @@ public class PaymentServices {
 
     public String saveMyCard(Card card,Integer customerId){
         Customer customer = customerRepository.findByCustomerId(customerId);
-        System.out.println(customer.getEmail());
 
         Card cardExist = paymentRepository.findByCardNo(card.getCardNo());
 
         if(cardExist!=null){
             if(customer.getCustomerCardList().contains(cardExist))
+                return "Card is already in used";
             customer.getCustomerCardList().add(cardExist);
             return "Card added to card_used_by";
         }
 
         cardExist = paymentRepository.save(card);
-        System.out.println(cardExist.getCardNo());
         customer.getCustomerCardList().add(cardExist);
-        System.out.println("eklendi customera");
         cardExist.getCustomerList().add(customer);
         return "New card added";
     }

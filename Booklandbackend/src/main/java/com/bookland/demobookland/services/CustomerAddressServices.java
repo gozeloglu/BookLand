@@ -1,10 +1,10 @@
 package com.bookland.demobookland.services;
 
 import com.bookland.demobookland.model.Address;
-import com.bookland.demobookland.model.CustomerAddress;
+import com.bookland.demobookland.model.Customer;
 import com.bookland.demobookland.model.PostalCodeCity;
 import com.bookland.demobookland.repository.AddressRepository;
-import com.bookland.demobookland.repository.CustomerAddressRepository;
+import com.bookland.demobookland.repository.CustomerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -16,8 +16,9 @@ import java.util.List;
 @Service
 public class CustomerAddressServices {
 
-    @Autowired/*Injection of repository*/
-    private CustomerAddressRepository customerAddressRepository;
+
+    @Autowired
+    private CustomerRepository customerRepository;
 
     @Autowired
     private AddressRepository addressRepository;
@@ -27,78 +28,80 @@ public class CustomerAddressServices {
 
     @Transactional
     public String CreateAddress(Address customerAddress, Integer customerId) {
-        addressRepository.save(customerAddress);
-        CustomerAddress customerAddress1 = new CustomerAddress();
-        customerAddress1.setAddressId(customerAddress.getAddressId());
-        customerAddress1.setCustomerId(customerId);
-        customerAddressRepository.save(customerAddress1);
-        return "Address saved";
+        try {
+            addressRepository.save(customerAddress);
+            em.persist(customerAddress.getPostalCodeCity());
+            em.persist(customerAddress.getPostalCodeCity().getCity());
+            Customer current_customer = customerRepository.findByCustomerId(customerId);
+            current_customer.getCustomerAddressList().add(customerAddress);
+            return "Address saved";
+        } catch (Exception e) {
+            return "Address could'nt saved";
+        }
     }
 
-    public List<CustomerAddress> showAddresses(int id) {
-        return customerAddressRepository.findByCustomerId(id);
+    public List<Address> showAddresses(int id) {
+        return customerRepository.findByCustomerId(id).getCustomerAddressList();
     }
 
     @Transactional
-    public Address updateAddress(Integer customer_id, Integer address_id, Address address) {
-        CustomerAddress currentAddress = customerAddressRepository.findByCustomerIdAndAddressId(customer_id, address_id);
+    public String updateAddress(Integer customer_id, Integer address_id, Address address) {
         PostalCodeCity postalCodeCity = new PostalCodeCity();
         try {
 
-            if (address.getAddressLine() != null) {
-                currentAddress.getAddress().setAddressLine(address.getAddressLine());
-            }
-            if (address.getAddressTitle() != null) {
-                currentAddress.getAddress().setAddressTitle(address.getAddressTitle());
-            }
-            if (address.getPostalCodeCity() != null) {
-                if (address.getPostalCodeCity().getPostalCode() != null) {
-                    //System.out.println("postal code null değil");
-                    if (!address.getPostalCodeCity().getPostalCode().equals(currentAddress.getAddress().getPostalCodeCity().getPostalCode())) {
-                        //System.out.println("postal code farklı");
-                        postalCodeCity.setPostalCode(address.getPostalCodeCity().getPostalCode());
-                        //System.out.println(postalCodeCity.getPostalCode());
-                    } else {
-                        postalCodeCity.setPostalCode(currentAddress.getAddress().getPostalCodeCity().getPostalCode());
+            List<Address> addressList = customerRepository.findByCustomerId(customer_id).getCustomerAddressList();
+            for (Address currentAddress : addressList) {
+                if (currentAddress.getAddressId() == address_id) {
+                    if (address.getAddressLine() != null) {
+                        currentAddress.setAddressLine(address.getAddressLine());
                     }
-                    if (address.getPostalCodeCity().getCity() != null) {
-                        //System.out.println("city null değil");
-
-                        if (!address.getPostalCodeCity().getCity().getCity().equals(currentAddress.getAddress().getPostalCodeCity().getCity().getCity())) {
-                            // System.out.println("city farklı");
-                            postalCodeCity.setCity(address.getPostalCodeCity().getCity());
-                            System.out.println(postalCodeCity.getCity().getCity());
-                        } else {
-                            postalCodeCity.setCity(currentAddress.getAddress().getPostalCodeCity().getCity());
-                        }
-                        if (address.getPostalCodeCity().getCity().getCountry() != null) {
-                            currentAddress.getAddress().getPostalCodeCity().getCity().setCountry(address.getPostalCodeCity().getCity().getCountry());
-                        } else {
-                            postalCodeCity.getCity().setCountry(currentAddress.getAddress().getPostalCodeCity().getCity().getCountry());
-                        }
-                    } else {
-                        //System.out.println("city null");
-                        postalCodeCity.setCity(currentAddress.getAddress().getPostalCodeCity().getCity());
+                    if (address.getAddressTitle() != null) {
+                        currentAddress.setAddressTitle(address.getAddressTitle());
                     }
-
+                    if (address.getPostalCodeCity().getPostalCode() != null) {
+                        if (!address.getPostalCodeCity().getPostalCode().equals(currentAddress.getPostalCodeCity().getPostalCode())) {
+                            postalCodeCity.setPostalCode(address.getPostalCodeCity().getPostalCode());
+                        } else {
+                            postalCodeCity.setPostalCode(currentAddress.getPostalCodeCity().getPostalCode());
+                        }
+                        if (address.getPostalCodeCity().getCity().getCity() != null) {
+                            if (!address.getPostalCodeCity().getCity().getCity().equals(currentAddress.getPostalCodeCity().getCity().getCity())) {
+                                postalCodeCity.setCity(address.getPostalCodeCity().getCity());
+                            } else {
+                                postalCodeCity.setCity(currentAddress.getPostalCodeCity().getCity());
+                            }
+                            if (address.getPostalCodeCity().getCity().getCountry() != null) {
+                                currentAddress.getPostalCodeCity().getCity().setCountry(address.getPostalCodeCity().getCity().getCountry());
+                            } else {
+                                postalCodeCity.getCity().setCountry(currentAddress.getPostalCodeCity().getCity().getCountry());
+                            }
+                        }
+                        currentAddress.setPostalCodeCity(postalCodeCity);
+                        addressRepository.save(currentAddress);
+                        em.persist(currentAddress);
+                    }
+                    break;
                 }
-
-                currentAddress.getAddress().setPostalCodeCity(postalCodeCity);
             }
-            customerAddressRepository.save(currentAddress);
-            em.persist(currentAddress);
+            return "Address Updated";
         } catch (Exception e) {
             System.out.println(e);
-        }
-        return currentAddress.getAddress();
+            return "Address cannot updated";
 
+        }
     }
 
     @Transactional
     public String deleteAddress(Integer customerId, Integer addressId) {
         String response;
         try {
-            customerAddressRepository.deleteByCustomerIdAndAddressId(customerId, addressId);
+            List<Address> addressList = customerRepository.findByCustomerId(customerId).getCustomerAddressList();
+            for (Address address : addressList) {
+                if (address.getAddressId() == addressId) {
+                    addressList.remove(address);
+                    break;
+                }
+            }
             response = "Address deleted";
             return response;
         } catch (Exception e) {
