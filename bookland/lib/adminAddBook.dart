@@ -413,9 +413,10 @@ class _AdminAddBookPageState extends State<adminAddBookStatefulWidget> {
                 book_hotlist,
                 book_img,
                 book_description,
-                book_price);
-            print(result);
-            print("****" + errorControl.toString());
+                book_price );
+
+           // print(result);
+            //print("****" + errorControl.toString());
             Timer(Duration(seconds: 1), () {
             if (errorControl == false) {
               showDialog(

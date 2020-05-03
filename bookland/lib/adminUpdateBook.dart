@@ -487,7 +487,7 @@ class adminUpdateBook extends StatelessWidget {
                 book_hotlist,
                 book_quantity,
                 book_price,
-                book_description);
+                book_description.isEmpty == true ? null : book_description ,);
 
             Timer(Duration(seconds: 1), () {
               if (errorControl == false){
