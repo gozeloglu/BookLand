@@ -10,14 +10,14 @@ import org.springframework.data.repository.PagingAndSortingRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface CustomerRepository extends PagingAndSortingRepository<Customer,Integer> {
+public interface CustomerRepository extends PagingAndSortingRepository<Customer, Integer> {
 
-   Customer findByEmail(String email);
-   Customer findByCustomerId(Integer id);
-   LoginInterface findAllByEmail(String email);
-   Page<CustomerInfoProjection> findAllProjectedBy(Pageable paging);
+    Customer findByEmail(String email);
 
-   //LoginInterface findByEmailProjectedBy(String email);
+    Customer findByCustomerId(Integer id);
 
+    LoginInterface findAllByEmail(String email);
+
+    Page<CustomerInfoProjection> findAllProjectedBy(Pageable paging);
 
 }

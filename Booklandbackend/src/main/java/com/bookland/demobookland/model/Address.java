@@ -1,7 +1,6 @@
 package com.bookland.demobookland.model;
 
 import com.bookland.demobookland.model.validationGroups.AddAddressGroup;
-import com.bookland.demobookland.model.validationGroups.AddBookGroup;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Data;
@@ -11,7 +10,7 @@ import javax.persistence.*;
 import javax.validation.GroupSequence;
 import javax.validation.Valid;
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.Size;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -30,7 +29,7 @@ public class Address {
 
     @Column(name = "AddressLine", nullable = false)
     @NotBlank(message = "Address line cannot be empty", groups = AddAddressGroup.class)
-    @Length(min = 8,max = 255, message = "Give a valid Address Information", groups = AddAddressGroup.class)
+    @Length(min = 8, max = 255, message = "Give a valid Address Information", groups = AddAddressGroup.class)
     private String addressLine;
 
     @Column(name = "AddressTitle", nullable = false)
@@ -48,12 +47,11 @@ public class Address {
     @JoinColumn(name = "postalCode")
     private PostalCodeCity postalCodeCity;
 
-    @JsonBackReference(value = "customer-address")
-    @OneToOne(fetch = FetchType.LAZY, mappedBy = "address")
-    private CustomerAddress customerAddress;
-
     @JsonBackReference(value = "customer-OrdersList")
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "address")
     private List<Order> customerOrdersList;
 
+    @JsonBackReference
+    @ManyToMany(mappedBy = "customerAddressList")
+    private List<Customer> customerList = new ArrayList<>();
 }
