@@ -103,7 +103,7 @@ public class BookServices {
                 current_book.setQuantity(book.getQuantity());
             }
             if (book.getPriceList() != null) {
-                if(book.getPriceList().get(0).getPrice() != null){
+                if (book.getPriceList().get(0).getPrice() != null) {
                     Price newPrice = new Price();
                     newPrice.setISBN(current_book.getBookId());
                     newPrice.setPrice(book.getPriceList().get(0).getPrice());
@@ -152,28 +152,32 @@ public class BookServices {
         return bookRepository.findByBookId(ISBN);
     }
 
-    /*get all books when you search the key word book_author
-     * it will bring all the books which contains the searched author name*/
-    public List<Book> getBookByAuthor(String book_author) {
+    /*public List<Book> getBookByAuthor(String book_author) {
         return bookRepository.findByAuthorContains(book_author);
     }
 
-    /*get all books when you search the key word bookName
-     * it will bring all the books which contains the searched author name*/
     public List<Book> getBookByTitle(String bookName) {
         return bookRepository.findByBookNameContains(bookName);
     }
 
-    /*get all books when you search the key word bookName
-     * it will bring all the books which contains the searched author name*/
     public List<Book> getBookByCategory(String bookName) {
         return bookRepository.findByCategoryContains(bookName);
     }
 
-    /*get all books when you search the key word bookName
-     * it will bring all the books which contains the searched author name*/
     public List<Book> getBookBySubCategory(String bookName) {
         return bookRepository.findBySubCategoryContains(bookName);
+    }*/
+
+    public List<ExplorePageProjection> getBookBySearchCriteria(Integer pageNo, Integer pageSize,String author, String bookName, String category, String subCategory, String ISBN) {
+        try {
+            Long isbn = Long.parseLong(ISBN);
+            Pageable paging = PageRequest.of(pageNo, pageSize);
+            Page<ExplorePageProjection> pagedResult = bookRepository.findByAuthorContainsOrBookNameContainsOrCategoryContainsOrSubCategoryContainsOrRealIsbnEquals(paging,author, bookName, category, subCategory, isbn);
+            return pagedResult.toList();
+        } catch (Exception e) {
+            Pageable paging = PageRequest.of(pageNo, pageSize);
+            Page<ExplorePageProjection> pagedResult = bookRepository.findByAuthorContainsOrBookNameContainsOrCategoryContainsOrSubCategoryContainsOrRealIsbnEquals(paging,author, bookName, category, subCategory, null);
+            return pagedResult.toList();        }
     }
 
     @Transactional /*Applied discount to a single item*/

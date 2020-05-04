@@ -35,12 +35,14 @@ public interface BookRepository extends PagingAndSortingRepository<Book, Integer
     @Query("SELECT  b.bookImage as bookImage, b.bookName as bookName FROM Book b WHERE b.inHotList=1")
     List<HotlistProjection> findByInHotList();
 
-    List<Book> findByAuthorContains(String author);
+ /*   List<Book> findByAuthorContains(String author);
 
     List<Book> findByBookNameContains(String bookName);
 
     List<Book> findByCategoryContains(String category);
 
-    List<Book> findBySubCategoryContains(String subcategory);
+    List<Book> findBySubCategoryContains(String subcategory);*/
+
+    Page<ExplorePageProjection> findByAuthorContainsOrBookNameContainsOrCategoryContainsOrSubCategoryContainsOrRealIsbnEquals(Pageable paging,String searchedItem,String searchedItem1,String searchedItem2,String searchedItem3,Long searchedItem4);
 
 }

@@ -80,14 +80,12 @@ public class BookController {
         return bookServices.getLastReleased();
     }
 
-    /*Ana sayfada resmin üzerine basınca bu fonksiyon çalışıcak
-     * ISBN ye göre aramak isterse de aynısı çalışcak çünkü ISBN unique*/
     @GetMapping(value = "/getBookDetails/{ISBN}", produces = MediaType.APPLICATION_JSON_VALUE)
     public Book getBookById(@PathVariable Integer ISBN) {
         return bookServices.getBookById(ISBN);
     }
 
-    @GetMapping(value = "/SearchByAuthor", produces = MediaType.APPLICATION_JSON_VALUE)
+    /*@GetMapping(value = "/SearchByAuthor", produces = MediaType.APPLICATION_JSON_VALUE)
     public List<Book> getBookByAuthor(String author) {
         return bookServices.getBookByAuthor(author);
     }
@@ -105,17 +103,13 @@ public class BookController {
     @GetMapping(value = "/SearchBySubCategory", produces = MediaType.APPLICATION_JSON_VALUE)
     public List<Book> getBookBySubCategory(String subCategory) {
         return bookServices.getBookBySubCategory(subCategory);
+    }*/
+    @GetMapping(value = "/Search/{pageNo}/{pageSize}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public List<ExplorePageProjection> getBookBySearchCriteria(@PathVariable Integer pageNo, @PathVariable Integer pageSize,String author,String bookName,String category,String subCategory,String ISBN) {
+        return bookServices.getBookBySearchCriteria(pageNo - 1, pageSize,author,bookName,category,subCategory,ISBN);
     }
-
     @PutMapping(value = "/applyDiscount/{book_id}/{percentage}", produces = MediaType.APPLICATION_JSON_VALUE)
     public String applyDiscount(@PathVariable Integer book_id, @PathVariable Integer percentage) {
         return bookServices.applyDiscount(book_id, percentage);
     }
-
-    @GetMapping(value = "/hello", produces = MediaType.APPLICATION_JSON_VALUE)
-    public String hello(String isbn) {
-        return "{isbn:'1', bookname:'İçimizdeki Şeytan'}";
-    }
-
-
 }
