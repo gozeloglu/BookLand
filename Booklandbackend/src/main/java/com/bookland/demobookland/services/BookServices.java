@@ -2,6 +2,9 @@ package com.bookland.demobookland.services;
 
 import com.bookland.demobookland.model.Book;
 import com.bookland.demobookland.model.Price;
+import com.bookland.demobookland.model.SearchCriteria.BookSpecification;
+import com.bookland.demobookland.model.SearchCriteria.SearchCriteria;
+import com.bookland.demobookland.model.SearchCriteria.SearchOperation;
 import com.bookland.demobookland.model.projections.ExplorePageProjection;
 import com.bookland.demobookland.model.projections.HotlistProjection;
 import com.bookland.demobookland.repository.BookRepository;
@@ -12,6 +15,8 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import javax.persistence.EntityManager;
+import javax.persistence.criteria.CriteriaBuilder;
 import javax.transaction.Transactional;
 import java.util.List;
 
@@ -24,6 +29,9 @@ public class BookServices {
     /*Price is a weak entity that means without book it can't exist so price repository needs to be in book service also*/
     @Autowired
     private PriceRepository priceRepository;
+
+    @Autowired
+    private EntityManager em;
 
     public List<ExplorePageProjection> getAllBooks(Integer pageNo, Integer pageSize) {
         Pageable paging = PageRequest.of(pageNo, pageSize);
@@ -152,32 +160,67 @@ public class BookServices {
         return bookRepository.findByBookId(ISBN);
     }
 
-    /*public List<Book> getBookByAuthor(String book_author) {
-        return bookRepository.findByAuthorContains(book_author);
+    /*book objesi yollarsan null value kontrol edebilirsin veya path variable   */
+    public List<Book> getBookByFilters(Integer pageNo, Integer pageSize, String author, String category) {
+        Pageable paging = PageRequest.of(pageNo, pageSize);
+        BookSpecification filter = new BookSpecification();
+        if (author != null) {
+            System.out.println("author alındı");
+            filter.add(new SearchCriteria("author", author, SearchOperation.MATCH));
+        }
+        if (category != null) {
+            System.out.println("category alındı");
+            filter.add(new SearchCriteria("category", category, SearchOperation.EQUAL));
+        }
+        Page<Book> pagedResult = bookRepository.findAll(filter, paging);
+        filter.getList().forEach(System.out::println);
+        // pagedResult.forEach(System.out::println);
+        //Specification<Book> filters = Specification.where(new BookWithAuthor(author).or(new BookWithCategory(category)));
+        //Page<Book> pagedResult = bookRepository.findAll(filters,paging);
+        return pagedResult.toList();
     }
 
-    public List<Book> getBookByTitle(String bookName) {
-        return bookRepository.findByBookNameContains(bookName);
+    public List<Book> getBookByFiltersDifferent(Integer pageNo, Integer pageSize, Book book) {
+        Pageable paging = PageRequest.of(pageNo, pageSize);
+        BookSpecification filter = new BookSpecification();
+        /*CriteriaBuilder cb = em.getCriteriaBuilder();
+        CriteriaQuery<Employee> query = cb.createQuery(Employee.class);
+        Root<Employee> employee = query.from(Employee.class);
+        employee.join(Employee_.tasks);
+        query.select(employee).distinct(true);
+        TypedQuery<Employee> typedQuery = em.createQuery(query);
+        typedQuery.getResultList().forEach(System.out::println);*/
+        if (book.getAuthor() != null) {
+            System.out.println("author alındı");
+            filter.add(new SearchCriteria("author", book.getAuthor(), SearchOperation.MATCH));
+        }
+        if (book.getCategory() != null) {
+            System.out.println("category alındı");
+            filter.add(new SearchCriteria("category", book.getCategory(), SearchOperation.EQUAL));
+        }
+        if (!book.getSubCategory().equals("undefined")) {
+            System.out.println("subcategory alındı");
+            filter.add(new SearchCriteria("category", book.getCategory(), SearchOperation.EQUAL));
+        }
+        Page<Book> pagedResult = bookRepository.findAll(filter, paging);
+        filter.getList().forEach(System.out::println);
+        // pagedResult.forEach(System.out::println);
+        //Specification<Book> filters = Specification.where(new BookWithAuthor(author).or(new BookWithCategory(category)));
+        //Page<Book> pagedResult = bookRepository.findAll(filters,paging);
+        return pagedResult.toList();
     }
 
-    public List<Book> getBookByCategory(String bookName) {
-        return bookRepository.findByCategoryContains(bookName);
-    }
-
-    public List<Book> getBookBySubCategory(String bookName) {
-        return bookRepository.findBySubCategoryContains(bookName);
-    }*/
-
-    public List<ExplorePageProjection> getBookBySearchCriteria(Integer pageNo, Integer pageSize,String author, String bookName, String category, String subCategory, String ISBN) {
+    public List<ExplorePageProjection> getBookBySearchCriteria(Integer pageNo, Integer pageSize, String keyword) {
         try {
-            Long isbn = Long.parseLong(ISBN);
+            Long isbn = Long.parseLong(keyword);
             Pageable paging = PageRequest.of(pageNo, pageSize);
-            Page<ExplorePageProjection> pagedResult = bookRepository.findByAuthorContainsOrBookNameContainsOrCategoryContainsOrSubCategoryContainsOrRealIsbnEquals(paging,author, bookName, category, subCategory, isbn);
+            Page<ExplorePageProjection> pagedResult = bookRepository.findByRealIsbn(paging, isbn);
             return pagedResult.toList();
         } catch (Exception e) {
             Pageable paging = PageRequest.of(pageNo, pageSize);
-            Page<ExplorePageProjection> pagedResult = bookRepository.findByAuthorContainsOrBookNameContainsOrCategoryContainsOrSubCategoryContainsOrRealIsbnEquals(paging,author, bookName, category, subCategory, null);
-            return pagedResult.toList();        }
+            Page<ExplorePageProjection> pagedResult = bookRepository.findByAuthorContainsOrBookNameContainsOrCategoryContainsOrSubCategoryContains(paging, keyword, keyword, keyword, keyword);
+            return pagedResult.toList();
+        }
     }
 
     @Transactional /*Applied discount to a single item*/

@@ -85,31 +85,23 @@ public class BookController {
         return bookServices.getBookById(ISBN);
     }
 
-    /*@GetMapping(value = "/SearchByAuthor", produces = MediaType.APPLICATION_JSON_VALUE)
-    public List<Book> getBookByAuthor(String author) {
-        return bookServices.getBookByAuthor(author);
-    }
-
-    @GetMapping(value = "/SearchByBookName", produces = MediaType.APPLICATION_JSON_VALUE)
-    public List<Book> getBookByName(String bookName) {
-        return bookServices.getBookByTitle(bookName);
-    }
-
-    @GetMapping(value = "/SearchByCategory", produces = MediaType.APPLICATION_JSON_VALUE)
-    public List<Book> getBookByCategory(String category) {
-        return bookServices.getBookByCategory(category);
-    }
-
-    @GetMapping(value = "/SearchBySubCategory", produces = MediaType.APPLICATION_JSON_VALUE)
-    public List<Book> getBookBySubCategory(String subCategory) {
-        return bookServices.getBookBySubCategory(subCategory);
-    }*/
     @GetMapping(value = "/Search/{pageNo}/{pageSize}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public List<ExplorePageProjection> getBookBySearchCriteria(@PathVariable Integer pageNo, @PathVariable Integer pageSize,String author,String bookName,String category,String subCategory,String ISBN) {
-        return bookServices.getBookBySearchCriteria(pageNo - 1, pageSize,author,bookName,category,subCategory,ISBN);
+    public List<ExplorePageProjection> getBookBySearchCriteria(@PathVariable Integer pageNo, @PathVariable Integer pageSize,String keyword) {
+        return bookServices.getBookBySearchCriteria(pageNo - 1, pageSize,keyword);
     }
     @PutMapping(value = "/applyDiscount/{book_id}/{percentage}", produces = MediaType.APPLICATION_JSON_VALUE)
     public String applyDiscount(@PathVariable Integer book_id, @PathVariable Integer percentage) {
         return bookServices.applyDiscount(book_id, percentage);
+    }
+    @GetMapping(value = "/Filtering/{pageNo}/{pageSize}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public List<Book> getBookByFilters(@PathVariable Integer pageNo, @PathVariable Integer pageSize,
+                                       @RequestParam String author, @RequestParam(required = false) String category) {
+        return bookServices.getBookByFilters(pageNo - 1, pageSize,author,category);
+    }
+    @GetMapping(value = "/Filters/{pageNo}/{pageSize}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public List<Book> getBookByFiltersObj(@PathVariable Integer pageNo, @PathVariable Integer pageSize,
+                                        Book book) {
+
+        return bookServices.getBookByFiltersDifferent(pageNo - 1, pageSize,book);
     }
 }
