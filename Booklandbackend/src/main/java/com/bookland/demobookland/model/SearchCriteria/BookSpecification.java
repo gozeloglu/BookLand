@@ -13,6 +13,7 @@ import java.util.List;
 
 @Data
 public class BookSpecification implements Specification<Book> {
+    //private static Object Book_;
     private List<SearchCriteria> list;
 
     public BookSpecification() {
@@ -31,45 +32,65 @@ public class BookSpecification implements Specification<Book> {
 
         //add add criteria to predicates
         for (SearchCriteria criteria : list) {
-                if (criteria.getOperation().equals(SearchOperation.GREATER_THAN)) {
-                    predicates.add(builder.greaterThan(
-                            root.get(criteria.getKey()), criteria.getValue().toString()));
-                } else if (criteria.getOperation().equals(SearchOperation.LESS_THAN)) {
-                    predicates.add(builder.lessThan(
-                            root.get(criteria.getKey()), criteria.getValue().toString()));
-                } else if (criteria.getOperation().equals(SearchOperation.GREATER_THAN_EQUAL)) {
-                    predicates.add(builder.greaterThanOrEqualTo(
-                            root.get(criteria.getKey()), criteria.getValue().toString()));
-                } else if (criteria.getOperation().equals(SearchOperation.LESS_THAN_EQUAL)) {
-                    predicates.add(builder.lessThanOrEqualTo(
-                            root.get(criteria.getKey()), criteria.getValue().toString()));
-                } else if (criteria.getOperation().equals(SearchOperation.NOT_EQUAL)) {
-                    predicates.add(builder.notEqual(
-                            root.get(criteria.getKey()), criteria.getValue()));
-                } else if (criteria.getOperation().equals(SearchOperation.EQUAL)) {
-                    predicates.add(builder.equal(
-                            root.get(criteria.getKey()), criteria.getValue()));
-                } else if (criteria.getOperation().equals(SearchOperation.MATCH)) {
-                    predicates.add(builder.like(
-                            builder.lower(root.get(criteria.getKey())),
-                            "%" + criteria.getValue().toString().toLowerCase() + "%"));
-                } else if (criteria.getOperation().equals(SearchOperation.MATCH_END)) {
-                    predicates.add(builder.like(
-                            builder.lower(root.get(criteria.getKey())),
-                            criteria.getValue().toString().toLowerCase() + "%"));
-                } else if (criteria.getOperation().equals(SearchOperation.MATCH_START)) {
-                    predicates.add(builder.like(
-                            builder.lower(root.get(criteria.getKey())),
-                            "%" + criteria.getValue().toString().toLowerCase()));
-                } else if (criteria.getOperation().equals(SearchOperation.IN)) {
-                    predicates.add(builder.in(root.get(criteria.getKey())).value(criteria.getValue()));
-                } else if (criteria.getOperation().equals(SearchOperation.NOT_IN)) {
-                    predicates.add(builder.not(root.get(criteria.getKey())).in(criteria.getValue()));
-                }
+            if (criteria.getOperation().equals(SearchOperation.GREATER_THAN)) {
+                predicates.add(builder.greaterThan(
+                        root.get(criteria.getKey()), criteria.getValue().toString()));
+            } else if (criteria.getOperation().equals(SearchOperation.LESS_THAN)) {
+                predicates.add(builder.lessThan(
+                        root.get(criteria.getKey()), criteria.getValue().toString()));
+            } else if (criteria.getOperation().equals(SearchOperation.GREATER_THAN_EQUAL)) {
+                predicates.add(builder.greaterThanOrEqualTo(
+                        root.get(criteria.getKey()), criteria.getValue().toString()));
+            } else if (criteria.getOperation().equals(SearchOperation.LESS_THAN_EQUAL)) {
+                predicates.add(builder.lessThanOrEqualTo(
+                        root.get(criteria.getKey()), criteria.getValue().toString()));
+            } else if (criteria.getOperation().equals(SearchOperation.NOT_EQUAL)) {
+                predicates.add(builder.notEqual(
+                        root.get(criteria.getKey()), criteria.getValue()));
+            } else if (criteria.getOperation().equals(SearchOperation.EQUAL)) {
+                predicates.add(builder.equal(
+                        root.get(criteria.getKey()), criteria.getValue()));
+            } else if (criteria.getOperation().equals(SearchOperation.MATCH)) {
+                predicates.add(builder.like(
+                        builder.lower(root.get(criteria.getKey())),
+                        "%" + criteria.getValue().toString().toLowerCase() + "%"));
+            } else if (criteria.getOperation().equals(SearchOperation.MATCH_END)) {
+                predicates.add(builder.like(
+                        builder.lower(root.get(criteria.getKey())),
+                        criteria.getValue().toString().toLowerCase() + "%"));
+            } else if (criteria.getOperation().equals(SearchOperation.MATCH_START)) {
+                predicates.add(builder.like(
+                        builder.lower(root.get(criteria.getKey())),
+                        "%" + criteria.getValue().toString().toLowerCase()));
+            } else if (criteria.getOperation().equals(SearchOperation.IN)) {
+                predicates.add(builder.in(root.get(criteria.getKey())).value(criteria.getValue()));
+            } else if (criteria.getOperation().equals(SearchOperation.NOT_IN)) {
+                predicates.add(builder.not(root.get(criteria.getKey())).in(criteria.getValue()));
+            }
 
         }
 
         return builder.and(predicates.toArray(new Predicate[0]));
 
     }
+
+    public Specification<Book> forWords(ArrayList<String> categories) {
+        if (categories == null || categories.isEmpty())
+            return new BookSpecification();
+        //throw new RuntimeException("List of categories cannot be empty.");
+
+        return (root, query, builder) -> categories.stream()
+                .map(String::toLowerCase)
+                .map(word -> "%" + word + "%")
+                .map(word -> builder.like(builder.lower(root.get("category")), word))
+                .reduce(builder::or)
+                .get();
+
+    }
+   /* public static Specification<Book> spec() {
+        return (root, query, cb) -> {
+            final Join<Book, Price> prices = root.join("ISBN", JoinType.INNER);
+            prices.on(cb.lessThan(prices.get(Price_.), 10));
+            return cb.equal(works.get(ScientificWork_.name), "Black Holes");
+        };*/
 }

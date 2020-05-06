@@ -5,7 +5,6 @@ import com.bookland.demobookland.model.projections.ExplorePageProjection;
 import com.bookland.demobookland.model.projections.HotlistProjection;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.jpa.domain.Specification;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.PagingAndSortingRepository;
@@ -14,11 +13,11 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-public interface BookRepository extends PagingAndSortingRepository<Book, Integer> , JpaSpecificationExecutor<Book> {
+public interface BookRepository extends PagingAndSortingRepository<Book, Integer>, JpaSpecificationExecutor<Book> {
 
     Page<ExplorePageProjection> findAllProjectedBy(Pageable paging);
 
-    //Page<ExplorePageProjection> findAll(BookSpecification book,Pageable )
+
     /*Find distinct categories*/
     @Query("SELECT DISTINCT b.category FROM Book b")
     List<String> findDistinctByCategory();
@@ -36,8 +35,8 @@ public interface BookRepository extends PagingAndSortingRepository<Book, Integer
     @Query("SELECT  b.bookImage as bookImage, b.bookName as bookName FROM Book b WHERE b.inHotList=1")
     List<HotlistProjection> findByInHotList();
 
-    Page<ExplorePageProjection> findByRealIsbn(Pageable paging,Long isbn);
+    Page<ExplorePageProjection> findByRealIsbn(Pageable paging, Long isbn);
 
-    Page<ExplorePageProjection> findByAuthorContainsOrBookNameContainsOrCategoryContainsOrSubCategoryContains(Pageable paging,String searchedItem,String searchedItem1,String searchedItem2,String searchedItem3);
+    Page<ExplorePageProjection> findByAuthorContainsOrBookNameContainsOrCategoryContainsOrSubCategoryContains(Pageable paging, String searchedItem, String searchedItem1, String searchedItem2, String searchedItem3);
 
 }

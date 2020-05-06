@@ -10,6 +10,7 @@ import org.springframework.http.MediaType;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -44,7 +45,6 @@ public class BookController {
             response = "Some Problem Occured";
             return response;
         }
-
     }
 
     @PutMapping(value = "/updateBook/{id}")
@@ -86,22 +86,21 @@ public class BookController {
     }
 
     @GetMapping(value = "/Search/{pageNo}/{pageSize}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public List<ExplorePageProjection> getBookBySearchCriteria(@PathVariable Integer pageNo, @PathVariable Integer pageSize,String keyword) {
-        return bookServices.getBookBySearchCriteria(pageNo - 1, pageSize,keyword);
+    public List<ExplorePageProjection> getBookBySearchCriteria(@PathVariable Integer pageNo, @PathVariable Integer pageSize, String keyword) {
+        return bookServices.getBookBySearchCriteria(pageNo - 1, pageSize, keyword);
     }
+
     @PutMapping(value = "/applyDiscount/{book_id}/{percentage}", produces = MediaType.APPLICATION_JSON_VALUE)
     public String applyDiscount(@PathVariable Integer book_id, @PathVariable Integer percentage) {
         return bookServices.applyDiscount(book_id, percentage);
     }
+
     @GetMapping(value = "/Filtering/{pageNo}/{pageSize}", produces = MediaType.APPLICATION_JSON_VALUE)
     public List<Book> getBookByFilters(@PathVariable Integer pageNo, @PathVariable Integer pageSize,
-                                       @RequestParam String author, @RequestParam(required = false) String category) {
-        return bookServices.getBookByFilters(pageNo - 1, pageSize,author,category);
-    }
-    @GetMapping(value = "/Filters/{pageNo}/{pageSize}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public List<Book> getBookByFiltersObj(@PathVariable Integer pageNo, @PathVariable Integer pageSize,
-                                        Book book) {
-
-        return bookServices.getBookByFiltersDifferent(pageNo - 1, pageSize,book);
+                                       @RequestParam(value = "author", defaultValue = "undefined") String author,
+                                       @RequestParam(value = "categories", defaultValue = "") ArrayList<String> categories,
+                                       @RequestParam(value = "minPrice", defaultValue = "-1") Integer minPrice,
+                                       @RequestParam(value = "maxPrice", defaultValue = "-1") Integer maxPrice) {
+        return bookServices.getBookByFilters(pageNo - 1, pageSize, author, categories, minPrice, maxPrice);
     }
 }
