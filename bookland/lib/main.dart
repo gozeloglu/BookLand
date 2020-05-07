@@ -1,4 +1,5 @@
 import 'package:bookland/services/globalVariable.dart';
+import 'package:bookland/user_account.dart';
 import 'package:flutter/material.dart';
 import 'package:bookland/login.dart';
 import 'package:bookland/explore.dart';
@@ -206,7 +207,13 @@ class MyStatelessWidget extends StatelessWidget {
             new ListTile(
               title: new Text("Account"),
               trailing: new Icon(Icons.account_circle),
-              onTap: () {},
+              onTap: () {
+                Navigator.push(context, 
+                  new MaterialPageRoute(
+                      builder: (context) => new AccountPageStateless()
+                  )
+                );
+              },
             ),
 //Section Line
             new Divider(),
