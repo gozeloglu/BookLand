@@ -14,7 +14,7 @@ import javax.validation.constraints.NotNull;
 import java.util.Date;
 
 @Data
-@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler", "releasedTime"})
 @Entity
 @Table(name = "price")
 @GroupSequence({Price.class, AddBookGroup.class})

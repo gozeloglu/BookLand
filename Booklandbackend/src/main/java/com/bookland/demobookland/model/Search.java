@@ -10,7 +10,7 @@ import java.util.Date;
 @Entity
 @Data
 @Table(name = "search")
-@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler", "releasedTime"})
 public class Search {
 
     @Id

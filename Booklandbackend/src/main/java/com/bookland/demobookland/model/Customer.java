@@ -1,6 +1,7 @@
 package com.bookland.demobookland.model;
 
 
+import com.bookland.demobookland.model.validationGroups.AddBookGroup;
 import com.bookland.demobookland.model.validationGroups.LoginGroup;
 import com.bookland.demobookland.model.validationGroups.SignUpGroup;
 import com.fasterxml.jackson.annotation.JsonBackReference;
@@ -10,8 +11,10 @@ import lombok.Data;
 
 import javax.persistence.*;
 import javax.validation.GroupSequence;
+import javax.validation.Valid;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.util.ArrayList;
 import java.util.Date;
@@ -57,7 +60,6 @@ public class Customer {
     @Column(name = "IsAdmin")
     private Integer isAdmin = 0;
 
-
     @JsonBackReference(value = "customer-OrdersList")
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "customer", orphanRemoval = true)
     private List<Order> customerOrdersList= new ArrayList<>();
@@ -65,6 +67,10 @@ public class Customer {
     @JsonBackReference(value = "customer-SearchList")
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "customer", orphanRemoval = true)
     private List<Search> customerSearchList;
+
+    //@JsonBackReference(value = "customer-commentList")
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "customerComment")
+    private List<Comment> commentList;
 
     @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(name = "card_used_by",
