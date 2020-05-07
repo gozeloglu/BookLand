@@ -10,6 +10,9 @@ import org.springframework.http.MediaType;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -74,7 +77,6 @@ public class BookController {
         return bookServices.getHotList();
     }
 
-    // GET All Books
     @GetMapping(value = "/getLastReleased", produces = MediaType.APPLICATION_JSON_VALUE)
     public List<ExplorePageProjection> getLastReleased() {
         return bookServices.getLastReleased();
@@ -84,7 +86,6 @@ public class BookController {
     public Book getBookById(@PathVariable Integer ISBN) {
         return bookServices.getBookById(ISBN);
     }
-
 
     @PutMapping(value = "/applyDiscount/{book_id}/{percentage}", produces = MediaType.APPLICATION_JSON_VALUE)
     public String applyDiscount(@PathVariable Integer book_id, @PathVariable Integer percentage) {

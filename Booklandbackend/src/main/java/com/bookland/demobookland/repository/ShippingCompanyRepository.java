@@ -5,5 +5,5 @@ import org.springframework.data.repository.PagingAndSortingRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface ShippinCompanyRepository extends PagingAndSortingRepository<ShippingCompany,Integer> {
+public interface ShippingCompanyRepository extends PagingAndSortingRepository<ShippingCompany,Integer> {
 }

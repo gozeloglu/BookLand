@@ -197,9 +197,6 @@ public class BookServices {
     @Transactional /*Applied discount to a single item*/
     public String applyDiscount(Integer book_id, Integer percentage) {
 
-        if (percentage <= 0)
-            return "Please Give a Valid Percentage";
-
         Book book = bookRepository.findByBookId(book_id);
         int last_price = book.getPriceList().size() - 1;
         Float currentPrice = book.getPriceList().get(last_price).getPrice();
@@ -209,6 +206,7 @@ public class BookServices {
         discountPrice.setISBN(book.getBookId());
         discountPrice.setPrice(newPrice);
         priceRepository.save(discountPrice);
+        book.setInDiscount(1);
 
         return String.format("Old price = %.2f. New Price is =%.2f ", currentPrice, newPrice);
     }
