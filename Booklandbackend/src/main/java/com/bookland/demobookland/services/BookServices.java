@@ -15,7 +15,6 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import javax.persistence.EntityManager;
 import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.List;
@@ -29,9 +28,6 @@ public class BookServices {
     /*Price is a weak entity that means without book it can't exist so price repository needs to be in book service also*/
     @Autowired
     private PriceRepository priceRepository;
-
-    @Autowired
-    private EntityManager em;
 
     public List<ExplorePageProjection> getAllBooks(Integer pageNo, Integer pageSize) {
         Pageable paging = PageRequest.of(pageNo, pageSize);
@@ -150,7 +146,7 @@ public class BookServices {
     }
 
     /*get last released books limit 10*/
-    public List<Book> getLastReleased() {
+    public List<ExplorePageProjection> getLastReleased() {
         return bookRepository.findTop10ByOrderByReleasedTimeDesc();
     }
 
@@ -195,20 +191,6 @@ public class BookServices {
         if (finalBookList.isEmpty())
             return pagedResult.toList();
         return finalBookList;
-    }
-
-
-    public List<ExplorePageProjection> getBookBySearchCriteria(Integer pageNo, Integer pageSize, String keyword) {
-        try {
-            Long isbn = Long.parseLong(keyword);
-            Pageable paging = PageRequest.of(pageNo, pageSize);
-            Page<ExplorePageProjection> pagedResult = bookRepository.findByRealIsbn(paging, isbn);
-            return pagedResult.toList();
-        } catch (Exception e) {
-            Pageable paging = PageRequest.of(pageNo, pageSize);
-            Page<ExplorePageProjection> pagedResult = bookRepository.findByAuthorContainsOrBookNameContainsOrCategoryContainsOrSubCategoryContains(paging, keyword, keyword, keyword, keyword);
-            return pagedResult.toList();
-        }
     }
 
 

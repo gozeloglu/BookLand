@@ -76,7 +76,7 @@ public class BookController {
 
     // GET All Books
     @GetMapping(value = "/getLastReleased", produces = MediaType.APPLICATION_JSON_VALUE)
-    public List<Book> getLastReleased() {
+    public List<ExplorePageProjection> getLastReleased() {
         return bookServices.getLastReleased();
     }
 
@@ -85,10 +85,6 @@ public class BookController {
         return bookServices.getBookById(ISBN);
     }
 
-    @GetMapping(value = "/Search/{pageNo}/{pageSize}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public List<ExplorePageProjection> getBookBySearchCriteria(@PathVariable Integer pageNo, @PathVariable Integer pageSize, String keyword) {
-        return bookServices.getBookBySearchCriteria(pageNo - 1, pageSize, keyword);
-    }
 
     @PutMapping(value = "/applyDiscount/{book_id}/{percentage}", produces = MediaType.APPLICATION_JSON_VALUE)
     public String applyDiscount(@PathVariable Integer book_id, @PathVariable Integer percentage) {
