@@ -2,7 +2,13 @@ import 'package:bookland/elements/appBar.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
+String username;
 class AccountPageStateless extends StatelessWidget {
+
+  AccountPageStateless(String name) {
+    username = name;
+  }
+
   @override
   Widget build(BuildContext context) {
     return new MaterialApp(
@@ -14,6 +20,7 @@ class AccountPageStateless extends StatelessWidget {
 
 class AccountPageStateful extends StatefulWidget {
   AccountPageStateful({Key key}) : super(key: key);
+
   @override
   AccountPageState createState() => AccountPageState();
 }
@@ -28,7 +35,8 @@ class AccountPageState extends State<AccountPageStateful> {
       ),
       body: Stack(
         children: <Widget>[
-          nameWidget("Gökhan"),
+          // TODO Name should be dynamic
+          nameWidget(username),
         ],
       ),
     );
