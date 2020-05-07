@@ -2,6 +2,9 @@ package com.bookland.demobookland.services;
 
 import com.bookland.demobookland.model.Book;
 import com.bookland.demobookland.model.Price;
+import com.bookland.demobookland.model.SearchCriteria.BookSpecification;
+import com.bookland.demobookland.model.SearchCriteria.SearchCriteria;
+import com.bookland.demobookland.model.SearchCriteria.SearchOperation;
 import com.bookland.demobookland.model.projections.ExplorePageProjection;
 import com.bookland.demobookland.model.projections.HotlistProjection;
 import com.bookland.demobookland.repository.BookRepository;
@@ -12,7 +15,9 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import javax.persistence.EntityManager;
 import javax.transaction.Transactional;
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -24,6 +29,9 @@ public class BookServices {
     /*Price is a weak entity that means without book it can't exist so price repository needs to be in book service also*/
     @Autowired
     private PriceRepository priceRepository;
+
+    @Autowired
+    private EntityManager em;
 
     public List<ExplorePageProjection> getAllBooks(Integer pageNo, Integer pageSize) {
         Pageable paging = PageRequest.of(pageNo, pageSize);
@@ -103,7 +111,7 @@ public class BookServices {
                 current_book.setQuantity(book.getQuantity());
             }
             if (book.getPriceList() != null) {
-                if(book.getPriceList().get(0).getPrice() != null){
+                if (book.getPriceList().get(0).getPrice() != null) {
                     Price newPrice = new Price();
                     newPrice.setISBN(current_book.getBookId());
                     newPrice.setPrice(book.getPriceList().get(0).getPrice());
@@ -132,7 +140,6 @@ public class BookServices {
 
     /*Get distinct sub-categories*/
 
-
     public List<String> getSubCategory() {
         return bookRepository.findDistinctBySubCategory();
     }
@@ -152,29 +159,58 @@ public class BookServices {
         return bookRepository.findByBookId(ISBN);
     }
 
-    /*get all books when you search the key word book_author
-     * it will bring all the books which contains the searched author name*/
-    public List<Book> getBookByAuthor(String book_author) {
-        return bookRepository.findByAuthorContains(book_author);
+
+    public List<Book> getBookByFilters(Integer pageNo, Integer pageSize, String author, ArrayList<String> category, Integer minPrice, Integer maxPrice) {
+        Pageable paging = PageRequest.of(pageNo, pageSize);
+        BookSpecification filter_categories = new BookSpecification();
+        List<Book> finalBookList = new ArrayList<>();
+
+        if (!author.equals("undefined")) {
+            filter_categories.add(new SearchCriteria("author", author, SearchOperation.MATCH));
+        }
+        if (!category.isEmpty()) {
+            filter_categories.forWords(category);
+        }
+        Page<Book> pagedResult = bookRepository.findAll(filter_categories.forWords(category).and(filter_categories), paging);
+        if (minPrice != -1 && maxPrice != -1) {
+            for (Book b : pagedResult.toList()) {
+                if (b.getPriceList().get(b.getPriceList().size() - 1).getPrice() >= minPrice &&
+                        b.getPriceList().get(b.getPriceList().size() - 1).getPrice() <= maxPrice) {
+                    finalBookList.add(b);
+                }
+            }
+        } else if (minPrice != -1) {
+            for (Book b : pagedResult.toList()) {
+                if (b.getPriceList().get(b.getPriceList().size() - 1).getPrice() >= minPrice) {
+                    finalBookList.add(b);
+                }
+            }
+        } else if (maxPrice != -1) {
+            for (Book b : pagedResult.toList()) {
+                if (b.getPriceList().get(b.getPriceList().size() - 1).getPrice() <= maxPrice) {
+                    finalBookList.add(b);
+                }
+            }
+        }
+        if (finalBookList.isEmpty())
+            return pagedResult.toList();
+        return finalBookList;
     }
 
-    /*get all books when you search the key word bookName
-     * it will bring all the books which contains the searched author name*/
-    public List<Book> getBookByTitle(String bookName) {
-        return bookRepository.findByBookNameContains(bookName);
+
+    public List<ExplorePageProjection> getBookBySearchCriteria(Integer pageNo, Integer pageSize, String keyword) {
+        try {
+            Long isbn = Long.parseLong(keyword);
+            Pageable paging = PageRequest.of(pageNo, pageSize);
+            Page<ExplorePageProjection> pagedResult = bookRepository.findByRealIsbn(paging, isbn);
+            return pagedResult.toList();
+        } catch (Exception e) {
+            Pageable paging = PageRequest.of(pageNo, pageSize);
+            Page<ExplorePageProjection> pagedResult = bookRepository.findByAuthorContainsOrBookNameContainsOrCategoryContainsOrSubCategoryContains(paging, keyword, keyword, keyword, keyword);
+            return pagedResult.toList();
+        }
     }
 
-    /*get all books when you search the key word bookName
-     * it will bring all the books which contains the searched author name*/
-    public List<Book> getBookByCategory(String bookName) {
-        return bookRepository.findByCategoryContains(bookName);
-    }
-
-    /*get all books when you search the key word bookName
-     * it will bring all the books which contains the searched author name*/
-    public List<Book> getBookBySubCategory(String bookName) {
-        return bookRepository.findBySubCategoryContains(bookName);
-    }
 
     @Transactional /*Applied discount to a single item*/
     public String applyDiscount(Integer book_id, Integer percentage) {

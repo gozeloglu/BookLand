@@ -10,6 +10,7 @@ import org.springframework.http.MediaType;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -44,7 +45,6 @@ public class BookController {
             response = "Some Problem Occured";
             return response;
         }
-
     }
 
     @PutMapping(value = "/updateBook/{id}")
@@ -80,31 +80,14 @@ public class BookController {
         return bookServices.getLastReleased();
     }
 
-    /*Ana sayfada resmin üzerine basınca bu fonksiyon çalışıcak
-     * ISBN ye göre aramak isterse de aynısı çalışcak çünkü ISBN unique*/
     @GetMapping(value = "/getBookDetails/{ISBN}", produces = MediaType.APPLICATION_JSON_VALUE)
     public Book getBookById(@PathVariable Integer ISBN) {
         return bookServices.getBookById(ISBN);
     }
 
-    @GetMapping(value = "/SearchByAuthor", produces = MediaType.APPLICATION_JSON_VALUE)
-    public List<Book> getBookByAuthor(String author) {
-        return bookServices.getBookByAuthor(author);
-    }
-
-    @GetMapping(value = "/SearchByBookName", produces = MediaType.APPLICATION_JSON_VALUE)
-    public List<Book> getBookByName(String bookName) {
-        return bookServices.getBookByTitle(bookName);
-    }
-
-    @GetMapping(value = "/SearchByCategory", produces = MediaType.APPLICATION_JSON_VALUE)
-    public List<Book> getBookByCategory(String category) {
-        return bookServices.getBookByCategory(category);
-    }
-
-    @GetMapping(value = "/SearchBySubCategory", produces = MediaType.APPLICATION_JSON_VALUE)
-    public List<Book> getBookBySubCategory(String subCategory) {
-        return bookServices.getBookBySubCategory(subCategory);
+    @GetMapping(value = "/Search/{pageNo}/{pageSize}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public List<ExplorePageProjection> getBookBySearchCriteria(@PathVariable Integer pageNo, @PathVariable Integer pageSize, String keyword) {
+        return bookServices.getBookBySearchCriteria(pageNo - 1, pageSize, keyword);
     }
 
     @PutMapping(value = "/applyDiscount/{book_id}/{percentage}", produces = MediaType.APPLICATION_JSON_VALUE)
@@ -112,10 +95,12 @@ public class BookController {
         return bookServices.applyDiscount(book_id, percentage);
     }
 
-    @GetMapping(value = "/hello", produces = MediaType.APPLICATION_JSON_VALUE)
-    public String hello(String isbn) {
-        return "{isbn:'1', bookname:'İçimizdeki Şeytan'}";
+    @GetMapping(value = "/Filtering/{pageNo}/{pageSize}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public List<Book> getBookByFilters(@PathVariable Integer pageNo, @PathVariable Integer pageSize,
+                                       @RequestParam(value = "author", defaultValue = "undefined") String author,
+                                       @RequestParam(value = "categories", defaultValue = "") ArrayList<String> categories,
+                                       @RequestParam(value = "minPrice", defaultValue = "-1") Integer minPrice,
+                                       @RequestParam(value = "maxPrice", defaultValue = "-1") Integer maxPrice) {
+        return bookServices.getBookByFilters(pageNo - 1, pageSize, author, categories, minPrice, maxPrice);
     }
-
-
 }

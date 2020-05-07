@@ -1,6 +1,7 @@
 package com.bookland.demobookland.services;
 
 import com.bookland.demobookland.model.Address;
+import com.bookland.demobookland.model.CityCountry;
 import com.bookland.demobookland.model.Customer;
 import com.bookland.demobookland.model.PostalCodeCity;
 import com.bookland.demobookland.repository.AddressRepository;
@@ -29,9 +30,11 @@ public class CustomerAddressServices {
     @Transactional
     public String CreateAddress(Address customerAddress, Integer customerId) {
         try {
+            em.merge(customerAddress.getPostalCodeCity());
+            em.flush();
+            em.merge(customerAddress.getPostalCodeCity().getCity());
+            em.flush();
             addressRepository.save(customerAddress);
-            em.persist(customerAddress.getPostalCodeCity());
-            em.persist(customerAddress.getPostalCodeCity().getCity());
             Customer current_customer = customerRepository.findByCustomerId(customerId);
             current_customer.getCustomerAddressList().add(customerAddress);
             return "Address saved";
