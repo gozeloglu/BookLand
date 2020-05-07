@@ -16,8 +16,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityManager;
-import javax.persistence.criteria.CriteriaBuilder;
 import javax.transaction.Transactional;
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -140,7 +140,6 @@ public class BookServices {
 
     /*Get distinct sub-categories*/
 
-
     public List<String> getSubCategory() {
         return bookRepository.findDistinctBySubCategory();
     }
@@ -160,55 +159,44 @@ public class BookServices {
         return bookRepository.findByBookId(ISBN);
     }
 
-    /*book objesi yollarsan null value kontrol edebilirsin veya path variable   */
-    public List<Book> getBookByFilters(Integer pageNo, Integer pageSize, String author, String category) {
+
+    public List<Book> getBookByFilters(Integer pageNo, Integer pageSize, String author, ArrayList<String> category, Integer minPrice, Integer maxPrice) {
         Pageable paging = PageRequest.of(pageNo, pageSize);
-        BookSpecification filter = new BookSpecification();
-        if (author != null) {
-            System.out.println("author alındı");
-            filter.add(new SearchCriteria("author", author, SearchOperation.MATCH));
+        BookSpecification filter_categories = new BookSpecification();
+        List<Book> finalBookList = new ArrayList<>();
+
+        if (!author.equals("undefined")) {
+            filter_categories.add(new SearchCriteria("author", author, SearchOperation.MATCH));
         }
-        if (category != null) {
-            System.out.println("category alındı");
-            filter.add(new SearchCriteria("category", category, SearchOperation.EQUAL));
+        if (!category.isEmpty()) {
+            filter_categories.forWords(category);
         }
-        Page<Book> pagedResult = bookRepository.findAll(filter, paging);
-        filter.getList().forEach(System.out::println);
-        // pagedResult.forEach(System.out::println);
-        //Specification<Book> filters = Specification.where(new BookWithAuthor(author).or(new BookWithCategory(category)));
-        //Page<Book> pagedResult = bookRepository.findAll(filters,paging);
-        return pagedResult.toList();
+        Page<Book> pagedResult = bookRepository.findAll(filter_categories.forWords(category).and(filter_categories), paging);
+        if (minPrice != -1 && maxPrice != -1) {
+            for (Book b : pagedResult.toList()) {
+                if (b.getPriceList().get(b.getPriceList().size() - 1).getPrice() >= minPrice &&
+                        b.getPriceList().get(b.getPriceList().size() - 1).getPrice() <= maxPrice) {
+                    finalBookList.add(b);
+                }
+            }
+        } else if (minPrice != -1) {
+            for (Book b : pagedResult.toList()) {
+                if (b.getPriceList().get(b.getPriceList().size() - 1).getPrice() >= minPrice) {
+                    finalBookList.add(b);
+                }
+            }
+        } else if (maxPrice != -1) {
+            for (Book b : pagedResult.toList()) {
+                if (b.getPriceList().get(b.getPriceList().size() - 1).getPrice() <= maxPrice) {
+                    finalBookList.add(b);
+                }
+            }
+        }
+        if (finalBookList.isEmpty())
+            return pagedResult.toList();
+        return finalBookList;
     }
 
-    public List<Book> getBookByFiltersDifferent(Integer pageNo, Integer pageSize, Book book) {
-        Pageable paging = PageRequest.of(pageNo, pageSize);
-        BookSpecification filter = new BookSpecification();
-        /*CriteriaBuilder cb = em.getCriteriaBuilder();
-        CriteriaQuery<Employee> query = cb.createQuery(Employee.class);
-        Root<Employee> employee = query.from(Employee.class);
-        employee.join(Employee_.tasks);
-        query.select(employee).distinct(true);
-        TypedQuery<Employee> typedQuery = em.createQuery(query);
-        typedQuery.getResultList().forEach(System.out::println);*/
-        if (book.getAuthor() != null) {
-            System.out.println("author alındı");
-            filter.add(new SearchCriteria("author", book.getAuthor(), SearchOperation.MATCH));
-        }
-        if (book.getCategory() != null) {
-            System.out.println("category alındı");
-            filter.add(new SearchCriteria("category", book.getCategory(), SearchOperation.EQUAL));
-        }
-        if (!book.getSubCategory().equals("undefined")) {
-            System.out.println("subcategory alındı");
-            filter.add(new SearchCriteria("category", book.getCategory(), SearchOperation.EQUAL));
-        }
-        Page<Book> pagedResult = bookRepository.findAll(filter, paging);
-        filter.getList().forEach(System.out::println);
-        // pagedResult.forEach(System.out::println);
-        //Specification<Book> filters = Specification.where(new BookWithAuthor(author).or(new BookWithCategory(category)));
-        //Page<Book> pagedResult = bookRepository.findAll(filters,paging);
-        return pagedResult.toList();
-    }
 
     public List<ExplorePageProjection> getBookBySearchCriteria(Integer pageNo, Integer pageSize, String keyword) {
         try {
@@ -222,6 +210,7 @@ public class BookServices {
             return pagedResult.toList();
         }
     }
+
 
     @Transactional /*Applied discount to a single item*/
     public String applyDiscount(Integer book_id, Integer percentage) {
