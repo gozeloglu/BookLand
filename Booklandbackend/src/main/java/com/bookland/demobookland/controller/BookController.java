@@ -76,7 +76,7 @@ public class BookController {
 
     // GET All Books
     @GetMapping(value = "/getLastReleased", produces = MediaType.APPLICATION_JSON_VALUE)
-    public List<Book> getLastReleased() {
+    public List<ExplorePageProjection> getLastReleased() {
         return bookServices.getLastReleased();
     }
 

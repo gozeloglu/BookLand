@@ -15,7 +15,6 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import javax.persistence.EntityManager;
 import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.List;
@@ -147,7 +146,7 @@ public class BookServices {
     }
 
     /*get last released books limit 10*/
-    public List<Book> getLastReleased() {
+    public List<ExplorePageProjection> getLastReleased() {
         return bookRepository.findTop10ByOrderByReleasedTimeDesc();
     }
 
