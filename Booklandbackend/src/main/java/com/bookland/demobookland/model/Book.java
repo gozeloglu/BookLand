@@ -7,6 +7,7 @@ import lombok.Data;
 
 import javax.persistence.*;
 import javax.validation.GroupSequence;
+import javax.validation.Valid;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
@@ -66,7 +67,8 @@ public class Book {
     private Date releasedTime = new Date();
 
     //@JsonManagedReference
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "bookPrices")
+    @Valid
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "bookPrices")/*kitabı silince price da silinsin istiyosak cascade all*/
     @NotNull(message = "Define a price", groups = AddBookGroup.class)
     private List<Price> priceList;
 }

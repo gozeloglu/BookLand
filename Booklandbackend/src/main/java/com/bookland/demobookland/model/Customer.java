@@ -13,6 +13,7 @@ import javax.validation.GroupSequence;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -56,9 +57,20 @@ public class Customer {
     @Column(name = "IsAdmin")
     private Integer isAdmin = 0;
 
-    /*CustomerAddress de ki bu ilişkiye karşı gelen ilişkinin variable name'i yazılıyo*/
-    @JsonBackReference /*Eğer customerı çektiğim zaman adreslerininde gelmesini istersem jsonback i customeraddresse yazcan*/
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "customer")
-    private List<CustomerAddress> customerAddressList;
 
+    @JsonBackReference(value = "customer-OrdersList")
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "customer", orphanRemoval = true)
+    private List<Order> customerOrdersList;
+
+    @ManyToMany(cascade = CascadeType.ALL)
+    @JoinTable(name = "card_used_by",
+            joinColumns = {@JoinColumn(name = "CustomerId")},
+            inverseJoinColumns = {@JoinColumn(name = "CardNo")})
+    private List<Card> customerCardList = new ArrayList<>();
+
+    @ManyToMany(cascade = CascadeType.ALL)
+    @JoinTable(name = "customeraddress",
+            joinColumns = {@JoinColumn(name = "CustomerId")},
+            inverseJoinColumns = {@JoinColumn(name = "addressid")})
+    private List<Address> customerAddressList = new ArrayList<>();
 }

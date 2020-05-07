@@ -14,4 +14,5 @@ public interface CustomerInfoProjection {
     String getCustomerId();
 
     String getEmail();
+
 }
