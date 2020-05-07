@@ -30,9 +30,6 @@ public class BookServices {
     @Autowired
     private PriceRepository priceRepository;
 
-    @Autowired
-    private EntityManager em;
-
     public List<ExplorePageProjection> getAllBooks(Integer pageNo, Integer pageSize) {
         Pageable paging = PageRequest.of(pageNo, pageSize);
 
@@ -195,20 +192,6 @@ public class BookServices {
         if (finalBookList.isEmpty())
             return pagedResult.toList();
         return finalBookList;
-    }
-
-
-    public List<ExplorePageProjection> getBookBySearchCriteria(Integer pageNo, Integer pageSize, String keyword) {
-        try {
-            Long isbn = Long.parseLong(keyword);
-            Pageable paging = PageRequest.of(pageNo, pageSize);
-            Page<ExplorePageProjection> pagedResult = bookRepository.findByRealIsbn(paging, isbn);
-            return pagedResult.toList();
-        } catch (Exception e) {
-            Pageable paging = PageRequest.of(pageNo, pageSize);
-            Page<ExplorePageProjection> pagedResult = bookRepository.findByAuthorContainsOrBookNameContainsOrCategoryContainsOrSubCategoryContains(paging, keyword, keyword, keyword, keyword);
-            return pagedResult.toList();
-        }
     }
 
 

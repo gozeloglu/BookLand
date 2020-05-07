@@ -60,7 +60,11 @@ public class Customer {
 
     @JsonBackReference(value = "customer-OrdersList")
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "customer", orphanRemoval = true)
-    private List<Order> customerOrdersList;
+    private List<Order> customerOrdersList= new ArrayList<>();
+
+    @JsonBackReference(value = "customer-SearchList")
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "customer", orphanRemoval = true)
+    private List<Search> customerSearchList;
 
     @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(name = "card_used_by",
