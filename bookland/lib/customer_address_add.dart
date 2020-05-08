@@ -100,8 +100,7 @@ class _AddressAddPageState extends State<CustomerAddressAddStateful> {
           labelText: "City",
           icon: Icon(Icons.location_city),
         ),
-        validator: (value) =>
-          value.isEmpty ? "City cannot be empty!" : null,
+        validator: (value) => value.isEmpty ? "City cannot be empty!" : null,
         onSaved: (value) => city = value.trim(),
       ),
     );
@@ -119,8 +118,7 @@ class _AddressAddPageState extends State<CustomerAddressAddStateful> {
           labelText: "Country",
           icon: Icon(Icons.flight),
         ),
-        validator: (value) =>
-        value.isEmpty ? "Country cannot be empty!" : null,
+        validator: (value) => value.isEmpty ? "Country cannot be empty!" : null,
         onSaved: (value) => country = value.trim(),
       ),
     );
@@ -171,9 +169,7 @@ class _AddressAddPageState extends State<CustomerAddressAddStateful> {
         value: dropdownValue,
         iconSize: 24,
         elevation: 16,
-        style: TextStyle(
-            fontSize: 24,
-            color: Colors.deepPurple),
+        style: TextStyle(fontSize: 24, color: Colors.deepPurple),
         underline: Container(
           height: 2,
           color: Colors.deepPurpleAccent,
@@ -210,10 +206,47 @@ class _AddressAddPageState extends State<CustomerAddressAddStateful> {
           onPressed: () {
             // TODO Save address
             addressLine = addressLineController.text;
+            city = cityController.text;
+            country = countryController.text;
             postalCode = postalCodeController.text;
             addressTitle = dropdownValue;
+
+            // Fields are controlled
+            String errorMessage = " cannot be empty!";
+            String fieldName = "";
+            bool error = false;
+            if (addressLine == "") {
+              fieldName = "Address";
+              error = true;
+            } else if (city == "") {
+              fieldName = "City";
+              error = true;
+            } else if (country == "") {
+              fieldName = "Country";
+              error = true;
+            } else if (postalCode == "") {
+              fieldName = "Postal code";
+              error = true;
+            } else if (addressTitle == "") {
+              fieldName = "Address title";
+              error = true;
+            }
+
+            if (error) {
+              showDialog(
+                  context: context,
+                  builder: (BuildContext context) {
+                    return AlertDialog(
+                      title: Text("Error!"),
+                      content: Text(fieldName + errorMessage),
+                      shape: new RoundedRectangleBorder(
+                          borderRadius: new BorderRadius.circular(25)),
+                    );
+                  });
+            }
             print(addressTitle);
             print(postalCode == "");
+
             /// addressTitle = addressTitleController.text;
           }),
     );
