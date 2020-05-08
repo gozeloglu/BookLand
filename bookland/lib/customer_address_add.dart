@@ -2,6 +2,7 @@ import 'package:bookland/elements/appBar.dart';
 import 'package:bookland/main.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:bookland/http_address.dart';
 
 class CustomerAddressAdd extends StatelessWidget {
   static const String _title = "Add Address";
@@ -212,6 +213,8 @@ class _AddressAddPageState extends State<CustomerAddressAddStateful> {
             addressTitle = dropdownValue;
 
             // Fields are controlled
+            // If one of the fields is empty
+            // Alert dialog is showed up
             String errorMessage = " cannot be empty!";
             String fieldName = "";
             bool error = false;
@@ -232,6 +235,8 @@ class _AddressAddPageState extends State<CustomerAddressAddStateful> {
               error = true;
             }
 
+            // If one of the fields is empty
+            // Show up the alert dialog
             if (error) {
               showDialog(
                   context: context,
@@ -243,11 +248,15 @@ class _AddressAddPageState extends State<CustomerAddressAddStateful> {
                           borderRadius: new BorderRadius.circular(25)),
                     );
                   });
+            } else {
+              // TODO Call http function
+              print(addressLine);
+              print(city);
+              print(country);
+              print(postalCode);
+              print(addressTitle);
+              saveAddress(1, addressLine, city, country, postalCode, addressTitle);
             }
-            print(addressTitle);
-            print(postalCode == "");
-
-            /// addressTitle = addressTitleController.text;
           }),
     );
   }
