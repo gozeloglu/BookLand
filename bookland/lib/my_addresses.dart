@@ -1,3 +1,4 @@
+import 'package:bookland/customer_address_add.dart';
 import 'package:flutter/material.dart';
 import 'dart:async';
 
@@ -15,7 +16,14 @@ class MyAddresses extends StatelessWidget {
           child: Icon(Icons.add),
           backgroundColor: Colors.green,
           onPressed: () {
+            // TODO Add new address page
             print("Action button");
+            Navigator.push(
+                context,
+                new MaterialPageRoute(
+                    builder: (context) => new CustomerAddressAdd()
+                ),
+            );
           },
         ),
       ),
