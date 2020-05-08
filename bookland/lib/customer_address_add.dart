@@ -22,10 +22,14 @@ class CustomerAddressAddStateful extends StatefulWidget {
 
 class _AddressAddPageState extends State<CustomerAddressAddStateful> {
   TextEditingController addressLineController = new TextEditingController();
+  TextEditingController cityController = new TextEditingController();
+  TextEditingController countryController = new TextEditingController();
   TextEditingController postalCodeController = new TextEditingController();
   TextEditingController addressTitleController = new TextEditingController();
 
   String addressLine;
+  String city;
+  String country;
   String postalCode;
   String addressTitle;
 
@@ -52,6 +56,8 @@ class _AddressAddPageState extends State<CustomerAddressAddStateful> {
           shrinkWrap: true,
           children: <Widget>[
             showAddressLine(),
+            showCity(),
+            showCountry(),
             showPostalCode(),
             //showAddressTitle(),
             showDropButton(),
@@ -78,6 +84,44 @@ class _AddressAddPageState extends State<CustomerAddressAddStateful> {
         validator: (value) =>
             value.isEmpty ? "Address line cannot be empty" : null,
         onSaved: (value) => addressLine = value.trim(),
+      ),
+    );
+  }
+
+  Widget showCity() {
+    return Padding(
+      padding: const EdgeInsets.fromLTRB(0.0, 50, 0, 0),
+      child: new TextFormField(
+        controller: cityController,
+        maxLines: 1,
+        autofocus: false,
+        decoration: new InputDecoration(
+          border: OutlineInputBorder(),
+          labelText: "City",
+          icon: Icon(Icons.location_city),
+        ),
+        validator: (value) =>
+          value.isEmpty ? "City cannot be empty!" : null,
+        onSaved: (value) => city = value.trim(),
+      ),
+    );
+  }
+
+  Widget showCountry() {
+    return Padding(
+      padding: const EdgeInsets.fromLTRB(0.0, 50, 0, 0),
+      child: new TextFormField(
+        controller: countryController,
+        maxLines: 1,
+        autofocus: false,
+        decoration: new InputDecoration(
+          border: OutlineInputBorder(),
+          labelText: "Country",
+          icon: Icon(Icons.flight),
+        ),
+        validator: (value) =>
+        value.isEmpty ? "Country cannot be empty!" : null,
+        onSaved: (value) => country = value.trim(),
       ),
     );
   }
@@ -121,8 +165,6 @@ class _AddressAddPageState extends State<CustomerAddressAddStateful> {
   }
 
   Widget showDropButton() {
-
-
     return Padding(
       padding: const EdgeInsets.fromLTRB(0, 50, 0, 0),
       child: DropdownButton<String>(
@@ -149,32 +191,7 @@ class _AddressAddPageState extends State<CustomerAddressAddStateful> {
             child: Text(value),
           );
         }).toList(),
-      ),/*DropdownButton<String>(
-        value: dropdownValue,
-        icon: Icon(Icons.arrow_downward),
-        iconSize: 24,
-        elevation: 16,
-        style: TextStyle(color: Colors.deepPurple),
-        underline: Container(
-          height: 2,
-          color: Colors.deepPurpleAccent,
-        ),
-        onChanged: (String newValue) {
-          setState(() {
-            dropdownValue = newValue;
-            addressTitle = newValue;
-            print(addressTitle);
-          });
-        },
-        items: <String>['One', 'Two', 'Free', 'Four']
-            .map<DropdownMenuItem<String>>((String value) {
-          return DropdownMenuItem<String>(
-            value: value,
-            child: Text(value),
-          );
-        }).toList(),
-      ),*/
-
+      ),
     );
   }
 
@@ -195,6 +212,8 @@ class _AddressAddPageState extends State<CustomerAddressAddStateful> {
             addressLine = addressLineController.text;
             postalCode = postalCodeController.text;
             addressTitle = dropdownValue;
+            print(addressTitle);
+            print(postalCode == "");
             /// addressTitle = addressTitleController.text;
           }),
     );

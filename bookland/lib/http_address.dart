@@ -19,6 +19,15 @@ class Address {
     if (addressTitle == null) {
       return false;
     }
+    
+    response = await post("http://10.0.2.2:8080/saveAddress/$userId",
+      headers: <String, String>{'Authorization': basicAuth,'Content-Type': 'application/json; charset=UTF-8'
+      },
+      body: jsonEncode(<String, dynamic> {
+        "AddressLine": addressLine,
+        "postalCode":
+      })
+    );
 
     return true;
   }
