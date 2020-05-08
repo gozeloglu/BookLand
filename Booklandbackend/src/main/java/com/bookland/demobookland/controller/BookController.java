@@ -6,6 +6,7 @@ import com.bookland.demobookland.model.projections.HotlistProjection;
 import com.bookland.demobookland.model.validationGroups.AddBookGroup;
 import com.bookland.demobookland.services.BookServices;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.MediaType;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -88,7 +89,7 @@ public class BookController {
     }
 
     @PutMapping(value = "/applyDiscount/{book_id}/{percentage}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public String applyDiscount(@PathVariable Integer book_id, @PathVariable Integer percentage) {
+    public String applyDiscount(@PathVariable Integer book_id, @PathVariable Integer percentage){
         return bookServices.applyDiscount(book_id, percentage);
     }
 
