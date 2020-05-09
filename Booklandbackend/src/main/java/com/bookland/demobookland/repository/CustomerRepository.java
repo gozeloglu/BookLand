@@ -20,4 +20,5 @@ public interface CustomerRepository extends PagingAndSortingRepository<Customer,
 
     Page<CustomerInfoProjection> findAllProjectedBy(Pageable paging);
 
+    CustomerInfoProjection findByIsAdminEquals(Integer constant_value);
 }
