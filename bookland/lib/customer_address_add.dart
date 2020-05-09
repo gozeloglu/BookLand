@@ -4,6 +4,10 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:bookland/http_address.dart';
 
+/// This variable is responsible for informing
+/// that saving operation's status
+bool isSaved = false;
+
 class CustomerAddressAdd extends StatelessWidget {
   static const String _title = "Add Address";
 
@@ -71,6 +75,7 @@ class _AddressAddPageState extends State<CustomerAddressAddStateful> {
     );
   }
 
+  /// This function builds a text field to get address from user
   Widget showAddressLine() {
     return Padding(
       padding: const EdgeInsets.fromLTRB(0.0, 100.0, 0.0, 0.0),
@@ -91,6 +96,7 @@ class _AddressAddPageState extends State<CustomerAddressAddStateful> {
     );
   }
 
+  /// This function builds a text field to get city from user
   Widget showCity() {
     return Padding(
       padding: const EdgeInsets.fromLTRB(0.0, 50, 0, 0),
@@ -109,6 +115,7 @@ class _AddressAddPageState extends State<CustomerAddressAddStateful> {
     );
   }
 
+  /// This function builds a text field to get country from user
   Widget showCountry() {
     return Padding(
       padding: const EdgeInsets.fromLTRB(0.0, 50, 0, 0),
@@ -127,6 +134,7 @@ class _AddressAddPageState extends State<CustomerAddressAddStateful> {
     );
   }
 
+  /// This function builds text field to get postal code from user
   Widget showPostalCode() {
     return Padding(
       padding: const EdgeInsets.fromLTRB(0.0, 50, 0, 0),
@@ -146,6 +154,8 @@ class _AddressAddPageState extends State<CustomerAddressAddStateful> {
     );
   }
 
+  /// This function is not being used right now
+  /// TODO This can be deleted
   Widget showAddressTitle() {
     return Padding(
       padding: const EdgeInsets.fromLTRB(0, 50, 0, 0),
@@ -165,6 +175,9 @@ class _AddressAddPageState extends State<CustomerAddressAddStateful> {
     );
   }
 
+  /// This function builds a drop button
+  /// User can choose one the proper address title
+  /// Address titles : Home, Office, School
   Widget showDropButton() {
     return Padding(
       padding: const EdgeInsets.fromLTRB(0, 50, 0, 0),
@@ -194,6 +207,8 @@ class _AddressAddPageState extends State<CustomerAddressAddStateful> {
     );
   }
 
+  /// This function build a button to save address
+  /// Calls POST method
   Widget showSaveButton() {
     return Padding(
       padding: const EdgeInsets.fromLTRB(0, 100, 0, 0),
@@ -207,7 +222,7 @@ class _AddressAddPageState extends State<CustomerAddressAddStateful> {
             style: new TextStyle(fontSize: 20, color: Colors.white),
           ),
           onPressed: () {
-            // TODO Save address
+            // Inputs are retrieved by controller
             addressLine = addressLineController.text;
             city = cityController.text;
             country = countryController.text;
@@ -251,9 +266,37 @@ class _AddressAddPageState extends State<CustomerAddressAddStateful> {
                     );
                   });
             } else {
+              // Save address
+              address.saveAddress(int.parse(customerID), addressLine, city,
+                  country, postalCode, addressTitle);
+            }
 
-              address.saveAddress(
-                  int.parse(customerID), addressLine, city, country, postalCode, addressTitle);
+            // Show up alert dialogs
+            // If address is saved successfully, show up successful message
+            // If address is not saved successfully, show up successful message
+            if (isSaved) {
+              showDialog(
+                  context: context,
+                  builder: (BuildContext context) {
+                    return AlertDialog(
+                      title: Text("Saved!"),
+                      content: Text("Address is saved successfully!"),
+                      shape: new RoundedRectangleBorder(
+                          borderRadius: new BorderRadius.circular(25)),
+                    );
+                  });
+              Navigator.of(context).pop();
+            } else {
+              showDialog(
+                  context: context,
+                  builder: (BuildContext context) {
+                    return AlertDialog(
+                      title: Text("Error!"),
+                      content: Text("Address could not saved!"),
+                      shape: new RoundedRectangleBorder(
+                          borderRadius: new BorderRadius.circular(25)),
+                    );
+                  });
             }
           }),
     );
