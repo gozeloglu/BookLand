@@ -196,7 +196,7 @@ class _AddressAddPageState extends State<CustomerAddressAddStateful> {
             dropdownValue = newValue;
           });
         },
-        items: <String>['Home', 'Office', 'School']
+        items: <String>['Home', 'Office', 'School', 'Other']
             .map<DropdownMenuItem<String>>((String value) {
           return DropdownMenuItem<String>(
             value: value,

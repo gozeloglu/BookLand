@@ -38,16 +38,6 @@ class MyAddressLayout extends StatefulWidget {
 }
 
 class MyAddressLayoutState extends State<MyAddressLayout> {
-  List<String> addressList = [
-    "Fatih mahallesi 3389 sokak no:14 kepez/antalya",
-    "Beytepe Kampus",
-    "Fatih mahallesi 3389 sokak no:14 kepez/antalya",
-    "Fatih mahallesi 3389 sokak no:14 kepez/antalya",
-    "Fatih mahallesi 3389 sokak no:14 kepez/antalya",
-    "Fatih mahallesi 3389 sokak no:14 kepez/antalya",
-    "Fatih mahallesi 3389 sokak no:14 kepez/antalya",
-    "Fatih mahallesi 3389 sokak no:14 kepez/antalya",
-  ];
   Address _address = new Address();
 
   @override
@@ -65,27 +55,41 @@ class MyAddressLayoutState extends State<MyAddressLayout> {
         future: _address.getAddresses(1),
         builder: (context, snapshot) {
           if (snapshot.hasData) {
-            List<String> content = List();
+            List<String> addressLineList = List();
+            List<String> cityCountryList = List();
+            List<Icon> iconList = List();
             for (int i = 0; i < snapshot.data.length; i++) {
-              print(snapshot.data[i]["addressLine"]);
-              content.add(snapshot.data[i]["addressLine"]);
+              addressLineList.add(snapshot.data[i]["addressLine"]);
+              String cityCountry = snapshot.data[i]["postalCodeCity"]["city"]["city"];
+              cityCountry += ", ";
+              cityCountry += snapshot.data[i]["postalCodeCity"]["city"]["country"];
+              cityCountryList.add(cityCountry);
+              if (snapshot.data[i]["addressTitle"] == "School") {
+                iconList.add(Icon(Icons.school));
+              } else if (snapshot.data[i]["addressTitle"] == "Home") {
+                iconList.add(Icon(Icons.home));
+              } else if (snapshot.data[i]["addressTitle"] == "Office") {
+                iconList.add(Icon(Icons.work));
+              } else {
+                iconList.add(Icon(Icons.local_post_office));
+              }
             }
             return ListView.builder(
             //padding: const EdgeInsets.fromLTRB(10, 4, 10, 4),
-            itemCount: addressList.length,
+            itemCount: addressLineList.length,
             itemBuilder: (context, index) {
               return Card(
                 elevation: 5,
                 margin: const EdgeInsets.fromLTRB(0, 30, 0, 0),
                 child: ListTile(
-                  leading: Icon(Icons.home),
+                  leading: iconList[index],
                   trailing: Icon(Icons.arrow_right),
-                  subtitle: Text("Antalya, Turkey"),
-                  title: Text(content[index]),
+                  subtitle: Text(cityCountryList[index]),
+                  title: Text(addressLineList[index]),
                   onTap: () {
                     // TODO Call address page
                     // TODO Alert dialog can be opened
-                    print(content[index]);
+                    print(addressLineList[index]);
                   },
             ),
           );
