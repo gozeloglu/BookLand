@@ -11,6 +11,7 @@ import 'package:bookland/adminOrders.dart';
 void main() {
   runApp(MyApp());
 }
+String customerID;
 
 class MyApp extends StatelessWidget {
   // This widget is the root of your application.
@@ -208,11 +209,20 @@ class MyStatelessWidget extends StatelessWidget {
               title: new Text("Account"),
               trailing: new Icon(Icons.account_circle),
               onTap: () {
-                Navigator.push(context, 
-                  new MaterialPageRoute(
-                      builder: (context) => new AccountPageStateless(FIRSTNAME)
-                  )
-                );
+                if (customerID != null) {
+                  print(customerID == null);
+                  Navigator.push(context,
+                      new MaterialPageRoute(
+                          builder: (context) =>
+                          new AccountPageStateless(FIRSTNAME)
+                      )
+                  );
+                } else {
+                  Navigator.push(
+                    context,
+                    new MaterialPageRoute(builder: (context) => new Login()),
+                  );
+                }
               },
             ),
 //Section Line

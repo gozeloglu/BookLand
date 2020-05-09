@@ -251,17 +251,9 @@ class _AddressAddPageState extends State<CustomerAddressAddStateful> {
                     );
                   });
             } else {
-              // TODO Call http function
-              print(addressLine);
-              print(city);
-              print(country);
-              print(postalCode);
-              print(addressTitle);
-              var a = address.saveAddress(
-                  1, addressLine, city, country, postalCode, addressTitle);
-              print("------------------");
-              print("a $a");
-              print("------------------");
+
+              address.saveAddress(
+                  int.parse(customerID), addressLine, city, country, postalCode, addressTitle);
             }
           }),
     );
