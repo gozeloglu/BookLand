@@ -79,7 +79,7 @@ class MyAddressLayoutState extends State<MyAddressLayout> {
             itemCount: addressLineList.length,
             itemBuilder: (context, index) {
               return Card(
-                elevation: 5,
+                elevation: 7,
                 margin: const EdgeInsets.fromLTRB(0, 30, 0, 0),
                 child: ListTile(
                   leading: iconList[index],
@@ -94,7 +94,11 @@ class MyAddressLayoutState extends State<MyAddressLayout> {
             ),
           );
         });}
-        return CircularProgressIndicator();
+          return Container(
+            alignment: Alignment.center,
+            height: 160.0,
+            child: CircularProgressIndicator(),
+          );
         })
     );
   }
