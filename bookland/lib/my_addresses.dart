@@ -1,4 +1,5 @@
 import 'package:bookland/customer_address_add.dart';
+import 'package:bookland/http_address.dart';
 import 'package:flutter/material.dart';
 import 'dart:async';
 
@@ -39,30 +40,59 @@ class MyAddressLayout extends StatefulWidget {
 class MyAddressLayoutState extends State<MyAddressLayout> {
   List<String> addressList = [
     "Fatih mahallesi 3389 sokak no:14 kepez/antalya",
-    "Beytepe Kampus"
+    "Beytepe Kampus",
+    "Fatih mahallesi 3389 sokak no:14 kepez/antalya",
+    "Fatih mahallesi 3389 sokak no:14 kepez/antalya",
+    "Fatih mahallesi 3389 sokak no:14 kepez/antalya",
+    "Fatih mahallesi 3389 sokak no:14 kepez/antalya",
+    "Fatih mahallesi 3389 sokak no:14 kepez/antalya",
+    "Fatih mahallesi 3389 sokak no:14 kepez/antalya",
   ];
+  Address _address = new Address();
+
   @override
   Widget build(BuildContext context) {
     return _addressListView(context);
   }
 
   Widget _addressListView(BuildContext context) {
-    return ListView.builder(
-        padding: const EdgeInsets.fromLTRB(10, 4, 10, 4),
-        itemCount: addressList.length,
-        itemBuilder: (context, index) {
-          return Card(
-            elevation: 5,
-            margin: const EdgeInsets.fromLTRB(30, 16, 30, 16),
-            child: ListTile(
-              leading: Icon(Icons.home),
-              title: Text(addressList[index]),
-              onTap: () {
-                print(addressList[index]);
-              },
+    var ll = _address.getAddresses(1);
+    //_address.getAddressList();
+    print("********************************** $ll");
+    return Padding(
+      padding: const EdgeInsets.all(16),
+      child: FutureBuilder<List<dynamic>>(
+        future: _address.getAddresses(1),
+        builder: (context, snapshot) {
+          if (snapshot.hasData) {
+            List<String> content = List();
+            for (int i = 0; i < snapshot.data.length; i++) {
+              print(snapshot.data[i]["addressLine"]);
+              content.add(snapshot.data[i]["addressLine"]);
+            }
+            return ListView.builder(
+            //padding: const EdgeInsets.fromLTRB(10, 4, 10, 4),
+            itemCount: addressList.length,
+            itemBuilder: (context, index) {
+              return Card(
+                elevation: 5,
+                margin: const EdgeInsets.fromLTRB(0, 30, 0, 0),
+                child: ListTile(
+                  leading: Icon(Icons.home),
+                  trailing: Icon(Icons.arrow_right),
+                  subtitle: Text("Antalya, Turkey"),
+                  title: Text(content[index]),
+                  onTap: () {
+                    // TODO Call address page
+                    // TODO Alert dialog can be opened
+                    print(content[index]);
+                  },
             ),
           );
-        });
+        });}
+        return CircularProgressIndicator();
+        })
+    );
   }
 }
 /*

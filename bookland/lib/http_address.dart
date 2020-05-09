@@ -3,6 +3,7 @@ import 'package:http/http.dart' as http;
 import 'customer_address_add.dart';
 
 class Address {
+  List<dynamic> addressList;
   /// @param: userId represents user's unique id to save in correct location in db
   /// @param: addressLine represents the whole address of the user
   /// @param: city represents the city of the address
@@ -48,6 +49,36 @@ class Address {
     } else {
       print(response.statusCode);
       throw Exception("Failed to save address");
+    }
+  }
+
+  Future<List<dynamic>> getAddresses(int userId) async {
+    String username = 'Daryl';
+    String password = 'WalkingDead';
+
+    String basicAuth =
+        'Basic ' + base64Encode(utf8.encode('$username:$password'));
+    var url = "http://10.0.2.2:8080/myAddresses/$userId";
+    String _url = Uri.encodeFull(url);
+    http.Response response = await http.get(
+      _url,
+      headers: <String, String>{'authorization': basicAuth},
+    );
+    print(response.statusCode);
+    if (response.statusCode < 400) {
+      print(json.decode(response.body) as List);
+      print("-----------------------------");
+      addressList = (json.decode(response.body) as List);
+      //getAddressList();
+      return (json.decode(response.body) as List);
+    } else {
+      throw Exception("Could ot get addresses!");
+    }
+  }
+
+  List<dynamic> getAddressList() {
+    for (int i = 0; i < addressList.length; i++) {
+      print(addressList[i]);
     }
   }
 }
