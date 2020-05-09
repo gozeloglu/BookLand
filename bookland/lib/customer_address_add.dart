@@ -22,6 +22,8 @@ class CustomerAddressAddStateful extends StatefulWidget {
 }
 
 class _AddressAddPageState extends State<CustomerAddressAddStateful> {
+  Address address = new Address();
+
   TextEditingController addressLineController = new TextEditingController();
   TextEditingController cityController = new TextEditingController();
   TextEditingController countryController = new TextEditingController();
@@ -255,7 +257,11 @@ class _AddressAddPageState extends State<CustomerAddressAddStateful> {
               print(country);
               print(postalCode);
               print(addressTitle);
-              saveAddress(1, addressLine, city, country, postalCode, addressTitle);
+              var a = address.saveAddress(
+                  1, addressLine, city, country, postalCode, addressTitle);
+              print("------------------");
+              print("a $a");
+              print("------------------");
             }
           }),
     );
