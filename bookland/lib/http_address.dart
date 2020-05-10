@@ -50,6 +50,55 @@ class Address {
       throw Exception("Failed to save address");
     }
   }
+
+  /// @param userId represents the user id to retrieve data
+  /// This function GETs the all addresses and returns to
+  /// the "My Addresses" page
+  Future<List<dynamic>> getAddresses(int userId) async {
+    String username = 'Daryl';
+    String password = 'WalkingDead';
+
+    String basicAuth =
+        'Basic ' + base64Encode(utf8.encode('$username:$password'));
+    var url = "http://10.0.2.2:8080/myAddresses/$userId";
+    String _url = Uri.encodeFull(url);
+    http.Response response = await http.get(
+      _url,
+      headers: <String, String>{'authorization': basicAuth},
+    );
+    if (response.statusCode < 400) {
+      return (json.decode(response.body) as List);
+    } else {
+      throw Exception("Could not get addresses!");
+    }
+  }
+
+  /// @param userId represents the user id to delete address
+  /// @param addressId represents the address that we want to delete
+  /// This function deletes the given address from database
+  Future<String> deleteAddress(int userId, int addressId) async {
+    String username = 'Daryl';
+    String password = 'WalkingDead';
+
+    String basicAuth =
+        'Basic ' + base64Encode(utf8.encode('$username:$password'));
+    var url = "http://10.0.2.2:8080/deleteAddress/$userId/$addressId";
+    String _url = Uri.encodeFull(url);
+    http.Response response = await http.delete(
+      _url,
+      headers: <String, String>{
+        'authorization': basicAuth,
+        'Content-Type': 'application/json; charset=UTF-8',
+      },
+    );
+
+    // If delete operation is successful
+    if (response.statusCode < 400) {
+      return "OK";
+    } else {
+      throw Exception("Could not delete the address");
+    }
+  }
 }
 
 class City {
