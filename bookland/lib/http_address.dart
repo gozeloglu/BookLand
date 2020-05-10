@@ -66,11 +66,33 @@ class Address {
       _url,
       headers: <String, String>{'authorization': basicAuth},
     );
-    print(response.statusCode);
     if (response.statusCode < 400) {
       return (json.decode(response.body) as List);
     } else {
-      throw Exception("Could ot get addresses!");
+      throw Exception("Could not get addresses!");
+    }
+  }
+
+  Future<String> deleteAddress(int userId, int addressId) async {
+    String username = 'Daryl';
+    String password = 'WalkingDead';
+
+    String basicAuth =
+        'Basic ' + base64Encode(utf8.encode('$username:$password'));
+    var url = "http://10.0.2.2:8080/deleteAddress/$userId/$addressId";
+    String _url = Uri.encodeFull(url);
+    http.Response response = await http.delete(
+      _url,
+      headers: <String, String>{
+        'authorization': basicAuth,
+        'Content-Type': 'application/json; charset=UTF-8',
+      },
+    );
+
+    if (response.statusCode < 400) {
+      return "OK";
+    } else {
+      throw Exception("Could not delete the address");
     }
   }
 }

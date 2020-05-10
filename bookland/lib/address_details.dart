@@ -1,7 +1,14 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:bookland/http_address.dart';
+import 'package:bookland/main.dart';
+
+int _addressId;
 
 class AddressDetails extends StatelessWidget {
+  AddressDetails(int addressId) {
+    _addressId = addressId;
+  }
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -22,12 +29,17 @@ class AddressDetailsLayout extends StatefulWidget {
 }
 
 class AddressDetailsState extends State<AddressDetailsLayout> {
+  Address _address = new Address();
+  int _userId = int.parse(customerID);
+
   @override
   Widget build(BuildContext context) {
     return _addressDetailView(context);
   }
 
   Widget _addressDetailView(BuildContext context) {
+    print(_userId);
+    print(_addressId);
     return new Padding(
         padding: const EdgeInsets.all(32),
         child: new Column(
@@ -62,55 +74,46 @@ class AddressDetailsState extends State<AddressDetailsLayout> {
               Divider(
                 height: 20.0,
               ),
-              Row(crossAxisAlignment: CrossAxisAlignment.end, children: <Widget>[
-                Expanded(
-                  child: Align(
-                    alignment: FractionalOffset.bottomLeft,
-                    child: MaterialButton(
-                      color: Colors.red,
-                      height: 64,
-                      padding: const EdgeInsets.fromLTRB(48, 0, 48, 0),
-                      shape: new RoundedRectangleBorder(
-                        borderRadius: new BorderRadius.circular(20)
+              Row(
+                  crossAxisAlignment: CrossAxisAlignment.end,
+                  children: <Widget>[
+                    Expanded(
+                      child: Align(
+                        alignment: FractionalOffset.bottomLeft,
+                        child: MaterialButton(
+                          color: Colors.red,
+                          height: 64,
+                          padding: const EdgeInsets.fromLTRB(48, 0, 48, 0),
+                          shape: new RoundedRectangleBorder(
+                              borderRadius: new BorderRadius.circular(20)),
+                          onPressed: () {
+                            _address.deleteAddress(_userId, _addressId);
+                          },
+                          child: Text(
+                            "Delete",
+                            style: TextStyle(fontSize: 18, color: Colors.white),
+                          ),
+                        ),
                       ),
-                      onPressed: () => {},
-                      child: Text("Delete", style: TextStyle(
-                        fontSize: 18,
-                        color: Colors.white
-                      ),),
                     ),
-                  ),
-                ),
-                Expanded(
-                  child: Align(
-                    alignment: FractionalOffset.bottomRight,
-                    child: MaterialButton(
-                      color: Colors.green,
-                      height: 64,
-                      padding: const EdgeInsets.fromLTRB(48, 0, 48, 0),
-                      shape: new RoundedRectangleBorder(
-                          borderRadius: new BorderRadius.circular(20)
+                    Expanded(
+                      child: Align(
+                        alignment: FractionalOffset.bottomRight,
+                        child: MaterialButton(
+                          color: Colors.green,
+                          height: 64,
+                          padding: const EdgeInsets.fromLTRB(48, 0, 48, 0),
+                          shape: new RoundedRectangleBorder(
+                              borderRadius: new BorderRadius.circular(20)),
+                          onPressed: () => {},
+                          child: Text(
+                            "Update",
+                            style: TextStyle(fontSize: 18, color: Colors.white),
+                          ),
+                        ),
                       ),
-                      onPressed: () => {},
-                      child: Text("Update", style: TextStyle(
-                        fontSize: 18,
-                        color: Colors.white
-                      ),),
                     ),
-                  ),
-                ),
-              ]),
+                  ]),
             ]));
-    /*return Padding(
-      padding: const EdgeInsets.all(32),
-      child: Card(
-        shape: new RoundedRectangleBorder(
-          borderRadius: new BorderRadius.circular(20)
-        ),
-        elevation: 3,
-        margin: const EdgeInsets.fromLTRB(10, 50, 10, 50),
-        child: Text("DENEME"),
-      ),
-    );*/
   }
 }

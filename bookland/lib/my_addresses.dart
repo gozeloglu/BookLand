@@ -58,6 +58,10 @@ class MyAddressLayoutState extends State<MyAddressLayout> {
                 List<String> cityCountryList = List();
                 List<Icon> iconList = List();
                 for (int i = 0; i < snapshot.data.length; i++) {
+                  print("-------");
+                  print(snapshot.data[i]["addressId"]);
+                  print((snapshot.data[i]["addressId"]).runtimeType);
+                  print("-------");
                   addressLineList.add(snapshot.data[i]["addressLine"]);
                   String cityCountry =
                       snapshot.data[i]["postalCodeCity"]["city"]["city"];
@@ -95,7 +99,8 @@ class MyAddressLayoutState extends State<MyAddressLayout> {
                             Navigator.push(
                               context,
                               new MaterialPageRoute(
-                                  builder: (context) => new AddressDetails()),
+                                  builder: (context) => new AddressDetails(
+                                          snapshot.data[index]["addressId"])),
                             );
                             print(addressLineList[index]);
                           },
