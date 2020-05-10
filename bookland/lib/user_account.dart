@@ -78,8 +78,7 @@ class AccountPageState extends State<AccountPageStateful> {
                                 ],
                               )
                             ],
-                          )
-                      )
+                          ))
                     ],
                   ),
                 ),
@@ -92,7 +91,7 @@ class AccountPageState extends State<AccountPageStateful> {
                       children: <Widget>[
                         Padding(
                           padding: EdgeInsets.only(
-                            left: 25.0, right: 25.0, top: 25.0),
+                              left: 25.0, right: 25.0, top: 25.0),
                           child: new Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             mainAxisSize: MainAxisSize.max,
@@ -119,8 +118,7 @@ class AccountPageState extends State<AccountPageStateful> {
                         ),
                         Padding(
                           padding: EdgeInsets.only(
-                            left: 25.0, right: 25.0, top: 2.0
-                          ),
+                              left: 25.0, right: 25.0, top: 2.0),
                           child: new Row(
                             mainAxisSize: MainAxisSize.max,
                             children: <Widget>[
@@ -129,24 +127,18 @@ class AccountPageState extends State<AccountPageStateful> {
                                     onPressed: () {
                                       print("FIRST BUTTON");
                                     },
-                                    padding: EdgeInsets.only(
-                                      left: 20
-                                    ),
+                                    padding: EdgeInsets.only(left: 20),
                                     child: Text(
                                       "My Orders",
-                                      style: TextStyle(
-                                        fontSize: 24.0
-                                      ),
-                                    )
-                                ),
+                                      style: TextStyle(fontSize: 24.0),
+                                    )),
                               )
                             ],
                           ),
                         ),
                         Padding(
                           padding: EdgeInsets.only(
-                            left: 25.0, right: 25.0, top: 25.0
-                          ),
+                              left: 25.0, right: 25.0, top: 25.0),
                           child: new Row(
                             mainAxisSize: MainAxisSize.max,
                             children: <Widget>[
@@ -171,8 +163,7 @@ class AccountPageState extends State<AccountPageStateful> {
                         ),
                         Padding(
                           padding: EdgeInsets.only(
-                            left: 25.0, right: 25.0, top: 25.0
-                          ),
+                              left: 25.0, right: 25.0, top: 25.0),
                           child: new Row(
                             mainAxisSize: MainAxisSize.max,
                             mainAxisAlignment: MainAxisAlignment.start,
@@ -184,10 +175,10 @@ class AccountPageState extends State<AccountPageStateful> {
                                   new FlatButton(
                                       onPressed: () {
                                         Navigator.push(
-                                            context,
-                                            new MaterialPageRoute(
-                                                builder: (context) => MyAddresses(),
-                                            ),
+                                          context,
+                                          new MaterialPageRoute(
+                                            builder: (context) => MyAddresses(),
+                                          ),
                                         );
                                         print("THIRD BUTTON");
                                       },

@@ -2,6 +2,7 @@ import 'package:bookland/customer_address_add.dart';
 import 'package:bookland/http_address.dart';
 import 'package:flutter/material.dart';
 import 'package:bookland/main.dart';
+import 'package:bookland/address_details.dart';
 
 class MyAddresses extends StatelessWidget {
   @override
@@ -17,7 +18,6 @@ class MyAddresses extends StatelessWidget {
           child: Icon(Icons.add),
           backgroundColor: Colors.green,
           onPressed: () {
-            // TODO Add new address page
             print("Action button");
             Navigator.push(
               context,
@@ -92,6 +92,11 @@ class MyAddressLayoutState extends State<MyAddressLayout> {
                           onTap: () {
                             // TODO Call address page
                             // TODO Alert dialog can be opened
+                            Navigator.push(
+                              context,
+                              new MaterialPageRoute(
+                                  builder: (context) => new AddressDetails()),
+                            );
                             print(addressLineList[index]);
                           },
                         ),
