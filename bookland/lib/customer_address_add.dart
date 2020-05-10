@@ -3,6 +3,7 @@ import 'package:bookland/main.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:bookland/http_address.dart';
+import 'package:bookland/my_addresses.dart';
 
 /// This variable is responsible for informing
 /// that saving operation's status
@@ -283,9 +284,21 @@ class _AddressAddPageState extends State<CustomerAddressAddStateful> {
                       content: Text("Address is saved successfully!"),
                       shape: new RoundedRectangleBorder(
                           borderRadius: new BorderRadius.circular(25)),
+                      actions: <Widget>[
+                        new FlatButton(
+                          child: new Text("Close"),
+                          onPressed: () {
+                            Navigator.push(
+                                context,
+                                new MaterialPageRoute(
+                                    builder: (context) => new MyAddresses()));
+                          },
+                        )
+                      ],
                     );
                   });
-              Navigator.of(context).pop();
+              //Navigator.of(context).pop();
+              //Navigator
             } else {
               showDialog(
                   context: context,

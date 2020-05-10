@@ -1,3 +1,4 @@
+import 'package:bookland/my_addresses.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:bookland/http_address.dart';
@@ -98,6 +99,30 @@ class AddressDetailsState extends State<AddressDetailsLayout> {
                               borderRadius: new BorderRadius.circular(20)),
                           onPressed: () {
                             _address.deleteAddress(_userId, _addressId);
+                            showDialog(
+                              context: context,
+                              builder: (BuildContext context) {
+                                // return object of type Dialog
+                                return AlertDialog(
+                                  title: new Text("Delete Book"),
+                                  content:
+                                      new Text("Book is deleted successfully!"),
+                                  actions: <Widget>[
+                                    // usually buttons at the bottom of the dialog
+                                    new FlatButton(
+                                      child: new Text("Close"),
+                                      onPressed: () {
+                                        Navigator.push(
+                                            context,
+                                            new MaterialPageRoute(
+                                                builder: (context) =>
+                                                    new MyAddresses()));
+                                      },
+                                    ),
+                                  ],
+                                );
+                              },
+                            );
                           },
                           child: Text(
                             "Delete",
