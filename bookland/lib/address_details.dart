@@ -4,10 +4,20 @@ import 'package:bookland/http_address.dart';
 import 'package:bookland/main.dart';
 
 int _addressId;
+String _addressTitle;
+String _addressLine;
+String _city;
+String _country;
+String _postalCode;
 
 class AddressDetails extends StatelessWidget {
-  AddressDetails(int addressId) {
-    _addressId = addressId;
+  AddressDetails(Map<String, dynamic> addressMap) {
+    _addressId = addressMap["addressId"];
+    _addressTitle = addressMap["addressTitle"];
+    _addressLine = addressMap["addressLine"];
+    _city = addressMap["postalCodeCity"]["city"]["city"];
+    _country = addressMap["postalCodeCity"]["city"]["country"];
+    _postalCode = addressMap["postalCodeCity"]["postalCode"];
   }
   @override
   Widget build(BuildContext context) {
@@ -48,28 +58,28 @@ class AddressDetailsState extends State<AddressDetailsLayout> {
             children: <Widget>[
               new ListTile(
                 leading: Icon(Icons.format_list_bulleted),
-                title: const Text("Address Type"),
-                subtitle: const Text("Home"),
+                title: const Text("Address Title"),
+                subtitle: Text(_addressTitle),
               ),
               new ListTile(
                 leading: Icon(Icons.local_post_office),
                 title: const Text("Address Line"),
-                subtitle: const Text("Fatih Mahallesi 3389 Sokak No:14"),
+                subtitle: Text(_addressLine),
               ),
               new ListTile(
                 leading: Icon(Icons.location_city),
                 title: const Text("City"),
-                subtitle: const Text("Antalya"),
+                subtitle: Text(_city),
               ),
               new ListTile(
                 leading: Icon(Icons.flight),
                 title: const Text("Country"),
-                subtitle: const Text("Turkey"),
+                subtitle: Text(_country),
               ),
               new ListTile(
                 leading: Icon(Icons.local_post_office),
                 title: const Text("Postal Code"),
-                subtitle: const Text("0700"),
+                subtitle: Text(_postalCode),
               ),
               Divider(
                 height: 20.0,
