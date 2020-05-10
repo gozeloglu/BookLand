@@ -73,6 +73,9 @@ class Address {
     }
   }
 
+  /// @param userId represents the user id to delete address
+  /// @param addressId represents the address that we want to delete
+  /// This function deletes the given address from database
   Future<String> deleteAddress(int userId, int addressId) async {
     String username = 'Daryl';
     String password = 'WalkingDead';
@@ -89,6 +92,7 @@ class Address {
       },
     );
 
+    // If delete operation is successful
     if (response.statusCode < 400) {
       return "OK";
     } else {

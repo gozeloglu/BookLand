@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:bookland/http_address.dart';
 import 'package:bookland/main.dart';
 
+/// Given address' information to show up on the screen
 int _addressId;
 String _addressTitle;
 String _addressLine;
@@ -12,6 +13,11 @@ String _country;
 String _postalCode;
 
 class AddressDetails extends StatelessWidget {
+  /// @param addressMap contains the information of the given address
+  /// This is a constructor that gets the address map from list page
+  /// addressMap contains addressId, address title, address line,
+  /// postal code, city, country
+  /// Assigns the information to global variables
   AddressDetails(Map<String, dynamic> addressMap) {
     _addressId = addressMap["addressId"];
     _addressTitle = addressMap["addressTitle"];
@@ -48,6 +54,9 @@ class AddressDetailsState extends State<AddressDetailsLayout> {
     return _addressDetailView(context);
   }
 
+  /// This function builds a page that shows the details of the address
+  /// User can delete or update the address
+  /// After address deleted alert dialog is showed up
   Widget _addressDetailView(BuildContext context) {
     print(_userId);
     print(_addressId);
