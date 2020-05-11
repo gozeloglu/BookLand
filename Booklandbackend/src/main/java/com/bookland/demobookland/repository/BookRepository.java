@@ -2,7 +2,6 @@ package com.bookland.demobookland.repository;
 
 import com.bookland.demobookland.model.Book;
 import com.bookland.demobookland.model.projections.ExplorePageProjection;
-import com.bookland.demobookland.model.projections.HotlistProjection;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
@@ -28,11 +27,14 @@ public interface BookRepository extends PagingAndSortingRepository<Book, Integer
     Book findByBookId(Integer id);
 
     /*Last released 10 books*/
+    Page<ExplorePageProjection> findTop10ByOrderByReleasedTimeDesc(Pageable paging);
+
     List<ExplorePageProjection> findTop10ByOrderByReleasedTimeDesc();
 
+    Page<ExplorePageProjection> findByCategoryEquals(Pageable paging, String category);
+
     /*If we want to return all the properties of book just change the return type to book*/
-    @Query("SELECT  b.bookImage as bookImage, b.bookName as bookName FROM Book b WHERE b.inHotList=1")
-    List<HotlistProjection> findByInHotList();
+    Page<ExplorePageProjection> findByInHotListEquals(Pageable paging, Integer hotList);
 
     Page<ExplorePageProjection> findByRealIsbn(Pageable paging, Long isbn);
 

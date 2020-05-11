@@ -2,18 +2,13 @@ package com.bookland.demobookland.controller;
 
 import com.bookland.demobookland.model.Book;
 import com.bookland.demobookland.model.projections.ExplorePageProjection;
-import com.bookland.demobookland.model.projections.HotlistProjection;
 import com.bookland.demobookland.model.validationGroups.AddBookGroup;
 import com.bookland.demobookland.services.BookServices;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.MediaType;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
-import javax.validation.Valid;
-import javax.validation.constraints.Max;
-import javax.validation.constraints.Min;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -52,7 +47,7 @@ public class BookController {
     }
 
     @PutMapping(value = "/updateBook/{id}")
-    public String updateBook(@PathVariable Integer id, @RequestBody(required = false) Book book) {
+    public String updateBook(@PathVariable Integer id, @RequestBody Book book) {/*required false varmış*/
         return bookServices.updateBook(id, book);
     }
 
@@ -73,14 +68,14 @@ public class BookController {
         return bookServices.getSubCategory();
     }
 
-    @GetMapping(value = "/getHotList", produces = MediaType.APPLICATION_JSON_VALUE)
-    public List<HotlistProjection> getHotList() {
-        return bookServices.getHotList();
+    @GetMapping(value = "/getHotList/{pageNo}/{pageSize}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public List<ExplorePageProjection> getHotList(@PathVariable Integer pageNo, @PathVariable Integer pageSize) {
+        return bookServices.getHotList(pageNo - 1, pageSize);
     }
 
-    @GetMapping(value = "/getLastReleased", produces = MediaType.APPLICATION_JSON_VALUE)
-    public List<ExplorePageProjection> getLastReleased() {
-        return bookServices.getLastReleased();
+    @GetMapping(value = "/getLastReleased/{pageNo}/{pageSize}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public List<ExplorePageProjection> getLastReleased(@PathVariable Integer pageNo, @PathVariable Integer pageSize) {
+        return bookServices.getLastReleased(pageNo - 1, pageSize);
     }
 
     @GetMapping(value = "/getBookDetails/{ISBN}", produces = MediaType.APPLICATION_JSON_VALUE)
@@ -89,8 +84,13 @@ public class BookController {
     }
 
     @PutMapping(value = "/applyDiscount/{book_id}/{percentage}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public String applyDiscount(@PathVariable Integer book_id, @PathVariable Integer percentage){
+    public String applyDiscount(@PathVariable Integer book_id, @PathVariable Integer percentage) {
         return bookServices.applyDiscount(book_id, percentage);
+    }
+
+    @GetMapping(value = "/getBookByCategoryName/{pageNo}/{pageSize}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public List<ExplorePageProjection> getBookByCategory(@PathVariable Integer pageNo, @PathVariable Integer pageSize,String category) {
+        return bookServices.getBookByCategory(pageNo - 1, pageSize,category);
     }
 
     @GetMapping(value = "/Filtering/{pageNo}/{pageSize}", produces = MediaType.APPLICATION_JSON_VALUE)
