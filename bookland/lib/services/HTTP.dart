@@ -74,7 +74,27 @@ class HTTPAll{
     }
   }
 
+  Future<String> getCategories() async {
+    var client = http.Client();
+    var url = "http://10.0.2.2:8080";
+    String username = 'Daryl';
+    String password = 'WalkingDead';
 
+    String basicAuth =
+        'Basic ' + base64Encode(utf8.encode('$username:$password'));
+
+    http.Response response = await http.get(
+        'http://10.0.2.2:8080/getCategory',
+        headers: <String, String>{'authorization': basicAuth});
+    print("HERE!!!!");
+    if (response.statusCode == 200) {
+      String text = response.body;
+      print(text);
+      return text;
+    } else {
+      throw "Can't get books.";
+    }
+  }
 
 
 
