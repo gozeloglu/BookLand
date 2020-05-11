@@ -6,10 +6,15 @@ import com.bookland.demobookland.model.projections.HotlistProjection;
 import com.bookland.demobookland.model.validationGroups.AddBookGroup;
 import com.bookland.demobookland.services.BookServices;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.MediaType;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
+import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -24,7 +29,7 @@ public class BookController {
         /** @:return All books in JSON type
          *  GET request is handling here
          * */
-        return bookServices.getAllBooks(pageNo-1, pageSize);
+        return bookServices.getAllBooks(pageNo - 1, pageSize);
     }
 
 
@@ -44,11 +49,10 @@ public class BookController {
             response = "Some Problem Occured";
             return response;
         }
-
     }
 
     @PutMapping(value = "/updateBook/{id}")
-    public String updateBook(@PathVariable Integer id,@RequestBody(required = false) Book book) {
+    public String updateBook(@PathVariable Integer id, @RequestBody(required = false) Book book) {
         return bookServices.updateBook(id, book);
     }
 
@@ -74,48 +78,27 @@ public class BookController {
         return bookServices.getHotList();
     }
 
-    // GET All Books
     @GetMapping(value = "/getLastReleased", produces = MediaType.APPLICATION_JSON_VALUE)
-    public List<Book> getLastReleased() {
+    public List<ExplorePageProjection> getLastReleased() {
         return bookServices.getLastReleased();
     }
 
-    /*Ana sayfada resmin üzerine basınca bu fonksiyon çalışıcak
-     * ISBN ye göre aramak isterse de aynısı çalışcak çünkü ISBN unique*/
     @GetMapping(value = "/getBookDetails/{ISBN}", produces = MediaType.APPLICATION_JSON_VALUE)
     public Book getBookById(@PathVariable Integer ISBN) {
         return bookServices.getBookById(ISBN);
     }
 
-    @GetMapping(value = "/SearchByAuthor", produces = MediaType.APPLICATION_JSON_VALUE)
-    public List<Book> getBookByAuthor(String author) {
-        return bookServices.getBookByAuthor(author);
-    }
-
-    @GetMapping(value = "/SearchByBookName", produces = MediaType.APPLICATION_JSON_VALUE)
-    public List<Book> getBookByName(String bookName) {
-        return bookServices.getBookByTitle(bookName);
-    }
-
-    @GetMapping(value = "/SearchByCategory", produces = MediaType.APPLICATION_JSON_VALUE)
-    public List<Book> getBookByCategory(String category) {
-        return bookServices.getBookByCategory(category);
-    }
-
-    @GetMapping(value = "/SearchBySubCategory", produces = MediaType.APPLICATION_JSON_VALUE)
-    public List<Book> getBookBySubCategory(String subCategory) {
-        return bookServices.getBookBySubCategory(subCategory);
-    }
-
     @PutMapping(value = "/applyDiscount/{book_id}/{percentage}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public String applyDiscount(@PathVariable Integer book_id, @PathVariable Integer percentage) {
+    public String applyDiscount(@PathVariable Integer book_id, @PathVariable Integer percentage){
         return bookServices.applyDiscount(book_id, percentage);
     }
 
-    @GetMapping(value = "/hello", produces = MediaType.APPLICATION_JSON_VALUE)
-    public String hello(String isbn) {
-        return "{isbn:'1', bookname:'İçimizdeki Şeytan'}";
+    @GetMapping(value = "/Filtering/{pageNo}/{pageSize}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public List<Book> getBookByFilters(@PathVariable Integer pageNo, @PathVariable Integer pageSize,
+                                       @RequestParam(value = "author", defaultValue = "undefined") String author,
+                                       @RequestParam(value = "categories", defaultValue = "") ArrayList<String> categories,
+                                       @RequestParam(value = "minPrice", defaultValue = "-1") Integer minPrice,
+                                       @RequestParam(value = "maxPrice", defaultValue = "-1") Integer maxPrice) {
+        return bookServices.getBookByFilters(pageNo - 1, pageSize, author, categories, minPrice, maxPrice);
     }
-
-
 }

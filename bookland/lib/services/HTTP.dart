@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'package:bookland/model/model_user.dart';
 import 'package:bookland/model/error.dart';
 import 'package:http/http.dart' as http;
+import 'package:bookland/main.dart';
 import 'package:bookland/services/globalVariable.dart';
 
 
@@ -27,7 +28,10 @@ class HTTPAll{
       FIRSTNAME = obj.FirstName;
       ISADMIN =  obj.IsAdmin;
       isAnyUserLogin = true;
-
+      customerID = CUSTOMERID;
+      print("********************************");
+      print("CUSTOMER ID $CUSTOMERID");
+      print("********************************");
     } else {
       //print(response.body);
 

@@ -24,7 +24,7 @@ public class CustomerController {
 
     @GetMapping(value = "/allCustomers/{pageNo}/{pageSize}", produces = MediaType.APPLICATION_JSON_VALUE)
     public List<CustomerInfoProjection> getCustomers(@PathVariable Integer pageNo, @PathVariable Integer pageSize) {
-        return customerServices.getallCustomer(pageNo, pageSize);
+        return customerServices.getallCustomer(pageNo-1, pageSize);
     }
 
     @PostMapping(value = "/saveCustomer")
