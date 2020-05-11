@@ -1,9 +1,12 @@
 import 'package:bookland/services/globalVariable.dart';
 import 'package:bookland/user_account.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:bookland/login.dart';
 import 'package:bookland/explore.dart';
+import 'package:bookland/list_dynamic.dart';
 import 'package:bookland/bookview.dart';
+import 'package:bookland/category.dart';
 import 'package:bookland/adminAddBook.dart';
 
 import 'package:bookland/adminOrders.dart';
@@ -284,7 +287,10 @@ class MyStatelessWidget extends StatelessWidget {
               IconButton(
                   icon: Icon(Icons.category),
                   onPressed: () {
-
+                    Navigator.push(
+                      context,
+                      new MaterialPageRoute(builder: (context) => new NT()),
+                    );
                   }),
               Text("           "),
               IconButton(
