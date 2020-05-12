@@ -6,7 +6,6 @@ import com.bookland.demobookland.model.SearchCriteria.BookSpecification;
 import com.bookland.demobookland.model.SearchCriteria.SearchCriteria;
 import com.bookland.demobookland.model.SearchCriteria.SearchOperation;
 import com.bookland.demobookland.model.projections.ExplorePageProjection;
-import com.bookland.demobookland.model.projections.HotlistProjection;
 import com.bookland.demobookland.repository.BookRepository;
 import com.bookland.demobookland.repository.PriceRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -130,6 +129,13 @@ public class BookServices {
         return bookRepository.findDistinctByCategory();
     }
 
+    public List<ExplorePageProjection> getBookByCategory(Integer pageNo, Integer pageSize, String category) {
+        Pageable paging = PageRequest.of(pageNo, pageSize);
+
+        Page<ExplorePageProjection> pagedResult = bookRepository.findByCategoryEquals(paging,category);
+        return pagedResult.toList();
+    }
+
     public Long getBookCount() {
         return bookRepository.count();
     }
@@ -141,13 +147,18 @@ public class BookServices {
     }
 
     /*Get hot-list*/
-    public List<HotlistProjection> getHotList() {
-        return bookRepository.findByInHotList();
+    public List<ExplorePageProjection> getHotList(Integer pageNo, Integer pageSize) {
+        Pageable paging = PageRequest.of(pageNo, pageSize);
+
+        Page<ExplorePageProjection> pagedResult = bookRepository.findByInHotListEquals(paging, 1);
+        return pagedResult.toList();
     }
 
     /*get last released books limit 10*/
-    public List<ExplorePageProjection> getLastReleased() {
-        return bookRepository.findTop10ByOrderByReleasedTimeDesc();
+    public List<ExplorePageProjection> getLastReleased(Integer pageNo, Integer pageSize) {
+        Pageable paging = PageRequest.of(pageNo, pageSize);
+        Page<ExplorePageProjection> pagedResult = bookRepository.findTop10ByOrderByReleasedTimeDesc(paging);
+        return pagedResult.toList();
     }
 
     /*Get book details by id*/
