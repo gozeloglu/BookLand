@@ -16,7 +16,9 @@ public interface BookRepository extends PagingAndSortingRepository<Book, Integer
 
     Page<ExplorePageProjection> findAllProjectedBy(Pageable paging);
 
-    /*Find distinct categories*/
+    Long countBookByCategoryEquals(String category);
+
+    /*Find distinct categories*//*change this one maybe later*/
     @Query("SELECT DISTINCT b.category FROM Book b")
     List<String> findDistinctByCategory();
 

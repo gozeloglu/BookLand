@@ -63,6 +63,11 @@ public class BookController {
         return bookServices.getBookCount();
     }
 
+    @GetMapping(value = "/getBookCountByCategory/{category}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public Long getBookCountByCategory(@PathVariable String category) {
+        return bookServices.getBookCountByCategory(category);
+    }
+
     @GetMapping(value = "/getSubCategory", produces = MediaType.APPLICATION_JSON_VALUE)
     public List<String> getSubCategory() {
         return bookServices.getSubCategory();
@@ -88,8 +93,8 @@ public class BookController {
         return bookServices.applyDiscount(book_id, percentage);
     }
 
-    @GetMapping(value = "/getBookByCategoryName/{pageNo}/{pageSize}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public List<ExplorePageProjection> getBookByCategory(@PathVariable Integer pageNo, @PathVariable Integer pageSize,String category) {
+    @GetMapping(value = "/getBookByCategoryName/{pageNo}/{pageSize}/{category}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public List<ExplorePageProjection> getBookByCategory(@PathVariable Integer pageNo, @PathVariable Integer pageSize,@PathVariable String category) {
         return bookServices.getBookByCategory(pageNo - 1, pageSize,category);
     }
 
