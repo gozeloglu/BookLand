@@ -107,6 +107,7 @@ public class BookServices {
             }
             if (book.getPriceList() != null) {
                 if (book.getPriceList().get(0).getPrice() != null) {
+                    current_book.setInDiscount(0);
                     Price newPrice = new Price();
                     newPrice.setISBN(current_book.getBookId());
                     newPrice.setPrice(book.getPriceList().get(0).getPrice());
@@ -138,6 +139,10 @@ public class BookServices {
 
     public Long getBookCount() {
         return bookRepository.count();
+    }
+
+    public Long getBookCountByCategory(String category) {
+        return bookRepository.countBookByCategoryEquals(category);
     }
 
     /*Get distinct sub-categories*/
