@@ -67,7 +67,11 @@ public class BookController {
     public Long getBookCountByCategory(@PathVariable String category) {
         return bookServices.getBookCountByCategory(category);
     }
-
+    @GetMapping(value = "/getBookCountHotList", produces = MediaType.APPLICATION_JSON_VALUE)
+    public Long getBookCountByCategory() {
+        System.out.println(bookServices.getBookCountByHotList());
+        return bookServices.getBookCountByHotList();
+    }
     @GetMapping(value = "/getSubCategory", produces = MediaType.APPLICATION_JSON_VALUE)
     public List<String> getSubCategory() {
         return bookServices.getSubCategory();
@@ -95,6 +99,7 @@ public class BookController {
 
     @GetMapping(value = "/getBookByCategoryName/{pageNo}/{pageSize}/{category}", produces = MediaType.APPLICATION_JSON_VALUE)
     public List<ExplorePageProjection> getBookByCategory(@PathVariable Integer pageNo, @PathVariable Integer pageSize,@PathVariable String category) {
+        System.out.println(category);
         return bookServices.getBookByCategory(pageNo - 1, pageSize,category);
     }
 

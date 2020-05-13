@@ -144,7 +144,9 @@ public class BookServices {
     public Long getBookCountByCategory(String category) {
         return bookRepository.countBookByCategoryEquals(category);
     }
-
+    public Long getBookCountByHotList() {
+        return bookRepository.countBookByInHotListEquals(1);
+    }
     /*Get distinct sub-categories*/
 
     public List<String> getSubCategory() {

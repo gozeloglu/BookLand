@@ -16,15 +16,29 @@ import 'package:flutter_paginator/flutter_paginator.dart';
 
 int total = 0;
 SplayTreeSet isbnSet = new SplayTreeSet();
-var globalList_DynamicContext;
+var globalList_MainContext;
 int deletedBookId = -1;
-String title_category = "Category";
-
-class List_DynamicStateless extends StatelessWidget {
-
-  List_DynamicStateless(int bookId, String Category) {
+String title_main = "MainPage";
+int main_page_num = 0;
+String parameter = "getHotList";
+class List_MainStateless extends StatelessWidget {
+  List_MainStateless(int bookId, int MainPage) {
     deletedBookId = bookId;
-    title_category = Category;
+    main_page_num = MainPage;
+    if(MainPage == 1){
+      title_main = "HotList";
+      parameter = "getHotList";
+    }else if(MainPage ==2){
+      title_main = "Campaigns";
+    }else if(MainPage ==3){
+      title_main = "Last Release";
+      parameter = "getLastReleased";
+    }else if(MainPage==4){
+      title_main = "Last Views";
+    }else if(MainPage ==5){
+      title_main = "Best Sellers";
+    }
+
     if (isbnSet.contains(deletedBookId)) {
       isbnSet.remove(deletedBookId);
     }
@@ -33,31 +47,31 @@ class List_DynamicStateless extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    globalList_DynamicContext = context;
+    globalList_MainContext = context;
     return MaterialApp(
       theme: ThemeData(
         primarySwatch: Colors.red,
       ),
-      title: title_category,
-      home: List_DynamicPage(),
+      title: title_main,
+      home: List_MainPage(),
     );
   }
 }
 
-class List_DynamicPage extends StatefulWidget {
+class List_MainPage extends StatefulWidget {
   @override
   State<StatefulWidget> createState() {
-    return List_DynamicState();
+    return List_MainState();
   }
 }
 
-class List_DynamicState extends State<List_DynamicPage> {
+class List_MainState extends State<List_MainPage> {
   GlobalKey<PaginatorState> paginatorGlobalKey = GlobalKey();
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: MyAppBar(pageTitle:title_category, back: false,),
+      appBar: MyAppBar(pageTitle:title_main, back: false,),
       body: Paginator.listView(
         key: paginatorGlobalKey,
         pageLoadFuture: sendBooksDataRequest,
@@ -87,17 +101,18 @@ class List_DynamicState extends State<List_DynamicPage> {
       String password = 'WalkingDead';
       String basicAuth =
           'Basic ' + base64Encode(utf8.encode('$username:$password'));
-      var urlBookCount = "http://10.0.2.2:8080/getBookCountByCategory/$title_category";
+      var urlBookCount = "http://10.0.2.2:8080/getBookCountHotList";
 
       String _urlBookCount = Uri.encodeFull(urlBookCount);
       http.Response responseCount = await http.get(
         _urlBookCount,
         headers: <String, String>{'authorization': basicAuth},
       );
-
+      print("HEREEE");
       if (responseCount.statusCode == 200) {
         total = json.decode(responseCount.body);
         print(total);
+        print("UPPPPPUPPPP");
       } else {
         print(responseCount.statusCode);
         throw Exception("Books are not retrieved!");
@@ -110,12 +125,13 @@ class List_DynamicState extends State<List_DynamicPage> {
   }
 
   Future<BooksData> sendBooksDataRequest(int page) async {
-    print("HEYOOHRE I AM");
-    print(title_category);
 
-    try {
-      getTotalCount();
-      var url = "http://10.0.2.2:8080/getBookByCategoryName/$page/10/$title_category";
+
+     try {
+       if(main_page_num != 3){getTotalCount();}
+       else{page = 1;}
+      print(page);
+      var url = "http://10.0.2.2:8080/$parameter/$page/10";
       print(url);
       String username = 'Daryl';
       String password = 'WalkingDead';
@@ -126,6 +142,7 @@ class List_DynamicState extends State<List_DynamicPage> {
         _url,
         headers: <String, String>{'authorization': basicAuth},
       );
+      print("HEREIAMMMMM");
       return BooksData.fromResponse(response);
     } catch (e) {
       if (e is IOException) {
