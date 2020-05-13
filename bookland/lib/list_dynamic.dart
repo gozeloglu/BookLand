@@ -97,6 +97,7 @@ class List_DynamicState extends State<List_DynamicPage> {
 
       if (responseCount.statusCode == 200) {
         total = json.decode(responseCount.body);
+        total =2 ;
         print(total);
       } else {
         print(responseCount.statusCode);
@@ -110,6 +111,9 @@ class List_DynamicState extends State<List_DynamicPage> {
   }
 
   Future<BooksData> sendBooksDataRequest(int page) async {
+    print("HEYOOHRE I AM");
+    print(title_category);
+
     try {
       getTotalCount();
       var url = "http://10.0.2.2:8080/allBooks/$page/10";
