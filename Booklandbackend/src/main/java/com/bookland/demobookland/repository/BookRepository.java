@@ -19,7 +19,7 @@ public interface BookRepository extends PagingAndSortingRepository<Book, Integer
 
     Long countBookByCategoryEquals(String category);
 
-    Long countBookByInHotListEquals(Integer hotlist);
+    Long countBookByInHotListEquals(Integer hotList);
 
     /*Find distinct categories*//*change this one maybe later*/
     @Query("SELECT DISTINCT b.category FROM Book b")

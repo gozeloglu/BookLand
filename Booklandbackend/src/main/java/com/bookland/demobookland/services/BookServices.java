@@ -133,7 +133,7 @@ public class BookServices {
     public List<ExplorePageProjection> getBookByCategory(Integer pageNo, Integer pageSize, String category) {
         Pageable paging = PageRequest.of(pageNo, pageSize);
 
-        Page<ExplorePageProjection> pagedResult = bookRepository.findByCategoryEquals(paging,category);
+        Page<ExplorePageProjection> pagedResult = bookRepository.findByCategoryEquals(paging, category);
         return pagedResult.toList();
     }
 
@@ -144,6 +144,7 @@ public class BookServices {
     public Long getBookCountByCategory(String category) {
         return bookRepository.countBookByCategoryEquals(category);
     }
+
     public Long getBookCountByHotList() {
         return bookRepository.countBookByInHotListEquals(1);
     }

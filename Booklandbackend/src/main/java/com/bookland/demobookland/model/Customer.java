@@ -60,6 +60,9 @@ public class Customer {
     @Column(name = "IsAdmin")
     private Integer isAdmin = 0;
 
+    @Column(name = "Status")
+    private Integer status = 1;
+
     @JsonBackReference(value = "customer-OrdersList")
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "customer", orphanRemoval = true)
     private List<Order> customerOrdersList= new ArrayList<>();
