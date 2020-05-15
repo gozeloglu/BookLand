@@ -18,5 +18,7 @@ public interface CustomerInfoProjection {
 
     String getEmail();
 
+    Integer getStatus();
+
    // List<Comment> getCommentList();
 }

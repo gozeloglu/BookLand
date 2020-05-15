@@ -22,6 +22,11 @@ public class AdminController {
         return adminServices.getAdmin();
     }
 
+    @GetMapping(value = "/getCustomerDetails/{customerId}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public CustomerInfoProjection getCustomerDetails(@PathVariable Integer customerId) {
+        return adminServices.getCustomerDetails(customerId);
+    }
+
     @GetMapping(value = "/manageCustomers/{pageNo}/{pageSize}", produces = MediaType.APPLICATION_JSON_VALUE)
     public List<CustomerInfoProjection> getCustomers(@PathVariable Integer pageNo, @PathVariable Integer pageSize) {
         return adminServices.manageCustomers(pageNo - 1, pageSize);
