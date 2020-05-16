@@ -45,7 +45,7 @@ class HttpAdmin {
         body: jsonEncode(<String, dynamic>{
           'realIsbn':  isbn,
           "bookName": book_name,
-          "bookImage": book_img,
+          "bookImage":"https://dictionary.cambridge.org/tr/images/thumb/book_noun_001_01679.jpg?version=5.0.75",
           "author": book_author,
           "quantity": book_quantity,
           "inHotList": book_hotlist,
