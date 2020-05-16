@@ -2,76 +2,58 @@ import 'dart:async';
 import 'dart:collection';
 import 'dart:convert';
 import 'dart:io';
-
 import 'package:bookland/bookview.dart';
-import 'package:bookland/customerBookView.dart';
+
 import 'package:bookland/elements/appBar.dart';
 import 'package:bookland/elements/bottomNavigatorBar.dart';
-import 'package:bookland/main.dart';
-
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
-
 import 'package:flutter_paginator/flutter_paginator.dart';
 
 int total = 0;
 SplayTreeSet isbnSet = new SplayTreeSet();
-var globalList_MainContext;
+var globalExploreContext;
 int deletedBookId = -1;
-String title_main = "MainPage";
-int main_page_num = 0;
-String parameter = "getHotList";
-class List_MainStateless extends StatelessWidget {
-  List_MainStateless(int bookId, int MainPage) {
+String filter_param ="" ;
+class Explore_FilteredStateless extends StatelessWidget {
+  Explore_FilteredStateless(int bookId,String filter_paramters) {
     deletedBookId = bookId;
-    main_page_num = MainPage;
-    if(MainPage == 1){
-      title_main = "HotList";
-      parameter = "getHotList";
-    }else if(MainPage ==2){
-      title_main = "Campaigns";
-    }else if(MainPage ==3){
-      title_main = "Last Release";
-      parameter = "getLastReleased";
-    }else if(MainPage==4){
-      title_main = "Last Views";
-    }else if(MainPage ==5){
-      title_main = "Best Sellers";
-    }
-
+    filter_param = filter_paramters;
     if (isbnSet.contains(deletedBookId)) {
       isbnSet.remove(deletedBookId);
     }
   }
 
-
   @override
   Widget build(BuildContext context) {
-    globalList_MainContext = context;
+    globalExploreContext = context;
     return MaterialApp(
       theme: ThemeData(
         primarySwatch: Colors.red,
       ),
-      title: title_main,
-      home: List_MainPage(),
+      title: 'Explore FİLTER NEW Page',
+      home: Explore_FilteredPage(),
     );
   }
 }
 
-class List_MainPage extends StatefulWidget {
+class Explore_FilteredPage extends StatefulWidget {
+  String url_count = "1";
+  String url_list = filter_param;
+
   @override
   State<StatefulWidget> createState() {
-    return List_MainState();
+    return Explore_FilteredState();
   }
 }
 
-class List_MainState extends State<List_MainPage> {
+class Explore_FilteredState extends State<Explore_FilteredPage> {
   GlobalKey<PaginatorState> paginatorGlobalKey = GlobalKey();
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: MyAppBar(pageTitle:title_main, back: false,),
+      appBar: MyAppBar(pageTitle: "Explore", back: true,filter_list:true ),
       body: Paginator.listView(
         key: paginatorGlobalKey,
         pageLoadFuture: sendBooksDataRequest,
@@ -84,6 +66,7 @@ class List_MainState extends State<List_MainPage> {
         pageErrorChecker: pageErrorChecker,
         scrollPhysics: BouncingScrollPhysics(),
       ),
+
       floatingActionButton: FloatingActionButton(
         onPressed: () {
           paginatorGlobalKey.currentState.changeState(
@@ -91,7 +74,10 @@ class List_MainState extends State<List_MainPage> {
         },
         child: Icon(Icons.refresh),
       ),
-      bottomNavigationBar: MyBottomNavigatorBar(),//TODO for customer
+
+
+      bottomNavigationBar: MyBottomNavigatorBar(),
+
     );
   }
 
@@ -101,18 +87,18 @@ class List_MainState extends State<List_MainPage> {
       String password = 'WalkingDead';
       String basicAuth =
           'Basic ' + base64Encode(utf8.encode('$username:$password'));
-      var urlBookCount = "http://10.0.2.2:8080/getBookCountHotList";
+      var urlBookCount = "http://10.0.2.2:8080/getBookCount";
 
       String _urlBookCount = Uri.encodeFull(urlBookCount);
       http.Response responseCount = await http.get(
         _urlBookCount,
         headers: <String, String>{'authorization': basicAuth},
       );
-      print("HEREEE");
+
       if (responseCount.statusCode == 200) {
         total = json.decode(responseCount.body);
+        total = 1; //TODO düzelince gidecek
         print(total);
-        print("UPPPPPUPPPP");
       } else {
         print(responseCount.statusCode);
         throw Exception("Books are not retrieved!");
@@ -120,18 +106,13 @@ class List_MainState extends State<List_MainPage> {
     } catch (e) {
       print("SocketException");
       throw Exception(e);
-      throw Exception(e);
     }
   }
 
   Future<BooksData> sendBooksDataRequest(int page) async {
-
-
-     try {
-       if(main_page_num != 3){getTotalCount();}
-       else{page = 1;}
-      print(page);
-      var url = "http://10.0.2.2:8080/$parameter/$page/10";
+    try {
+      getTotalCount();
+      var url = "http://10.0.2.2:8080/Filtering/1/10?${widget.url_list}";
       print(url);
       String username = 'Daryl';
       String password = 'WalkingDead';
@@ -142,7 +123,6 @@ class List_MainState extends State<List_MainPage> {
         _url,
         headers: <String, String>{'authorization': basicAuth},
       );
-      print("HEREIAMMMMM");
       return BooksData.fromResponse(response);
     } catch (e) {
       if (e is IOException) {
@@ -302,3 +282,57 @@ class BooksData {
     this.errorMessage = errorMessage;
   }
 }
+
+/*
+void getTotalCount() async {
+  try {
+    String username = 'Daryl';
+    String password = 'WalkingDead';
+    String basicAuth =
+        'Basic ' + base64Encode(utf8.encode('$username:$password'));
+    var urlBookCount = "http://10.0.2.2:8080/getBookCount";
+
+    String _urlBookCount = Uri.encodeFull(urlBookCount);
+    http.Response responseCount = await http.get(
+      _urlBookCount,
+      headers: <String, String>{'authorization': basicAuth},
+    );
+
+    if (responseCount.statusCode == 200) {
+      total = json.decode(responseCount.body);
+      total = 1; //TODO düzelince gidecek
+      print(total);
+    } else {
+      print(responseCount.statusCode);
+      throw Exception("Books are not retrieved!");
+    }
+  } catch (e) {
+    print("SocketException");
+    throw Exception(e);
+  }
+}
+
+Future<BooksData> sendBooksDataRequest(int page) async {
+  try {
+    getTotalCount();
+    var url = "http://10.0.2.2:8080/Filtering/1/10?${widget.url_list}";
+    print(url);
+    String username = 'Daryl';
+    String password = 'WalkingDead';
+    String basicAuth =
+        'Basic ' + base64Encode(utf8.encode('$username:$password'));
+    String _url = Uri.encodeFull(url);
+    http.Response response = await http.get(
+      _url,
+      headers: <String, String>{'authorization': basicAuth},
+    );
+    return BooksData.fromResponse(response);
+  } catch (e) {
+    if (e is IOException) {
+      return BooksData.withError("Please check your internet connection.");
+    } else {
+      print(e.toString());
+      return BooksData.withError("Something went wrong.");
+    }
+  }
+}*/
