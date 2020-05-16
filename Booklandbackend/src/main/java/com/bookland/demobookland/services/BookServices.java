@@ -229,4 +229,40 @@ public class BookServices {
 
         return String.format("Old price = %.2f. New Price is =%.2f ", currentPrice, newPrice);
     }
+
+    public Long getBookCountByFilters(String author, ArrayList<String> category, Integer minPrice, Integer maxPrice) {
+        BookSpecification filter_categories = new BookSpecification();
+        List<Book> finalBookList = new ArrayList<>();
+        if (!author.equals("undefined")) {
+            filter_categories.add(new SearchCriteria("author", author, SearchOperation.MATCH));
+        }
+        if (!category.isEmpty()) {
+            filter_categories.forWords(category);
+        }
+        List<Book> pre_list = bookRepository.findAll(filter_categories.forWords(category).and(filter_categories));
+        if (minPrice != -1 && maxPrice != -1) {
+            for (Book b : pre_list) {
+                if (b.getPriceList().get(b.getPriceList().size() - 1).getPrice() >= minPrice &&
+                        b.getPriceList().get(b.getPriceList().size() - 1).getPrice() <= maxPrice) {
+                    finalBookList.add(b);
+                }
+            }
+        } else if (minPrice != -1) {
+            for (Book b : pre_list) {
+                if (b.getPriceList().get(b.getPriceList().size() - 1).getPrice() >= minPrice) {
+                    finalBookList.add(b);
+                }
+            }
+        } else if (maxPrice != -1) {
+            for (Book b : pre_list) {
+                if (b.getPriceList().get(b.getPriceList().size() - 1).getPrice() <= maxPrice) {
+                    finalBookList.add(b);
+                }
+            }
+        }
+        if (finalBookList.isEmpty())
+            return (long) pre_list.size();
+
+        return (long) finalBookList.size();
+    }
 }

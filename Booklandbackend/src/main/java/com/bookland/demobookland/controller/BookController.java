@@ -113,4 +113,12 @@ public class BookController {
                                        @RequestParam(value = "maxPrice", defaultValue = "-1") Integer maxPrice) {
         return bookServices.getBookByFilters(pageNo - 1, pageSize, author, categories, minPrice, maxPrice);
     }
+
+    @GetMapping(value = "/getBookCountByFilters", produces = MediaType.APPLICATION_JSON_VALUE)
+    public Long getBookCountByFilters(@RequestParam(value = "author", defaultValue = "undefined") String author,
+                                      @RequestParam(value = "categories", defaultValue = "") ArrayList<String> categories,
+                                      @RequestParam(value = "minPrice", defaultValue = "-1") Integer minPrice,
+                                      @RequestParam(value = "maxPrice", defaultValue = "-1") Integer maxPrice) {
+        return bookServices.getBookCountByFilters(author, categories, minPrice, maxPrice);
+    }
 }
