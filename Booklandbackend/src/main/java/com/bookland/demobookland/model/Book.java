@@ -7,6 +7,7 @@ import lombok.Data;
 
 import javax.persistence.*;
 import javax.validation.GroupSequence;
+import javax.validation.Valid;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
@@ -51,6 +52,9 @@ public class Book {
     @Column(name = "InHotList")
     private Integer inHotList;
 
+    @Column(name = "InDiscount")
+    private Integer inDiscount;
+
     @Column(name = "Quantity", nullable = false)
     @NotNull(message = "Quantity field cannot be empty", groups = AddBookGroup.class)
     @Min(value = 1, groups = AddBookGroup.class, message = "Quantity must be more than zero")
@@ -66,7 +70,11 @@ public class Book {
     private Date releasedTime = new Date();
 
     //@JsonManagedReference
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "bookPrices")
+    @Valid
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "bookPrices")/*kitabı silince price da silinsin istiyosak cascade all*/
     @NotNull(message = "Define a price", groups = AddBookGroup.class)
     private List<Price> priceList;
+
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "bookComment")
+    private List<Comment> commentList;
 }

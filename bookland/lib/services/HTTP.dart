@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'package:bookland/model/model_user.dart';
 import 'package:bookland/model/error.dart';
 import 'package:http/http.dart' as http;
+import 'package:bookland/main.dart';
 import 'package:bookland/services/globalVariable.dart';
 
 
@@ -27,7 +28,10 @@ class HTTPAll{
       FIRSTNAME = obj.FirstName;
       ISADMIN =  obj.IsAdmin;
       isAnyUserLogin = true;
-
+      customerID = CUSTOMERID;
+      print("********************************");
+      print("CUSTOMER ID $CUSTOMERID");
+      print("********************************");
     } else {
       //print(response.body);
 
@@ -70,7 +74,27 @@ class HTTPAll{
     }
   }
 
+  Future<String> getCategories() async {
+    var client = http.Client();
+    var url = "http://10.0.2.2:8080";
+    String username = 'Daryl';
+    String password = 'WalkingDead';
 
+    String basicAuth =
+        'Basic ' + base64Encode(utf8.encode('$username:$password'));
+
+    http.Response response = await http.get(
+        'http://10.0.2.2:8080/getCategory',
+        headers: <String, String>{'authorization': basicAuth});
+    print("HERE!!!!");
+    if (response.statusCode == 200) {
+      String text = response.body;
+      print(text);
+      return text;
+    } else {
+      throw "Can't get books.";
+    }
+  }
 
 
 

@@ -1,40 +1,97 @@
 package com.bookland.demobookland.services;
 
-import com.bookland.demobookland.model.Admin;
-import com.bookland.demobookland.repository.AdminRepository;
+import com.bookland.demobookland.model.Customer;
+import com.bookland.demobookland.model.projections.CustomerInfoProjection;
+import com.bookland.demobookland.repository.CustomerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import javax.transaction.Transactional;
-import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class AdminServices {
+
     @Autowired
-    private AdminRepository adminRepository;
+    private CustomerRepository customerRepository;
 
-    public Admin getAdmin() {
-        //Admin admin = (Admin) adminRepository.findAllById(Collections.singleton(0));
-        List<Admin> adminList = new ArrayList<>();
-        for (Admin admin : adminRepository.findAll()) {
-            String line = admin.toString();
-            boolean isFoundMail = line.indexOf("adminBookLand2020@gmail.com") !=-1? true: false;
-            boolean isFoundPass = line.indexOf("040420") !=-1? true: false;
-            if  (isFoundMail & isFoundPass ){
-                adminList.add(admin);
+    public CustomerInfoProjection getAdmin() {
+        return customerRepository.findByIsAdminEquals(1);
+    }
+
+    public CustomerInfoProjection getCustomerDetails(Integer customerId) {
+        Optional<Customer> customer = customerRepository.findById(customerId);
+        if(customer.isPresent()){
+            Customer existingCustomer = customer.get();
+            return new CustomerInfoProjection() {
+                @Override
+                public String getFirstName() {
+                    return existingCustomer.getFirstName();
+                }
+
+                @Override
+                public String getSurname() {
+                    return existingCustomer.getSurname();
+                }
+
+                @Override
+                public String getPhoneNumber() {
+                    return existingCustomer.getPhoneNumber();
+                }
+
+                @Override
+                public Date getDateOfBirth() {
+                    return existingCustomer.getDateOfBirth();
+                }
+
+                @Override
+                public String getCustomerId() {
+                    return String.valueOf(existingCustomer.getCustomerId());
+                }
+
+                @Override
+                public String getEmail() {
+                    return existingCustomer.getEmail();
+                }
+
+                @Override
+                public Integer getStatus() {
+                    return existingCustomer.getStatus();
+                }
+            };
+        }return null;
+
+    }
+
+
+    public List<CustomerInfoProjection> manageCustomers(Integer pageNo, Integer pageSize) {
+        Pageable paging = PageRequest.of(pageNo, pageSize);
+
+        Page<CustomerInfoProjection> pagedResult = customerRepository.findAllProjectedBy(paging);
+        return pagedResult.toList();
+    }
+
+    public String deActivateAccount(Integer customerId) {
+        try {
+            Optional<Customer> customer = customerRepository.findById(customerId);
+            if(customer.isPresent()){
+                Customer existingCustomer = customer.get();
+                existingCustomer.setStatus(0);
+                customerRepository.save(existingCustomer);
+                return "Account Deactivated";
+            }else {
+                return "User Not Found";
             }
-
+        } catch (Exception e) {
+            System.out.println(e);
+            return "Some Problem Occured";
         }
-        return (Admin) adminList.get(0);
-        //return admin;
-    }
 
-    @Transactional
-    public Admin saveAdmin(Admin admin) {
-        return adminRepository.save(admin);
     }
-
 }
 
 
