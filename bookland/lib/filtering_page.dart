@@ -18,12 +18,10 @@ class filtering extends StatelessWidget {
   }
 }
 class FilterStatefulWidget extends StatefulWidget {
-  String anyCategory;
   FilterStatefulWidget(String title_category) {
     print("Filteropened");
     print(title_category);
     if(title_category != "Explore"){
-      anyCategory = title_category;
       category_god = title_category;
     }else{
       category_god = "-1";
@@ -52,7 +50,7 @@ class _FilterPageState extends State<FilterStatefulWidget> {
         home: Scaffold(
           appBar: MyAppBar(
             pageTitle: "Filter Book",
-            back: true,
+            back: false,
           ),
 
           body: Container(
@@ -77,9 +75,7 @@ class _FilterPageState extends State<FilterStatefulWidget> {
                   child: new Text("CATEGORY",style: new TextStyle(color: Colors.white)),
                   color: Colors.green,
                   onPressed:() {
-
-                    chosenCat = widget.anyCategory;
-                    _category_display(context,chosenCat);
+                    _category_display(context);
                     /*Navigator.push(
 
 
@@ -152,8 +148,7 @@ class _FilterPageState extends State<FilterStatefulWidget> {
     print(result);
     widget.filter_author = result;
 
-  }_category_display(BuildContext context,String category) async {
-    String category_ = category ;
+  }_category_display(BuildContext context) async {
     final result = await Navigator.push(
       context,
       MaterialPageRoute(builder: (context) => Category_Filter()),
@@ -181,7 +176,7 @@ class Price_Filter extends StatefulWidget {
 class Price_FilterState extends State<Price_Filter> {
   GlobalKey<Price_FilterState> paginatorGlobalKey = GlobalKey();
   List<String> selectedList = [];
-  Map<String, bool> book_price_dictionary = {"0-10":false, "10-20":false,"20-30":false,"30-40":false};
+  Map<String, bool> book_price_dictionary = {"0-10":false, "10-20":false,"20-30":false,"30-40":false,"40-50":false,"50-60":false,"60-70":false,"70-80":false,"80-90":false,"90-100":false,"100-125":false,"125-150":false,"150-175":false,"175-200":false,"200-300":false,"300-400":false,"400-500":false};
 
   @override
   Widget build(BuildContext context) {
