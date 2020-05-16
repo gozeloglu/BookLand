@@ -38,7 +38,7 @@ class Explore_FilteredStateless extends StatelessWidget {
 }
 
 class Explore_FilteredPage extends StatefulWidget {
-  String url_count = "1";
+  //String url_count = "1";
   String url_list = filter_param;
 
   @override
@@ -87,7 +87,7 @@ class Explore_FilteredState extends State<Explore_FilteredPage> {
       String password = 'WalkingDead';
       String basicAuth =
           'Basic ' + base64Encode(utf8.encode('$username:$password'));
-      var urlBookCount = "http://10.0.2.2:8080/getBookCount";
+      var urlBookCount = "http://10.0.2.2:8080/getBookCountByFilters?${widget.url_list}";
 
       String _urlBookCount = Uri.encodeFull(urlBookCount);
       http.Response responseCount = await http.get(
@@ -97,7 +97,7 @@ class Explore_FilteredState extends State<Explore_FilteredPage> {
 
       if (responseCount.statusCode == 200) {
         total = json.decode(responseCount.body);
-        total = 1; //TODO düzelince gidecek
+        //total = 1; //TODO düzelince gidecek
         print(total);
       } else {
         print(responseCount.statusCode);
@@ -112,7 +112,7 @@ class Explore_FilteredState extends State<Explore_FilteredPage> {
   Future<BooksData> sendBooksDataRequest(int page) async {
     try {
       getTotalCount();
-      var url = "http://10.0.2.2:8080/Filtering/1/10?${widget.url_list}";
+      var url = "http://10.0.2.2:8080/Filtering/${page}/10?${widget.url_list}";
       print(url);
       String username = 'Daryl';
       String password = 'WalkingDead';
@@ -146,7 +146,7 @@ class Explore_FilteredState extends State<Explore_FilteredPage> {
           "\n" +
           "Price:\t" +
           booksData.prices[i].toString()
-          + "|"+ (booksData.img_list[i].toString());
+          + "|"+ (booksData.img_list[i].toString()) + "|" + booksData.isbn_list[i].toString();
       // String img_val = (booksData.img_list[i].toString());
       bookNameList.add(val);
     }
@@ -168,6 +168,9 @@ class Explore_FilteredState extends State<Explore_FilteredPage> {
     var value_list = value.toString().split("|");
     String text_part = value_list[0];
     String img_part = value_list[1];
+    String bookid_send = value_list[2];
+    print("BOOKIDDD");
+    print(bookid_send);
     print("VALUEEEE");
     return ListTile(
       //leading:  Image.network("https://dictionary.cambridge.org/tr/images/thumb/book_noun_001_01679.jpg?version=5.0.75"),
@@ -178,7 +181,8 @@ class Explore_FilteredState extends State<Explore_FilteredPage> {
               context,
               MaterialPageRoute(
                 builder: (context) =>
-                new BookView(isbn: isbnSet.elementAt(index).toString()),
+               // new BookView(isbn: isbnSet.elementAt(index).toString()),
+                new BookView(isbn: bookid_send),
               ));
         });
   }
@@ -205,6 +209,7 @@ class Explore_FilteredState extends State<Explore_FilteredPage> {
     booksData.authors.clear();
     booksData.prices.clear();
     booksData.img_list.clear();
+    booksData.isbn_list.clear();
     return Center(
       child: Text("No books in the list"),
     );
@@ -226,6 +231,8 @@ class BooksData {
   List<dynamic> prices = new List<dynamic>();
   List<dynamic> isbn = new List<dynamic>();
   List<dynamic> img_list = new List<dynamic>();
+  List<dynamic> isbn_list = new List<dynamic>();
+
   int statusCode;
   String errorMessage;
   int nItems;
@@ -270,9 +277,11 @@ class BooksData {
           if (moreThanOne) {
           lastPrice /= 2;
           }*/
-
+      
       prices.add(lastPrice);
       img_list.add(jsonData[i]["bookImage"]);
+      isbn_list.add(jsonData[i]["bookId"]);
+
     }
 
     nItems = books.length;

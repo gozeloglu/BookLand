@@ -149,7 +149,7 @@ class List_DynamicState extends State<List_DynamicPage> {
           "\n" +
           "Price:\t" +
           booksData.prices[i].toString()
-          + "|"+ (booksData.img_list[i].toString());
+          + "|"+ (booksData.img_list[i].toString()) + "|" + booksData.isbn_list[i].toString();
       // String img_val = (booksData.img_list[i].toString());
       bookNameList.add(val);
     }
@@ -171,6 +171,9 @@ class List_DynamicState extends State<List_DynamicPage> {
     var value_list = value.toString().split("|");
     String text_part = value_list[0];
     String img_part = value_list[1];
+    String bookid_send = value_list[2];
+    print("BOOKIDDD");
+    print(bookid_send);
     print("VALUEEEE");
     return ListTile(
       //leading:  Image.network("https://dictionary.cambridge.org/tr/images/thumb/book_noun_001_01679.jpg?version=5.0.75"),
@@ -181,7 +184,8 @@ class List_DynamicState extends State<List_DynamicPage> {
               context,
               MaterialPageRoute(
                 builder: (context) =>
-                new BookView(isbn: isbnSet.elementAt(index).toString()),
+                // new BookView(isbn: isbnSet.elementAt(index).toString()),
+                new BookView(isbn: bookid_send),
               ));
         });
   }
@@ -208,6 +212,7 @@ class List_DynamicState extends State<List_DynamicPage> {
     booksData.authors.clear();
     booksData.prices.clear();
     booksData.img_list.clear();
+    booksData.isbn_list.clear();
     return Center(
       child: Text("No books in the list"),
     );
@@ -229,6 +234,8 @@ class BooksData {
   List<dynamic> prices = new List<dynamic>();
   List<dynamic> isbn = new List<dynamic>();
   List<dynamic> img_list = new List<dynamic>();
+  List<dynamic> isbn_list = new List<dynamic>();
+
   int statusCode;
   String errorMessage;
   int nItems;
@@ -276,6 +283,8 @@ class BooksData {
 
       prices.add(lastPrice);
       img_list.add(jsonData[i]["bookImage"]);
+      isbn_list.add(jsonData[i]["bookId"]);
+
     }
 
     nItems = books.length;
