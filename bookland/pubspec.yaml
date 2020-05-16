@@ -66,6 +66,8 @@ flutter:
     - assets/booking/book6.jpg
     - assets/booking/book7.jpg
     - assets/filter_books.jpg
+    - assets/booking/bookback.jpg
+    - assets/booking/bookback2.jpg
 
 
   # An image asset can refer to one or more resolution-specific "variants", see
