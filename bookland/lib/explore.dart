@@ -53,9 +53,9 @@ class ExploreState extends State<ExplorePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: MyAppBar(pageTitle: "Explore", back: true,),
+      appBar: MyAppBar(pageTitle: "Explore", back: true,filter_list:true ),
       body: Paginator.listView(
-        key: paginatorGlobalKey,
+      key: paginatorGlobalKey,
         pageLoadFuture: sendBooksDataRequest,
         pageItemsGetter: listBooksGetter,
         listItemBuilder: listBookBuilder,
@@ -66,6 +66,7 @@ class ExploreState extends State<ExplorePage> {
         pageErrorChecker: pageErrorChecker,
         scrollPhysics: BouncingScrollPhysics(),
       ),
+
       floatingActionButton: FloatingActionButton(
         onPressed: () {
           paginatorGlobalKey.currentState.changeState(
@@ -73,7 +74,10 @@ class ExploreState extends State<ExplorePage> {
         },
         child: Icon(Icons.refresh),
       ),
+
+
       bottomNavigationBar: MyBottomNavigatorBar(),
+
     );
   }
 
