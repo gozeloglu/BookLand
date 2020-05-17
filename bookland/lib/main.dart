@@ -309,11 +309,11 @@ class MyStatelessWidget extends StatelessWidget {
               IconButton(
                   icon: Icon(Icons.explore),
                   onPressed: () {
-                    Navigator.push(
+                   /* Navigator.push(
                       context,
                       new MaterialPageRoute(
                           builder: (context) => new ExploreStateless(-1)),
-                    );
+                    );*/
                   }),
               Text("           "),
               IconButton(
