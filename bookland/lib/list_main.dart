@@ -71,7 +71,7 @@ class List_MainState extends State<List_MainPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: MyAppBar(pageTitle:title_main, back: false,),
+      appBar: MyAppBar(pageTitle:title_main, back: true,),
       body: Paginator.listView(
         key: paginatorGlobalKey,
         pageLoadFuture: sendBooksDataRequest,
@@ -123,15 +123,25 @@ class List_MainState extends State<List_MainPage> {
       throw Exception(e);
     }
   }
+  void getTotalCount2() async {
+    try {
+        total = 10;
+        print(total);
+        print("UPPPPPUPPPP");
 
+    } catch (e) {
+      print("SocketException");
+      throw Exception(e);
+      throw Exception(e);
+    }
+  }
   Future<BooksData> sendBooksDataRequest(int page) async {
-
-
      try {
        if(main_page_num != 3){getTotalCount();}
-       else{page = 1;}
+       else{getTotalCount2();page = 1;}
+       print("*****PAGEEEE");
       print(page);
-      var url = "http://10.0.2.2:8080/$parameter/$page/10";
+      var url = "http://10.0.2.2:8080/${parameter}/${page}/10";
       print(url);
       String username = 'Daryl';
       String password = 'WalkingDead';
@@ -165,7 +175,9 @@ class List_MainState extends State<List_MainPage> {
           booksData.authors[i] +
           "\n" +
           "Price:\t" +
-          booksData.prices[i].toString();
+          booksData.prices[i].toString()
+          + "|"+ (booksData.img_list[i].toString()) + "|" + booksData.isbn_list[i].toString();
+      // String img_val = (booksData.img_list[i].toString());
       bookNameList.add(val);
     }
 
@@ -182,14 +194,25 @@ class List_MainState extends State<List_MainPage> {
 
   Widget listBookBuilder(value, int index) {
     // TODO BookView isbn should be changed with isbn
+    print("VALUEEEE");
+    var value_list = value.toString().split("|");
+    String text_part = value_list[0];
+    String img_part = value_list[1];
+    String bookid_send = value_list[2];
+    print("BOOKIDDD");
+    print(bookid_send);
+    print("VALUEEEE");
     return ListTile(
-        title: Text(value),
+      //leading:  Image.network("https://dictionary.cambridge.org/tr/images/thumb/book_noun_001_01679.jpg?version=5.0.75"),
+        leading:  Image.network(img_part),
+        title: Text(text_part),
         onTap: () {
           Navigator.push(
               context,
               MaterialPageRoute(
                 builder: (context) =>
-                new BookView(isbn: isbnSet.elementAt(index).toString()),
+                // new BookView(isbn: isbnSet.elementAt(index).toString()),
+                new BookView(isbn: bookid_send),
               ));
         });
   }
@@ -215,6 +238,8 @@ class List_MainState extends State<List_MainPage> {
     booksData.books.clear();
     booksData.authors.clear();
     booksData.prices.clear();
+    booksData.img_list.clear();
+    booksData.isbn_list.clear();
     return Center(
       child: Text("No books in the list"),
     );
@@ -235,6 +260,9 @@ class BooksData {
   List<dynamic> authors = new List<dynamic>();
   List<dynamic> prices = new List<dynamic>();
   List<dynamic> isbn = new List<dynamic>();
+  List<dynamic> img_list = new List<dynamic>();
+  List<dynamic> isbn_list = new List<dynamic>();
+
   int statusCode;
   String errorMessage;
   int nItems;
@@ -281,6 +309,9 @@ class BooksData {
           }*/
 
       prices.add(lastPrice);
+      img_list.add(jsonData[i]["bookImage"]);
+      isbn_list.add(jsonData[i]["bookId"]);
+
     }
 
     nItems = books.length;

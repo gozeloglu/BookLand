@@ -36,8 +36,10 @@ class MyAppBar extends StatelessWidget with PreferredSizeWidget{
               child: new Text("FILTER"),
               color: Colors.green,
               padding: EdgeInsets.all(1.0),
-              onPressed:() {Navigator.push(
-                context, new MaterialPageRoute(builder: (context) => new FilterStatefulWidget()),//TO
+              onPressed:() {
+                print(pageTitle);
+                Navigator.push(
+                context, new MaterialPageRoute(builder: (context) => new FilterStatefulWidget(pageTitle)),//TO
               );},
             ),
           ],);
