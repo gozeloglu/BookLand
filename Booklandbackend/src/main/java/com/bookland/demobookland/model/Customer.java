@@ -1,7 +1,6 @@
 package com.bookland.demobookland.model;
 
 
-import com.bookland.demobookland.model.validationGroups.AddBookGroup;
 import com.bookland.demobookland.model.validationGroups.LoginGroup;
 import com.bookland.demobookland.model.validationGroups.SignUpGroup;
 import com.fasterxml.jackson.annotation.JsonBackReference;
@@ -11,10 +10,8 @@ import lombok.Data;
 
 import javax.persistence.*;
 import javax.validation.GroupSequence;
-import javax.validation.Valid;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.util.ArrayList;
 import java.util.Date;
@@ -63,9 +60,9 @@ public class Customer {
     @Column(name = "Status")
     private Integer status = 1;
 
-    @JsonBackReference(value = "customer-OrdersList")
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "customer", orphanRemoval = true)
-    private List<Order> customerOrdersList= new ArrayList<>();
+    //@JsonBackReference(value = "customer-OrdersList")/*Customer return yaptığın zaman onun orderlarını da çekmek istersen kaldır bunu*/
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "customerOrder", orphanRemoval = true)
+    private List<Order> customerOrdersList;
 
     @JsonBackReference(value = "customer-SearchList")
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "customer", orphanRemoval = true)

@@ -2,6 +2,7 @@ import 'package:bookland/AdminDeleteBook.dart';
 import 'package:bookland/adminOrders.dart';
 import 'package:bookland/adminUpdateBook.dart';
 import 'package:flutter/material.dart';
+import 'http_admin.dart';
 import 'main.dart';
 import 'adminAddBook.dart';
 import 'dart:io';
@@ -74,7 +75,14 @@ class adminDiscountStatefulWidget extends StatefulWidget{
 }
 
 class _AdminDiscountState extends State<adminDiscountStatefulWidget> {
+  final HttpAdmin httpAdmin = HttpAdmin();
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+  String isbn;
+  String percentage;
+
+  TextEditingController isbnController = new TextEditingController();
+  TextEditingController percentageController = new TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
@@ -251,6 +259,7 @@ class _AdminDiscountState extends State<adminDiscountStatefulWidget> {
     return Padding(
       padding: const EdgeInsets.fromLTRB(0.0, 10.0, 0.0, 0.0),
       child: new TextFormField(
+        controller: isbnController,
         maxLines: 1,
         keyboardType: TextInputType.text,
         autofocus: false,
@@ -277,6 +286,7 @@ class _AdminDiscountState extends State<adminDiscountStatefulWidget> {
     return Padding(
       padding: const EdgeInsets.fromLTRB(0.0, 10.0, 0.0, 0.0),
       child: new TextFormField(
+        controller: percentageController,
         maxLines: 1,
         keyboardType: TextInputType.text,
         autofocus: false,
@@ -314,14 +324,21 @@ class _AdminDiscountState extends State<adminDiscountStatefulWidget> {
               style: new TextStyle(fontSize: 20.0, color: Colors.black87)),
           // TODO onPressed should be updated
           onPressed: () {
-            _formKey.currentState.validate();
-            Navigator.push(
-                context,
-                new MaterialPageRoute(
-                  builder: (context) => new MyApp(),
-                )
-            );
+            isbn = isbnController.text;
+            percentage = percentageController.text;
+            print("blabla");
+            var result = httpAdmin.adminDiscountBook(isbn, percentage);
+            print(result);
+
+            //_formKey.currentState.validate();
+            /*Navigator.push(
+              context,
+              new MaterialPageRoute(
+                builder: (context) => new MyApp(),
+              )
+          );*/
           }),
     );
   }
+
 }
