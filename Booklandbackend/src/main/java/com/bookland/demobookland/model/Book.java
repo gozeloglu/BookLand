@@ -69,7 +69,6 @@ public class Book {
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss.SS")
     private Date releasedTime = new Date();
 
-    //@JsonManagedReference
     @Valid
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "bookPrices")/*kitabı silince price da silinsin istiyosak cascade all*/
     @NotNull(message = "Define a price", groups = AddBookGroup.class)
@@ -77,4 +76,7 @@ public class Book {
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "bookComment")
     private List<Comment> commentList;
+
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "book")
+    private List<Contains> containsList;
 }
