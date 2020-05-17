@@ -148,4 +148,37 @@ class HttpAdmin {
       return "SORRRY" ;
     }
   }
+
+  Future<String> adminDiscountBook(String isbn, String percentage) async{
+    var client = http.Client();
+    var url = "http://10.0.2.2:8080";
+    String username = 'Daryl';
+    String password = 'WalkingDead';
+    String basicAuth =
+        'Basic ' + base64Encode(utf8.encode('$username:$password'));
+
+    /*int intPercentage = int.parse(percentage);
+  int intIsbn = int.parse(isbn);*/
+
+    http.Response response = await http.put('http://10.0.2.2:8080/applyDiscount/$isbn/$percentage',
+      headers: <String, String>{'Authorization': basicAuth,'Content-Type': 'application/json; charset=UTF-8',
+
+
+      },
+    );
+
+    if (response.statusCode < 400) {
+      return  "PERFECT";
+    } else {
+      return "BADBADBAD";
+      errorControl = true;
+      errorMessage = "Discounting Book has Failed";
+      // If the server did not return a 201 CREATED response,
+      // then throw an exception.
+      throw Exception('Failed to load album');
+      return "SORRRY" ;
+    }
+
+  }
+
 }
