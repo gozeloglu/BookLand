@@ -8,31 +8,49 @@ import 'package:bookland/my_addresses.dart';
 /// This variable is responsible for informing
 /// that saving operation's status
 bool isSaved = false;
+int _addressId;
+String _addressTitle;
+String _addressLine;
+String _city;
+String _country;
+String _postalCode;
 
-class CustomerAddressAdd extends StatelessWidget {
-  static const String _title = "Add Address";
+class CustomerAddressUpdate extends StatelessWidget {
+  CustomerAddressUpdate(Map<String, dynamic> addressMap) {
+    _addressId = addressMap["addressId"];
+    _addressTitle = addressMap["addressTitle"];
+    _addressLine = addressMap["addressLine"];
+    _city = addressMap["postalCodeCity"]["city"]["city"];
+    _country = addressMap["postalCodeCity"]["city"]["country"];
+    _postalCode = addressMap["postalCodeCity"]["postalCode"];
+  }
+  static const String _title = "Update Address";
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       title: _title,
-      home: CustomerAddressAddStateful(),
+      home: CustomerAddressUpdateStateful(),
     );
   }
 }
 
-class CustomerAddressAddStateful extends StatefulWidget {
+class CustomerAddressUpdateStateful extends StatefulWidget {
   @override
-  _AddressAddPageState createState() => _AddressAddPageState();
+  _AddressUpdatePageState createState() => _AddressUpdatePageState();
 }
 
-class _AddressAddPageState extends State<CustomerAddressAddStateful> {
+class _AddressUpdatePageState extends State<CustomerAddressUpdateStateful> {
   Address address = new Address();
 
-  TextEditingController addressLineController = new TextEditingController();
-  TextEditingController cityController = new TextEditingController();
-  TextEditingController countryController = new TextEditingController();
-  TextEditingController postalCodeController = new TextEditingController();
+  /// Default text are put into text fields
+  TextEditingController addressLineController =
+      new TextEditingController(text: _addressLine);
+  TextEditingController cityController = new TextEditingController(text: _city);
+  TextEditingController countryController =
+      new TextEditingController(text: _country);
+  TextEditingController postalCodeController =
+      new TextEditingController(text: _postalCode);
 
   String addressLine;
   String city;
@@ -40,7 +58,7 @@ class _AddressAddPageState extends State<CustomerAddressAddStateful> {
   String postalCode;
   String addressTitle;
 
-  String dropdownValue = "Home";
+  String dropdownValue = _addressTitle;
 
   @override
   Widget build(BuildContext context) {
@@ -197,7 +215,7 @@ class _AddressAddPageState extends State<CustomerAddressAddStateful> {
               borderRadius: new BorderRadius.circular(30)),
           color: Colors.green,
           child: new Text(
-            "Save Address",
+            "Update Address",
             style: new TextStyle(fontSize: 20, color: Colors.white),
           ),
           onPressed: () {
