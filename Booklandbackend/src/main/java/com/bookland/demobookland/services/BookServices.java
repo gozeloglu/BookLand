@@ -35,6 +35,15 @@ public class BookServices {
         return pagedResult.toList();
     }
 
+    // TODO Try other time
+    /*public Page<ExplorePageProjection> getAllBooks(Integer pageNo, Integer pageSize) {
+        Pageable paging = PageRequest.of(pageNo, pageSize);
+
+        Page<ExplorePageProjection> pagedResult = bookRepository.findAllProjectedBy(paging);
+        //System.out.println(pagedResult.get().map());
+        return pagedResult;
+    }*/
+
     /* Add operation for book*/
     @Transactional
     public String addBook(Book book) {
