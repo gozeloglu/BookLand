@@ -1,6 +1,7 @@
 import 'dart:convert';
+import 'package:bookland/address_update.dart';
 import 'package:http/http.dart' as http;
-import 'customer_address_add.dart';
+import 'package:bookland/customer_address_add.dart';
 
 class Address {
   /// @param: userId represents user's unique id to save in correct location in db
@@ -101,6 +102,7 @@ class Address {
   }
 
   Future<String> updateAddress(
+      bool isUpdated,
       int userId,
       int addressId,
       String addressLine,
@@ -133,12 +135,20 @@ class Address {
           "postalCodeCity": postalCodeCityMap,
         }));
     if (response.statusCode < 400) {
-      isSaved = true;
+      print("BEFORE isUpdated");
+      print(isUpdated);
+      isUpdated = true;
+      print(isUpdated);
+      print("AFTER isUpdated");
     } else {
-      isSaved = false;
+      print("BEFORE isUpdated");
+      print(isUpdated);
+      isUpdated = false;
+      print(isUpdated);
+      print("AFTER isUpdated");
     }
     if (response.statusCode < 400) {
-      return "Address is added";
+      return "Address is updated";
     } else {
       print(response.statusCode);
       throw Exception("Failed to save address");

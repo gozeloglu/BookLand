@@ -4,10 +4,10 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:bookland/http_address.dart';
 import 'package:bookland/my_addresses.dart';
-
+/// TODO Control empty text fields
 /// This variable is responsible for informing
 /// that saving operation's status
-bool isSaved = false;
+bool isUpdated = false;
 int _userId;
 int _addressId;
 String _addressTitle;
@@ -25,6 +25,9 @@ class CustomerAddressUpdate extends StatelessWidget {
     _city = addressMap["postalCodeCity"]["city"]["city"];
     _country = addressMap["postalCodeCity"]["city"]["country"];
     _postalCode = addressMap["postalCodeCity"]["postalCode"];
+    print("IS UPDATED");
+    print(isUpdated);
+    print("****************");
   }
   static const String _title = "Update Address";
 
@@ -54,11 +57,11 @@ class _AddressUpdatePageState extends State<CustomerAddressUpdateStateful> {
   TextEditingController postalCodeController =
       new TextEditingController(text: _postalCode);
 
-  String addressLine;
-  String city;
-  String country;
-  String postalCode;
-  String addressTitle;
+  String addressLine = _addressLine;
+  String city = _city;
+  String country = _country;
+  String postalCode = _postalCode;
+  String addressTitle = _addressTitle;
 
   String dropdownValue = _addressTitle;
 
@@ -66,7 +69,7 @@ class _AddressUpdatePageState extends State<CustomerAddressUpdateStateful> {
   Widget build(BuildContext context) {
     return new Scaffold(
       appBar: MyAppBar(
-        pageTitle: "Add Address",
+        pageTitle: "Update Address",
         back: true,
       ),
       body: Stack(
@@ -105,7 +108,6 @@ class _AddressUpdatePageState extends State<CustomerAddressUpdateStateful> {
         autofocus: false,
         decoration: new InputDecoration(
           border: OutlineInputBorder(),
-          //hintText: "Your Address",
           labelText: "Your Address",
           icon: Icon(Icons.home),
         ),
@@ -228,10 +230,19 @@ class _AddressUpdatePageState extends State<CustomerAddressUpdateStateful> {
             postalCode = postalCodeController.text;
             addressTitle = dropdownValue;
 
+            print(addressLine);
+            print(addressLine.length);
+            print(city);
+            print(city.length);
+            print(country);
+            print(country.length);
+            print(postalCode);
+            print(postalCode.length);
+
             // Fields are controlled
             // If one of the fields is empty
             // Alert dialog is showed up
-            String errorMessage = " cannot be empty!";
+            String errorMessage = " cannot be empty!!!!!";
             String fieldName = "";
             bool error = false;
             if (addressLine == "") {
@@ -254,6 +265,9 @@ class _AddressUpdatePageState extends State<CustomerAddressUpdateStateful> {
             // If one of the fields is empty
             // Show up the alert dialog
             if (error) {
+              print("ERROR");
+              print(error);
+              print("--------");
               showDialog(
                   context: context,
                   builder: (BuildContext context) {
@@ -267,20 +281,22 @@ class _AddressUpdatePageState extends State<CustomerAddressUpdateStateful> {
             } else {
               // Save address
               // TODO Fill with PUT method
-              address.updateAddress(_userId, _addressId, addressLine, city,
+              address.updateAddress(isUpdated, _userId, _addressId, addressLine, city,
                   country, postalCode, addressTitle);
             }
 
             // Show up alert dialogs
             // If address is saved successfully, show up successful message
             // If address is not saved successfully, show up successful message
-            if (isSaved) {
+            if (isUpdated) {
+              print("IS UPDATED");
+              print(isUpdated);
               showDialog(
                   context: context,
                   builder: (BuildContext context) {
                     return AlertDialog(
-                      title: Text("Saved!"),
-                      content: Text("Address is saved successfully!"),
+                      title: Text("Updated!"),
+                      content: Text("Address is updated  successfully!"),
                       shape: new RoundedRectangleBorder(
                           borderRadius: new BorderRadius.circular(25)),
                       actions: <Widget>[
@@ -296,15 +312,15 @@ class _AddressUpdatePageState extends State<CustomerAddressUpdateStateful> {
                       ],
                     );
                   });
-              //Navigator.of(context).pop();
-              //Navigator
             } else {
+              print("IS UPDATED");
+              print(isUpdated);
               showDialog(
                   context: context,
                   builder: (BuildContext context) {
                     return AlertDialog(
                       title: Text("Error!"),
-                      content: Text("Address could not saved!"),
+                      content: Text("Address could not updated!"),
                       shape: new RoundedRectangleBorder(
                           borderRadius: new BorderRadius.circular(25)),
                     );
