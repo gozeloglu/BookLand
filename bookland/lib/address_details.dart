@@ -157,7 +157,7 @@ class AddressDetailsState extends State<AddressDetailsLayout> {
                                 context,
                                 new MaterialPageRoute(
                                     builder: (context) =>
-                                        new CustomerAddressUpdate(_addressMap)))
+                                        new CustomerAddressUpdate(_addressMap, _userId)))
                           },
                           child: Text(
                             "Update",

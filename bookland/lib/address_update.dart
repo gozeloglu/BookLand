@@ -8,6 +8,7 @@ import 'package:bookland/my_addresses.dart';
 /// This variable is responsible for informing
 /// that saving operation's status
 bool isSaved = false;
+int _userId;
 int _addressId;
 String _addressTitle;
 String _addressLine;
@@ -16,7 +17,8 @@ String _country;
 String _postalCode;
 
 class CustomerAddressUpdate extends StatelessWidget {
-  CustomerAddressUpdate(Map<String, dynamic> addressMap) {
+  CustomerAddressUpdate(Map<String, dynamic> addressMap, int userId) {
+    _userId = userId;
     _addressId = addressMap["addressId"];
     _addressTitle = addressMap["addressTitle"];
     _addressLine = addressMap["addressLine"];
@@ -264,7 +266,8 @@ class _AddressUpdatePageState extends State<CustomerAddressUpdateStateful> {
                   });
             } else {
               // Save address
-              address.saveAddress(int.parse(customerID), addressLine, city,
+              // TODO Fill with PUT method
+              address.updateAddress(_userId, _addressId, addressLine, city,
                   country, postalCode, addressTitle);
             }
 

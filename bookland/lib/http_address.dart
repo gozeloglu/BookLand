@@ -99,6 +99,51 @@ class Address {
       throw Exception("Could not delete the address");
     }
   }
+
+  Future<String> updateAddress(
+      int userId,
+      int addressId,
+      String addressLine,
+      String city,
+      String country,
+      String postalCode,
+      String addressTitle) async {
+
+    String username = 'Daryl';
+    String password = 'WalkingDead';
+
+    String basicAuth =
+        'Basic ' + base64Encode(utf8.encode('$username:$password'));
+    // Body attributes for POST
+    Map<String, String> cityCountryMap = {"city": city, "country": country};
+    Map<String, dynamic> postalCodeCityMap = {
+      "postalCode": postalCode,
+      "city": cityCountryMap
+    };
+
+    http.Response response = await http.put(
+        "http://10.0.2.2:8080/UpdateMyAddress/$userId/$addressId",
+        headers: <String, String>{
+          'Authorization': basicAuth,
+          'Content-Type': 'application/json; charset=UTF-8'
+        },
+        body: jsonEncode(<String, dynamic>{
+          "addressLine": addressLine,
+          "addressTitle": addressTitle,
+          "postalCodeCity": postalCodeCityMap,
+        }));
+    if (response.statusCode < 400) {
+      isSaved = true;
+    } else {
+      isSaved = false;
+    }
+    if (response.statusCode < 400) {
+      return "Address is added";
+    } else {
+      print(response.statusCode);
+      throw Exception("Failed to save address");
+    }
+  }
 }
 
 class City {
