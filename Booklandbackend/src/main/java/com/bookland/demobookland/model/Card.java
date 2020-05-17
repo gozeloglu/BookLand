@@ -33,11 +33,11 @@ public class Card {
     @NotBlank(message = "Owner Surname cannot be empty", groups = SaveCardGroup.class)
     private String ownerSurname;
 
-    @JsonBackReference(value = "customer-cardList")
+    @JsonBackReference(value = "card-customerCardList")
     @ManyToMany(mappedBy = "customerCardList")
     private List<Customer> customerCardList = new ArrayList<>();
 
-    @JsonBackReference(value = "customer-orderList")/*Card return yaptığında eğer o carta ait orderları görmek istersen kaldır */
+    @JsonBackReference(value = "card-CustomerOrderList")/*Card return yaptığında eğer o carta ait orderları görmek istersen kaldır */
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "card")
     private List<Order> orderList;
 }

@@ -34,17 +34,17 @@ public class Order {
     @Column(name = "AddressId", nullable = false)
     private Integer addressId;
 
-    @JsonBackReference(value = "customer")
+    @JsonBackReference(value = "order-customerOrder")
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "CustomerId", insertable = false, updatable = false)           /*Database column ismi*/
     private Customer customerOrder;
 
-    @JsonBackReference(value = "address")
+    @JsonBackReference(value = "order-OrderAddress")
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "AddressId", insertable = false, updatable = false)
     private Address address;
 
-    @JsonBackReference(value = "card")
+    @JsonBackReference(value = "Order-OrderCard")
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "CardNo", insertable = false, updatable = false)
     private Card card;

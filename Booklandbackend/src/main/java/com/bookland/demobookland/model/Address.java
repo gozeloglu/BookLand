@@ -47,11 +47,11 @@ public class Address {
     @JoinColumn(name = "postalCode")
     private PostalCodeCity postalCodeCity;
 
-    @JsonBackReference /*myAddresses i çağırdığında o adrese ait orderların gözükmesini istersen jsonbackreference kaldır*/
+    @JsonBackReference(value = "address-customerOrderList") /*myAddresses i çağırdığında o adrese ait orderların gözükmesini istersen jsonbackreference kaldır*/
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "address")
     private List<Order> customerOrdersList;
 
-    @JsonBackReference
+    @JsonBackReference(value = "address-customerList")
     @ManyToMany(mappedBy = "customerAddressList")
     private List<Customer> customerList = new ArrayList<>();
 }

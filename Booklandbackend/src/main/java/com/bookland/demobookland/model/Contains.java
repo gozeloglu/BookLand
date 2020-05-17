@@ -32,12 +32,12 @@ public class Contains {
     private Integer status;
 
     /*Database column ismi*/
-    @JsonBackReference(value = "customer")
+    @JsonBackReference(value = "contains-orders")
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "OrderId", insertable = false, updatable = false)
     private Order orders;
 
-    @JsonBackReference(value = "book")
+    @JsonBackReference(value = "contains-book")
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "ISBN", insertable = false, updatable = false)           /*Database column ismi*/
     private Book book;
