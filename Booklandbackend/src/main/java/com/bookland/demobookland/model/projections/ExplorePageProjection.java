@@ -9,5 +9,6 @@ public interface ExplorePageProjection {
     String getBookImage();
     String getAuthor();
     Integer getBookId();
+    Integer getInDiscount();
     List<Price> getPriceList();
 }

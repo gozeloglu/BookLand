@@ -118,10 +118,10 @@ class BookView extends StatelessWidget {
   }
 
   Widget name(String text) {
-    return Text(
-      text,
+    return Text(text,
+      textAlign: TextAlign.center,
       style: TextStyle(
-        fontSize: 50,
+        fontSize: 30,
         fontWeight: FontWeight.bold,
       ),
     );
@@ -140,9 +140,9 @@ class BookView extends StatelessWidget {
   Widget description(String text) {
     return Text(
       '\nDescription:\n' + text,
+      textAlign: TextAlign.center,
       style: TextStyle(
         fontSize: 18,
-        fontWeight: FontWeight.bold,
       ),
     );
   }

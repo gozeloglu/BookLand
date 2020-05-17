@@ -1,8 +1,13 @@
 import 'package:bookland/services/globalVariable.dart';
+import 'package:bookland/user_account.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:bookland/login.dart';
 import 'package:bookland/explore.dart';
+import 'package:bookland/list_dynamic.dart';
+import 'package:bookland/list_main.dart';
 import 'package:bookland/bookview.dart';
+import 'package:bookland/category.dart';
 import 'package:bookland/adminAddBook.dart';
 
 import 'package:bookland/adminOrders.dart';
@@ -10,6 +15,7 @@ import 'package:bookland/adminOrders.dart';
 void main() {
   runApp(MyApp());
 }
+String customerID;
 
 class MyApp extends StatelessWidget {
   // This widget is the root of your application.
@@ -131,7 +137,10 @@ class MyStatelessWidget extends StatelessWidget {
                   //child: new Text('OK', style: new TextStyle(color: Colors.white)),
                   child: new Image.asset('assets/toplist.png'),
                   padding: EdgeInsets.all(1.0),
-                  onPressed: () {},
+                  onPressed: () { Navigator.push(
+                    context,
+                    new MaterialPageRoute(builder: (context) => new List_MainStateless(-1,1)),
+                  );},
                   color: Colors.black,
                 ),
                 width: 400.0,
@@ -142,7 +151,10 @@ class MyStatelessWidget extends StatelessWidget {
                 child: new FlatButton(
                   //child: new Text('OK', style: new TextStyle(color: Colors.white)),
                   child: new Image.asset('assets/campaign.png'),
-                  onPressed: () {},
+                  onPressed: () { Navigator.push(
+                    context,
+                    new MaterialPageRoute(builder: (context) => new List_MainStateless(-1,2)),
+                  );},
                   color: Colors.pink,
                 ),
                 width: 400.0,
@@ -153,7 +165,10 @@ class MyStatelessWidget extends StatelessWidget {
                 child: new FlatButton(
                   //child: new Text('OK', style: new TextStyle(color: Colors.white)),
                   child: new Image.asset('assets/last_r.jpg'),
-                  onPressed: () {},
+                  onPressed: () { Navigator.push(
+                    context,
+                    new MaterialPageRoute(builder: (context) => new List_MainStateless(-1,3)),
+                  );},
                   color: Colors.orange,
                 ),
                 width: 400.0,
@@ -165,10 +180,10 @@ class MyStatelessWidget extends StatelessWidget {
                   //child: new Text('OK', style: new TextStyle(color: Colors.white)),
                   child: new Image.asset('assets/look_l.png'),
                   onPressed: () {
-                    /*
                     Navigator.push(
-                      context, new MaterialPageRoute(builder: (context) => new BookView() )  ,
-                    );*/
+                      context,
+                      new MaterialPageRoute(builder: (context) => new List_MainStateless(-1,4)),
+                    );
                   },
                   color: Colors.lightBlueAccent,
                 ),
@@ -179,7 +194,10 @@ class MyStatelessWidget extends StatelessWidget {
                 child: new FlatButton(
                   //child: new Text('OK', style: new TextStyle(color: Colors.white)),
                   child: new Image.asset('assets/best_seller.png'),
-                  onPressed: () {},
+                  onPressed: () { Navigator.push(
+                    context,
+                    new MaterialPageRoute(builder: (context) => new List_MainStateless(-1,5)),
+                  );},
                   color: Colors.red,
                 ),
                 width: 400.0,
@@ -206,7 +224,22 @@ class MyStatelessWidget extends StatelessWidget {
             new ListTile(
               title: new Text("Account"),
               trailing: new Icon(Icons.account_circle),
-              onTap: () {},
+              onTap: () {
+                if (customerID != null) {
+                  print(customerID == null);
+                  Navigator.push(context,
+                      new MaterialPageRoute(
+                          builder: (context) =>
+                          new AccountPageStateless(FIRSTNAME)
+                      )
+                  );
+                } else {
+                  Navigator.push(
+                    context,
+                    new MaterialPageRoute(builder: (context) => new Login()),
+                  );
+                }
+              },
             ),
 //Section Line
             new Divider(),
@@ -267,7 +300,10 @@ class MyStatelessWidget extends StatelessWidget {
               IconButton(
                   icon: Icon(Icons.category),
                   onPressed: () {
-
+                    Navigator.push(
+                      context,
+                      new MaterialPageRoute(builder: (context) => new NT()),
+                    );
                   }),
               Text("           "),
               IconButton(
