@@ -5,12 +5,17 @@ import com.bookland.demobookland.model.projections.ExplorePageProjection;
 import com.bookland.demobookland.model.validationGroups.AddBookGroup;
 import com.bookland.demobookland.services.BookServices;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 public class BookController {
@@ -21,11 +26,24 @@ public class BookController {
     // GET All Books
     @GetMapping(value = "/allBooks/{pageNo}/{pageSize}", produces = MediaType.APPLICATION_JSON_VALUE)
     public List<ExplorePageProjection> getBooks(@PathVariable Integer pageNo, @PathVariable Integer pageSize) {
-        /** @:return All books in JSON type
-         *  GET request is handling here
-         * */
         return bookServices.getAllBooks(pageNo - 1, pageSize);
     }
+
+    // TODO Try other time
+      /*public ResponseEntity<Map<String, Object>> getBooks(@PathVariable Integer pageNo, @PathVariable Integer pageSize) {
+    Page<ExplorePageProjection> p1 = bookServices.getAllBooks(pageNo - 1, pageSize);
+    List<ExplorePageProjection> tutorials = new ArrayList<ExplorePageProjection>();
+    tutorials = p1.getContent();
+
+
+    Map<String, Object> response = new HashMap<>();
+        response.put("tutorials", tutorials);
+        response.put("currentPage", p1.getNumber());
+        response.put("totalItems", p1.getTotalElements());
+        response.put("totalPages", p1.getTotalPages());
+
+        return new ResponseEntity<>(response, HttpStatus.OK);
+}*/
 
 
     @PostMapping(value = "/addBook")
