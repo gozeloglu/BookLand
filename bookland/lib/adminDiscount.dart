@@ -311,6 +311,7 @@ class _AdminDiscountState extends State<adminDiscountStatefulWidget> {
           disabledColor: Colors.redAccent,
           //add this to your code,
           child: new Text("Apply Discount",
+              //asdfgh
               style: new TextStyle(fontSize: 20.0, color: Colors.black87)),
           // TODO onPressed should be updated
           onPressed: () {
