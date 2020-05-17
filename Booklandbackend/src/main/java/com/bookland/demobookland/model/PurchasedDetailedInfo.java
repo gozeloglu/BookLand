@@ -30,12 +30,12 @@ public class PurchasedDetailedInfo {
     @Column(name = "Status")
     private String status = "Waiting Confirmation";
 
-    @JsonBackReference(value = "shippingCompany")
+    @JsonBackReference(value = "purchase-ShippingCompany")
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "ShippingCompanyId", insertable = false, updatable = false)
     private ShippingCompany shippingCompany;
 
-    @JsonBackReference(value = "contains")
+    @JsonBackReference(value = "purchase-Contains")
     @OneToOne(fetch = FetchType.LAZY,
             cascade = CascadeType.ALL,
             mappedBy = "purchasedDetailedInfo")

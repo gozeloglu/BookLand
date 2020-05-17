@@ -1,3 +1,4 @@
+// list main burasu
 import 'dart:async';
 import 'dart:collection';
 import 'dart:convert';
@@ -21,21 +22,22 @@ int deletedBookId = -1;
 String title_main = "MainPage";
 int main_page_num = 0;
 String parameter = "getHotList";
+
 class List_MainStateless extends StatelessWidget {
   List_MainStateless(int bookId, int MainPage) {
     deletedBookId = bookId;
     main_page_num = MainPage;
-    if(MainPage == 1){
+    if (MainPage == 1) {
       title_main = "HotList";
       parameter = "getHotList";
-    }else if(MainPage ==2){
+    } else if (MainPage == 2) {
       title_main = "Campaigns";
-    }else if(MainPage ==3){
+    } else if (MainPage == 3) {
       title_main = "Last Release";
       parameter = "getLastReleased";
-    }else if(MainPage==4){
+    } else if (MainPage == 4) {
       title_main = "Last Views";
-    }else if(MainPage ==5){
+    } else if (MainPage == 5) {
       title_main = "Best Sellers";
     }
 
@@ -43,7 +45,6 @@ class List_MainStateless extends StatelessWidget {
       isbnSet.remove(deletedBookId);
     }
   }
-
 
   @override
   Widget build(BuildContext context) {
@@ -71,7 +72,10 @@ class List_MainState extends State<List_MainPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: MyAppBar(pageTitle:title_main, back: true,),
+      appBar: MyAppBar(
+        pageTitle: title_main,
+        back: true,
+      ),
       body: Paginator.listView(
         key: paginatorGlobalKey,
         pageLoadFuture: sendBooksDataRequest,
@@ -91,7 +95,7 @@ class List_MainState extends State<List_MainPage> {
         },
         child: Icon(Icons.refresh),
       ),
-      bottomNavigationBar: MyBottomNavigatorBar(),//TODO for customer
+      bottomNavigationBar: MyBottomNavigatorBar(), //TODO for customer
     );
   }
 
@@ -123,23 +127,28 @@ class List_MainState extends State<List_MainPage> {
       throw Exception(e);
     }
   }
+
   void getTotalCount2() async {
     try {
-        total = 10;
-        print(total);
-        print("UPPPPPUPPPP");
-
+      total = 10;
+      print(total);
+      print("UPPPPPUPPPP");
     } catch (e) {
       print("SocketException");
       throw Exception(e);
       throw Exception(e);
     }
   }
+
   Future<BooksData> sendBooksDataRequest(int page) async {
-     try {
-       if(main_page_num != 3){getTotalCount();}
-       else{getTotalCount2();page = 1;}
-       print("*****PAGEEEE");
+    try {
+      if (main_page_num != 3) {
+        getTotalCount();
+      } else {
+        getTotalCount2();
+        page = 1;
+      }
+      print("*****PAGEEEE");
       print(page);
       var url = "http://10.0.2.2:8080/${parameter}/${page}/10";
       print(url);
@@ -175,8 +184,11 @@ class List_MainState extends State<List_MainPage> {
           booksData.authors[i] +
           "\n" +
           "Price:\t" +
-          booksData.prices[i].toString()
-          + "|"+ (booksData.img_list[i].toString()) + "|" + booksData.isbn_list[i].toString();
+          booksData.prices[i].toString() +
+          "|" +
+          (booksData.img_list[i].toString()) +
+          "|" +
+          booksData.isbn_list[i].toString();
       // String img_val = (booksData.img_list[i].toString());
       bookNameList.add(val);
     }
@@ -203,16 +215,16 @@ class List_MainState extends State<List_MainPage> {
     print(bookid_send);
     print("VALUEEEE");
     return ListTile(
-      //leading:  Image.network("https://dictionary.cambridge.org/tr/images/thumb/book_noun_001_01679.jpg?version=5.0.75"),
-        leading:  Image.network(img_part),
+        //leading:  Image.network("https://dictionary.cambridge.org/tr/images/thumb/book_noun_001_01679.jpg?version=5.0.75"),
+        leading: Image.network(img_part),
         title: Text(text_part),
         onTap: () {
           Navigator.push(
               context,
               MaterialPageRoute(
                 builder: (context) =>
-                // new BookView(isbn: isbnSet.elementAt(index).toString()),
-                new BookView(isbn: bookid_send),
+                    // new BookView(isbn: isbnSet.elementAt(index).toString()),
+                    new CustomerBookView(isbn: bookid_send),
               ));
         });
   }
@@ -311,7 +323,6 @@ class BooksData {
       prices.add(lastPrice);
       img_list.add(jsonData[i]["bookImage"]);
       isbn_list.add(jsonData[i]["bookId"]);
-
     }
 
     nItems = books.length;

@@ -1,14 +1,12 @@
 import 'dart:ffi';
 
+import 'package:bookland/elements/appBar.dart';
+import 'package:bookland/elements/bottomNavigatorBar.dart';
 import 'package:bookland/http_admin.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/foundation.dart';
 import 'package:bookland/http_book.dart';
-import 'package:bookland/model_book.dart';
-import 'package:bookland/AdminDeleteBook.dart';
-import 'package:bookland/adminUpdateBook.dart';
 
-import 'package:bookland/explore.dart';
 
 /// This class contains the objects which is the same in GET allBooks method
 
@@ -23,15 +21,21 @@ class CustomerBookView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-          title: Text("Book"),
-          backgroundColor : Colors.blue,
+        appBar: MyAppBar(
+          pageTitle: "Book",
+          // backgroundColor: Color(0xFFFF1744),
+          back: true,
+
+
         ),
         body: FutureBuilder(
+
           future: httpBook.getBook(isbn),
           builder: (BuildContext context, AsyncSnapshot snapshot) {
             if (snapshot.hasData) {
+              print("snapshot has data");
               //Book returnedBook = snapshot.data;
+              print("Here");
               //return Text(snapshot.data.bookName);
               return Container(
                 width: double.infinity,
@@ -39,78 +43,53 @@ class CustomerBookView extends StatelessWidget {
                 child: new SingleChildScrollView(
                   child: Column(
                     children: <Widget>[
+                      real_isbn((snapshot.data.real_isbn).toString()),
+                      Text("\n"),
                       name((snapshot.data.bookName).toString()),
-
+                      Text("\n"),
                       imageBook((snapshot.data.bookImage).toString()),
                       Text("\n"),
                       stars(),
                       author((snapshot.data.author).toString()),
                       Text("\n"),
-                      priceBook((snapshot.data.price).toString()),
+                      category((snapshot.data.category).toString()),
                       Text("\n"),
-                      //description((snapshot.data.description).toString()),
+                      quantity((snapshot.data.quantity).toString()),
+                      Text("\n"),
+                      priceBook((snapshot.data.price).toString()),
+                      description((snapshot.data.description).toString()),
+                      Text("\n"),
+                      addBasketButton(context),
                     ],
                   ),
                 ),
               );
             } else if (snapshot.hasError) {
+              print("Snapshot has error*");
               return Text("${snapshot.error}");
-            }else {
+            } else {
               return Center(child: CircularProgressIndicator());
             }
           },
         ),
-        bottomNavigationBar: BottomAppBar(
-          child : Container(
-              height : 50.0,
+        bottomNavigationBar: MyBottomNavigatorBar()
+    );
+  }
 
-              child : Row(
-                  children : <Widget>[
-                    Text("           "),
-                    IconButton(
-                        icon :  Icon(Icons.home),
-
-                        onPressed :() {
-                        }
-                    ),
-                    Text("           "),
-                    IconButton(
-                        icon : Icon(Icons.category),
-
-                        onPressed :() {
-                        }
-                    ),
-                    Text("           "),
-                    IconButton(
-                        icon : Icon(Icons.explore),
-
-                        onPressed :() {
-
-                        }
-                    ),
-                    Text("           "),
-                    IconButton(
-                        icon : Icon(Icons.shopping_basket),
-
-                        onPressed :() {
-                        }
-                    ),
-                  ]
-
-              )
-
-          ),
-          color : Colors.blue,
-        ));
-  }Widget imageBook(String url){
+  Widget imageBook(String url) {
     return new Stack(
       children: <Widget>[
-        //Image.asset('assets/image/book.jpg', height: 300, width: 200,)
+        /**Image.asset(
+            'assets/booking/book1.jpg',
+            height: 300,
+            width: 200,
+            ),**/
         Image.network(url)
       ],
     );
   }
-  Widget stars(){
+
+  Widget stars() {
     return Row(
       mainAxisSize: MainAxisSize.min,
       children: [
@@ -122,52 +101,79 @@ class CustomerBookView extends StatelessWidget {
       ],
     );
   }
-  Widget name(String text){
-    return Text(
-      text,
-      style: TextStyle(
-        fontSize: 50,
-        fontWeight: FontWeight.bold,
 
-      ),);
+  Widget name(String text) {
+    return Text(text,
+      textAlign: TextAlign.center,
+      style: TextStyle(
+        fontSize: 30,
+        fontWeight: FontWeight.bold,
+      ),
+    );
   }
-  Widget author(String text){
+
+  Widget author(String text) {
     return Text(
-      'Author-'+text,
+      '\nAuthor-' + text,
       style: TextStyle(
         fontSize: 20,
         fontWeight: FontWeight.bold,
-
-      ),);
+      ),
+    );
   }
-  Widget description(String text){
+
+  Widget description(String text) {
     return Text(
-      '\n\nDescription:\n'+text,
+      '\nDescription:\n' + text,
+      textAlign: TextAlign.center,
+      style: TextStyle(
+        fontSize: 18,
+      ),
+    );
+  }
+  Widget real_isbn(String text) {
+    return Text(
+      '\n\nISBN:' + text,
       style: TextStyle(
         fontSize: 18,
         fontWeight: FontWeight.bold,
-
-      ),);
+      ),
+    );
+  }  Widget quantity(String text) {
+    return Text(
+      'Quantity: ' + text,
+      style: TextStyle(
+        fontSize: 20,
+        fontWeight: FontWeight.bold,
+      ),
+    );
   }
-  Widget priceBook(String price){
+  Widget category(String text) {
+    return Text(
+      'Category: ' + text,
+      style: TextStyle(
+        fontSize: 20,
+        fontWeight: FontWeight.bold,
+      ),
+    );
+  }
+
+  Widget priceBook(String price) {
     //price = '9.99';
     String full_part = price;
     String fractional_part = "00";
-    if(price.contains(".")){
+    if (price.contains(".")) {
       full_part = price.split(".")[0];
       fractional_part = price.split(".")[1];
     }
-
     var fiyatNum = Row(
       mainAxisAlignment: MainAxisAlignment.start,
-
       children: <Widget>[
         Text(
           full_part + ",",
           style: TextStyle(
             fontSize: 30,
             fontWeight: FontWeight.bold,
-
           ),
         ),
         Text(
@@ -186,49 +192,26 @@ class CustomerBookView extends StatelessWidget {
         ),
       ],
     );
-    var fiyat =
-    Text(
-      'Fiyat : ',
+    var fiyat = Text(
+      'Price : ',
       style: TextStyle(
-        fontSize: 25,
+        fontSize: 20,
+        fontWeight: FontWeight.bold,
       ),
     );
 
-    return new Row(
-        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-        children:[
-          fiyat,
-          fiyatNum,
-        ]
-    );
+    return new Row(mainAxisAlignment: MainAxisAlignment.spaceEvenly, children: [
+      fiyat,
+      fiyatNum,
+    ]);
   }
 
-  Widget updateButton(BuildContext context ,AsyncSnapshot snapshot){
-    return RaisedButton(
-      onPressed: () {
-        Navigator.push(
-          context, new MaterialPageRoute(builder: (context) => new adminUpdateBook(book :  snapshot)),
-        );
-      },
-      textColor: Colors.white,
-      padding: const EdgeInsets.all(0.0),
-      child: Container(
-        color: Colors.red,
-        padding: const EdgeInsets.all(10.0),
-        child: const Text(
-            'Update',
-            style: TextStyle(fontSize: 20)
-        ),
-      ),
-    );
-  }
-  Widget deleteButton(BuildContext context,String bookId){
+
+  Widget addBasketButton(BuildContext context){
     return RaisedButton(
       onPressed: (){
-        var result =  httpAdmin.adminDeleteBook(bookId);
-        Navigator.push(
-          context, new MaterialPageRoute(builder: (context) => new ExploreStateless(int.parse(bookId))),
-        );
+
+
       },
       textColor: Colors.white,
       padding: const EdgeInsets.all(0.0),
@@ -238,15 +221,13 @@ class CustomerBookView extends StatelessWidget {
         color: Colors.orangeAccent,
         padding: const EdgeInsets.all(10.0),
         child: const Text(
-            'Delete',
+            'Add Basket',
             style: TextStyle(fontSize: 20)
         ),
 
       ),
     );
   }
-  Widget comments(){
-    // TODO comments gelecek ama nasıl olacak emin değilim
-  }
+
 }
 
