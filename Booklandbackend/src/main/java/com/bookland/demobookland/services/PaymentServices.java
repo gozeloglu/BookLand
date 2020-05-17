@@ -29,7 +29,7 @@ public class PaymentServices {
 
         cardExist = paymentRepository.save(card);
         customer.getCustomerCardList().add(cardExist);
-        cardExist.getCustomerList().add(customer);
+        cardExist.getCustomerCardList().add(customer);
         return "New card added";
     }
 }

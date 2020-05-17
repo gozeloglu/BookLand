@@ -1,16 +1,19 @@
 package com.bookland.demobookland.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Data;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 @Entity
 @Data
 @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
-@Table(name = "order")
+@Table(name = "orders")
 public class Order {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -31,11 +34,21 @@ public class Order {
     @Column(name = "AddressId", nullable = false)
     private Integer addressId;
 
+    @JsonBackReference(value = "customer")
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "CustomerId", insertable = false, updatable = false)           /*Database column ismi*/
-    private Customer customer;
+    private Customer customerOrder;
 
+    @JsonBackReference(value = "address")
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    @JoinColumn(name = "AddressId", insertable = false, updatable = false)           /*Database column ismi*/
+    @JoinColumn(name = "AddressId", insertable = false, updatable = false)
     private Address address;
+
+    @JsonBackReference(value = "card")
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinColumn(name = "CardNo", insertable = false, updatable = false)
+    private Card card;
+
+    @OneToMany(fetch = FetchType.LAZY,mappedBy = "orders")
+    private List<Contains> containsList=new ArrayList<>();
 }

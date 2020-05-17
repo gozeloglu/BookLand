@@ -216,8 +216,11 @@ public class BookServices {
                 }
             }
         }
-        if (finalBookList.isEmpty())
+        if (finalBookList.isEmpty() && minPrice==-1 && maxPrice==-1)
             return pagedResult.toList();
+        else if(finalBookList.isEmpty()){
+            return finalBookList;
+        }
         return finalBookList;
     }
 
