@@ -60,7 +60,7 @@ public class Customer {
     @Column(name = "Status")
     private Integer status = 1;
 
-    //@JsonBackReference(value = "customer-OrdersList")/*Customer return yaptığın zaman onun orderlarını da çekmek istersen kaldır bunu*/
+    @JsonBackReference(value = "customer-OrdersList")/*Customer return yaptığın zaman onun orderlarını da çekmek istersen kaldır bunu*/
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "customerOrder", orphanRemoval = true)
     private List<Order> customerOrdersList;
 
@@ -68,7 +68,7 @@ public class Customer {
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "customer", orphanRemoval = true)
     private List<Search> customerSearchList;
 
-    //@JsonBackReference(value = "customer-commentList")
+    @JsonBackReference(value = "customer-commentList")
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "customerComment")
     private List<Comment> commentList;
 
