@@ -23,7 +23,7 @@ public class Order {
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "DateTime", columnDefinition = "TIMESTAMP default CURRENT_TIMESTAMP on update CURRENT_TIMESTAMP")
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
-    private Date orderedTime=new Date();
+    private Date orderedTime = new Date();
 
     @Column(name = "CardNo", nullable = false)
     private String cardNo;
@@ -49,6 +49,6 @@ public class Order {
     @JoinColumn(name = "CardNo", insertable = false, updatable = false)
     private Card card;
 
-    @OneToMany(fetch = FetchType.LAZY,mappedBy = "orders")
-    private List<Contains> containsList=new ArrayList<>();
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "orders")
+    private List<Contains> containsList = new ArrayList<>();
 }

@@ -21,11 +21,11 @@ public class CityCountry {
 
     @Id
     @Column(name = "City", nullable = false)
-    @NotBlank(message = "City cannot be empty",groups = AddAddressGroup.class)
+    @NotBlank(message = "City cannot be empty", groups = AddAddressGroup.class)
     private String city;
 
     @Column(name = "Country", nullable = false)
-    @NotBlank(message = "Country cannot be empty",groups = AddAddressGroup.class)
+    @NotBlank(message = "Country cannot be empty", groups = AddAddressGroup.class)
     private String country;
 
     @JsonBackReference

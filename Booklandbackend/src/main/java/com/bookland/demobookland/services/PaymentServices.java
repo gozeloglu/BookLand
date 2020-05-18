@@ -13,15 +13,15 @@ public class PaymentServices {
     private PaymentRepository paymentRepository;
 
     @Autowired
-    private CustomerRepository  customerRepository;
+    private CustomerRepository customerRepository;
 
-    public String saveMyCard(Card card,Integer customerId){
+    public String saveMyCard(Card card, Integer customerId) {
         Customer customer = customerRepository.findByCustomerId(customerId);
 
         Card cardExist = paymentRepository.findByCardNo(card.getCardNo());
 
-        if(cardExist!=null){
-            if(customer.getCustomerCardList().contains(cardExist))
+        if (cardExist != null) {
+            if (customer.getCustomerCardList().contains(cardExist))
                 return "Card is already in used";
             customer.getCustomerCardList().add(cardExist);
             return "Card added to card_used_by";

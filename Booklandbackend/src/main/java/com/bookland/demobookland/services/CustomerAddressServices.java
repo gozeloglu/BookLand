@@ -1,7 +1,6 @@
 package com.bookland.demobookland.services;
 
 import com.bookland.demobookland.model.Address;
-import com.bookland.demobookland.model.CityCountry;
 import com.bookland.demobookland.model.Customer;
 import com.bookland.demobookland.model.PostalCodeCity;
 import com.bookland.demobookland.repository.AddressRepository;

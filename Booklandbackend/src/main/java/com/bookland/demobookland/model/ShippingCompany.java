@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Data;
 
 import javax.persistence.*;
+
 /*Relations gonna be add*/
 @Entity
 @Data
@@ -15,12 +16,12 @@ public class ShippingCompany {
     @Column(name = "ShippingCompanyId", nullable = false)
     private Integer shippingCompanyId;
 
-    @Column(name = "Price",nullable = false)
+    @Column(name = "Price", nullable = false)
     private Float shippingPrice;
 
-    @Column(name = "Website",nullable = false)
+    @Column(name = "Website", nullable = false)
     private Float website;
 
-    @Column(name = "CompanyName",nullable = false)
+    @Column(name = "CompanyName", nullable = false)
     private Float companyName;
 }

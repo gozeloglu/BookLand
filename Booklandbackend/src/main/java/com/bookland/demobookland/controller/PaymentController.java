@@ -1,8 +1,6 @@
 package com.bookland.demobookland.controller;
 
-import com.bookland.demobookland.model.Address;
 import com.bookland.demobookland.model.Card;
-import com.bookland.demobookland.model.validationGroups.AddAddressGroup;
 import com.bookland.demobookland.model.validationGroups.SaveCardGroup;
 import com.bookland.demobookland.services.PaymentServices;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,7 +20,7 @@ public class PaymentController {
 
     @Transactional
     @PostMapping(value = "/saveCard/{customerId}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public String saveCard(@Validated(SaveCardGroup.class) @RequestBody Card card, @PathVariable Integer customerId){
-        return paymentServices.saveMyCard(card,customerId);
+    public String saveCard(@Validated(SaveCardGroup.class) @RequestBody Card card, @PathVariable Integer customerId) {
+        return paymentServices.saveMyCard(card, customerId);
     }
 }

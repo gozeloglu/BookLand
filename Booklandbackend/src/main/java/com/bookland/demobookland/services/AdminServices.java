@@ -1,7 +1,6 @@
 package com.bookland.demobookland.services;
 
 import com.bookland.demobookland.model.Customer;
-import com.bookland.demobookland.model.Order;
 import com.bookland.demobookland.model.projections.CustomerInfoProjection;
 import com.bookland.demobookland.repository.CustomerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,7 +25,7 @@ public class AdminServices {
 
     public CustomerInfoProjection getCustomerDetails(Integer customerId) {
         Optional<Customer> customer = customerRepository.findById(customerId);
-        if(customer.isPresent()){
+        if (customer.isPresent()) {
             Customer existingCustomer = customer.get();
             return new CustomerInfoProjection() {
                 @Override
@@ -69,7 +68,8 @@ public class AdminServices {
                     return existingCustomer.getCustomerOrdersList();
                 }*/
             };
-        }return null;
+        }
+        return null;
 
     }
 
@@ -84,12 +84,12 @@ public class AdminServices {
     public String deActivateAccount(Integer customerId) {
         try {
             Optional<Customer> customer = customerRepository.findById(customerId);
-            if(customer.isPresent()){
+            if (customer.isPresent()) {
                 Customer existingCustomer = customer.get();
                 existingCustomer.setStatus(0);
                 customerRepository.save(existingCustomer);
                 return "Account Deactivated";
-            }else {
+            } else {
                 return "User Not Found";
             }
         } catch (Exception e) {
