@@ -66,7 +66,6 @@ class _AddressAddPageState extends State<CustomerAddressAddStateful> {
             showCity(),
             showCountry(),
             showPostalCode(),
-            //showAddressTitle(),
             showDropButton(),
             showSaveButton(),
           ],
@@ -85,7 +84,6 @@ class _AddressAddPageState extends State<CustomerAddressAddStateful> {
         autofocus: false,
         decoration: new InputDecoration(
           border: OutlineInputBorder(),
-          //hintText: "Your Address",
           labelText: "Your Address",
           icon: Icon(Icons.home),
         ),
@@ -276,8 +274,6 @@ class _AddressAddPageState extends State<CustomerAddressAddStateful> {
                       ],
                     );
                   });
-              //Navigator.of(context).pop();
-              //Navigator
             } else if (isSaved != true && error == false) {
               showDialog(
                   context: context,
