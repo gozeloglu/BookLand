@@ -39,6 +39,11 @@ public class CustomerController {
         return customerServices.comment(bookId, customerId, comment);
     }
 
+    @PostMapping(value = "/updateCustomer/{customerId}")
+    public Customer updateCustomer(@PathVariable Integer customerId, @RequestBody Customer customer) throws LoginException {
+        return customerServices.updateCustomer(customer, customerId);
+    }
+
     /*@PostMapping(value = "/doComment")
     public Comment comment(@RequestBody Comment comment) {
         return customerServices.comment(comment);
