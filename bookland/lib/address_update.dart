@@ -4,6 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:bookland/http_address.dart';
 import 'package:bookland/my_addresses.dart';
+import 'dart:async';
 /// TODO Control empty text fields
 /// This variable is responsible for informing
 /// that saving operation's status
@@ -263,28 +264,31 @@ class _AddressUpdatePageState extends State<CustomerAddressUpdateStateful> {
               error = true;
             }
 
-            // If one of the fields is empty
-            // Show up the alert dialog
-            if (error) {
-              print("ERROR");
-              print(error);
-              print("--------");
-              showDialog(
-                  context: context,
-                  builder: (BuildContext context) {
-                    return AlertDialog(
-                      title: Text("Error!"),
-                      content: Text(fieldName + errorMessage),
-                      shape: new RoundedRectangleBorder(
-                          borderRadius: new BorderRadius.circular(25)),
-                    );
-                  });
-            } else {
-              // Save address
-              // TODO Fill with PUT method
-              address.updateAddress(isUpdated, _userId, _addressId, addressLine, city,
-                  country, postalCode, addressTitle);
-            }
+            Timer(Duration(seconds: 1), () {
+              // If one of the fields is empty
+              // Show up the alert dialog
+              if (error) {
+                print("ERROR");
+                print(error);
+                print("--------");
+                showDialog(
+                    context: context,
+                    builder: (BuildContext context) {
+                      return AlertDialog(
+                        title: Text("Error!"),
+                        content: Text(fieldName + errorMessage),
+                        shape: new RoundedRectangleBorder(
+                            borderRadius: new BorderRadius.circular(25)),
+                      );
+                    });
+              } else {
+                // Save address
+                // TODO Fill with PUT method
+                address.updateAddress(isUpdated, _userId, _addressId, addressLine, city,
+                    country, postalCode, addressTitle);
+              }
+            });
+
 
             // Show up alert dialogs
             // If address is saved successfully, show up successful message
@@ -316,7 +320,7 @@ class _AddressUpdatePageState extends State<CustomerAddressUpdateStateful> {
             } else {
               print("IS UPDATED");
               print(isUpdated);
-              showDialog(
+              /*showDialog(
                   context: context,
                   builder: (BuildContext context) {
                     return AlertDialog(
@@ -325,7 +329,7 @@ class _AddressUpdatePageState extends State<CustomerAddressUpdateStateful> {
                       shape: new RoundedRectangleBorder(
                           borderRadius: new BorderRadius.circular(25)),
                     );
-                  });
+                  });*/
             }
           }),
     );
