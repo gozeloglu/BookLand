@@ -1,7 +1,9 @@
 package com.bookland.demobookland.services;
 
+import com.bookland.demobookland.model.Comment;
 import com.bookland.demobookland.model.Customer;
 import com.bookland.demobookland.model.projections.LoginInterface;
+import com.bookland.demobookland.repository.CommentRepository;
 import com.bookland.demobookland.repository.CustomerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -20,6 +22,9 @@ public class CustomerServices {
 
     @Autowired
     private CustomerRepository customerRepository;
+
+    @Autowired
+    private CommentRepository commentRepository;
 
     /*Saving the registered customer to the database and return the id of the new customer*/
     @Transactional
@@ -55,4 +60,14 @@ public class CustomerServices {
         }
 
     }
+
+    public Comment comment(Integer bookId, Integer customerId, Comment comment) {
+        comment.setBookId(bookId);
+        comment.setCustomerId(customerId);
+        return commentRepository.save(comment);
+    }
+
+    /*public Comment comment(Comment comment) {
+        return commentRepository.save(comment);
+    }*/
 }
