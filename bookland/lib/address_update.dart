@@ -4,58 +4,86 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:bookland/http_address.dart';
 import 'package:bookland/my_addresses.dart';
+import 'dart:async';
 
 /// This variable is responsible for informing
 /// that saving operation's status
-bool isSaved = false;
+bool isUpdated;
+int _userId;
+int _addressId;
+String _addressTitle;
+String _addressLine;
+String _city;
+String _country;
+String _postalCode;
 
-class CustomerAddressAdd extends StatelessWidget {
-  static const String _title = "Add Address";
+class CustomerAddressUpdate extends StatelessWidget {
+  /// @param addressMap is a map which stores address information of the user
+  /// @param userId represents user's id that is used for updating
+  /// @param isUpdated is a variable that tracks the update operation
+  /// This function is a constructor to assign text field variables
+  CustomerAddressUpdate(
+      Map<String, dynamic> addressMap, int userId, bool _isUpdated) {
+    _userId = userId;
+    _addressId = addressMap["addressId"];
+    _addressTitle = addressMap["addressTitle"];
+    _addressLine = addressMap["addressLine"];
+    _city = addressMap["postalCodeCity"]["city"]["city"];
+    _country = addressMap["postalCodeCity"]["city"]["country"];
+    _postalCode = addressMap["postalCodeCity"]["postalCode"];
+    isUpdated = _isUpdated;
+  }
+  static const String _title = "Update Address";
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       title: _title,
-      home: CustomerAddressAddStateful(),
+      home: CustomerAddressUpdateStateful(),
     );
   }
 }
 
-class CustomerAddressAddStateful extends StatefulWidget {
+class CustomerAddressUpdateStateful extends StatefulWidget {
   @override
-  _AddressAddPageState createState() => _AddressAddPageState();
+  _AddressUpdatePageState createState() => _AddressUpdatePageState();
 }
 
-class _AddressAddPageState extends State<CustomerAddressAddStateful> {
+class _AddressUpdatePageState extends State<CustomerAddressUpdateStateful> {
   Address address = new Address();
 
-  TextEditingController addressLineController = new TextEditingController();
-  TextEditingController cityController = new TextEditingController();
-  TextEditingController countryController = new TextEditingController();
-  TextEditingController postalCodeController = new TextEditingController();
+  /// Default text are put into text fields
+  TextEditingController addressLineController =
+      new TextEditingController(text: _addressLine);
+  TextEditingController cityController = new TextEditingController(text: _city);
+  TextEditingController countryController =
+      new TextEditingController(text: _country);
+  TextEditingController postalCodeController =
+      new TextEditingController(text: _postalCode);
 
-  String addressLine;
-  String city;
-  String country;
-  String postalCode;
-  String addressTitle;
-
-  String dropdownValue = "Home";
+  String addressLine = _addressLine;
+  String city = _city;
+  String country = _country;
+  String postalCode = _postalCode;
+  String addressTitle = _addressTitle;
+  String dropdownValue = _addressTitle;
 
   @override
   Widget build(BuildContext context) {
     return new Scaffold(
       appBar: MyAppBar(
-        pageTitle: "Add Address",
+        pageTitle: "Update Address",
         back: true,
       ),
       body: Stack(
-        children: <Widget>[_showForm()],
+        children: <Widget>[_showUpdateForm()],
       ),
     );
   }
 
-  Widget _showForm() {
+  /// This function builds a widget that shows the form to update address
+  /// Calls other widgets sequentially and put on the page
+  Widget _showUpdateForm() {
     return new Container(
       padding: EdgeInsets.all(16.0),
       child: new Form(
@@ -67,7 +95,7 @@ class _AddressAddPageState extends State<CustomerAddressAddStateful> {
             showCountry(),
             showPostalCode(),
             showDropButton(),
-            showSaveButton(),
+            showUpdateButton(),
           ],
         ),
       ),
@@ -155,7 +183,8 @@ class _AddressAddPageState extends State<CustomerAddressAddStateful> {
 
   /// This function builds a drop button
   /// User can choose one the proper address title
-  /// Address titles : Home, Office, School
+  /// Address titles : Home, Office, School, Other
+  /// Users last selection is put on the default value
   Widget showDropButton() {
     return Padding(
       padding: const EdgeInsets.fromLTRB(0, 50, 0, 0),
@@ -170,7 +199,6 @@ class _AddressAddPageState extends State<CustomerAddressAddStateful> {
         ),
         onChanged: (String newValue) {
           setState(() {
-            print(newValue);
             dropdownValue = newValue;
           });
         },
@@ -185,9 +213,10 @@ class _AddressAddPageState extends State<CustomerAddressAddStateful> {
     );
   }
 
-  /// This function build a button to save address
-  /// Calls POST method
-  Widget showSaveButton() {
+  /// This function build a button to update address
+  /// Calls PUT method
+  /// Alert dialog controls are handled in this function
+  Widget showUpdateButton() {
     return Padding(
       padding: const EdgeInsets.fromLTRB(0, 100, 0, 0),
       child: new RaisedButton(
@@ -196,7 +225,7 @@ class _AddressAddPageState extends State<CustomerAddressAddStateful> {
               borderRadius: new BorderRadius.circular(30)),
           color: Colors.green,
           child: new Text(
-            "Save Address",
+            "Update Address",
             style: new TextStyle(fontSize: 20, color: Colors.white),
           ),
           onPressed: () {
@@ -244,48 +273,55 @@ class _AddressAddPageState extends State<CustomerAddressAddStateful> {
                     );
                   });
             } else {
-              // Save address
-              address.saveAddress(int.parse(customerID), addressLine, city,
+              // Update address
+              // Call HTTP.PUT method
+              address.updateAddress(_userId, _addressId, addressLine, city,
                   country, postalCode, addressTitle);
             }
 
-            // Show up alert dialogs
-            // If address is saved successfully, show up successful message
-            // If address is not saved successfully, show up successful message
-            if (isSaved) {
-              showDialog(
-                  context: context,
-                  builder: (BuildContext context) {
-                    return AlertDialog(
-                      title: Text("Saved!"),
-                      content: Text("Address is saved successfully!"),
-                      shape: new RoundedRectangleBorder(
-                          borderRadius: new BorderRadius.circular(25)),
-                      actions: <Widget>[
-                        new FlatButton(
-                          child: new Text("Close"),
-                          onPressed: () {
-                            Navigator.push(
-                                context,
-                                new MaterialPageRoute(
-                                    builder: (context) => new MyAddresses()));
-                          },
-                        )
-                      ],
-                    );
-                  });
-            } else if (isSaved != true && error == false) {
-              showDialog(
-                  context: context,
-                  builder: (BuildContext context) {
-                    return AlertDialog(
-                      title: Text("Error!"),
-                      content: Text("Address could not saved!"),
-                      shape: new RoundedRectangleBorder(
-                          borderRadius: new BorderRadius.circular(25)),
-                    );
-                  });
-            }
+            // Timer is added for showing up alert dialog
+            Timer(Duration(seconds: 1), () {
+              // Show up alert dialogs
+              // If address is updated successfully, show up successful message
+              // If address is not updated successfully, show up error message
+              if (isUpdated) {
+                showDialog(
+                    context: context,
+                    builder: (BuildContext context) {
+                      return AlertDialog(
+                        title: Text("Updated!"),
+                        content: Text("Address is updated  successfully!"),
+                        shape: new RoundedRectangleBorder(
+                            borderRadius: new BorderRadius.circular(25)),
+                        actions: <Widget>[
+                          new FlatButton(
+                            child: new Text("Close"),
+                            onPressed: () {
+                              Navigator.push(
+                                  context,
+                                  new MaterialPageRoute(
+                                      builder: (context) => new MyAddresses()));
+                            },
+                          )
+                        ],
+                      );
+                    });
+              }
+              // If address could not updated and there is a empty field
+              // Show up this alert dialog
+              else if (isUpdated != true && error == false) {
+                showDialog(
+                    context: context,
+                    builder: (BuildContext context) {
+                      return AlertDialog(
+                        title: Text("Error!"),
+                        content: Text("Address could not updated!"),
+                        shape: new RoundedRectangleBorder(
+                            borderRadius: new BorderRadius.circular(25)),
+                      );
+                    });
+              }
+            });
           }),
     );
   }

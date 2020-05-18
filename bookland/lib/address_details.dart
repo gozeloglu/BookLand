@@ -1,3 +1,4 @@
+import 'package:bookland/address_update.dart';
 import 'package:bookland/my_addresses.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -11,6 +12,7 @@ String _addressLine;
 String _city;
 String _country;
 String _postalCode;
+Map<String, dynamic> _addressMap;
 
 class AddressDetails extends StatelessWidget {
   /// @param addressMap contains the information of the given address
@@ -25,6 +27,7 @@ class AddressDetails extends StatelessWidget {
     _city = addressMap["postalCodeCity"]["city"]["city"];
     _country = addressMap["postalCodeCity"]["city"]["country"];
     _postalCode = addressMap["postalCodeCity"]["postalCode"];
+    _addressMap = addressMap;
   }
   @override
   Widget build(BuildContext context) {
@@ -116,6 +119,9 @@ class AddressDetailsState extends State<AddressDetailsLayout> {
                                   title: new Text("Delete Book"),
                                   content:
                                       new Text("Book is deleted successfully!"),
+                                  shape: new RoundedRectangleBorder(
+                                      borderRadius:
+                                          new BorderRadius.circular(25)),
                                   actions: <Widget>[
                                     // usually buttons at the bottom of the dialog
                                     new FlatButton(
@@ -149,7 +155,14 @@ class AddressDetailsState extends State<AddressDetailsLayout> {
                           padding: const EdgeInsets.fromLTRB(48, 0, 48, 0),
                           shape: new RoundedRectangleBorder(
                               borderRadius: new BorderRadius.circular(20)),
-                          onPressed: () => {},
+                          onPressed: () => {
+                            Navigator.push(
+                                context,
+                                new MaterialPageRoute(
+                                    builder: (context) =>
+                                        new CustomerAddressUpdate(
+                                            _addressMap, _userId, false)))
+                          },
                           child: Text(
                             "Update",
                             style: TextStyle(fontSize: 18, color: Colors.white),
