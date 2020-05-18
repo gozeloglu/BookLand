@@ -307,7 +307,8 @@ class _AddressUpdatePageState extends State<CustomerAddressUpdateStateful> {
                       );
                     });
               }
-              // If
+              // If address could not updated and there is a empty field
+              // Show up this alert dialog
               else if (isUpdated != true && error == false) {
                 showDialog(
                     context: context,

@@ -101,6 +101,15 @@ class Address {
     }
   }
 
+  /// @param userId represents the user's id to update true user
+  /// @param addressId represents the address id to update true address
+  /// @param addressLine is the main address
+  /// @param city is the address's city
+  /// @param country is the address's country
+  /// @param postal code is the address's postal code
+  /// @param address type : School - Home - Office - Other
+  /// This function updates the specific address of the user
+  /// PUT method is used for updating
   Future<String> updateAddress(
       int userId,
       int addressId,
@@ -109,7 +118,6 @@ class Address {
       String country,
       String postalCode,
       String addressTitle) async {
-
     String username = 'Daryl';
     String password = 'WalkingDead';
 
@@ -133,16 +141,13 @@ class Address {
           "addressTitle": addressTitle,
           "postalCodeCity": postalCodeCityMap,
         }));
+    // If update is successful
     if (response.statusCode < 400) {
+      // Update the boolean variable
       isUpdated = true;
-    } else {
-      isUpdated = false;
-    }
-    if (response.statusCode < 400) {
-      //return "Address is updated";
       return "Address is updated successfully!";
     } else {
-      print(response.statusCode);
+      isUpdated = false;
       throw Exception("Failed to save address");
     }
   }
