@@ -6,7 +6,6 @@ import 'package:bookland/http_address.dart';
 import 'package:bookland/my_addresses.dart';
 import 'dart:async';
 
-/// TODO Control empty text fields
 /// This variable is responsible for informing
 /// that saving operation's status
 bool isUpdated;
@@ -19,7 +18,12 @@ String _country;
 String _postalCode;
 
 class CustomerAddressUpdate extends StatelessWidget {
-  CustomerAddressUpdate(Map<String, dynamic> addressMap, int userId, bool _isUpdated) {
+  /// @param addressMap is a map which stores address information of the user
+  /// @param userId represents user's id that is used for updating
+  /// @param isUpdated is a variable that tracks the update operation
+  /// This function is a constructor to assign text field variables
+  CustomerAddressUpdate(
+      Map<String, dynamic> addressMap, int userId, bool _isUpdated) {
     _userId = userId;
     _addressId = addressMap["addressId"];
     _addressTitle = addressMap["addressTitle"];
@@ -62,7 +66,6 @@ class _AddressUpdatePageState extends State<CustomerAddressUpdateStateful> {
   String country = _country;
   String postalCode = _postalCode;
   String addressTitle = _addressTitle;
-
   String dropdownValue = _addressTitle;
 
   @override
@@ -73,12 +76,14 @@ class _AddressUpdatePageState extends State<CustomerAddressUpdateStateful> {
         back: true,
       ),
       body: Stack(
-        children: <Widget>[_showForm()],
+        children: <Widget>[_showUpdateForm()],
       ),
     );
   }
 
-  Widget _showForm() {
+  /// This function builds a widget that shows the form to update address
+  /// Calls other widgets sequentially and put on the page
+  Widget _showUpdateForm() {
     return new Container(
       padding: EdgeInsets.all(16.0),
       child: new Form(
@@ -89,9 +94,8 @@ class _AddressUpdatePageState extends State<CustomerAddressUpdateStateful> {
             showCity(),
             showCountry(),
             showPostalCode(),
-            //showAddressTitle(),
             showDropButton(),
-            showSaveButton(),
+            showUpdateButton(),
           ],
         ),
       ),
@@ -179,7 +183,8 @@ class _AddressUpdatePageState extends State<CustomerAddressUpdateStateful> {
 
   /// This function builds a drop button
   /// User can choose one the proper address title
-  /// Address titles : Home, Office, School
+  /// Address titles : Home, Office, School, Other
+  /// Users last selection is put on the default value
   Widget showDropButton() {
     return Padding(
       padding: const EdgeInsets.fromLTRB(0, 50, 0, 0),
@@ -194,7 +199,6 @@ class _AddressUpdatePageState extends State<CustomerAddressUpdateStateful> {
         ),
         onChanged: (String newValue) {
           setState(() {
-            print(newValue);
             dropdownValue = newValue;
           });
         },
@@ -209,9 +213,10 @@ class _AddressUpdatePageState extends State<CustomerAddressUpdateStateful> {
     );
   }
 
-  /// This function build a button to save address
-  /// Calls POST method
-  Widget showSaveButton() {
+  /// This function build a button to update address
+  /// Calls PUT method
+  /// Alert dialog controls are handled in this function
+  Widget showUpdateButton() {
     return Padding(
       padding: const EdgeInsets.fromLTRB(0, 100, 0, 0),
       child: new RaisedButton(
@@ -231,19 +236,10 @@ class _AddressUpdatePageState extends State<CustomerAddressUpdateStateful> {
             postalCode = postalCodeController.text;
             addressTitle = dropdownValue;
 
-            print(addressLine);
-            print(addressLine.length);
-            print(city);
-            print(city.length);
-            print(country);
-            print(country.length);
-            print(postalCode);
-            print(postalCode.length);
-
             // Fields are controlled
             // If one of the fields is empty
             // Alert dialog is showed up
-            String errorMessage = " cannot be empty!!!!!";
+            String errorMessage = " cannot be empty!";
             String fieldName = "";
             bool error = false;
             if (addressLine == "") {
@@ -263,7 +259,6 @@ class _AddressUpdatePageState extends State<CustomerAddressUpdateStateful> {
               error = true;
             }
 
-            // Timer(Duration(seconds: 1), () {
             // If one of the fields is empty
             // Show up the alert dialog
             if (error) {
@@ -278,17 +273,17 @@ class _AddressUpdatePageState extends State<CustomerAddressUpdateStateful> {
                     );
                   });
             } else {
-              // Save address
-              // TODO Fill with PUT method
+              // Update address
+              // Call HTTP.PUT method
               address.updateAddress(_userId, _addressId, addressLine, city,
                   country, postalCode, addressTitle);
             }
-            //  });
 
+            // Timer is added for showing up alert dialog
             Timer(Duration(seconds: 1), () {
               // Show up alert dialogs
-              // If address is saved successfully, show up successful message
-              // If address is not saved successfully, show up successful message
+              // If address is updated successfully, show up successful message
+              // If address is not updated successfully, show up error message
               if (isUpdated) {
                 showDialog(
                     context: context,
@@ -311,17 +306,19 @@ class _AddressUpdatePageState extends State<CustomerAddressUpdateStateful> {
                         ],
                       );
                     });
-              } else if (isUpdated == true && error != false) {
+              }
+              // If
+              else if (isUpdated != true && error == false) {
                 showDialog(
-                  context: context,
-                  builder: (BuildContext context) {
-                    return AlertDialog(
-                      title: Text("Error!"),
-                      content: Text("Address could not updated!"),
-                      shape: new RoundedRectangleBorder(
-                          borderRadius: new BorderRadius.circular(25)),
-                    );
-                  });
+                    context: context,
+                    builder: (BuildContext context) {
+                      return AlertDialog(
+                        title: Text("Error!"),
+                        content: Text("Address could not updated!"),
+                        shape: new RoundedRectangleBorder(
+                            borderRadius: new BorderRadius.circular(25)),
+                      );
+                    });
               }
             });
           }),
