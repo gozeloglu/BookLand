@@ -20,7 +20,7 @@ void openPage(BuildContext context) {
   Navigator.push(context, MaterialPageRoute(
     builder: (BuildContext context) {
       return Scaffold(
-        appBar: MyAppBar( pageTitle:"Update Book"),
+        appBar: MyAppBar(pageTitle: "Update Book"),
         body: Container(
           child: Column(
             children: <Widget>[
@@ -86,7 +86,6 @@ class adminUpdateBook extends StatelessWidget {
   static const String _title = 'AdminUpdateBook';
   final AsyncSnapshot book;
 
-
   adminUpdateBook({Key key, @required this.book}) : super(key: key);
 
   //final AsyncSnapshot book ;
@@ -126,24 +125,24 @@ class adminUpdateBook extends StatelessWidget {
           primarySwatch: Colors.red,
         ),
         home: Scaffold(
-          appBar: MyAppBar(pageTitle: "Update Book", back: true,),
+          appBar: MyAppBar(
+            pageTitle: "Update Book",
+            back: true,
+          ),
           body: Container(
             width: double.infinity,
             padding: EdgeInsets.only(top: 10, bottom: 10),
             child: new Stack(
-
               children: <Widget>[_showForm(book, context)],
-
             ),
           ),
-          drawer: MyDrawer(drawerHeader: "Hello Admin",),
+          drawer: MyDrawer(
+            drawerHeader: "Hello Admin",
+          ),
           bottomNavigationBar: MyBottomNavigatorBar(),
         ));
   }
 
-
-  
-  
   Widget _showForm(AsyncSnapshot book, BuildContext context) {
     return new Container(
       padding: EdgeInsets.all(1.0),
@@ -152,21 +151,42 @@ class adminUpdateBook extends StatelessWidget {
           shrinkWrap: true,
           children: <Widget>[
             //showISBNInput(book),
-            showNameInput(book == null ? "BookName" :book.data.bookName.toString()), //book == null ? "BookName" :
-            showAuthorInput(book == null ? null : book.data.author.toString()), //book == null ? null :
-            showCategoryInput(book == null ? null :book.data.category.toString()), //book == null ? null :
-            showSubcategoryInput(book == null ? null :book.data.subCategory.toString()), //book == null ? null :
-            showImageInput(book == null ? null : book.data.bookImage.toString()), //book == null ? null :
-            showPriceInput(book == null ? null :book.data.price.toString()), //book == null ? null :
-            showStockInput(book == null ? null : book.data.quantity.toString()), //book == null ? null :
-            showHotlistInput(book == null ? null : book.data.inHotList.toString()), //book == null ? null :
-            showDescriptionInput(book == null ? null : book.data.description.toString()), //book == null ? null :
-            showUpdateBookButton(book == null ? null :book.data.bookId.toString(), context) //book == null ? null :
+            showNameInput(book == null
+                ? "BookName"
+                : book.data.bookName.toString()), //book == null ? "BookName" :
+            showAuthorInput(book == null
+                ? null
+                : book.data.author.toString()), //book == null ? null :
+            showCategoryInput(book == null
+                ? null
+                : book.data.category.toString()), //book == null ? null :
+            showSubcategoryInput(book == null
+                ? null
+                : book.data.subCategory.toString()), //book == null ? null :
+            showImageInput(book == null
+                ? null
+                : book.data.bookImage.toString()), //book == null ? null :
+            showPriceInput(book == null
+                ? null
+                : book.data.price.toString()), //book == null ? null :
+            showStockInput(book == null
+                ? null
+                : book.data.quantity.toString()), //book == null ? null :
+            showHotlistInput(book == null
+                ? null
+                : book.data.inHotList.toString()), //book == null ? null :
+            showDescriptionInput(book == null
+                ? null
+                : book.data.description.toString()), //book == null ? null :
+            showUpdateBookButton(
+                book == null ? null : book.data.bookId.toString(),
+                context) //book == null ? null :
           ],
         ),
       ),
     );
   }
+
 /*
   Widget showISBNInput(AsyncSnapshot book) {
     print("***xxxx");
@@ -208,13 +228,13 @@ class adminUpdateBook extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.fromLTRB(0.0, 10.0, 0.0, 0.0),
       child: new TextFormField(
-      //  initialValue: "meraba",//bookName == null ? "Book Name" : bookName,
+        //  initialValue: "meraba",//bookName == null ? "Book Name" : bookName,
         controller: book_nameController,
         maxLines: 1,
         keyboardType: TextInputType.text,
         autofocus: false,
         decoration: new InputDecoration(
-          hintText:bookName, // bookName == null ? "Book Name" :
+          hintText: bookName, // bookName == null ? "Book Name" :
           icon: new Icon(
             Icons.book,
             color: Colors.grey,
@@ -295,7 +315,7 @@ class adminUpdateBook extends StatelessWidget {
         keyboardType: TextInputType.text,
         autofocus: false,
         decoration: new InputDecoration(
-          hintText:subCategory, // subCategory == null ? "Sub Category" :
+          hintText: subCategory, // subCategory == null ? "Sub Category" :
           icon: new Icon(
             Icons.category,
             color: Colors.grey,
@@ -322,7 +342,7 @@ class adminUpdateBook extends StatelessWidget {
         keyboardType: TextInputType.text,
         autofocus: false,
         decoration: new InputDecoration(
-          hintText:  bookImage,// bookImage == null ? "Book Image Link" :
+          hintText: bookImage, // bookImage == null ? "Book Image Link" :
           icon: new Icon(
             Icons.link,
             color: Colors.grey,
@@ -349,7 +369,7 @@ class adminUpdateBook extends StatelessWidget {
         keyboardType: TextInputType.text,
         autofocus: false,
         decoration: new InputDecoration(
-          hintText:  inHotList, //inHotList == null ? "In Hot List" :
+          hintText: inHotList, //inHotList == null ? "In Hot List" :
           icon: new Icon(
             Icons.playlist_add_check,
             color: Colors.grey,
@@ -376,7 +396,7 @@ class adminUpdateBook extends StatelessWidget {
         keyboardType: TextInputType.text,
         autofocus: false,
         decoration: new InputDecoration(
-          hintText: price ,//== null ? "Price" : price,
+          hintText: price, //== null ? "Price" : price,
           icon: new Icon(
             Icons.attach_money,
             color: Colors.grey,
@@ -404,7 +424,7 @@ class adminUpdateBook extends StatelessWidget {
         keyboardType: TextInputType.number,
         autofocus: false,
         decoration: new InputDecoration(
-          hintText: quantity,// == null ? "Quantity" : quantity,
+          hintText: quantity, // == null ? "Quantity" : quantity,
           icon: new Icon(
             Icons.confirmation_number,
             color: Colors.grey,
@@ -429,7 +449,7 @@ class adminUpdateBook extends StatelessWidget {
         keyboardType: TextInputType.text,
         autofocus: false,
         decoration: new InputDecoration(
-          hintText: description ,//== null ? "Description" : description,
+          hintText: description, //== null ? "Description" : description,
           icon: new Icon(
             Icons.description,
             color: Colors.grey,
@@ -463,7 +483,6 @@ class adminUpdateBook extends StatelessWidget {
           onPressed: () {
             //_formKey.currentState.validate();
 
-
             isbn = bookId;
 
             book_hotlist = book_hotlistController.text;
@@ -478,19 +497,20 @@ class adminUpdateBook extends StatelessWidget {
 
             if (book_quantity == null) {}
             var result = httpAdmin.adminUpdateBook(
-                isbn,
-                book_name.isEmpty == true ? null : book_name ,
-                book_author.isEmpty == true ? null : book_author ,
-                book_category.isEmpty == true ? null : book_category ,
-                book_sub_category.isEmpty == true ? null : book_sub_category ,
-                book_img.isEmpty == true ? null : book_name ,
-                book_hotlist,
-                book_quantity,
-                book_price,
-                book_description.isEmpty == true ? null : book_description ,);
+              isbn,
+              book_name.isEmpty == true ? null : book_name,
+              book_author.isEmpty == true ? null : book_author,
+              book_category.isEmpty == true ? null : book_category,
+              book_sub_category.isEmpty == true ? null : book_sub_category,
+              book_img.isEmpty == true ? null : book_name,
+              book_hotlist,
+              book_quantity,
+              book_price,
+              book_description.isEmpty == true ? null : book_description,
+            );
 
             Timer(Duration(seconds: 1), () {
-              if (errorControl == false){
+              if (errorControl == false) {
                 showDialog(
                   context: context,
                   builder: (BuildContext context) {
@@ -531,15 +551,13 @@ class adminUpdateBook extends StatelessWidget {
                     );
                   },
                 );
-
               }
             });
             //Navigator.pop(context);
             Navigator.push(
                 context,
                 MaterialPageRoute(
-                  builder: (context) =>
-                  new BookView(isbn: isbn),
+                  builder: (context) => new BookView(isbn: isbn),
                 ));
             /*Navigator.push(
                 context,
@@ -551,4 +569,3 @@ class adminUpdateBook extends StatelessWidget {
     );
   }
 }
-

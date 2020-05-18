@@ -1,6 +1,7 @@
 import 'dart:convert';
+import 'package:bookland/address_update.dart';
 import 'package:http/http.dart' as http;
-import 'customer_address_add.dart';
+import 'package:bookland/customer_address_add.dart';
 
 class Address {
   /// @param: userId represents user's unique id to save in correct location in db
@@ -97,6 +98,57 @@ class Address {
       return "OK";
     } else {
       throw Exception("Could not delete the address");
+    }
+  }
+
+  /// @param userId represents the user's id to update true user
+  /// @param addressId represents the address id to update true address
+  /// @param addressLine is the main address
+  /// @param city is the address's city
+  /// @param country is the address's country
+  /// @param postal code is the address's postal code
+  /// @param address type : School - Home - Office - Other
+  /// This function updates the specific address of the user
+  /// PUT method is used for updating
+  Future<String> updateAddress(
+      int userId,
+      int addressId,
+      String addressLine,
+      String city,
+      String country,
+      String postalCode,
+      String addressTitle) async {
+    String username = 'Daryl';
+    String password = 'WalkingDead';
+
+    String basicAuth =
+        'Basic ' + base64Encode(utf8.encode('$username:$password'));
+    // Body attributes for POST
+    Map<String, String> cityCountryMap = {"city": city, "country": country};
+    Map<String, dynamic> postalCodeCityMap = {
+      "postalCode": postalCode,
+      "city": cityCountryMap
+    };
+
+    http.Response response = await http.put(
+        "http://10.0.2.2:8080/UpdateMyAddress/$userId/$addressId",
+        headers: <String, String>{
+          'Authorization': basicAuth,
+          'Content-Type': 'application/json; charset=UTF-8'
+        },
+        body: jsonEncode(<String, dynamic>{
+          "addressLine": addressLine,
+          "addressTitle": addressTitle,
+          "postalCodeCity": postalCodeCityMap,
+        }));
+    // If update is successful
+    if (response.statusCode < 400) {
+      // Update the boolean variable
+      isUpdated = true;
+      return "Address is updated successfully!";
+    } else {
+      isUpdated = false;
+      throw Exception("Failed to save address");
     }
   }
 }
