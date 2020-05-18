@@ -35,8 +35,8 @@ public class CustomerController {
     }
 
     @PostMapping(value = "/makeComment/{bookId}/{customerId}")
-    public Comment comment(@PathVariable Integer bookId,@PathVariable Integer customerId, @RequestBody Comment comment) {
-        return customerServices.comment(bookId,customerId,comment);
+    public Comment comment(@PathVariable Integer bookId, @PathVariable Integer customerId, @RequestBody Comment comment) {
+        return customerServices.comment(bookId, customerId, comment);
     }
 
     /*@PostMapping(value = "/doComment")

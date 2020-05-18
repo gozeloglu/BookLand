@@ -23,12 +23,12 @@ public class PostalCodeCity {
 
     @Id
     @Column(name = "PostalCode", nullable = false)
-    @NotBlank(message = "PostalCode cannot be empty",groups = AddAddressGroup.class)
+    @NotBlank(message = "PostalCode cannot be empty", groups = AddAddressGroup.class)
     private String postalCode;
 
     //@JsonManagedReference
     @Valid
-    @NotNull(message = "City cannot be empty",groups = AddAddressGroup.class)
+    @NotNull(message = "City cannot be empty", groups = AddAddressGroup.class)
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.MERGE)
     @JoinColumn(name = "city")
     private CityCountry city;
