@@ -1,21 +1,17 @@
 package com.bookland.demobookland.controller;
 
 import com.bookland.demobookland.model.Book;
+import com.bookland.demobookland.model.projections.BookDetailsProjection;
 import com.bookland.demobookland.model.projections.ExplorePageProjection;
 import com.bookland.demobookland.model.validationGroups.AddBookGroup;
 import com.bookland.demobookland.services.BookServices;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 @RestController
 public class BookController {
@@ -65,7 +61,7 @@ public class BookController {
     }
 
     @PutMapping(value = "/updateBook/{id}")
-    public String updateBook(@PathVariable Integer id, @RequestBody Book book) {/*required false varmış*/
+    public String updateBook(@PathVariable Integer id, @RequestBody Book book) { //{required false varmış
         return bookServices.updateBook(id, book);
     }
 
@@ -108,7 +104,7 @@ public class BookController {
     }
 
     @GetMapping(value = "/getBookDetails/{ISBN}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public Book getBookById(@PathVariable Integer ISBN) {
+    public BookDetailsProjection getBookById(@PathVariable Integer ISBN) {
         return bookServices.getBookById(ISBN);
     }
 
@@ -124,11 +120,11 @@ public class BookController {
     }
 
     @GetMapping(value = "/Filtering/{pageNo}/{pageSize}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public List<Book> getBookByFilters(@PathVariable Integer pageNo, @PathVariable Integer pageSize,
-                                       @RequestParam(value = "author", defaultValue = "undefined") String author,
-                                       @RequestParam(value = "categories", defaultValue = "") ArrayList<String> categories,
-                                       @RequestParam(value = "minPrice", defaultValue = "-1") Integer minPrice,
-                                       @RequestParam(value = "maxPrice", defaultValue = "-1") Integer maxPrice) {
+    public List<BookDetailsProjection> getBookByFilters(@PathVariable Integer pageNo, @PathVariable Integer pageSize,
+                                                        @RequestParam(value = "author", defaultValue = "undefined") String author,
+                                                        @RequestParam(value = "categories", defaultValue = "") ArrayList<String> categories,
+                                                        @RequestParam(value = "minPrice", defaultValue = "-1") Integer minPrice,
+                                                        @RequestParam(value = "maxPrice", defaultValue = "-1") Integer maxPrice) {
         return bookServices.getBookByFilters(pageNo - 1, pageSize, author, categories, minPrice, maxPrice);
     }
 

@@ -1,6 +1,7 @@
 package com.bookland.demobookland.controller;
 
 
+import com.bookland.demobookland.model.Comment;
 import com.bookland.demobookland.model.Customer;
 import com.bookland.demobookland.model.projections.LoginInterface;
 import com.bookland.demobookland.model.validationGroups.LoginGroup;
@@ -8,6 +9,7 @@ import com.bookland.demobookland.model.validationGroups.SignUpGroup;
 import com.bookland.demobookland.services.CustomerServices;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -32,5 +34,13 @@ public class CustomerController {
         return customerServices.getLogin(customer);
     }
 
+    @PostMapping(value = "/makeComment/{bookId}/{customerId}")
+    public Comment comment(@PathVariable Integer bookId,@PathVariable Integer customerId, @RequestBody Comment comment) {
+        return customerServices.comment(bookId,customerId,comment);
+    }
 
+    /*@PostMapping(value = "/doComment")
+    public Comment comment(@RequestBody Comment comment) {
+        return customerServices.comment(comment);
+    }*/
 }

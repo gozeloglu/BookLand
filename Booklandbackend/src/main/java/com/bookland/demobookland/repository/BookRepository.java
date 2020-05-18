@@ -1,8 +1,8 @@
 package com.bookland.demobookland.repository;
 
 import com.bookland.demobookland.model.Book;
+import com.bookland.demobookland.model.projections.BookDetailsProjection;
 import com.bookland.demobookland.model.projections.ExplorePageProjection;
-//import com.sun.org.apache.xpath.internal.operations.Bool;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
@@ -29,7 +29,9 @@ public interface BookRepository extends PagingAndSortingRepository<Book, Integer
     @Query("SELECT DISTINCT b.subCategory FROM Book b")
     List<String> findDistinctBySubCategory();
 
-    Book findByBookId(Integer id);
+    //Book findByBookId(Integer id);
+
+    BookDetailsProjection findByBookId(Integer id);
 
     /*Last released 10 books*/
     Page<ExplorePageProjection> findTop10ByOrderByReleasedTimeDesc(Pageable paging);

@@ -5,6 +5,7 @@ import com.bookland.demobookland.model.Price;
 import com.bookland.demobookland.model.SearchCriteria.BookSpecification;
 import com.bookland.demobookland.model.SearchCriteria.SearchCriteria;
 import com.bookland.demobookland.model.SearchCriteria.SearchOperation;
+import com.bookland.demobookland.model.projections.BookDetailsProjection;
 import com.bookland.demobookland.model.projections.ExplorePageProjection;
 import com.bookland.demobookland.repository.BookRepository;
 import com.bookland.demobookland.repository.PriceRepository;
@@ -17,14 +18,15 @@ import org.springframework.stereotype.Service;
 import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class BookServices {
 
+
     @Autowired
     private BookRepository bookRepository;
 
-    /*Price is a weak entity that means without book it can't exist so price repository needs to be in book service also*/
     @Autowired
     private PriceRepository priceRepository;
 
@@ -78,7 +80,8 @@ public class BookServices {
     public String updateBook(Integer id, Book book) {
         String response;
         try {
-            Book current_book = bookRepository.findByBookId(id);
+            Optional<Book> optionalBook = bookRepository.findById(id);
+            Book current_book = optionalBook.get();
             if (book.getRealIsbn() != null) {
                 current_book.setRealIsbn(book.getRealIsbn());
             }
@@ -179,15 +182,15 @@ public class BookServices {
     }
 
     /*Get book details by id*/
-    public Book getBookById(Integer ISBN) {
+    public BookDetailsProjection getBookById(Integer ISBN) {
         return bookRepository.findByBookId(ISBN);
     }
 
-
-    public List<Book> getBookByFilters(Integer pageNo, Integer pageSize, String author, ArrayList<String> category, Integer minPrice, Integer maxPrice) {
+    /*problem with paging,page size ı normalden büyük tutmak lazım*/
+    public List<BookDetailsProjection> getBookByFilters(Integer pageNo, Integer pageSize, String author, ArrayList<String> category, Integer minPrice, Integer maxPrice) {
         Pageable paging = PageRequest.of(pageNo, pageSize);
         BookSpecification filter_categories = new BookSpecification();
-        List<Book> finalBookList = new ArrayList<>();
+        List<BookDetailsProjection> finalBookList = new ArrayList<>();
 
         if (!author.equals("undefined")) {
             filter_categories.add(new SearchCriteria("author", author, SearchOperation.MATCH));
@@ -200,35 +203,38 @@ public class BookServices {
             for (Book b : pagedResult.toList()) {
                 if (b.getPriceList().get(b.getPriceList().size() - 1).getPrice() >= minPrice &&
                         b.getPriceList().get(b.getPriceList().size() - 1).getPrice() <= maxPrice) {
-                    finalBookList.add(b);
+                    finalBookList.add(ProjectionConverter(b));
                 }
             }
         } else if (minPrice != -1) {
             for (Book b : pagedResult.toList()) {
                 if (b.getPriceList().get(b.getPriceList().size() - 1).getPrice() >= minPrice) {
-                    finalBookList.add(b);
+                    finalBookList.add(ProjectionConverter(b));
                 }
             }
         } else if (maxPrice != -1) {
             for (Book b : pagedResult.toList()) {
                 if (b.getPriceList().get(b.getPriceList().size() - 1).getPrice() <= maxPrice) {
-                    finalBookList.add(b);
+                    finalBookList.add(ProjectionConverter(b));
                 }
             }
         }
-        if (finalBookList.isEmpty() && minPrice==-1 && maxPrice==-1)
-            return pagedResult.toList();
-        else if(finalBookList.isEmpty()){
+        if (minPrice == -1 && maxPrice == -1) {
+            for (Book b : pagedResult.toList()) {
+                finalBookList.add(ProjectionConverter(b));
+            }
+            return finalBookList;
+        } else if (finalBookList.isEmpty()) {
             return finalBookList;
         }
         return finalBookList;
     }
 
 
-    @Transactional /*Applied discount to a single item*/
+    @Transactional //Applied discount to a single item
     public String applyDiscount(Integer book_id, Integer percentage) {
-
-        Book book = bookRepository.findByBookId(book_id);
+        Optional<Book> optionalBook = bookRepository.findById(book_id);
+        Book book = optionalBook.get();
         int last_price = book.getPriceList().size() - 1;
         Float currentPrice = book.getPriceList().get(last_price).getPrice();
         Float newPrice = currentPrice - (currentPrice * percentage) / 100;
@@ -277,4 +283,54 @@ public class BookServices {
 
         return (long) finalBookList.size();
     }
+
+    public BookDetailsProjection ProjectionConverter(Book book) {
+        return new BookDetailsProjection() {
+            @Override
+            public String getBookName() {
+                return book.getBookName();
+            }
+
+            @Override
+            public String getCategory() {
+                return book.getCategory();
+            }
+
+            @Override
+            public String getSubCategory() {
+                return book.getSubCategory();
+            }
+
+            @Override
+            public String getBookImage() {
+                return book.getBookImage();
+            }
+
+            @Override
+            public String getAuthor() {
+                return book.getAuthor();
+            }
+
+            @Override
+            public Integer getBookId() {
+                return book.getBookId();
+            }
+
+            @Override
+            public Integer getInDiscount() {
+                return book.getInDiscount();
+            }
+
+            @Override
+            public Integer getQuantity() {
+                return book.getQuantity();
+            }
+
+            @Override
+            public List<Price> getPriceList() {
+                return book.getPriceList();
+            }
+        };
+    }
+
 }
