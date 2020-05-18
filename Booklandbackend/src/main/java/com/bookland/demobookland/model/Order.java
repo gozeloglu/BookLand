@@ -34,6 +34,9 @@ public class Order {
     @Column(name = "AddressId", nullable = false)
     private Integer addressId;
 
+    /*@Column(name = "TotalAmount",nullable = false)
+    private Integer totalAmount;*/
+
     @JsonBackReference(value = "order-customerOrder")
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "CustomerId", insertable = false, updatable = false)           /*Database column ismi*/

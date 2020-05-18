@@ -67,6 +67,36 @@ public class CustomerServices {
         return commentRepository.save(comment);
     }
 
+    public Customer updateCustomer(Customer customer,Integer customerId) throws LoginException{
+        try {
+            Customer currentCustomer = customerRepository.findByCustomerId(customerId);
+            if(customer.getFirstName() != null){
+                currentCustomer.setFirstName(customer.getFirstName());
+            }
+            if(customer.getSurname() != null){
+                currentCustomer.setSurname(customer.getSurname());
+            }
+            if(customer.getDateOfBirth() != null){
+                System.out.println(customer.getDateOfBirth());
+                currentCustomer.setDateOfBirth(customer.getDateOfBirth());
+            }
+            if(customer.getPhoneNumber() != null){
+                currentCustomer.setPhoneNumber(customer.getPhoneNumber());
+            }
+            if(customer.getEmail() != null){
+                Customer existingCustomer = customerRepository.findByEmail(customer.getEmail());
+                if(existingCustomer == null){
+                    currentCustomer.setEmail(customer.getEmail());
+                }else {
+                    throw new LoginException("Email already exist");
+                }
+            }
+           return customerRepository.save(currentCustomer);
+        }catch (Exception e){
+            return null;
+        }
+    }
+
     /*public Comment comment(Comment comment) {
         return commentRepository.save(comment);
     }*/
