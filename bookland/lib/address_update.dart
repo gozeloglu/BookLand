@@ -5,10 +5,11 @@ import 'package:flutter/material.dart';
 import 'package:bookland/http_address.dart';
 import 'package:bookland/my_addresses.dart';
 import 'dart:async';
+
 /// TODO Control empty text fields
 /// This variable is responsible for informing
 /// that saving operation's status
-bool isUpdated = false;
+bool isUpdated;
 int _userId;
 int _addressId;
 String _addressTitle;
@@ -18,7 +19,7 @@ String _country;
 String _postalCode;
 
 class CustomerAddressUpdate extends StatelessWidget {
-  CustomerAddressUpdate(Map<String, dynamic> addressMap, int userId) {
+  CustomerAddressUpdate(Map<String, dynamic> addressMap, int userId, bool _isUpdated) {
     _userId = userId;
     _addressId = addressMap["addressId"];
     _addressTitle = addressMap["addressTitle"];
@@ -26,9 +27,7 @@ class CustomerAddressUpdate extends StatelessWidget {
     _city = addressMap["postalCodeCity"]["city"]["city"];
     _country = addressMap["postalCodeCity"]["city"]["country"];
     _postalCode = addressMap["postalCodeCity"]["postalCode"];
-    print("IS UPDATED");
-    print(isUpdated);
-    print("****************");
+    isUpdated = _isUpdated;
   }
   static const String _title = "Update Address";
 
@@ -264,63 +263,56 @@ class _AddressUpdatePageState extends State<CustomerAddressUpdateStateful> {
               error = true;
             }
 
-            Timer(Duration(seconds: 1), () {
-              // If one of the fields is empty
-              // Show up the alert dialog
-              if (error) {
-                print("ERROR");
-                print(error);
-                print("--------");
-                showDialog(
-                    context: context,
-                    builder: (BuildContext context) {
-                      return AlertDialog(
-                        title: Text("Error!"),
-                        content: Text(fieldName + errorMessage),
-                        shape: new RoundedRectangleBorder(
-                            borderRadius: new BorderRadius.circular(25)),
-                      );
-                    });
-              } else {
-                // Save address
-                // TODO Fill with PUT method
-                address.updateAddress(isUpdated, _userId, _addressId, addressLine, city,
-                    country, postalCode, addressTitle);
-              }
-            });
-
-
-            // Show up alert dialogs
-            // If address is saved successfully, show up successful message
-            // If address is not saved successfully, show up successful message
-            if (isUpdated) {
-              print("IS UPDATED");
-              print(isUpdated);
+            // Timer(Duration(seconds: 1), () {
+            // If one of the fields is empty
+            // Show up the alert dialog
+            if (error) {
               showDialog(
                   context: context,
                   builder: (BuildContext context) {
                     return AlertDialog(
-                      title: Text("Updated!"),
-                      content: Text("Address is updated  successfully!"),
+                      title: Text("Error!"),
+                      content: Text(fieldName + errorMessage),
                       shape: new RoundedRectangleBorder(
                           borderRadius: new BorderRadius.circular(25)),
-                      actions: <Widget>[
-                        new FlatButton(
-                          child: new Text("Close"),
-                          onPressed: () {
-                            Navigator.push(
-                                context,
-                                new MaterialPageRoute(
-                                    builder: (context) => new MyAddresses()));
-                          },
-                        )
-                      ],
                     );
                   });
             } else {
-              print("IS UPDATED");
-              print(isUpdated);
-              /*showDialog(
+              // Save address
+              // TODO Fill with PUT method
+              address.updateAddress(_userId, _addressId, addressLine, city,
+                  country, postalCode, addressTitle);
+            }
+            //  });
+
+            Timer(Duration(seconds: 1), () {
+              // Show up alert dialogs
+              // If address is saved successfully, show up successful message
+              // If address is not saved successfully, show up successful message
+              if (isUpdated) {
+                showDialog(
+                    context: context,
+                    builder: (BuildContext context) {
+                      return AlertDialog(
+                        title: Text("Updated!"),
+                        content: Text("Address is updated  successfully!"),
+                        shape: new RoundedRectangleBorder(
+                            borderRadius: new BorderRadius.circular(25)),
+                        actions: <Widget>[
+                          new FlatButton(
+                            child: new Text("Close"),
+                            onPressed: () {
+                              Navigator.push(
+                                  context,
+                                  new MaterialPageRoute(
+                                      builder: (context) => new MyAddresses()));
+                            },
+                          )
+                        ],
+                      );
+                    });
+              } else if (isUpdated == true && error != false) {
+                showDialog(
                   context: context,
                   builder: (BuildContext context) {
                     return AlertDialog(
@@ -329,8 +321,9 @@ class _AddressUpdatePageState extends State<CustomerAddressUpdateStateful> {
                       shape: new RoundedRectangleBorder(
                           borderRadius: new BorderRadius.circular(25)),
                     );
-                  });*/
-            }
+                  });
+              }
+            });
           }),
     );
   }

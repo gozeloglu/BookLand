@@ -102,7 +102,6 @@ class Address {
   }
 
   Future<String> updateAddress(
-      bool isUpdated,
       int userId,
       int addressId,
       String addressLine,
@@ -135,20 +134,21 @@ class Address {
           "postalCodeCity": postalCodeCityMap,
         }));
     if (response.statusCode < 400) {
-      print("BEFORE isUpdated");
+      print("BEFORE isUpdated***---");
       print(isUpdated);
       isUpdated = true;
       print(isUpdated);
-      print("AFTER isUpdated");
+      print("AFTER isUpdated***----");
     } else {
-      print("BEFORE isUpdated");
+      print("BEFORE isUpdated*****-----");
       print(isUpdated);
       isUpdated = false;
       print(isUpdated);
-      print("AFTER isUpdated");
+      print("AFTER isUpdated***----");
     }
     if (response.statusCode < 400) {
-      return "Address is updated";
+      //return "Address is updated";
+      return "Address is updated successfully!";
     } else {
       print(response.statusCode);
       throw Exception("Failed to save address");
