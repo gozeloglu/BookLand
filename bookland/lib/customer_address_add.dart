@@ -278,7 +278,8 @@ class _AddressAddPageState extends State<CustomerAddressAddStateful> {
                   });
               //Navigator.of(context).pop();
               //Navigator
-            } else {
+            }
+            else if (isSaved != true && error == false) {
               showDialog(
                   context: context,
                   builder: (BuildContext context) {

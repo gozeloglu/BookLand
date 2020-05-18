@@ -119,6 +119,9 @@ class AddressDetailsState extends State<AddressDetailsLayout> {
                                   title: new Text("Delete Book"),
                                   content:
                                       new Text("Book is deleted successfully!"),
+                                  shape: new RoundedRectangleBorder(
+                                      borderRadius:
+                                          new BorderRadius.circular(25)),
                                   actions: <Widget>[
                                     // usually buttons at the bottom of the dialog
                                     new FlatButton(
@@ -157,7 +160,8 @@ class AddressDetailsState extends State<AddressDetailsLayout> {
                                 context,
                                 new MaterialPageRoute(
                                     builder: (context) =>
-                                        new CustomerAddressUpdate(_addressMap, _userId, false)))
+                                        new CustomerAddressUpdate(
+                                            _addressMap, _userId, false)))
                           },
                           child: Text(
                             "Update",
