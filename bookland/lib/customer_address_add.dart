@@ -142,6 +142,7 @@ class _AddressAddPageState extends State<CustomerAddressAddStateful> {
         controller: postalCodeController,
         maxLines: 1,
         autofocus: false,
+        keyboardType: TextInputType.number,
         decoration: new InputDecoration(
           border: OutlineInputBorder(),
           labelText: "Postal Code",
