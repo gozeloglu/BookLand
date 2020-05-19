@@ -327,6 +327,16 @@ public class BookServices {
             }
 
             @Override
+            public Long getRealIsbn() {
+                return book.getRealIsbn();
+            }
+
+            @Override
+            public String getDescription() {
+                return book.getDescription();
+            }
+
+            @Override
             public List<Price> getPriceList() {
                 return book.getPriceList();
             }
