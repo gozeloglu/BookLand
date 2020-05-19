@@ -21,5 +21,9 @@ public interface BookDetailsProjection {
 
     Integer getQuantity();
 
+    Long getRealIsbn();
+
+    String getDescription();
+
     List<Price> getPriceList();
 }
