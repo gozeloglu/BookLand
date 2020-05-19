@@ -9,7 +9,7 @@ import 'package:bookland/list_main.dart';
 import 'package:bookland/bookview.dart';
 import 'package:bookland/category.dart';
 import 'package:bookland/adminAddBook.dart';
-
+import 'package:bookland/payment.dart';
 import 'package:bookland/adminOrders.dart';
 
 void main() {
@@ -267,7 +267,12 @@ class MyStatelessWidget extends StatelessWidget {
             new ListTile(
               title: new Text("Manuels"),
               trailing: new Icon(Icons.help),
-              onTap: () {},
+              onTap: () {
+                Navigator.push(
+                  context,
+                  new MaterialPageRoute(builder: (context) => new Payment()),
+                );
+              },
             ),
             new Divider(),
             new ListTile(
