@@ -2,15 +2,27 @@ package com.bookland.demobookland.services;
 
 import com.bookland.demobookland.model.Card;
 import com.bookland.demobookland.model.Customer;
-import com.bookland.demobookland.repository.CustomerRepository;
-import com.bookland.demobookland.repository.PaymentRepository;
+import com.bookland.demobookland.model.PurchasedDetailedInfo;
+import com.bookland.demobookland.model.ShippingCompany;
+import com.bookland.demobookland.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.Optional;
 
 @Service
 public class PaymentServices {
     @Autowired
     private PaymentRepository paymentRepository;
+
+    @Autowired
+    private ShippingCompanyRepository shippingCompanyRepository;
+
+    @Autowired
+    private PurchaseDetailRepository purchaseDetailRepository;
+
+    /*@Autowired
+    private ContainsRepository containsRepository;*/
 
     @Autowired
     private CustomerRepository customerRepository;
@@ -32,4 +44,11 @@ public class PaymentServices {
         cardExist.getCustomerCardList().add(customer);
         return "New card added";
     }
+
+    public void cargoCreation(Integer shippingId){
+        PurchasedDetailedInfo purchasedDetailedInfo = new PurchasedDetailedInfo();
+        purchasedDetailedInfo.setShippingCompanyId(shippingId);
+    }
+
+
 }

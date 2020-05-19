@@ -19,8 +19,11 @@ public class PaymentController {
     private PaymentServices paymentServices;
 
     @Transactional
-    @PostMapping(value = "/saveCard/{customerId}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public String saveCard(@Validated(SaveCardGroup.class) @RequestBody Card card, @PathVariable Integer customerId) {
-        return paymentServices.saveMyCard(card, customerId);
+    @PostMapping(value = "/createOrder/{customerId}/{shippingId}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public String orderCreation(@Validated(SaveCardGroup.class) @RequestBody Card card, @PathVariable Integer customerId,
+                           @PathVariable Integer shippingId) {
+        paymentServices.saveMyCard(card,customerId);
+        paymentServices.cargoCreation(shippingId);
+        return "orderCreation";
     }
 }
