@@ -4,11 +4,14 @@ import com.bookland.demobookland.model.Card;
 import com.bookland.demobookland.model.Customer;
 import com.bookland.demobookland.model.PurchasedDetailedInfo;
 import com.bookland.demobookland.model.ShippingCompany;
-import com.bookland.demobookland.repository.*;
+import com.bookland.demobookland.repository.CustomerRepository;
+import com.bookland.demobookland.repository.PaymentRepository;
+import com.bookland.demobookland.repository.PurchaseDetailRepository;
+import com.bookland.demobookland.repository.ShippingCompanyRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.Optional;
+import java.util.List;
 
 @Service
 public class PaymentServices {
@@ -27,28 +30,34 @@ public class PaymentServices {
     @Autowired
     private CustomerRepository customerRepository;
 
-    public String saveMyCard(Card card, Integer customerId) {
+    public Boolean saveMyCard(Card card, Integer customerId) {
         Customer customer = customerRepository.findByCustomerId(customerId);
 
         Card cardExist = paymentRepository.findByCardNo(card.getCardNo());
 
         if (cardExist != null) {
+            if (!card.getOwnerName().equals(cardExist.getOwnerName()) || !card.getOwnerSurname().equals(cardExist.getOwnerSurname()))
+                return false;
             if (customer.getCustomerCardList().contains(cardExist))
-                return "Card is already in used";
+                return true;
             customer.getCustomerCardList().add(cardExist);
-            return "Card added to card_used_by";
+            return true;
         }
 
         cardExist = paymentRepository.save(card);
         customer.getCustomerCardList().add(cardExist);
         cardExist.getCustomerCardList().add(customer);
-        return "New card added";
+        return true;
     }
 
-    public void cargoCreation(Integer shippingId){
+    public void cargoCreation(Integer shippingId) {
         PurchasedDetailedInfo purchasedDetailedInfo = new PurchasedDetailedInfo();
         purchasedDetailedInfo.setShippingCompanyId(shippingId);
+        purchaseDetailRepository.save(purchasedDetailedInfo);
     }
 
+    public List<ShippingCompany> getCompanies(){
+       return shippingCompanyRepository.findAll();
+    }
 
 }

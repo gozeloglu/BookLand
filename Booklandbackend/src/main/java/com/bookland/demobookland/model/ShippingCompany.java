@@ -20,8 +20,8 @@ public class ShippingCompany {
     private Float shippingPrice;
 
     @Column(name = "Website", nullable = false)
-    private Float website;
+    private String website;
 
     @Column(name = "CompanyName", nullable = false)
-    private Float companyName;
+    private String companyName;
 }
