@@ -3,12 +3,15 @@ package com.bookland.demobookland.services;
 import com.bookland.demobookland.model.Card;
 import com.bookland.demobookland.model.Customer;
 import com.bookland.demobookland.model.PurchasedDetailedInfo;
+import com.bookland.demobookland.model.ShippingCompany;
 import com.bookland.demobookland.repository.CustomerRepository;
 import com.bookland.demobookland.repository.PaymentRepository;
 import com.bookland.demobookland.repository.PurchaseDetailRepository;
 import com.bookland.demobookland.repository.ShippingCompanyRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 public class PaymentServices {
@@ -53,5 +56,8 @@ public class PaymentServices {
         purchaseDetailRepository.save(purchasedDetailedInfo);
     }
 
+    public List<ShippingCompany> getCompanies(){
+       return shippingCompanyRepository.findAll();
+    }
 
 }
