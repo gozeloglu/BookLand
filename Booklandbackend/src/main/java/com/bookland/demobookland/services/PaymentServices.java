@@ -27,27 +27,30 @@ public class PaymentServices {
     @Autowired
     private CustomerRepository customerRepository;
 
-    public String saveMyCard(Card card, Integer customerId) {
+    public Boolean saveMyCard(Card card, Integer customerId) {
         Customer customer = customerRepository.findByCustomerId(customerId);
 
         Card cardExist = paymentRepository.findByCardNo(card.getCardNo());
 
         if (cardExist != null) {
+            if(!card.getOwnerName().equals(cardExist.getOwnerName()) || !card.getOwnerSurname().equals(cardExist.getOwnerSurname()))
+                return false;
             if (customer.getCustomerCardList().contains(cardExist))
-                return "Card is already in used";
+                return true;
             customer.getCustomerCardList().add(cardExist);
-            return "Card added to card_used_by";
+            return true;
         }
 
         cardExist = paymentRepository.save(card);
         customer.getCustomerCardList().add(cardExist);
         cardExist.getCustomerCardList().add(customer);
-        return "New card added";
+        return true;
     }
 
     public void cargoCreation(Integer shippingId){
         PurchasedDetailedInfo purchasedDetailedInfo = new PurchasedDetailedInfo();
         purchasedDetailedInfo.setShippingCompanyId(shippingId);
+        purchaseDetailRepository.save(purchasedDetailedInfo);
     }
 
 

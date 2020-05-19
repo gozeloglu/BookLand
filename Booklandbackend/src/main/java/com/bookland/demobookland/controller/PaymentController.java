@@ -22,7 +22,9 @@ public class PaymentController {
     @PostMapping(value = "/createOrder/{customerId}/{shippingId}", produces = MediaType.APPLICATION_JSON_VALUE)
     public String orderCreation(@Validated(SaveCardGroup.class) @RequestBody Card card, @PathVariable Integer customerId,
                            @PathVariable Integer shippingId) {
-        paymentServices.saveMyCard(card,customerId);
+        if(!paymentServices.saveMyCard(card,customerId)){
+            return "Payment Information Failed";
+        }
         paymentServices.cargoCreation(shippingId);
         return "orderCreation";
     }
