@@ -95,6 +95,43 @@ class HTTPAll{
       throw "Can't get books.";
     }
   }
+  Future<String> Payment(String cardNumber ,String cardOwner,String card_month,String card_year,String card_CVC ,String shippingComp) async {
+    var client = http.Client();
+    var url = "http://10.0.2.2:8080";
+    String username = 'Daryl';
+    String password = 'WalkingDead';
+    String basicAuth =
+        'Basic ' + base64Encode(utf8.encode('$username:$password'));
+    http.Response response;
+    response = await http.post('http://10.0.2.2:8080/saveCard/103', //TODO paramtere yap
+      headers: <String, String>{'Authorization': basicAuth,'Content-Type': 'application/json; charset=UTF-8',
+      },
+      body: jsonEncode(<String, dynamic>{
+        "cardNo":  cardNumber,
+        "ownerName": cardOwner,
+        "ownerSurname": cardOwner,
+        "customerCardList": [],
+        "orderList": [],
+
+      }
+      ),
+    );
+
+
+
+    if (response.statusCode < 400) {
+      return  "PERFECT";
+    } else {
+      Error msg = Error.fromJson(json.decode(response.body));
+      errorControl = true;
+      errorMessage = msg.errors[0].toString();
+      print(response.body);
+      print(msg.errors[0].toString());
+      //throw Exception('Failed to load album');
+      print("-----" + errorControl.toString());
+      return "SORRRY" ;
+    }
+  }
 
 
 
