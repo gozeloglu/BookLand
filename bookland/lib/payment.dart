@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:ffi';
 
 import 'package:bookland/elements/appBar.dart';
 import 'package:bookland/elements/drawer.dart';
@@ -8,9 +9,12 @@ import 'main.dart';
 import 'dart:io';
 import 'dart:convert';
 import 'package:bookland/services/HTTP.dart';
+import 'package:bookland/model/model_shippingcompany.dart';
+
 //TODO CUSTOMER SPECIAL
 class Payment extends StatelessWidget {
   static const String _title = 'Payment';
+
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
@@ -29,22 +33,20 @@ class PaymentStatefulWidget extends StatefulWidget {
 }
 
 class _PaymentPageState extends State<PaymentStatefulWidget> {
-  final HTTPAll httpPayment = HTTPAll();
+  final HTTPAll http_obj = HTTPAll();
+
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   String cardnumber;
   String card_owner;
   String month = "MONTH";
   String year = "YEAR";
   String cvc;
-  String shipping_company = "MSC" ;
+  String shipping_company = "Shipping Company" ;
 
 
   TextEditingController cardnumberController = new TextEditingController();
   TextEditingController card_ownerController = new TextEditingController();
-  //TextEditingController monthController = new TextEditingController();
-  //TextEditingController yearController = new TextEditingController();
   TextEditingController cvcController = new TextEditingController();
-  //TextEditingController shipping_companyController = new TextEditingController();
 
 
   @override
@@ -64,13 +66,13 @@ class _PaymentPageState extends State<PaymentStatefulWidget> {
             width: double.infinity,
             padding: EdgeInsets.only(top: 10, bottom: 10),
             child: new Stack(
-              children: <Widget>[_showForm(context)],
+              children: <Widget>[_showForm(context,"123,99")],
             ),
           ),
         ));
   }
 
-  Widget _showForm(BuildContext context) {
+  Widget _showForm(BuildContext context,String totalcost) {
     return new Container(
       padding: EdgeInsets.all(1.0),
         //resizeToAvoidBottomPadding: false,
@@ -78,6 +80,7 @@ class _PaymentPageState extends State<PaymentStatefulWidget> {
         child: new Column(
           //shrinkWrap: true,
           children: <Widget>[
+            //dropdown(context),
          showCardNumberInput(),
             showCardOwnerInput(),
             Text("\nValid Thru" ,style: TextStyle(fontWeight: FontWeight.bold), ),
@@ -98,16 +101,18 @@ class _PaymentPageState extends State<PaymentStatefulWidget> {
             ]),
 
             showCVCInput(),
-            Text("\nShipping Company" ,style: TextStyle(fontWeight: FontWeight.bold), ) ,
+            /*Text("\nShipping Company" ,style: TextStyle(fontWeight: FontWeight.bold), ) ,
             Row( children: <Widget>[
-              Text("\t\t"),
+              Text("\t\t1"),
               new Icon(
                 Icons.local_shipping,
-                color: Colors.orangeAccent,
-              ), dropdown(context),
-            ]),
-
+                color: Colors.orangeAccent,),
+              dropdown(context),
+            ]),*/
+            //chooseShippingComp(),
+            Text("\nTotal Cost:\$${totalcost}" ,style: TextStyle(fontWeight: FontWeight.bold,fontSize: 20), ),
             showPayButton(),
+
             Image.asset('assets/payment.jpg')
           ],
         ),
@@ -327,44 +332,77 @@ class _PaymentPageState extends State<PaymentStatefulWidget> {
     ))));
   }
   Widget dropdown(BuildContext context) {
-    String dropdownValue = shipping_company;
-    return Container(
-        width: 300.0,
-        height: 60,
-        margin: const EdgeInsets.symmetric(
-          vertical: 16.0,
-          horizontal:30.0,
-        ),
-        decoration: ShapeDecoration(
-          shape: RoundedRectangleBorder(
-            side: BorderSide(width: 0.50, style: BorderStyle.solid,color: Colors.grey),
-            borderRadius: BorderRadius.all(Radius.circular(5.0)),
-          ),
-        ),
-      child: DropdownButtonHideUnderline(
-        child: ButtonTheme(
-       alignedDropdown: true,
-         child :DropdownButton<String>(
+    final HTTPAll http_obj = HTTPAll();
+    String dropdownValue = "Shipping Company";
 
-          value: dropdownValue,
-          icon: Icon(Icons.arrow_downward),
-          iconSize: 30,
-          elevation: 25,
-          style: TextStyle(color: Colors.black),
-          onChanged: (String newValue) {
-            setState(() {
-              dropdownValue = newValue;
-              shipping_company = newValue;}
-            );
-          },
-      items: <String>['MSC', 'COSCO', 'A.P. Moller', 'Ocean Network Express']
-          .map<DropdownMenuItem<String>>((String value) {
-        return DropdownMenuItem<String>(
-          value: value,
-          child: Text(value ,style: TextStyle(fontWeight: FontWeight.bold), ) ,
-        );
-      }).toList(),
-    ))));
+     Scaffold(
+        appBar: MyAppBar(
+          pageTitle: "Shipping Companies",
+          back: true,
+        ),
+        body : FutureBuilder(
+            future: http_obj.getCompanies(),
+            builder: (BuildContext context, AsyncSnapshot snapshot) {
+              print("HERE IMAMMMM");
+              if (snapshot.hasData) {
+                List<Model_ShippingCompany> shippingCompList =  snapshot.data;
+                List<String> printList = ['Shipping Company'];
+                for(int i = 0; i<shippingCompList.length;i++){
+                  printList.add(shippingCompList[i].companyName + "\t\$"+ shippingCompList[i].shippingPrice );
+                }
+                print(printList);
+
+                //print(snapshot.data.companyName.toString());
+                print("snapshot has data");
+                print("Here");
+                return Container(
+                    width: 300.0,
+                    height: 60,
+                    margin: const EdgeInsets.symmetric(
+                      vertical: 16.0,
+                      horizontal:30.0,
+                    ),
+                    decoration: ShapeDecoration(
+                      shape: RoundedRectangleBorder(
+                        side: BorderSide(width: 0.50, style: BorderStyle.solid,color: Colors.grey),
+                        borderRadius: BorderRadius.all(Radius.circular(5.0)),
+                      ),
+                    ),
+                    child: DropdownButtonHideUnderline(
+                        child: ButtonTheme(
+                            alignedDropdown: true,
+                            child :DropdownButton<String>(
+
+                              value: dropdownValue,
+                              icon: Icon(Icons.arrow_downward),
+                              iconSize: 30,
+                              elevation: 25,
+                              style: TextStyle(color: Colors.black),
+                              onChanged: (String newValue) {
+                                setState(() {
+                                  dropdownValue = newValue;
+                                  //shipping_company = newValue;
+                                }
+                                );
+                              },
+                              items: printList.map<DropdownMenuItem<String>>((String value) {
+                                return DropdownMenuItem<String>(
+                                  value: value,
+                                  child: Text(value ,style: TextStyle(fontWeight: FontWeight.bold), ) ,
+                                );
+                              }).toList(),
+                            ))));
+              } else if (snapshot.hasError) {
+                print("Snapshot has error*");
+                return Text("${snapshot.error}");
+              } else {
+                print("EROROOROR");
+                return Center(child: CircularProgressIndicator());
+              }
+            }
+        ));
+
+
   }
 
 
@@ -392,7 +430,7 @@ class _PaymentPageState extends State<PaymentStatefulWidget> {
             cvc = cvcController.text;
 
 
-            var result = httpPayment.Payment( cardnumber,card_owner, month, year, cvc, shipping_company);
+            var result = http_obj.Payment( cardnumber,card_owner, month, year, cvc, shipping_company);
 
             // print(result);
             //print("****" + errorControl.toString());
@@ -448,4 +486,22 @@ class _PaymentPageState extends State<PaymentStatefulWidget> {
           }),
     );
   }
+  Widget chooseShippingComp() {
+    return new Padding(
+      padding: EdgeInsets.fromLTRB(100, 10, 100, 10),
+      child: new RaisedButton(
+          elevation: 5.0,
+          shape: new RoundedRectangleBorder(
+              borderRadius: new BorderRadius.circular(10.0)),
+          color: Colors.yellow,
+          disabledColor: Colors.orangeAccent,
+          //add this to your code,
+          child: new Text("Shipping Company",
+              style: new TextStyle(fontSize: 20.0, color: Colors.black87)),
+          // TODO onPressed should be updated
+          onPressed: () {
+          }),
+    );
+  }
 }
+
