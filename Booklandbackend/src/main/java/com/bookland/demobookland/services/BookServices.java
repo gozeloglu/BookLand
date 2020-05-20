@@ -23,7 +23,6 @@ import java.util.Optional;
 @Service
 public class BookServices {
 
-
     @Autowired
     private BookRepository bookRepository;
 
@@ -188,7 +187,6 @@ public class BookServices {
 
     /*problem with paging,page size ı normalden büyük tutmak lazım*/
     public List<BookDetailsProjection> getBookByFilters(Integer pageNo, Integer pageSize, String author, ArrayList<String> category, Integer minPrice, Integer maxPrice) {
-        Pageable paging = PageRequest.of(pageNo, pageSize);
         BookSpecification filter_categories = new BookSpecification();
         List<BookDetailsProjection> finalBookList = new ArrayList<>();
 
@@ -198,36 +196,53 @@ public class BookServices {
         if (!category.isEmpty()) {
             filter_categories.forWords(category);
         }
-        Page<Book> pagedResult = bookRepository.findAll(filter_categories.forWords(category).and(filter_categories), paging);
+        List<Book> nopage = bookRepository.findAll(filter_categories.forWords(category).and(filter_categories));
         if (minPrice != -1 && maxPrice != -1) {
-            for (Book b : pagedResult.toList()) {
+            for (Book b : nopage) {
                 if (b.getPriceList().get(b.getPriceList().size() - 1).getPrice() >= minPrice &&
                         b.getPriceList().get(b.getPriceList().size() - 1).getPrice() <= maxPrice) {
                     finalBookList.add(ProjectionConverter(b));
                 }
             }
         } else if (minPrice != -1) {
-            for (Book b : pagedResult.toList()) {
+            for (Book b : nopage) {
                 if (b.getPriceList().get(b.getPriceList().size() - 1).getPrice() >= minPrice) {
                     finalBookList.add(ProjectionConverter(b));
                 }
             }
         } else if (maxPrice != -1) {
-            for (Book b : pagedResult.toList()) {
+            for (Book b : nopage) {
                 if (b.getPriceList().get(b.getPriceList().size() - 1).getPrice() <= maxPrice) {
                     finalBookList.add(ProjectionConverter(b));
                 }
             }
         }
-        if (minPrice == -1 && maxPrice == -1) {
-            for (Book b : pagedResult.toList()) {
+        int finalBookListSize = finalBookList.size();
+        int noPageSize = nopage.size();
+        int start_index = pageNo * pageSize;
+        int end_index = ((pageNo + 1) * pageSize);
+
+        if (finalBookListSize == 0) {
+            for (Book b : nopage) {
                 finalBookList.add(ProjectionConverter(b));
             }
-            return finalBookList;
-        } else if (finalBookList.isEmpty()) {
-            return finalBookList;
+            finalBookListSize = finalBookList.size();
+
+            if (finalBookListSize >= start_index) {
+                if (finalBookListSize >= end_index)
+                    return finalBookList.subList(start_index, end_index);
+                else
+                    return finalBookList.subList(start_index, finalBookListSize);
+            }
+        } else {
+            if (finalBookListSize >= start_index) {
+                if (finalBookListSize >= end_index)
+                    return finalBookList.subList(start_index, end_index);
+                else
+                    return finalBookList.subList(start_index, finalBookListSize);
+            }
         }
-        return finalBookList;
+        return new ArrayList<>();
     }
 
 

@@ -18,7 +18,7 @@ import javax.transaction.Transactional;
 public class CustomerServices {
     /*Injection of repository*/
     @Autowired
-    PasswordEncoder encoder;
+    private PasswordEncoder encoder;
 
     @Autowired
     private CustomerRepository customerRepository;
