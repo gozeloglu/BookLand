@@ -4,7 +4,7 @@ import 'package:bookland/model/error.dart';
 import 'package:http/http.dart' as http;
 import 'package:bookland/main.dart';
 import 'package:bookland/services/globalVariable.dart';
-
+import 'package:bookland/model/model_shippingcompany.dart';
 
 class HTTPAll{
   static String basicAuth = 'Basic ' + base64Encode(utf8.encode('Daryl:WalkingDead'));
@@ -117,8 +117,6 @@ class HTTPAll{
       ),
     );
 
-
-
     if (response.statusCode < 400) {
       return  "PERFECT";
     } else {
@@ -132,6 +130,48 @@ class HTTPAll{
       return "SORRRY" ;
     }
   }
+
+
+
+  Future<List<Model_ShippingCompany>> getCompanies() async {
+    var url = "http://10.0.2.2:8080/getCompanies";
+    String username = 'Daryl';
+    String password = 'WalkingDead';
+    String basicAuth =
+        'Basic ' + base64Encode(utf8.encode('$username:$password'));
+    print("Before GET");
+
+    final response = await http.get(url,
+      headers: <String, String>{'authorization': basicAuth},);
+
+    //http.Response responseJSON = json.decode(response.body);
+
+    print(response.statusCode);
+    print(response.body);
+
+    if (response.statusCode == 200) {
+      print("just after if");
+      Iterable l = json.decode(response.body);
+      List<Model_ShippingCompany> myModels=(json.decode(response.body) as List).map((i) => Model_ShippingCompany.fromJson(i)).toList();;
+      print("*****LİSTEMMM");
+      print(myModels);
+      print("*****LİSTEMMM");
+      //List bookResponse = jsonDecode(response.body);
+      //print("Before return");
+      //List<Model_ShippingCompany> ship_comp = new List();
+      //for (int i = 0; i < 5; i++) {
+       // ship_comp.add(bookResponse[i]);
+      //}
+      //print(ship_comp.length);
+      //print(ship_comp);
+      print("dönüyoruzzz");
+      print(myModels[0].companyName);
+      return myModels;
+    } else {
+      throw Exception("Can't get books.");
+    }
+  }
+
 
 
 

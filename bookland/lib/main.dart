@@ -11,6 +11,7 @@ import 'package:bookland/category.dart';
 import 'package:bookland/adminAddBook.dart';
 import 'package:bookland/payment.dart';
 import 'package:bookland/adminOrders.dart';
+import 'package:bookland/ShippingCompany.dart';
 
 void main() {
   runApp(MyApp());
@@ -261,7 +262,12 @@ class MyStatelessWidget extends StatelessWidget {
             new ListTile(
               title: new Text("Campaigns"),
               trailing: new Icon(Icons.notifications_active),
-              onTap: () {},
+              onTap: () {
+                Navigator.push(
+                  context,
+                  new MaterialPageRoute(builder: (context) => new ShippingCompany()),
+                );
+              },
             ),
             new Divider(),
             new ListTile(
