@@ -6,7 +6,9 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Data;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -20,10 +22,10 @@ public class Order {
     @Column(name = "OrderId", nullable = false)
     private Integer orderId;
 
-    @Temporal(TemporalType.TIMESTAMP)
-    @Column(name = "DateTime", columnDefinition = "TIMESTAMP default CURRENT_TIMESTAMP on update CURRENT_TIMESTAMP")
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
-    private Date orderedTime = new Date();
+    @Temporal(TemporalType.DATE)
+    @Column(name = "DateTime")
+    @JsonFormat(pattern="yyyy-MM-dd")
+    private Date orderedTime;
 
     @Column(name = "CardNo", nullable = false)
     private String cardNo;

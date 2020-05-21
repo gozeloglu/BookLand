@@ -1,6 +1,7 @@
 package com.bookland.demobookland.controller;
 
 import com.bookland.demobookland.model.Order;
+import com.bookland.demobookland.model.projections.OrderDetailsProjection;
 import com.bookland.demobookland.services.OrderServices;
 import com.bookland.demobookland.services.ShippingServices;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,5 +30,10 @@ public class OrderController {
     @DeleteMapping(value = "/deleteOrder/{customerId}/{orderId}")
     public String deleteOrder(@PathVariable Integer customerId, @PathVariable Integer orderId) {
         return orderServices.deleteOrder(customerId, orderId);
+    }
+
+    @GetMapping(value = "/orderDetails/{orderId}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public OrderDetailsProjection orderDetails(@PathVariable Integer orderId) {
+        return orderServices.orderDetails(orderId);
     }
 }

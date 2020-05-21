@@ -40,5 +40,4 @@ public class PurchasedDetailedInfo {
             cascade = CascadeType.ALL,
             mappedBy = "purchasedDetailedInfo")
     private Contains contains;
-
 }
