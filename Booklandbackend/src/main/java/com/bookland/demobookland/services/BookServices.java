@@ -218,7 +218,6 @@ public class BookServices {
             }
         }
         int finalBookListSize = finalBookList.size();
-        int noPageSize = nopage.size();
         int start_index = pageNo * pageSize;
         int end_index = ((pageNo + 1) * pageSize);
 
@@ -228,19 +227,12 @@ public class BookServices {
             }
             finalBookListSize = finalBookList.size();
 
-            if (finalBookListSize >= start_index) {
-                if (finalBookListSize >= end_index)
-                    return finalBookList.subList(start_index, end_index);
-                else
-                    return finalBookList.subList(start_index, finalBookListSize);
-            }
-        } else {
-            if (finalBookListSize >= start_index) {
-                if (finalBookListSize >= end_index)
-                    return finalBookList.subList(start_index, end_index);
-                else
-                    return finalBookList.subList(start_index, finalBookListSize);
-            }
+        }
+        if (finalBookListSize >= start_index) {
+            if (finalBookListSize >= end_index)
+                return finalBookList.subList(start_index, end_index);
+            else
+                return finalBookList.subList(start_index, finalBookListSize);
         }
         return new ArrayList<>();
     }
