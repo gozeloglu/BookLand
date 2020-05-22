@@ -9,9 +9,11 @@ import 'package:bookland/http_book.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:bookland/basket.dart';
 import 'package:bookland/main.dart';
+import 'package:bookland/login.dart';
 
 /// This class contains the objects which is the same in GET allBooks method
 SharedPreferences pref;
+
 class CustomerBookView extends StatelessWidget {
   String _bookName;
   int _quantity;
@@ -219,8 +221,15 @@ class CustomerBookView extends StatelessWidget {
         print(_quantity);
         print(_bookName);
         print(isbn);
-        addBasketPref(_customerId);
-        getBasket(_customerId);
+        if (_customerId != null) {
+          addBasketPref(_customerId);
+          getBasket(_customerId);
+        } else {
+          Navigator.push(
+            context,
+            new MaterialPageRoute(builder: (context) => new Login()),
+          );
+        }
       },
       textColor: Colors.white,
       padding: const EdgeInsets.all(0.0),
@@ -234,10 +243,13 @@ class CustomerBookView extends StatelessWidget {
 
   void getBasket(String _customerId) async {
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
-    for (int i = 0; i < sharedPreferences.getStringList(_customerId).length; i++) {
+    for (int i = 0;
+        i < sharedPreferences.getStringList(_customerId).length;
+        i++) {
       print(sharedPreferences.getStringList(_customerId)[i]);
     }
   }
+
   void addBasketPref(String _customerId) async {
     // TODO quantity should be updated
     print("ADD BASKET");

@@ -80,7 +80,13 @@ class BasketLayoutState extends State<BasketLayout> {
     );
   }
 }
-
+/*
+* kitap ismi- quantity - image
+* shared = {customer_id_1: [b1, q1, b2, q2, b5, q5],cus_2:[ cus_3   }
+* http:url.com/cus/book/
+* key: customer
+* book: list
+* */
 class OrderHttp {
   Future<List<dynamic>> getOrders(String _customerId) async {
     print("getOrders");
