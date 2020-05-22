@@ -12,6 +12,7 @@ import 'package:bookland/adminAddBook.dart';
 import 'package:bookland/payment.dart';
 import 'package:bookland/adminOrders.dart';
 import 'package:bookland/ShippingCompany.dart';
+import 'package:bookland/basket.dart';
 
 void main() {
   runApp(MyApp());
@@ -330,6 +331,8 @@ class MyStatelessWidget extends StatelessWidget {
               IconButton(
                   icon: Icon(Icons.shopping_basket),
                   onPressed: () {
+                    Navigator.push(
+                        context, new MaterialPageRoute(builder: (context) => new Basket()));
                   }),
             ])),
         color: Colors.blue,
