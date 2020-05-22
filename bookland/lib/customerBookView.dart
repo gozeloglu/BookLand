@@ -221,6 +221,7 @@ class CustomerBookView extends StatelessWidget {
         print(_quantity);
         print(_bookName);
         print(isbn);
+        // If customer log in the system
         if (_customerId != null) {
           addBasketPref(_customerId);
           getBasket(_customerId);

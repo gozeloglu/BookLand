@@ -56,7 +56,43 @@ class BasketLayoutState extends State<BasketLayout> {
                     margin: const EdgeInsets.fromLTRB(0, 30, 0, 0),
                     child: ListTile(
                       leading: Icon(Icons.bookmark_border),
-                      trailing: Icon(Icons.arrow_right),
+                      trailing: GestureDetector(
+                        behavior: HitTestBehavior.translucent,
+                        onTap: () {
+                          showDialog(
+                            context: context,
+                            builder: (BuildContext context) {
+                              // return object of type Dialog
+                              return AlertDialog(
+                                title: new Text("Delete Order"),
+                                content: new Text("Are you sure to delete order?"),
+                                actions: <Widget>[
+                                  // usually buttons at the bottom of the dialog
+                                  new FlatButton(
+                                    child: new Text("No"),
+                                    onPressed: () {
+                                      Navigator.of(context).pop();
+                                    },
+                                  ),
+                                  new FlatButton(
+                                      onPressed: () {
+                                        Navigator.of(context).pop();
+                                      },
+                                      child: Text("Yes"),
+                                  ),
+                                ],
+                              );
+                            },
+                          );
+                        },
+                        child: Container(
+                          width: 48,
+                          height: 48,
+                          padding: EdgeInsets.symmetric(vertical: 4.0),
+                          alignment: Alignment.center,
+                          child: Icon(Icons.delete),
+                        ),
+                      ),
                       subtitle: Text(quantityList[index]),
                       title: Text(bookList[index]),
                       onTap: () {
