@@ -49,6 +49,9 @@ public interface BookRepository extends PagingAndSortingRepository<Book, Integer
 
     Page<ExplorePageProjection> findByAuthorContainsOrBookNameContainsOrCategoryContainsOrSubCategoryContains(Pageable paging, String searchedItem, String searchedItem1, String searchedItem2, String searchedItem3);
 
+    List<ExplorePageProjection> findByAuthorContainsOrBookNameContainsOrCategoryContainsOrSubCategoryContains(String searchedItem, String searchedItem1, String searchedItem2, String searchedItem3);
+
+
     List<ExplorePageProjection> findTop10ByAuthorContainsOrBookNameContainsOrCategoryContainsOrSubCategoryContains(String searchedItem, String searchedItem1, String searchedItem2, String searchedItem3);
 
 }

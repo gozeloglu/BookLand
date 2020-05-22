@@ -57,6 +57,19 @@ public class SearchServices {
 
     }
 
+    public Long getBookCountBySearchCriteria(String keyword) {
+        try {
+            Long isbn = Long.parseLong(keyword);
+            List<ExplorePageProjection> result = bookRepository.findByRealIsbn(isbn);
+
+            return (long)result.size();
+        } catch (Exception e) {
+            List<ExplorePageProjection> result = bookRepository.findByAuthorContainsOrBookNameContainsOrCategoryContainsOrSubCategoryContains(keyword, keyword, keyword, keyword);
+            return (long)result.size();
+        }
+
+    }
+
     public List<ExplorePageProjection> getBookBySearchHistory(Integer customerId) {
         List<String> words = new ArrayList<>();
         List<Integer> ids = new ArrayList<>();
