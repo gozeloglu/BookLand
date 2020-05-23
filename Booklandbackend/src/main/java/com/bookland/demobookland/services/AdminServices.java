@@ -1,7 +1,9 @@
 package com.bookland.demobookland.services;
 
+import com.bookland.demobookland.model.Campaign;
 import com.bookland.demobookland.model.Customer;
 import com.bookland.demobookland.model.projections.CustomerInfoProjection;
+import com.bookland.demobookland.repository.CampaignRepository;
 import com.bookland.demobookland.repository.CustomerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -9,6 +11,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
@@ -18,6 +21,9 @@ public class AdminServices {
 
     @Autowired
     private CustomerRepository customerRepository;
+
+    @Autowired
+    private CampaignRepository campaignRepository;
 
     public CustomerInfoProjection getAdmin() {
         return customerRepository.findByIsAdminEquals(1);
@@ -81,6 +87,7 @@ public class AdminServices {
         return pagedResult.toList();
     }
 
+    @Transactional
     public String deActivateAccount(Integer customerId) {
         try {
             Optional<Customer> customer = customerRepository.findById(customerId);
@@ -93,10 +100,15 @@ public class AdminServices {
                 return "User Not Found";
             }
         } catch (Exception e) {
-            System.out.println(e);
             return "Some Problem Occured";
         }
 
+    }
+
+    @Transactional
+    public String addCampaign(Campaign campaign) {
+        campaignRepository.save(campaign);
+        return "Campaign created";
     }
 }
 
