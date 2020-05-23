@@ -37,6 +37,9 @@ public class Order {
     @Column(name = "TotalAmount", nullable = false)
     private Integer totalAmount;
 
+    @Column(name = "CampaignId")
+    private Integer campaignId;
+
     @JsonBackReference(value = "order-customerOrder")
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "CustomerId", insertable = false, updatable = false)           /*Database column ismi*/
@@ -54,4 +57,9 @@ public class Order {
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "orders")
     private List<Contains> containsList = new ArrayList<>();
+
+    @JsonBackReference(value = "Order-OrderCampaign")
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinColumn(name = "CampaignId", insertable = false, updatable = false)
+    private Campaign campaign;
 }

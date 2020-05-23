@@ -1,14 +1,16 @@
 package com.bookland.demobookland.controller;
 
+import com.bookland.demobookland.model.Book;
+import com.bookland.demobookland.model.Campaign;
 import com.bookland.demobookland.model.projections.CustomerInfoProjection;
+import com.bookland.demobookland.model.validationGroups.AddBookGroup;
 import com.bookland.demobookland.services.AdminServices;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @RestController
@@ -35,6 +37,11 @@ public class AdminController {
     @PutMapping(value = "/deActivateAccount/{customerId}", produces = MediaType.APPLICATION_JSON_VALUE)
     public String applyDiscount(@PathVariable Integer customerId) {
         return adminServices.deActivateAccount(customerId);
+    }
+
+    @PostMapping(value = "/addCampaign", produces = MediaType.APPLICATION_JSON_VALUE)
+    public String addCampaign(@Valid @RequestBody Campaign campaign) {
+        return adminServices.addCampaign(campaign);
     }
 }
 
