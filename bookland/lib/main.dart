@@ -13,11 +13,39 @@ import 'package:bookland/payment.dart';
 import 'package:bookland/adminOrders.dart';
 import 'package:bookland/ShippingCompany.dart';
 import 'package:bookland/basket.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
+String customerID;
+bool isLogin;
 void main() {
+  mainFuture();
   runApp(MyApp());
 }
-String customerID;
+
+/// This function controls the login situation
+/// Reads shared preferences and assign to variables
+/// isLogin : Boolean variable that shows the user logged in or not
+/// customerId : String variable that shows the user's id
+Future<void> mainFuture() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
+  sharedPreferences.remove("login");
+  isLogin = sharedPreferences.getBool("isLogin");
+  print(isLogin);
+  print(sharedPreferences.getKeys());
+  try {
+    if (isLogin) {
+      customerID = sharedPreferences.getString("customerId");
+    } else {
+      customerID = "-1";
+    }
+  } catch (Exception) {
+    isLogin = false;
+    customerID = "-1";
+    sharedPreferences.setBool("isLogin", isLogin);
+    sharedPreferences.setString("customerId", "-1");
+  }
+}
 
 class MyApp extends StatelessWidget {
   // This widget is the root of your application.
@@ -106,8 +134,7 @@ class MyStatelessWidget extends StatelessWidget {
                   );
                   // TODO Login page will be here
                 },
-              )
-              ,
+              ),
               width: 30.0,
               height: 30.0),
           //Text('PROFILE', style: new TextStyle(color: Colors.white)),
@@ -139,10 +166,13 @@ class MyStatelessWidget extends StatelessWidget {
                   //child: new Text('OK', style: new TextStyle(color: Colors.white)),
                   child: new Image.asset('assets/toplist.png'),
                   padding: EdgeInsets.all(1.0),
-                  onPressed: () { Navigator.push(
-                    context,
-                    new MaterialPageRoute(builder: (context) => new List_MainStateless(-1,1)),
-                  );},
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      new MaterialPageRoute(
+                          builder: (context) => new List_MainStateless(-1, 1)),
+                    );
+                  },
                   color: Colors.black,
                 ),
                 width: 400.0,
@@ -153,10 +183,13 @@ class MyStatelessWidget extends StatelessWidget {
                 child: new FlatButton(
                   //child: new Text('OK', style: new TextStyle(color: Colors.white)),
                   child: new Image.asset('assets/campaign.png'),
-                  onPressed: () { Navigator.push(
-                    context,
-                    new MaterialPageRoute(builder: (context) => new List_MainStateless(-1,2)),
-                  );},
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      new MaterialPageRoute(
+                          builder: (context) => new List_MainStateless(-1, 2)),
+                    );
+                  },
                   color: Colors.pink,
                 ),
                 width: 400.0,
@@ -167,10 +200,13 @@ class MyStatelessWidget extends StatelessWidget {
                 child: new FlatButton(
                   //child: new Text('OK', style: new TextStyle(color: Colors.white)),
                   child: new Image.asset('assets/last_r.jpg'),
-                  onPressed: () { Navigator.push(
-                    context,
-                    new MaterialPageRoute(builder: (context) => new List_MainStateless(-1,3)),
-                  );},
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      new MaterialPageRoute(
+                          builder: (context) => new List_MainStateless(-1, 3)),
+                    );
+                  },
                   color: Colors.orange,
                 ),
                 width: 400.0,
@@ -184,7 +220,8 @@ class MyStatelessWidget extends StatelessWidget {
                   onPressed: () {
                     Navigator.push(
                       context,
-                      new MaterialPageRoute(builder: (context) => new List_MainStateless(-1,4)),
+                      new MaterialPageRoute(
+                          builder: (context) => new List_MainStateless(-1, 4)),
                     );
                   },
                   color: Colors.lightBlueAccent,
@@ -196,10 +233,13 @@ class MyStatelessWidget extends StatelessWidget {
                 child: new FlatButton(
                   //child: new Text('OK', style: new TextStyle(color: Colors.white)),
                   child: new Image.asset('assets/best_seller.png'),
-                  onPressed: () { Navigator.push(
-                    context,
-                    new MaterialPageRoute(builder: (context) => new List_MainStateless(-1,5)),
-                  );},
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      new MaterialPageRoute(
+                          builder: (context) => new List_MainStateless(-1, 5)),
+                    );
+                  },
                   color: Colors.red,
                 ),
                 width: 400.0,
@@ -213,8 +253,11 @@ class MyStatelessWidget extends StatelessWidget {
           children: <Widget>[
             //  if(isAnyUserLogin == true)
             new UserAccountsDrawerHeader(
-              accountName: new Text("HELLO\n" + FIRSTNAME ,
-            style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 25)),
+              accountName: new Text("HELLO\n" + FIRSTNAME,
+                  style: TextStyle(
+                      color: Colors.white,
+                      fontWeight: FontWeight.bold,
+                      fontSize: 25)),
               // accountEmail: new Text('nurbuke.teker7@gmail.com'),
               decoration: BoxDecoration(
                 image: DecorationImage(
@@ -227,14 +270,13 @@ class MyStatelessWidget extends StatelessWidget {
               title: new Text("Account"),
               trailing: new Icon(Icons.account_circle),
               onTap: () {
-                if (customerID != null) {
+                if (isLogin) {
                   print(customerID == null);
-                  Navigator.push(context,
+                  Navigator.push(
+                      context,
                       new MaterialPageRoute(
                           builder: (context) =>
-                          new AccountPageStateless(FIRSTNAME)
-                      )
-                  );
+                              new AccountPageStateless(FIRSTNAME)));
                 } else {
                   Navigator.push(
                     context,
@@ -266,7 +308,8 @@ class MyStatelessWidget extends StatelessWidget {
               onTap: () {
                 Navigator.push(
                   context,
-                  new MaterialPageRoute(builder: (context) => new ShippingCompany()),
+                  new MaterialPageRoute(
+                      builder: (context) => new ShippingCompany()),
                 );
               },
             ),
@@ -290,8 +333,7 @@ class MyStatelessWidget extends StatelessWidget {
                 FIRSTNAME = "Please LogIn";
                 Navigator.push(
                   context,
-                  new MaterialPageRoute(
-                      builder: (context) => new MyApp()),
+                  new MaterialPageRoute(builder: (context) => new MyApp()),
                 );
               },
             ),
@@ -304,10 +346,7 @@ class MyStatelessWidget extends StatelessWidget {
             height: 50.0,
             child: Row(children: <Widget>[
               Text("           "),
-              IconButton(
-                  icon: Icon(Icons.home),
-                  onPressed: () {
-                  }),
+              IconButton(icon: Icon(Icons.home), onPressed: () {}),
               Text("           "),
               IconButton(
                   icon: Icon(Icons.category),
@@ -321,7 +360,7 @@ class MyStatelessWidget extends StatelessWidget {
               IconButton(
                   icon: Icon(Icons.explore),
                   onPressed: () {
-                   /* Navigator.push(
+                    /* Navigator.push(
                       context,
                       new MaterialPageRoute(
                           builder: (context) => new ExploreStateless(-1)),
@@ -332,7 +371,9 @@ class MyStatelessWidget extends StatelessWidget {
                   icon: Icon(Icons.shopping_basket),
                   onPressed: () {
                     Navigator.push(
-                        context, new MaterialPageRoute(builder: (context) => new Basket()));
+                        context,
+                        new MaterialPageRoute(
+                            builder: (context) => new Basket()));
                   }),
             ])),
         color: Colors.blue,

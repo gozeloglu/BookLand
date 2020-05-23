@@ -63,8 +63,8 @@ class BasketLayoutState extends State<BasketLayout> {
                               builder: (BuildContext context) {
                                 return AlertDialog(
                                   shape: RoundedRectangleBorder(
-                                    borderRadius: new BorderRadius.circular(15)
-                                  ),
+                                      borderRadius:
+                                          new BorderRadius.circular(15)),
                                   title: new Text("Delete Order"),
                                   content:
                                       new Text("Are you sure to delete order?"),
