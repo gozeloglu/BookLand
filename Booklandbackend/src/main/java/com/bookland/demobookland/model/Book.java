@@ -77,6 +77,9 @@ public class Book {
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "bookComment")
     private List<Comment> commentList;
 
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "bookVote")
+    private List<Vote> voteList;
+
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "book")
     private List<Contains> containsList;
 }

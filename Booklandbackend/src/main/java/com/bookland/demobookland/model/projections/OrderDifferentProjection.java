@@ -9,4 +9,8 @@ public interface OrderDifferentProjection {
 
     String getAuthor();
 
+    String getBookImage();
+
+    Integer getTrackingNumber();
+
 }

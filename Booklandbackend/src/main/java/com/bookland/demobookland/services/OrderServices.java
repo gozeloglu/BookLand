@@ -59,7 +59,7 @@ public class OrderServices {
             }
 
             @Override
-            public Integer getTotalAmount() {
+            public Float getTotalAmount() {
                 return order.getTotalAmount();
             }
         };
@@ -90,23 +90,8 @@ public class OrderServices {
     public OrderDetailsProjection OrderConverter(Order order) {
         return new OrderDetailsProjection() {
             @Override
-            public String getCardNo() {
-                return order.getCardNo();
-            }
-
-            @Override
             public Date getOrderedTime() {
                 return order.getOrderedTime();
-            }
-
-            @Override
-            public String getFirstName() {
-                return order.getCustomerOrder().getFirstName();
-            }
-
-            @Override
-            public String getSurname() {
-                return order.getCustomerOrder().getSurname();
             }
 
             @Override
@@ -138,6 +123,11 @@ public class OrderServices {
             public List<OrderDifferentProjection> getDifference() {
                 return ordersDetails(order);
             }
+
+            @Override
+            public Float getTotalAmount() {
+                return order.getTotalAmount();
+            }
         };
     }
 
@@ -161,6 +151,16 @@ public class OrderServices {
             @Override
             public String getAuthor() {
                 return contains.getBook().getAuthor();
+            }
+
+            @Override
+            public String getBookImage() {
+                return contains.getBook().getBookImage();
+            }
+
+            @Override
+            public Integer getTrackingNumber() {
+                return contains.getTrackingNumber();
             }
         };
     }

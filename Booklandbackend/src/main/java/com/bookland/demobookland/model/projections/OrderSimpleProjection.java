@@ -12,5 +12,5 @@ public interface OrderSimpleProjection {
 
     String getAddressTitle();
 
-    Integer getTotalAmount();
+    Float getTotalAmount();
 }
