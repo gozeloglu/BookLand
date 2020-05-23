@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:ffi';
 import 'package:flutter/foundation.dart';
 
+
 class Model_Order {
   final String OrderId;
   final String OrderDate;
@@ -29,6 +30,96 @@ class Model_Order {
         OrderAddress: json['addressTitle'].toString(),
         Status: json['status'].toString(),
         TotalPrice: json['totalAmount'].toString()
+    );
+
+  }
+}
+class Model_Order_Details {
+  final String orderId;
+  final String orderDate;
+
+  final String status;
+  final String totalPrice;
+
+  final String country;
+  final String city;
+  final String order_customer ;
+
+  final String cardNo ;
+  final String orderAdressline ;
+
+  final String companyName ;
+
+  final String shippingPrice ;
+  final List<Book> bookList;
+
+
+  Model_Order_Details({
+    this.orderId,
+    this.orderDate,
+
+    this.status,
+    this.totalPrice,
+    this.order_customer,
+    this.country,
+    this.city,
+
+    this.cardNo,
+    this.orderAdressline,
+    this.companyName,
+    this.shippingPrice,
+    this.bookList
+  });
+
+
+  factory Model_Order_Details.fromJson(Map<String, dynamic> json) {
+    var list = json['difference'] as List;
+    print(list.toString());
+    //List<Book> difference = list.map((i) => Book.fromJson(i)).toList();
+    //print(difference.toString());
+
+    List<Book> difference = list.map((i) => Book.fromJson(i)).toList();
+    print("HERE I AM");
+    return Model_Order_Details(
+      //orderId:  json[],
+       //order_customer : json['firstname'] + "\t" + json['surname'] ,
+       orderDate: json['orderedTime'],
+       orderAdressline: json['addressLine'],
+       country:  json['country'],
+       city: json['city'],
+       companyName:  json['companyName'],
+       bookList : difference,
+        totalPrice: "123",
+        shippingPrice: "4",
+      status:   json['status'],
+    );
+
+  }
+}
+class Book {
+  final String bookName;
+  final String author;
+  final String quantity;
+  final String bookImage;
+  final String price ;
+
+  Book({
+    this.bookName,
+    this.author,
+    this.quantity,
+    this.bookImage,
+    this.price,
+  });
+
+
+  factory Book.fromJson(Map<String, dynamic> json) {
+    return Book(
+        bookName: json['bookName'].toString(),
+        author: json['author'].toString(),
+        quantity: json['quantity'].toString(),
+        //bookImage: json['bookImage'].toString(),
+        price: json['price'].toString()
+
     );
 
   }

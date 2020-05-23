@@ -71,7 +71,13 @@ flutter:
     - assets/filter_books.jpg
     - assets/booking/bookback.jpg
     - assets/booking/bookback2.jpg
-
+    - assets/orderdetails/japan.jpg
+    - assets/orderdetails/japan2.jpg
+    - assets/orderdetails/japan3.jpg
+    - assets/orderdetails/background0.jpg
+    - assets/orderdetails/background1.jpg
+    - assets/orderdetails/background2.jpg
+    - assets/orderdetails/background3.jpg
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.

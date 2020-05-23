@@ -5,9 +5,10 @@ import 'dart:io';
 
 import 'package:bookland/elements/appBar.dart';
 import 'package:bookland/elements/bottomNavigatorBar.dart';
-import 'package:bookland/main.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:bookland/OrderView.dart';
+
 
 import 'package:flutter_paginator/flutter_paginator.dart';
 
@@ -154,7 +155,7 @@ class MyOrdersState extends State<MyOrdersPage> {
           ordersData.orderpricesList[i] +
           "\n\n" +
           "Order Status:\t" +
-          ordersData.orderStatusList[i] + '\n\n';
+          ordersData.orderStatusList[i] + '\n\n' + "|"+   ordersData.ordersList[i].toString() ;
       orderNameList.add(val);
       choosenIcons.add(ordersData.orderStatusList[i].toString());
     }
@@ -174,10 +175,22 @@ class MyOrdersState extends State<MyOrdersPage> {
   Widget listorderBuilder(value, int index) {
     String choseniconStr = choosenIcons[index].toString();
     print(choseniconStr.toString());
+    var value_list = value.toString().split("|");
+    String text_part = value_list[0];
+    String orderidPar = value_list[1];
+
     return Card(
         child: ListTile(
         leading: new Icon(iconMapping [choseniconStr], color: Colors.indigo) ,
-    title:  Text(value),
+    title:  Text(text_part),
+          onTap: (){
+            Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) =>new OrderView(orderid : orderidPar),
+                ));
+          }
+
     ));
     /*return ListTile(
       //  leading:  Image.network(img_part),
