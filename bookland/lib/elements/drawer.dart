@@ -93,7 +93,7 @@ class MyDrawer extends StatelessWidget {
               onPressed: () {
                 isAnyUserLogin = false;
                 ISADMIN = 0;
-                FIRSTNAME = "Please LogIn";
+                ///FIRSTNAME = "Please LogIn";
                 Navigator.push(
                   context,
                   new MaterialPageRoute(builder: (context) => new MyApp()),
