@@ -26,6 +26,7 @@ class HTTPAll{
       User obj = User.fromJson(json.decode(response.body));
       CUSTOMERID = obj.CustomerId;
       FIRSTNAME = obj.FirstName;
+      customerFirstName = FIRSTNAME;
       ISADMIN =  obj.IsAdmin;
       isAnyUserLogin = true;
       customerID = CUSTOMERID;

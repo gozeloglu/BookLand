@@ -160,7 +160,7 @@ class _LoginPageState extends State<LoginStatefulWidget> {
               loginUser.getUser(_email, _password);
               Timer(Duration(seconds: 3), () {
                 if (isAnyUserLogin) {
-                  saveSharedPref(customerID, true);
+                  saveSharedPref(customerID, true, FIRSTNAME);
                   showDialog(
                     context: context,
                     builder: (BuildContext context) {
@@ -243,9 +243,13 @@ class _LoginPageState extends State<LoginStatefulWidget> {
   /// @param _customerId represents the logged in customer's id
   /// @param _isLogin controls the user's login situation
   /// This function updates the user's login situation
-  void saveSharedPref(String _customerId, bool _isLogin) async {
+  void saveSharedPref(String _customerId, bool _isLogin, String _firstName) async {
     SharedPreferences sharedPref = await SharedPreferences.getInstance();
     sharedPref.setString("customerId", _customerId);
     sharedPref.setBool("isLogin", _isLogin);
+    sharedPref.setString("firstName", _firstName);
+    isLogin = _isLogin;
+    customerID = _customerId;
+    FIRSTNAME = _firstName;
   }
 }

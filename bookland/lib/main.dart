@@ -16,6 +16,7 @@ import 'package:bookland/basket.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 String customerID;
+String customerFirstName = "Please Login";
 bool isLogin;
 void main() {
   mainFuture();
@@ -35,14 +36,19 @@ Future<void> mainFuture() async {
   try {
     if (isLogin) {
       customerID = sharedPreferences.getString("customerId");
+      FIRSTNAME = sharedPreferences.getString("firstName");
+      customerFirstName = FIRSTNAME;
+      print(FIRSTNAME);
     } else {
       customerID = "-1";
+      customerFirstName = "Please Login";
     }
   } catch (Exception) {
     isLogin = false;
     customerID = "-1";
     sharedPreferences.setBool("isLogin", isLogin);
     sharedPreferences.setString("customerId", "-1");
+    customerFirstName = "Please Login";
   }
 }
 
@@ -252,7 +258,7 @@ class MyStatelessWidget extends StatelessWidget {
           children: <Widget>[
             //  if(isAnyUserLogin == true)
             new UserAccountsDrawerHeader(
-              accountName: new Text("HELLO\n" + FIRSTNAME,
+              accountName: new Text("HELLO\n" + customerFirstName,
                   style: TextStyle(
                       color: Colors.white,
                       fontWeight: FontWeight.bold,
