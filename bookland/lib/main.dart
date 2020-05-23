@@ -300,7 +300,12 @@ class MyStatelessWidget extends StatelessWidget {
             new ListTile(
               title: new Text("Orders"),
               trailing: new Icon(Icons.add_shopping_cart),
-              onTap: () {},
+              onTap: () {
+                Navigator.push(
+                  context,
+                  new MaterialPageRoute(builder: (context) => new MyOrders()),
+                );
+              },
             ),
 //Section Line
             new Divider(),
@@ -328,12 +333,8 @@ class MyStatelessWidget extends StatelessWidget {
               title: new Text("Manuels"),
               trailing: new Icon(Icons.help),
               onTap: () {
-/*
-                Navigator.push(
-                  context,
-                  new MaterialPageRoute(builder: (context) => new MyOrders()),
-                );
-*/
+
+
               },
             ),
             new Divider(),
