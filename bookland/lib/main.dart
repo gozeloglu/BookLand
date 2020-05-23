@@ -18,8 +18,8 @@ import 'package:bookland/basket.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 String customerID;
-String customerFirstName = "Please Login";
 bool isLogin;
+
 void main() {
   mainFuture();
   runApp(MyApp());
@@ -39,9 +39,9 @@ Future<void> mainFuture() async {
   try {
     if (isLogin) {
       customerID = sharedPreferences.getString("customerId");
-      FIRSTNAME = sharedPreferences.getString("firstName");
-      customerFirstName = FIRSTNAME;
-      print(FIRSTNAME);
+      //FIRSTNAME = sharedPreferences.getString("firstName");
+      customerFirstName = sharedPreferences.getString("firstName");
+      //print(FIRSTNAME);
     } else {
       customerID = "-1";
       customerFirstName = "Please Login";
@@ -121,6 +121,7 @@ void openPage(BuildContext context) {
 /// This is the stateless widget that the main application instantiates.
 class MyStatelessWidget extends StatelessWidget {
   MyStatelessWidget({Key key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -280,11 +281,12 @@ class MyStatelessWidget extends StatelessWidget {
               onTap: () {
                 if (isLogin) {
                   print(customerID == null);
+                  print(customerFirstName);
                   Navigator.push(
                       context,
                       new MaterialPageRoute(
                           builder: (context) =>
-                              new AccountPageStateless(FIRSTNAME)));
+                              new AccountPageStateless(customerFirstName)));
                 } else {
                   Navigator.push(
                     context,
@@ -338,7 +340,8 @@ class MyStatelessWidget extends StatelessWidget {
               trailing: new Icon(Icons.exit_to_app),
               onTap: () {
                 isAnyUserLogin = false;
-                FIRSTNAME = "Please LogIn";
+                //FIRSTNAME = "Please LogIn";
+                customerFirstName = "Please Login";
                 logout();
                 updateUser();
                 Navigator.push(
@@ -391,7 +394,6 @@ class MyStatelessWidget extends StatelessWidget {
                           new MaterialPageRoute(
                               builder: (context) => new Login()));
                     }
-
                   }),
             ])),
         color: Colors.blue,
@@ -399,13 +401,20 @@ class MyStatelessWidget extends StatelessWidget {
     );
   }
 
+  /// This function log outs the user
+  /// Shared preferences updated with default variables
   void logout() async {
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
     sharedPreferences.setString("customerId", "-1");
     sharedPreferences.setString("customerName", "Please Login");
     sharedPreferences.setBool("isLogin", false);
+    customerFirstName = "Please Login";
+    customerID = "-1";
+    //FIRSTNAME = "Please Login";
   }
 
+  /// This function updates the first name, isLogin and customerID
+  /// with shared preferences values
   void updateUser() async {
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
     customerFirstName = sharedPreferences.getString("customerName");
