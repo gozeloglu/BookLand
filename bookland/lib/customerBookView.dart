@@ -6,12 +6,17 @@ import 'package:bookland/http_admin.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/foundation.dart';
 import 'package:bookland/http_book.dart';
-
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:bookland/basket.dart';
+import 'package:bookland/main.dart';
+import 'package:bookland/login.dart';
 
 /// This class contains the objects which is the same in GET allBooks method
-
+SharedPreferences pref;
 
 class CustomerBookView extends StatelessWidget {
+  String _bookName;
+  int _quantity;
   final String isbn;
   CustomerBookView({Key key, @required this.isbn}) : super(key: key);
 
@@ -25,11 +30,8 @@ class CustomerBookView extends StatelessWidget {
           pageTitle: "Book",
           // backgroundColor: Color(0xFFFF1744),
           back: true,
-
-
         ),
         body: FutureBuilder(
-
           future: httpBook.getBook(isbn),
           builder: (BuildContext context, AsyncSnapshot snapshot) {
             if (snapshot.hasData) {
@@ -59,7 +61,7 @@ class CustomerBookView extends StatelessWidget {
                       priceBook((snapshot.data.price).toString()),
                       description((snapshot.data.description).toString()),
                       Text("\n"),
-                      addBasketButton(context),
+                      addBasketButton(context, customerID),
                     ],
                   ),
                 ),
@@ -72,8 +74,7 @@ class CustomerBookView extends StatelessWidget {
             }
           },
         ),
-        bottomNavigationBar: MyBottomNavigatorBar()
-    );
+        bottomNavigationBar: MyBottomNavigatorBar());
   }
 
   Widget imageBook(String url) {
@@ -103,7 +104,9 @@ class CustomerBookView extends StatelessWidget {
   }
 
   Widget name(String text) {
-    return Text(text,
+    _bookName = text;
+    return Text(
+      text,
       textAlign: TextAlign.center,
       style: TextStyle(
         fontSize: 30,
@@ -131,6 +134,7 @@ class CustomerBookView extends StatelessWidget {
       ),
     );
   }
+
   Widget real_isbn(String text) {
     return Text(
       '\n\nISBN:' + text,
@@ -139,7 +143,10 @@ class CustomerBookView extends StatelessWidget {
         fontWeight: FontWeight.bold,
       ),
     );
-  }  Widget quantity(String text) {
+  }
+
+  Widget quantity(String text) {
+    _quantity = int.parse(text);
     return Text(
       'Quantity: ' + text,
       style: TextStyle(
@@ -148,6 +155,7 @@ class CustomerBookView extends StatelessWidget {
       ),
     );
   }
+
   Widget category(String text) {
     return Text(
       'Category: ' + text,
@@ -197,28 +205,66 @@ class CustomerBookView extends StatelessWidget {
     ]);
   }
 
-
-  Widget addBasketButton(BuildContext context){
+  Widget addBasketButton(BuildContext context, String _customerId) {
     return RaisedButton(
-      onPressed: (){
-
-
+      onPressed: () {
+        // TODO Call Basket class
+        print(_quantity);
+        print(_bookName);
+        print(isbn);
+        // If customer log in the system
+        if (_customerId != null) {
+          addBasketPref(_customerId);
+          getBasket(_customerId);
+        } else {
+          Navigator.push(
+            context,
+            new MaterialPageRoute(builder: (context) => new Login()),
+          );
+        }
       },
       textColor: Colors.white,
       padding: const EdgeInsets.all(0.0),
-
       child: Container(
-
         color: Colors.orangeAccent,
         padding: const EdgeInsets.all(10.0),
-        child: const Text(
-            'Add Basket',
-            style: TextStyle(fontSize: 20)
-        ),
-
+        child: const Text('Add Basket', style: TextStyle(fontSize: 20)),
       ),
     );
   }
 
-}
+  void getBasket(String _customerId) async {
+    SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
+    for (int i = 0;
+        i < sharedPreferences.getStringList(_customerId).length;
+        i++) {
+      print(sharedPreferences.getStringList(_customerId)[i]);
+    }
+  }
 
+  void addBasketPref(String _customerId) async {
+    // TODO quantity should be updated
+    print("ADD BASKET");
+    pref = await SharedPreferences.getInstance();
+    List bookList = pref.getStringList(_customerId);
+    bookList.add("13321");
+    pref.setStringList(_customerId, bookList);
+    print(pref.getStringList(_customerId));
+    /*print(bookList.length);
+    for (int i = 0; i < bookList.length; i += 2) {
+      if (bookList[i] == isbn) {
+        int tmpQuantity = int.parse(bookList[i+1]);
+        tmpQuantity++;
+        bookList[i+1] = tmpQuantity.toString();
+        pref.setStringList(_customerId, bookList);
+        print("PREF");
+        print(pref.getStringList(_customerId));
+        return;
+      }
+    }*/
+    /*bookList.add(isbn);
+    bookList.add("1");
+    pref.setStringList(_customerId, bookList);
+    print(pref.getStringList(_customerId));*/
+  }
+}

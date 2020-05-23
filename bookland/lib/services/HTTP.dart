@@ -6,11 +6,13 @@ import 'package:bookland/main.dart';
 import 'package:bookland/services/globalVariable.dart';
 import 'package:bookland/model/model_shippingcompany.dart';
 
-class HTTPAll{
-  static String basicAuth = 'Basic ' + base64Encode(utf8.encode('Daryl:WalkingDead'));
+class HTTPAll {
+  static String basicAuth =
+      'Basic ' + base64Encode(utf8.encode('Daryl:WalkingDead'));
 
   Future getUser(String _email, String _password) async {
-    http.Response response = await http.post('http://10.0.2.2:8080/login',
+    http.Response response = await http.post(
+      'http://10.0.2.2:8080/login',
       headers: <String, String>{
         'Authorization': HTTPAll.basicAuth,
         'Content-Type': 'application/json; charset=UTF-8',
@@ -18,15 +20,17 @@ class HTTPAll{
       body: jsonEncode(<String, String>{
         'email': _email,
         'password': _password,
-      }
-      ),
+      }),
     );
 
     if (response.statusCode < 400) {
       User obj = User.fromJson(json.decode(response.body));
       CUSTOMERID = obj.CustomerId;
-      FIRSTNAME = obj.FirstName;
-      ISADMIN =  obj.IsAdmin;
+
+      ///FIRSTNAME = obj.FirstName;
+      ///customerFirstName = FIRSTNAME;
+      customerFirstName = obj.FirstName;
+      ISADMIN = obj.IsAdmin;
       isAnyUserLogin = true;
       customerID = CUSTOMERID;
       print("********************************");
@@ -35,38 +39,34 @@ class HTTPAll{
     } else {
       //print(response.body);
 
-     // Error msg = Error.fromJson(json.decode(response.body));
-     // print(msg.errors[0].toString());
+      // Error msg = Error.fromJson(json.decode(response.body));
+      // print(msg.errors[0].toString());
       isAnyUserLogin = false;
-
     }
   }
 
-
   Future<String> saveCustomer(String firstName, String surname, String email,
       String password, int isAdmin, String phoneNumber) async {
-    http.Response response = await http.post('http://10.0.2.2:8080/saveCustomer',
+    http.Response response = await http.post(
+      'http://10.0.2.2:8080/saveCustomer',
       headers: <String, String>{
         'Authorization': HTTPAll.basicAuth,
         'Content-Type': 'application/json; charset=UTF-8',
       },
-
       body: jsonEncode(<String, dynamic>{
-      "firstName": firstName,
-      "surname": surname,
-      "email": email,
-      "password": password,
-      "isAdmin": isAdmin,
-      "dateOfBirth": null,
-      "phoneNumber": phoneNumber,
-      }
-      ),
+        "firstName": firstName,
+        "surname": surname,
+        "email": email,
+        "password": password,
+        "isAdmin": isAdmin,
+        "dateOfBirth": null,
+        "phoneNumber": phoneNumber,
+      }),
     );
 
     //print(response.statusCode);
-   // print(response.body);
+    // print(response.body);
     if (response.statusCode < 400) {
-
     } else {
       Error msg = Error.fromJson(json.decode(response.body));
       errorControl == true;
@@ -83,8 +83,7 @@ class HTTPAll{
     String basicAuth =
         'Basic ' + base64Encode(utf8.encode('$username:$password'));
 
-    http.Response response = await http.get(
-        'http://10.0.2.2:8080/getCategory',
+    http.Response response = await http.get('http://10.0.2.2:8080/getCategory',
         headers: <String, String>{'authorization': basicAuth});
     print("HERE!!!!");
     if (response.statusCode == 200) {
@@ -95,7 +94,9 @@ class HTTPAll{
       throw "Can't get books.";
     }
   }
-  Future<String> Payment(String cardNumber ,String cardOwner,String card_month,String card_year,String card_CVC ,String shippingComp) async {
+
+  Future<String> Payment(String cardNumber, String cardOwner, String card_month,
+      String card_year, String card_CVC, String shippingComp) async {
     var client = http.Client();
     var url = "http://10.0.2.2:8080";
     String username = 'Daryl';
@@ -103,22 +104,23 @@ class HTTPAll{
     String basicAuth =
         'Basic ' + base64Encode(utf8.encode('$username:$password'));
     http.Response response;
-    response = await http.post('http://10.0.2.2:8080/saveCard/103', //TODO paramtere yap
-      headers: <String, String>{'Authorization': basicAuth,'Content-Type': 'application/json; charset=UTF-8',
+    response = await http.post(
+      'http://10.0.2.2:8080/saveCard/103', //TODO paramtere yap
+      headers: <String, String>{
+        'Authorization': basicAuth,
+        'Content-Type': 'application/json; charset=UTF-8',
       },
       body: jsonEncode(<String, dynamic>{
-        "cardNo":  cardNumber,
+        "cardNo": cardNumber,
         "ownerName": cardOwner,
         "ownerSurname": cardOwner,
         "customerCardList": [],
         "orderList": [],
-
-      }
-      ),
+      }),
     );
 
     if (response.statusCode < 400) {
-      return  "PERFECT";
+      return "PERFECT";
     } else {
       Error msg = Error.fromJson(json.decode(response.body));
       errorControl = true;
@@ -127,11 +129,9 @@ class HTTPAll{
       print(msg.errors[0].toString());
       //throw Exception('Failed to load album');
       print("-----" + errorControl.toString());
-      return "SORRRY" ;
+      return "SORRRY";
     }
   }
-
-
 
   Future<List<Model_ShippingCompany>> getCompanies() async {
     var url = "http://10.0.2.2:8080/getCompanies";
@@ -141,8 +141,10 @@ class HTTPAll{
         'Basic ' + base64Encode(utf8.encode('$username:$password'));
     print("Before GET");
 
-    final response = await http.get(url,
-      headers: <String, String>{'authorization': basicAuth},);
+    final response = await http.get(
+      url,
+      headers: <String, String>{'authorization': basicAuth},
+    );
 
     //http.Response responseJSON = json.decode(response.body);
 
@@ -152,7 +154,11 @@ class HTTPAll{
     if (response.statusCode == 200) {
       print("just after if");
       Iterable l = json.decode(response.body);
-      List<Model_ShippingCompany> myModels=(json.decode(response.body) as List).map((i) => Model_ShippingCompany.fromJson(i)).toList();;
+      List<Model_ShippingCompany> myModels =
+          (json.decode(response.body) as List)
+              .map((i) => Model_ShippingCompany.fromJson(i))
+              .toList();
+      ;
       print("*****LİSTEMMM");
       print(myModels);
       print("*****LİSTEMMM");
@@ -160,7 +166,7 @@ class HTTPAll{
       //print("Before return");
       //List<Model_ShippingCompany> ship_comp = new List();
       //for (int i = 0; i < 5; i++) {
-       // ship_comp.add(bookResponse[i]);
+      // ship_comp.add(bookResponse[i]);
       //}
       //print(ship_comp.length);
       //print(ship_comp);
@@ -171,8 +177,4 @@ class HTTPAll{
       throw Exception("Can't get books.");
     }
   }
-
-
-
-
 }
