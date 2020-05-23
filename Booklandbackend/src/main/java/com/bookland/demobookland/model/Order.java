@@ -35,7 +35,7 @@ public class Order {
     private Integer addressId;
 
     @Column(name = "TotalAmount", nullable = false)
-    private Integer totalAmount;
+    private Float totalAmount;
 
     @Column(name = "CampaignId")
     private Integer campaignId;

@@ -3,9 +3,14 @@ package com.bookland.demobookland.model.projections;
 import java.util.Date;
 import java.util.List;
 
-public interface OrderDetailsProjection {
+public interface OrderDetailAdminProjection {
+    String getCardNo();
 
     Date getOrderedTime();
+
+    String getFirstName();
+
+    String getSurname();
 
     String getAddressLine();
 
@@ -18,7 +23,4 @@ public interface OrderDetailsProjection {
     String getCompanyName();
 
     List<OrderDifferentProjection> getDifference();
-
-    Float getTotalAmount();
-
 }

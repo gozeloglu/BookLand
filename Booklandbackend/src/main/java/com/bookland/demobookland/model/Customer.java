@@ -73,6 +73,10 @@ public class Customer {
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "customerComment")
     private List<Comment> commentList;
 
+    @JsonBackReference(value = "customer-voteList")
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "customerVote")
+    private List<Vote> voteList;
+
     @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(name = "card_used_by",
             joinColumns = {@JoinColumn(name = "CustomerId")},
