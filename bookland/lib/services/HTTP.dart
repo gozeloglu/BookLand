@@ -95,7 +95,9 @@ class HTTPAll {
     }
   }
 
+
   Future<String> Payment(String customerid, String cardNumber ,String cardOwner,String card_month,String card_year,String card_CVC ,String shippingCompid) async {
+
     var client = http.Client();
     var url = "http://10.0.2.2:8080";
     String username = 'Daryl';
