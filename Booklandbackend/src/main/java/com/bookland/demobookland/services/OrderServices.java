@@ -27,10 +27,14 @@ public class OrderServices {
         List<OrderSimpleProjection> orderSimpleProjections = new ArrayList<>();
 
         Page<Order> pagedResult = orderRepository.findByCustomerId(paging, customerID);
-
+        System.out.println(pagedResult.toList().size());
         for (Order order : pagedResult.toList()) {
+            System.out.println(order.getContainsList().size());
             orderSimpleProjections.add(orderSimpleConverter(order));
+
         }
+        //System.out.println(orderSimpleProjections.get(0).getOrderDate());
+        //System.out.println(orderSimpleProjections.size());
         return orderSimpleProjections;
     }
 
