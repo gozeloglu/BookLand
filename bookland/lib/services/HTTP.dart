@@ -95,7 +95,7 @@ class HTTPAll{
       throw "Can't get books.";
     }
   }
-  Future<String> Payment(String cardNumber ,String cardOwner,String card_month,String card_year,String card_CVC ,String shippingComp) async {
+  Future<String> Payment(String customerid, String cardNumber ,String cardOwner,String card_month,String card_year,String card_CVC ,String shippingCompid) async {
     var client = http.Client();
     var url = "http://10.0.2.2:8080";
     String username = 'Daryl';
@@ -103,7 +103,7 @@ class HTTPAll{
     String basicAuth =
         'Basic ' + base64Encode(utf8.encode('$username:$password'));
     http.Response response;
-    response = await http.post('http://10.0.2.2:8080/saveCard/103', //TODO paramtere yap
+    response = await http.post('http://10.0.2.2:8080/createOrder/${customerid}/${shippingCompid}', //TODO paramtere yap
       headers: <String, String>{'Authorization': basicAuth,'Content-Type': 'application/json; charset=UTF-8',
       },
       body: jsonEncode(<String, dynamic>{

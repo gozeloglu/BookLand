@@ -14,34 +14,44 @@ import 'package:bookland/model/model_shippingcompany.dart';
 //TODO CUSTOMER SPECIAL
 class Payment extends StatelessWidget {
   static const String _title = 'Payment';
+  final String totalcost;
+  final String shippingcompany_id;
+  final String customerid;
+  Payment({Key key, @required this.totalcost , @required this.shippingcompany_id ,this.customerid}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
     return MaterialApp(
       title: _title,
-      home: PaymentStatefulWidget(),
+      home: PaymentStatefulWidget(totalcost,shippingcompany_id,customerid),
     );
   }
 }
 
 class PaymentStatefulWidget extends StatefulWidget {
-  PaymentStatefulWidget({Key key}) : super(key: key);
+  final String totalcost;
+  final String shippingcompany_id;
+  final String customerid;
+  PaymentStatefulWidget(this.totalcost,this.shippingcompany_id,this.customerid);
 
   @override
-  _PaymentPageState createState() => _PaymentPageState();
+  _PaymentPageState createState() => _PaymentPageState(totalcost,shippingcompany_id,customerid);
 }
 
 class _PaymentPageState extends State<PaymentStatefulWidget> {
-  final HTTPAll http_obj = HTTPAll();
+  final String totalcost;
+  final String shippingcompany_id;
+  final String customerid;
+  _PaymentPageState(this.totalcost , this.shippingcompany_id,this.customerid);
+   final HTTPAll http_obj = HTTPAll();
 
-  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   String cardnumber;
   String card_owner;
   String month = "MONTH";
   String year = "YEAR";
   String cvc;
-  String shipping_company = "Shipping Company" ;
+
 
 
   TextEditingController cardnumberController = new TextEditingController();
@@ -66,13 +76,13 @@ class _PaymentPageState extends State<PaymentStatefulWidget> {
             width: double.infinity,
             padding: EdgeInsets.only(top: 10, bottom: 10),
             child: new Stack(
-              children: <Widget>[_showForm(context,"123,99")],
+              children: <Widget>[_showForm(context,totalcost)],
             ),
           ),
         ));
   }
 
-  Widget _showForm(BuildContext context,String totalcost) {
+  Widget _showForm(BuildContext context,String totalcost ) {
     return new Container(
       padding: EdgeInsets.all(1.0),
         //resizeToAvoidBottomPadding: false,
@@ -99,20 +109,9 @@ class _PaymentPageState extends State<PaymentStatefulWidget> {
                 color: Colors.green,
               ), dropYear(context),
             ]),
-
             showCVCInput(),
-            /*Text("\nShipping Company" ,style: TextStyle(fontWeight: FontWeight.bold), ) ,
-            Row( children: <Widget>[
-              Text("\t\t1"),
-              new Icon(
-                Icons.local_shipping,
-                color: Colors.orangeAccent,),
-              dropdown(context),
-            ]),*/
-            //chooseShippingComp(),
             Text("\nTotal Cost:\$${totalcost}" ,style: TextStyle(fontWeight: FontWeight.bold,fontSize: 20), ),
-            showPayButton(),
-
+            showPayButton(totalcost),
             Image.asset('assets/payment.jpg')
           ],
         ),
@@ -351,8 +350,6 @@ class _PaymentPageState extends State<PaymentStatefulWidget> {
                   printList.add(shippingCompList[i].companyName + "\t\$"+ shippingCompList[i].shippingPrice );
                 }
                 print(printList);
-
-                //print(snapshot.data.companyName.toString());
                 print("snapshot has data");
                 print("Here");
                 return Container(
@@ -406,7 +403,7 @@ class _PaymentPageState extends State<PaymentStatefulWidget> {
   }
 
 
-  Widget showPayButton() {
+  Widget showPayButton(String totalCost) {
     return new Padding(
       padding: EdgeInsets.fromLTRB(130, 10, 130, 10),
       child: new RaisedButton(
@@ -429,8 +426,7 @@ class _PaymentPageState extends State<PaymentStatefulWidget> {
             year = year;//yearController.text;
             cvc = cvcController.text;
 
-
-            var result = http_obj.Payment( cardnumber,card_owner, month, year, cvc, shipping_company);
+            var result = http_obj.Payment( customerid,cardnumber,card_owner, month, year, cvc, shippingcompany_id);
 
             // print(result);
             //print("****" + errorControl.toString());
@@ -483,23 +479,6 @@ class _PaymentPageState extends State<PaymentStatefulWidget> {
                 });
               }
             });
-          }),
-    );
-  }
-  Widget chooseShippingComp() {
-    return new Padding(
-      padding: EdgeInsets.fromLTRB(100, 10, 100, 10),
-      child: new RaisedButton(
-          elevation: 5.0,
-          shape: new RoundedRectangleBorder(
-              borderRadius: new BorderRadius.circular(10.0)),
-          color: Colors.yellow,
-          disabledColor: Colors.orangeAccent,
-          //add this to your code,
-          child: new Text("Shipping Company",
-              style: new TextStyle(fontSize: 20.0, color: Colors.black87)),
-          // TODO onPressed should be updated
-          onPressed: () {
           }),
     );
   }

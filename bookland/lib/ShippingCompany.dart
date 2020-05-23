@@ -179,9 +179,11 @@ class ShippingCompanyState extends State<ShippingCompany> {
               print("CHOSEN shipping");
               print(shipping_companyid);  //TODO send this to Payment
               print(mapPrice[shipping_companyid]);
+              String customerid ="103";
+              String totalPrice = "126,99";  //TODO toplama işlemi
               Navigator.push(
                 context,
-                new MaterialPageRoute(builder: (context) => new Payment()),
+                new MaterialPageRoute(builder: (context) => new Payment(totalcost: totalPrice,shippingcompany_id: shipping_companyid,customerid: customerid,)),
               );
             }
 

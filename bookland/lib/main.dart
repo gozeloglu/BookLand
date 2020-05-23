@@ -1,3 +1,4 @@
+import 'package:bookland/my_orders.dart';
 import 'package:bookland/services/globalVariable.dart';
 import 'package:bookland/user_account.dart';
 import 'package:flutter/foundation.dart';
@@ -274,10 +275,12 @@ class MyStatelessWidget extends StatelessWidget {
               title: new Text("Manuels"),
               trailing: new Icon(Icons.help),
               onTap: () {
+
                 Navigator.push(
                   context,
-                  new MaterialPageRoute(builder: (context) => new Payment()),
+                  new MaterialPageRoute(builder: (context) => new MyOrders()),
                 );
+
               },
             ),
             new Divider(),
