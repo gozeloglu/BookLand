@@ -4,8 +4,12 @@ import com.bookland.demobookland.model.Contains;
 import com.bookland.demobookland.model.Order;
 import com.bookland.demobookland.model.projections.OrderDetailsProjection;
 import com.bookland.demobookland.model.projections.OrderDifferentProjection;
+import com.bookland.demobookland.model.projections.OrderSimpleProjection;
 import com.bookland.demobookland.repository.OrderRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -18,8 +22,45 @@ public class OrderServices {
     @Autowired
     private OrderRepository orderRepository;
 
-    public List<Order> getMyOrders(Integer customerID) {
-        return orderRepository.findAllByCustomerId(customerID);
+    public List<OrderSimpleProjection> getMyOrders(Integer pageNo, Integer pageSize, Integer customerID) {
+        Pageable paging = PageRequest.of(pageNo, pageSize);
+        List<OrderSimpleProjection> orderSimpleProjections = new ArrayList<>();
+
+        Page<Order> pagedResult = orderRepository.findByCustomerId(paging, customerID);
+
+        for (Order order : pagedResult.toList()) {
+            orderSimpleProjections.add(orderSimpleConverter(order));
+        }
+        return orderSimpleProjections;
+    }
+
+    public OrderSimpleProjection orderSimpleConverter(Order order) {
+        return new OrderSimpleProjection() {
+            @Override
+            public Date getOrderDate() {
+                return order.getOrderedTime();
+            }
+
+            @Override
+            public String getStatus() {
+                return order.getContainsList().get(0).getPurchasedDetailedInfo().getStatus();
+            }
+
+            @Override
+            public Integer getOrderId() {
+                return order.getOrderId();
+            }
+
+            @Override
+            public String getAddressTitle() {
+                return order.getAddress().getAddressTitle();
+            }
+
+            @Override
+            public Integer getTotalAmount() {
+                return order.getTotalAmount();
+            }
+        };
     }
 
     public Order createOrder(Order order) {
@@ -34,7 +75,6 @@ public class OrderServices {
             return response;
         } catch (Exception e) {
             response = "Order cannot deleted";
-            System.out.println(e);
             return response;
         }
     }

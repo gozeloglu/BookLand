@@ -6,9 +6,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Data;
 
 import javax.persistence.*;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -24,7 +22,7 @@ public class Order {
 
     @Temporal(TemporalType.DATE)
     @Column(name = "DateTime")
-    @JsonFormat(pattern="yyyy-MM-dd")
+    @JsonFormat(pattern = "yyyy-MM-dd")
     private Date orderedTime;
 
     @Column(name = "CardNo", nullable = false)
@@ -36,8 +34,8 @@ public class Order {
     @Column(name = "AddressId", nullable = false)
     private Integer addressId;
 
-    /*@Column(name = "TotalAmount",nullable = false)
-    private Integer totalAmount;*/
+    @Column(name = "TotalAmount", nullable = false)
+    private Integer totalAmount;
 
     @JsonBackReference(value = "order-customerOrder")
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
