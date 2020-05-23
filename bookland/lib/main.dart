@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:bookland/services/globalVariable.dart';
 import 'package:bookland/user_account.dart';
 import 'package:flutter/foundation.dart';
@@ -27,6 +29,7 @@ void main() {
 /// Reads shared preferences and assign to variables
 /// isLogin : Boolean variable that shows the user logged in or not
 /// customerId : String variable that shows the user's id
+/// firstName : String variable that represents the user's name
 Future<void> mainFuture() async {
   WidgetsFlutterBinding.ensureInitialized();
   SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
@@ -336,6 +339,8 @@ class MyStatelessWidget extends StatelessWidget {
               onTap: () {
                 isAnyUserLogin = false;
                 FIRSTNAME = "Please LogIn";
+                logout();
+                updateUser();
                 Navigator.push(
                   context,
                   new MaterialPageRoute(builder: (context) => new MyApp()),
@@ -384,5 +389,19 @@ class MyStatelessWidget extends StatelessWidget {
         color: Colors.blue,
       ),
     );
+  }
+
+  void logout() async {
+    SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
+    sharedPreferences.setString("customerId", "-1");
+    sharedPreferences.setString("customerName", "Please Login");
+    sharedPreferences.setBool("isLogin", false);
+  }
+
+  void updateUser() async {
+    SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
+    customerFirstName = sharedPreferences.getString("customerName");
+    isLogin = sharedPreferences.getBool("isLogin");
+    customerID = sharedPreferences.getString("customerId");
   }
 }
