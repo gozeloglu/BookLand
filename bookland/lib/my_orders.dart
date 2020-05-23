@@ -11,14 +11,23 @@ import 'package:http/http.dart' as http;
 
 import 'package:flutter_paginator/flutter_paginator.dart';
 
+Map<String, IconData> iconMapping = {
+  'Transport' : Icons.local_shipping,
+  'Delivered' : Icons.done_outline,
+  'Cancelled' : Icons.cancel,
+  'Waiting Confirmation' : Icons.watch_later,
+};
+
 int total = 0;
 SplayTreeSet orderIDset = new SplayTreeSet();
 var globalExploreContext;
 int deletedOrderId = -1;
+List<String> choosenIcons = [];
+
 
 class MyOrders extends StatelessWidget {
-  ExploreStateless(int bookId) {
-    deletedOrderId = bookId;
+  MyOrdersStateless(int orderId) {
+    deletedOrderId = orderId;
     if (orderIDset.contains(deletedOrderId)) {
       orderIDset.remove(deletedOrderId);
     }
@@ -53,9 +62,9 @@ class MyOrdersState extends State<MyOrdersPage> {
       appBar: MyAppBar(pageTitle: "My Orders" ),
       body: Paginator.listView(
         key: paginatorGlobalKey,
-        pageLoadFuture: sendBooksDataRequest,
-        pageItemsGetter: listBooksGetter,
-        listItemBuilder: listBookBuilder,
+        pageLoadFuture: sendordersDataRequest,
+        pageItemsGetter: listordersGetter,
+        listItemBuilder: listorderBuilder,
         loadingWidgetBuilder: loadingWidgetMaker,
         errorWidgetBuilder: errorWidgetMaker,
         emptyListWidgetBuilder: emptyListWidgetMaker,
@@ -67,7 +76,7 @@ class MyOrdersState extends State<MyOrdersPage> {
       floatingActionButton: FloatingActionButton(
         onPressed: () {
           paginatorGlobalKey.currentState.changeState(
-              pageLoadFuture: sendBooksDataRequest, resetState: true);
+              pageLoadFuture: sendordersDataRequest, resetState: true);
         },
         child: Icon(Icons.refresh),
       ),
@@ -84,11 +93,11 @@ class MyOrdersState extends State<MyOrdersPage> {
       String password = 'WalkingDead';
       String basicAuth =
           'Basic ' + base64Encode(utf8.encode('$username:$password'));
-      var urlBookCount = "http://10.0.2.2:8080/getBookCount";
+      var urlorderCount = "http://10.0.2.2:8080/getCustomerOrderCount/103";
 
-      String _urlBookCount = Uri.encodeFull(urlBookCount);
+      String _urlorderCount = Uri.encodeFull(urlorderCount);
       http.Response responseCount = await http.get(
-        _urlBookCount,
+        _urlorderCount,
         headers: <String, String>{'authorization': basicAuth},
       );
 
@@ -97,7 +106,7 @@ class MyOrdersState extends State<MyOrdersPage> {
         print(total);
       } else {
         print(responseCount.statusCode);
-        throw Exception("Books are not retrieved!");
+        throw Exception("orders are not retrieved!");
       }
     } catch (e) {
       print("SocketException");
@@ -105,11 +114,11 @@ class MyOrdersState extends State<MyOrdersPage> {
     }
   }
 
-  Future<OrderData> sendBooksDataRequest(int page) async {
+  Future<OrderData> sendordersDataRequest(int page) async {
     try {
-      //getTotalCount();
-      page = 1;
-      var url = "http://10.0.2.2:8080/myOrders/1/10/103";
+      getTotalCount();
+
+      var url = "http://10.0.2.2:8080/myOrders/$page/10/103";
       print(url);
       String username = 'Daryl';
       String password = 'WalkingDead';
@@ -131,23 +140,25 @@ class MyOrdersState extends State<MyOrdersPage> {
     }
   }
 
-  List<dynamic> listBooksGetter(OrderData ordersData) {
+  List<dynamic> listordersGetter(OrderData ordersData) {
     List<dynamic> orderNameList = [];
     List<int> isbnList = [];
     for (int i = 0; i < ordersData.ordersList.length; i++) {
       String val = "Order Date:\t" +
           ordersData.orderdatesList[i] +
-          "\n" +
+          "\n\n" +
           "Order ID:\t" +
           ordersData.ordersList[i].toString() +
-          "\n" +
+          "\n\n" +
           "Total Cost:\t" +
           ordersData.orderpricesList[i] +
-          "\n" +
+          "\n\n" +
           "Order Status:\t" +
-          ordersData.orderStatusList[i];
+          ordersData.orderStatusList[i] + '\n\n';
       orderNameList.add(val);
+      choosenIcons.add(ordersData.orderStatusList[i].toString());
     }
+
 
     return orderNameList;
   }
@@ -160,30 +171,36 @@ class MyOrdersState extends State<MyOrdersPage> {
     );
   }
 
-  Widget listBookBuilder(value, int index) {
-
-
-    return ListTile(
+  Widget listorderBuilder(value, int index) {
+    String choseniconStr = choosenIcons[index].toString();
+    print(choseniconStr.toString());
+    return Card(
+        child: ListTile(
+        leading: new Icon(iconMapping [choseniconStr], color: Colors.indigo) ,
+    title:  Text(value),
+    ));
+    /*return ListTile(
       //  leading:  Image.network(img_part),
+
         title: Text(value),
         onTap: () {
           /*Navigator.push(
               context,
               MaterialPageRoute(
                 builder: (context) =>
-                // new BookView(isbn: isbnSet.elementAt(index).toString()),
-                new BookView(isbn: bookid_send),
+                // new orderView(isbn: isbnSet.elementAt(index).toString()),
+                new orderView(isbn: orderid_send),
               ));*/
-        });
+        });*/
   }
 
-  Widget errorWidgetMaker(OrderData booksData, retryListener) {
+  Widget errorWidgetMaker(OrderData ordersData, retryListener) {
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: <Widget>[
         Padding(
           padding: const EdgeInsets.all(16.0),
-          child: Text(booksData.errorMessage),
+          child: Text(ordersData.errorMessage),
         ),
         FlatButton(
           onPressed: retryListener,
@@ -193,25 +210,25 @@ class MyOrdersState extends State<MyOrdersPage> {
     );
   }
 
-  Widget emptyListWidgetMaker(OrderData booksData) {
+  Widget emptyListWidgetMaker(OrderData ordersData) {
     orderIDset.clear();
-    booksData.ordersList.clear();
-    booksData.orderdatesList.clear();
-    booksData.orderpricesList.clear();
-    booksData.ordersadresstitleList.clear();
-    booksData.orderStatusList.clear();
+    ordersData.ordersList.clear();
+    ordersData.orderdatesList.clear();
+    ordersData.orderpricesList.clear();
+    ordersData.ordersadresstitleList.clear();
+    ordersData.orderStatusList.clear();
     return Center(
       child: Text("No order"),
     );
   }
 
-  int totalPagesGetter(OrderData booksData) {
+  int totalPagesGetter(OrderData ordersData) {
     // TODO This should be fixed
-    return total =2 ;
+    return total  ;
   }
 
-  bool pageErrorChecker(OrderData booksData) {
-    return booksData.statusCode != 200;
+  bool pageErrorChecker(OrderData ordersData) {
+    return ordersData.statusCode != 200;
   }
 }
 
@@ -257,3 +274,5 @@ class OrderData {
     this.errorMessage = errorMessage;
   }
 }
+
+///////
