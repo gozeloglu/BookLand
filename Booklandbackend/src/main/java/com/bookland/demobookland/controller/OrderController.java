@@ -20,6 +20,7 @@ public class OrderController {
 
     @GetMapping(value = "/myOrders/{pageNo}/{pageSize}/{customerId}", produces = MediaType.APPLICATION_JSON_VALUE)
     public List<OrderSimpleProjection> showMyOrders(@PathVariable Integer pageNo, @PathVariable Integer pageSize, @PathVariable Integer customerId) {
+
         return orderServices.getMyOrders(pageNo - 1, pageSize, customerId);
     }
 

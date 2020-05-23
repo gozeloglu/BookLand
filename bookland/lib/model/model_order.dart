@@ -24,11 +24,11 @@ class Model_Order {
   factory Model_Order.fromJson(Map<String, dynamic> json) {
 
     return Model_Order(
-        OrderId: json['shippingCompanyId'],
-        OrderDate: json['shippingPrice'].toString(),
-        OrderAddress: json['website'],
-        Status: json['companyName'],
-        TotalPrice: json['companyName']
+        OrderId: json['orderId'].toString(),
+        OrderDate: json['orderDate'].toString(),
+        OrderAddress: json['addressTitle'].toString(),
+        Status: json['status'].toString(),
+        TotalPrice: json['totalAmount'].toString()
     );
 
   }
