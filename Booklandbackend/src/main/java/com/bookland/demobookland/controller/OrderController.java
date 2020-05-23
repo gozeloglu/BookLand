@@ -37,4 +37,5 @@ public class OrderController {
     public OrderDetailsProjection orderDetails(@PathVariable Integer orderId) {
         return orderServices.orderDetails(orderId);
     }
+
 }
