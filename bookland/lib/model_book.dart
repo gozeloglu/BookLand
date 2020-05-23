@@ -60,16 +60,3 @@ class Book {
 
   }
 }
-/**class Price {
-  String price;
-
-  Price({
-    this.price
-  });
-  factory Price.fromJson(List<dynamic> json) {
-    return Price(
-      //price :json['price']
-    );
-  }
-
-}**/

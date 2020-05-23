@@ -269,14 +269,6 @@ class BooksData {
       lastPrice += jsonData[i]["priceList"][priceListLen - 1]["price"];
       bool moreThanOne = false;
 
-      /**if (jsonData[i]["priceList"].length >= 2) {
-          lastPrice += jsonData[i]["priceList"][priceListLen - 2]["price"];
-          moreThanOne = true;
-          }
-          if (moreThanOne) {
-          lastPrice /= 2;
-          }*/
-
       prices.add(lastPrice);
       img_list.add(jsonData[i]["bookImage"]);
       isbn_list.add(jsonData[i]["bookId"]);
