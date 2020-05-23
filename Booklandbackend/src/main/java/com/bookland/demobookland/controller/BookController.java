@@ -2,6 +2,7 @@ package com.bookland.demobookland.controller;
 
 import com.bookland.demobookland.model.Book;
 import com.bookland.demobookland.model.projections.BookDetailsProjection;
+import com.bookland.demobookland.model.projections.CartDetailProjection;
 import com.bookland.demobookland.model.projections.ExplorePageProjection;
 import com.bookland.demobookland.model.validationGroups.AddBookGroup;
 import com.bookland.demobookland.services.BookServices;
@@ -12,6 +13,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 public class BookController {
@@ -134,5 +136,15 @@ public class BookController {
                                       @RequestParam(value = "minPrice", defaultValue = "-1") Integer minPrice,
                                       @RequestParam(value = "maxPrice", defaultValue = "-1") Integer maxPrice) {
         return bookServices.getBookCountByFilters(author, categories, minPrice, maxPrice);
+    }
+
+   /* @GetMapping(value = "/cartDetails", produces = MediaType.APPLICATION_JSON_VALUE)
+    public List<CartDetailProjection> showBooksInCart(@RequestParam ArrayList<String> BookIds) {
+        return bookServices.cartDetails(BookIds);
+    }*/
+
+    @PostMapping(value = "/cartDetails", produces = MediaType.APPLICATION_JSON_VALUE)
+    public List<CartDetailProjection> showBooksInCart(@RequestBody Map<String,List<String>> BookIds) {
+        return bookServices.cartDetails(BookIds);
     }
 }

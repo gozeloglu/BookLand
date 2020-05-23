@@ -6,6 +6,7 @@ import com.bookland.demobookland.model.SearchCriteria.BookSpecification;
 import com.bookland.demobookland.model.SearchCriteria.SearchCriteria;
 import com.bookland.demobookland.model.SearchCriteria.SearchOperation;
 import com.bookland.demobookland.model.projections.BookDetailsProjection;
+import com.bookland.demobookland.model.projections.CartDetailProjection;
 import com.bookland.demobookland.model.projections.ExplorePageProjection;
 import com.bookland.demobookland.repository.BookRepository;
 import com.bookland.demobookland.repository.PriceRepository;
@@ -16,9 +17,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 @Service
 public class BookServices {
@@ -350,4 +349,36 @@ public class BookServices {
         };
     }
 
+    public List<CartDetailProjection> cartDetails(Map<String,List<String>> bookIds) {
+        List<CartDetailProjection> booksInCart = new ArrayList<>();
+        List<String> values = bookIds.get("BookIds");
+        for (String s : values) {
+            Book b;
+            Optional<Book> book = bookRepository.findById(Integer.valueOf(s));
+            if (book.isPresent()) {
+                b = book.get();
+                booksInCart.add(CartConverter(b));
+            }
+        }
+        return booksInCart;
+    }
+
+    public CartDetailProjection CartConverter(Book book) {
+        return new CartDetailProjection() {
+            @Override
+            public String getBookName() {
+                return book.getBookName();
+            }
+
+            @Override
+            public Float getPrice() {
+                return book.getPriceList().get(book.getPriceList().size() - 1).getPrice();
+            }
+
+            @Override
+            public String getBookImage() {
+                return book.getBookImage();
+            }
+        };
+    }
 }

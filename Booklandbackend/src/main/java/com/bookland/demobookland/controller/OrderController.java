@@ -24,6 +24,11 @@ public class OrderController {
         return orderServices.getMyOrders(pageNo - 1, pageSize, customerId);
     }
 
+    @GetMapping(value = "/getCustomerOrderCount/{customerId}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public Long getBookCountByCategory(@PathVariable Integer customerId) {
+        return orderServices.getCustomerOrderCount(customerId);
+    }
+
     @PostMapping(value = "/createOrder")
     public Order createOrder(@RequestBody Order order) {
         return orderServices.createOrder(order);
@@ -38,4 +43,5 @@ public class OrderController {
     public OrderDetailsProjection orderDetails(@PathVariable Integer orderId) {
         return orderServices.orderDetails(orderId);
     }
+
 }
