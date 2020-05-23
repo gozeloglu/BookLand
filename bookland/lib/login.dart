@@ -6,6 +6,7 @@ import 'package:bookland/services/globalVariable.dart';
 import 'package:flutter/material.dart';
 import 'package:bookland/signUp.dart';
 import 'package:bookland/services/HTTP.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import 'elements/appBar.dart';
 
@@ -158,7 +159,8 @@ class _LoginPageState extends State<LoginStatefulWidget> {
               _password = passwordController.text;
               loginUser.getUser(_email, _password);
               Timer(Duration(seconds: 3), () {
-                if (isAnyUserLogin){
+                if (isAnyUserLogin) {
+                  saveSharedPref(customerID, true);
                   showDialog(
                     context: context,
                     builder: (BuildContext context) {
@@ -236,5 +238,14 @@ class _LoginPageState extends State<LoginStatefulWidget> {
           style: new TextStyle(fontSize: 18.0, fontWeight: FontWeight.w300)
         )
     );
+  }
+
+  /// @param _customerId represents the logged in customer's id
+  /// @param _isLogin controls the user's login situation
+  /// This function updates the user's login situation
+  void saveSharedPref(String _customerId, bool _isLogin) async {
+    SharedPreferences sharedPref = await SharedPreferences.getInstance();
+    sharedPref.setString("customerId", _customerId);
+    sharedPref.setBool("isLogin", _isLogin);
   }
 }

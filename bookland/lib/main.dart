@@ -29,7 +29,6 @@ void main() {
 Future<void> mainFuture() async {
   WidgetsFlutterBinding.ensureInitialized();
   SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
-  sharedPreferences.remove("login");
   isLogin = sharedPreferences.getBool("isLogin");
   print(isLogin);
   print(sharedPreferences.getKeys());
