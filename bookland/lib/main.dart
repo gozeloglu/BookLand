@@ -380,10 +380,18 @@ class MyStatelessWidget extends StatelessWidget {
               IconButton(
                   icon: Icon(Icons.shopping_basket),
                   onPressed: () {
-                    Navigator.push(
-                        context,
-                        new MaterialPageRoute(
-                            builder: (context) => new Basket()));
+                    if (isLogin) {
+                      Navigator.push(
+                          context,
+                          new MaterialPageRoute(
+                              builder: (context) => new Basket()));
+                    } else {
+                      Navigator.push(
+                          context,
+                          new MaterialPageRoute(
+                              builder: (context) => new Login()));
+                    }
+
                   }),
             ])),
         color: Colors.blue,
