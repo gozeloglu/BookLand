@@ -128,6 +128,11 @@ public class OrderServices {
             public Float getTotalAmount() {
                 return order.getTotalAmount();
             }
+
+            @Override
+            public Float getShippingPrice() {
+                return order.getContainsList().get(0).getPurchasedDetailedInfo().getShippingCompany().getShippingPrice();
+            }
         };
     }
 
