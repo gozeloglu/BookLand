@@ -160,26 +160,17 @@ class CustomerBookView extends StatelessWidget {
 
   Widget priceBook(String price) {
     //price = '9.99';
-    String full_part = price;
-    String fractional_part = "00";
-    if (price.contains(".")) {
-      full_part = price.split(".")[0];
-      fractional_part = price.split(".")[1];
-    }
+    String stringPrice;
+    double realPrice = double.parse(price); //Convert to double the string price that comes from parameters
+    stringPrice = realPrice.toStringAsFixed(2); //Convert to string with 2 digits fractional part.
+
     var fiyatNum = Row(
       mainAxisAlignment: MainAxisAlignment.start,
       children: <Widget>[
         Text(
-          full_part + ",",
+          stringPrice,
           style: TextStyle(
             fontSize: 30,
-            fontWeight: FontWeight.bold,
-          ),
-        ),
-        Text(
-          fractional_part,
-          style: TextStyle(
-            fontSize: 15,
             fontWeight: FontWeight.bold,
           ),
         ),
