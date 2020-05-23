@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:ffi';
 
+import 'package:bookland/adminDiscount.dart';
 import 'package:bookland/services/globalVariable.dart';
 import 'package:flutter/material.dart';
 
@@ -75,6 +76,8 @@ class BookView extends StatelessWidget {
                         deleteButton(
                             context, (snapshot.data.bookId).toString()),
                       ]),
+                      Text("\n"),
+                      discountButton(context, snapshot)
                     ],
                   ),
                 ),
@@ -175,29 +178,27 @@ class BookView extends StatelessWidget {
 
   Widget priceBook(String price) {
     //price = '9.99';
-    String full_part = price;
-    String fractional_part = "00";
-    if (price.contains(".")) {
+    //String full_part = price;
+    //String fractional_part = "00";
+    /*if (price.contains(".")) {
       full_part = price.split(".")[0];
       fractional_part = price.split(".")[1];
-    }
+    }*/
+    String stringPrice;
+    double realPrice = double.parse(price); //Convert to double the string price that comes from parameters
+    stringPrice = realPrice.toStringAsFixed(2); //Convert to string with 2 digits fractional part.
+
     var fiyatNum = Row(
       mainAxisAlignment: MainAxisAlignment.start,
       children: <Widget>[
         Text(
-          full_part + ",",
+          stringPrice,
           style: TextStyle(
             fontSize: 30,
             fontWeight: FontWeight.bold,
           ),
         ),
-        Text(
-          fractional_part,
-          style: TextStyle(
-            fontSize: 15,
-            fontWeight: FontWeight.bold,
-          ),
-        ),
+
         Text(
           '\$',
           style: TextStyle(
@@ -307,6 +308,26 @@ class BookView extends StatelessWidget {
         color: Colors.orangeAccent,
         padding: const EdgeInsets.all(15.0),
         child: const Text('Delete', style: TextStyle(fontSize: 20)),
+      ),
+    );
+  }
+
+  Widget discountButton(BuildContext context, AsyncSnapshot snapshot){
+    return RaisedButton(
+      onPressed: () {
+        //print(snapshot.data.bookId.toString());
+        Navigator.push(
+          context,
+          new MaterialPageRoute(
+              builder: (context) => new adminDiscount(book: snapshot)),
+        );
+      },
+      textColor: Colors.white,
+      padding: const EdgeInsets.all(0.0),
+      child: Container(
+        color: Colors.blueGrey,
+        padding: const EdgeInsets.all(15.0),
+        child: const Text('Discount', style: TextStyle(fontSize: 20)),
       ),
     );
   }
