@@ -2,6 +2,7 @@ package com.bookland.demobookland.controller;
 
 import com.bookland.demobookland.model.Order;
 import com.bookland.demobookland.model.projections.OrderDetailsProjection;
+import com.bookland.demobookland.model.projections.OrderSimpleProjection;
 import com.bookland.demobookland.services.OrderServices;
 import com.bookland.demobookland.services.ShippingServices;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,9 +18,9 @@ public class OrderController {
     @Autowired
     private ShippingServices shippingServices;
 
-    @GetMapping(value = "/myOrders/{customerId}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public List<Order> showMyOrders(@PathVariable Integer customerId) {
-        return orderServices.getMyOrders(customerId);
+    @GetMapping(value = "/myOrders/{pageNo}/{pageSize}/{customerId}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public List<OrderSimpleProjection> showMyOrders(@PathVariable Integer pageNo, @PathVariable Integer pageSize, @PathVariable Integer customerId) {
+        return orderServices.getMyOrders(pageNo - 1, pageSize, customerId);
     }
 
     @PostMapping(value = "/createOrder")
