@@ -41,8 +41,7 @@ class AccountPageState extends State<AccountPageStateful> {
             Column(
               children: <Widget>[
                 new Container(
-                  height: 250.0,
-                  color: Colors.white,
+                  height: 120.0,
                   child: new Column(
                     children: <Widget>[
                       Padding(
@@ -55,16 +54,18 @@ class AccountPageState extends State<AccountPageStateful> {
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: <Widget>[
                                   new Container(
+
                                     width: 250.0,
                                     height: 70,
                                     margin: const EdgeInsets.fromLTRB(
-                                        100, 50, 100, 10),
+                                        0,0,0,0),
                                     padding: const EdgeInsets.fromLTRB(
-                                        10, 10, 10, 10),
+                                        10, 20, 10, 10),
                                     decoration: BoxDecoration(
+                                      color: Color.fromARGB(60, 214, 253, 255),
                                       border: Border.all(color: Colors.blue),
                                       borderRadius:
-                                          BorderRadius.all(Radius.circular(15)),
+                                      BorderRadius.all(Radius.circular(8)),
                                     ),
                                     child: Text(
                                       "Hello $username",
@@ -83,15 +84,15 @@ class AccountPageState extends State<AccountPageStateful> {
                   ),
                 ),
                 new Container(
-                  child: Padding(
-                    padding: EdgeInsets.only(bottom: 25.0),
-                    child: new Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      children: <Widget>[
-                        Padding(
+                  margin: EdgeInsets.only(top:30.0),
+                  decoration: new BoxDecoration(
+                    //color: Colors.green,
+                  ),
+                  //padding: EdgeInsets.only(bottom: 25.0),
+                  child: new Column(children: <Widget>[
+                    /* Padding(
                           padding: EdgeInsets.only(
-                              left: 25.0, right: 25.0, top: 25.0),
+                              left: 40.0, right: 25.0),
                           child: new Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             mainAxisSize: MainAxisSize.max,
@@ -107,6 +108,7 @@ class AccountPageState extends State<AccountPageStateful> {
                                       fontWeight: FontWeight.bold,
                                     ),
                                   ),
+
                                 ],
                               ),
                               new Column(
@@ -115,88 +117,112 @@ class AccountPageState extends State<AccountPageStateful> {
                               )
                             ],
                           ),
-                        ),
-                        Padding(
-                          padding: EdgeInsets.only(
-                              left: 25.0, right: 25.0, top: 2.0),
-                          child: new Row(
-                            mainAxisSize: MainAxisSize.max,
-                            children: <Widget>[
-                              new Flexible(
-                                child: new FlatButton(
-                                    onPressed: () {
-                                      print("FIRST BUTTON");
-                                    },
-                                    padding: EdgeInsets.only(left: 20),
-                                    child: Text(
-                                      "My Orders",
-                                      style: TextStyle(fontSize: 24.0),
-                                    )),
-                              )
-                            ],
-                          ),
-                        ),
-                        Padding(
-                          padding: EdgeInsets.only(
-                              left: 25.0, right: 25.0, top: 25.0),
-                          child: new Row(
-                            mainAxisSize: MainAxisSize.max,
-                            children: <Widget>[
-                              new Column(
-                                mainAxisAlignment: MainAxisAlignment.start,
-                                mainAxisSize: MainAxisSize.min,
-                                children: <Widget>[
-                                  new FlatButton(
-                                      onPressed: () {
-                                        print("SECOND ");
-                                      },
-                                      child: Text(
-                                        "Personal Info",
-                                        style: TextStyle(
-                                          fontSize: 24.0,
-                                        ),
-                                      ))
-                                ],
-                              )
-                            ],
-                          ),
-                        ),
-                        Padding(
-                          padding: EdgeInsets.only(
-                              left: 25.0, right: 25.0, top: 25.0),
-                          child: new Row(
-                            mainAxisSize: MainAxisSize.max,
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            children: <Widget>[
-                              new Column(
-                                mainAxisAlignment: MainAxisAlignment.start,
-                                mainAxisSize: MainAxisSize.min,
-                                children: <Widget>[
-                                  new FlatButton(
-                                      onPressed: () {
-                                        Navigator.push(
-                                          context,
-                                          new MaterialPageRoute(
-                                            builder: (context) => MyAddresses(),
-                                          ),
-                                        );
-                                        print("THIRD BUTTON");
-                                      },
-                                      child: Text(
-                                        "My Addresses",
-                                        style: TextStyle(
-                                          fontSize: 24.0,
-                                        ),
-                                      ))
-                                ],
-                              ),
-                            ],
-                          ),
-                        )
-                      ],
+                        ), */
+                    Padding(
+                      padding: EdgeInsets.only(
+                          left: 125.0, right: 25.0, top: 2.0),
+                      child: new Row(
+                        mainAxisSize: MainAxisSize.max,
+                        children: <Widget>[
+                          new Flexible(
+                            child: new FlatButton(
+                                onPressed: () {
+                                  print("FIRST BUTTON");
+                                },
+                                padding: EdgeInsets.only(left: 20),
+                                child: Text(
+                                  "My Orders",
+                                  style: TextStyle(fontSize: 24.0),
+                                )),
+                          )
+                        ],
+                      ),
                     ),
+                    Padding(
+                      padding: EdgeInsets.only(
+                          left: 115.0, right: 25.0, top: 25.0),
+                      child: new Row(
+                        mainAxisSize: MainAxisSize.max,
+                        children: <Widget>[
+                          new Column(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            mainAxisSize: MainAxisSize.min,
+                            children: <Widget>[
+                              new FlatButton(
+                                  onPressed: () {
+                                    print("SECOND ");
+                                  },
+                                  child: Text(
+                                    "Personal Info",
+                                    style: TextStyle(
+                                      fontSize: 24.0,
+                                    ),
+                                  ))
+                            ],
+                          )
+                        ],
+                      ),
+                    ),
+                    Padding(
+                      padding: EdgeInsets.only(
+                          left: 110.0, right: 25.0, top: 25.0),
+                      child: new Row(
+                        mainAxisSize: MainAxisSize.max,
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: <Widget>[
+                          new Column(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            mainAxisSize: MainAxisSize.min,
+                            children: <Widget>[
+                              new FlatButton(
+                                  onPressed: () {
+                                    Navigator.push(
+                                      context,
+                                      new MaterialPageRoute(
+                                        builder: (context) => MyAddresses(),
+                                      ),
+                                    );
+                                    print("THIRD BUTTON");
+                                  },
+                                  child: Text(
+                                    "My Addresses",
+                                    style: TextStyle(
+                                      fontSize: 24.0,
+                                    ),
+                                  ))
+                            ],
+                          ),
+                        ],
+                      ),
+                    )
+                  ],
                   ),
+
                 ),
+
+                new Container(
+                  height: 60,
+                  margin: EdgeInsets.only(top: 190),
+                  padding: EdgeInsets.all(5.0),
+                  child: Column(
+                    children: <Widget>[
+                      Divider(
+                        color: Colors.grey,
+                        thickness: 1.5,
+                      ),
+                      new Padding(
+                          padding: EdgeInsets.only(top:10),
+                          child: Text("Bookland - 2020",
+                              style: TextStyle(
+                                fontSize: 18.0,
+                                fontWeight: FontWeight.w300,
+                              )
+                          )
+                      )
+                    ],
+                  ),
+                )
+
               ],
             )
           ],
@@ -269,7 +295,7 @@ class AccountPageState extends State<AccountPageStateful> {
                 textAlign: TextAlign.left,
               ),),*/
         ])
-        /*child: InkWell(
+      /*child: InkWell(
         splashColor: Colors.blue,
         onTap: () {
           print("My Orders Card is tapped");
@@ -287,6 +313,6 @@ class AccountPageState extends State<AccountPageStateful> {
           ),
         ),
       ),*/
-        );
+    );
   }
 }
