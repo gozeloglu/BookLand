@@ -28,10 +28,11 @@ public class OrderServices {
         List<OrderSimpleProjection> orderSimpleProjections = new ArrayList<>();
 
         Page<Order> pagedResult = orderRepository.findByCustomerId(paging, customerID);
-
         for (Order order : pagedResult.toList()) {
             orderSimpleProjections.add(orderSimpleConverter(order));
+
         }
+
         return orderSimpleProjections;
     }
 
