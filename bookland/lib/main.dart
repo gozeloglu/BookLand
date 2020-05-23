@@ -329,11 +329,11 @@ class MyStatelessWidget extends StatelessWidget {
               trailing: new Icon(Icons.help),
               onTap: () {
 
-                Navigator.push(
+                /*Navigator.push(
                   context,
                   new MaterialPageRoute(builder: (context) => new MyOrders()),
                 );
-
+*/
               },
             ),
             new Divider(),

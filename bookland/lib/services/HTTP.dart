@@ -94,6 +94,8 @@ class HTTPAll {
       throw "Can't get books.";
     }
   }
+
+
   Future<String> Payment(String customerid, String cardNumber ,String cardOwner,String card_month,String card_year,String card_CVC ,String shippingCompid) async {
 
     var client = http.Client();
@@ -106,7 +108,6 @@ class HTTPAll {
 
     response = await http.post('http://10.0.2.2:8080/createOrder/${customerid}/${shippingCompid}', //TODO paramtere yap
       headers: <String, String>{'Authorization': basicAuth,'Content-Type': 'application/json; charset=UTF-8',
-
       },
       body: jsonEncode(<String, dynamic>{
         "cardNo": cardNumber,
