@@ -21,4 +21,6 @@ public interface OrderDetailsProjection {
 
     Float getTotalAmount();
 
+    Float getShippingPrice();
+
 }
