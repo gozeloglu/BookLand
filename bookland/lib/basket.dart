@@ -92,6 +92,7 @@ class BasketLayoutState extends State<BasketLayout> {
                                                 BorderRadius.circular(15),
                                           ),
                                           onPressed: () {
+                                            // TODO Delete from shared pref
                                             Navigator.of(context).pop();
                                           },
                                         ),
@@ -103,6 +104,7 @@ class BasketLayoutState extends State<BasketLayout> {
                                           ),
                                           color: Colors.green,
                                           onPressed: () {
+                                            deleteBookFromSharedPref(customerID, index*2);
                                             Navigator.of(context).pop();
                                           },
                                         ),
@@ -159,6 +161,13 @@ class BasketLayoutState extends State<BasketLayout> {
     setState(() {
       _selectedQuantity = value;
     });
+  }
+
+  void deleteBookFromSharedPref(String _customerId, int _bookId) async {
+    SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
+    List<String> bookList = sharedPreferences.getStringList(_customerId);
+    bookList.removeRange(_bookId, _bookId+2);
+    sharedPreferences.setStringList(_customerId, bookList);
   }
 }
 
@@ -257,13 +266,6 @@ class MyDialogState extends State<MyDialog> {
   }
 }
 
-/*
-* kitap ismi- quantity - image
-* shared = {customer_id_1: [b1, q1, b2, q2, b5, q5],cus_2:[ cus_3   }
-* http:url.com/cus/book/
-* key: customer
-* book: list
-* */
 class OrderHttp {
   Future<List<dynamic>> getOrders(String _customerId) async {
     print("getOrders");
