@@ -40,7 +40,7 @@ class BasketLayoutState extends State<BasketLayout> {
   var _selection;
   int _quantity = 1;
   String quantityValue = "1";
-  String _selectedId;
+  String _selectedQuantity;
 
   Widget _basketListView(BuildContext context) {
     return Padding(
@@ -88,7 +88,8 @@ class BasketLayoutState extends State<BasketLayout> {
                                           child: new Text("No"),
                                           color: Colors.red,
                                           shape: RoundedRectangleBorder(
-                                            borderRadius: BorderRadius.circular(15),
+                                            borderRadius:
+                                                BorderRadius.circular(15),
                                           ),
                                           onPressed: () {
                                             Navigator.of(context).pop();
@@ -97,7 +98,8 @@ class BasketLayoutState extends State<BasketLayout> {
                                         new FlatButton(
                                           child: Text("Yes"),
                                           shape: RoundedRectangleBorder(
-                                            borderRadius: BorderRadius.circular(15),
+                                            borderRadius:
+                                                BorderRadius.circular(15),
                                           ),
                                           color: Colors.green,
                                           onPressed: () {
@@ -112,77 +114,13 @@ class BasketLayoutState extends State<BasketLayout> {
                                 // TODO Quantity operation
                                 showDialog(
                                     context: context,
-                                   child: new MyDialog(
-                                     onValueChange: _onValueChange,
-                                     initialValue: _selectedId,
-                                   )
-                                   /* builder: (BuildContext context) {
-                                      return AlertDialog(
-                                        shape: RoundedRectangleBorder(
-                                            borderRadius:
-                                                BorderRadius.circular(15)),
-                                        title: Text("Change Book Quantity"),
-                                        content: Padding(
-                                          padding: const EdgeInsets.fromLTRB(
-                                              50, 0, 50, 0),
-                                          child: DropdownButton<String>(
-                                            value: quantityValue,
-                                            iconSize: 24,
-                                            elevation: 16,
-                                            style: TextStyle(
-                                                fontSize: 24,
-                                                color: Colors.deepPurple),
-                                            underline: Container(
-                                              height: 2,
-                                              color: Colors.deepPurpleAccent,
-                                            ),
-                                            onChanged: (String newValue) {
-                                              setState(() {
-                                                quantityValue = newValue;
-                                              });
-                                            },
-                                            items: <String>[
-                                              '1',
-                                              '2',
-                                              '3',
-                                              '4',
-                                              '5',
-                                              '6',
-                                              '7',
-                                              '8',
-                                              '9',
-                                              '10'
-                                            ].map<DropdownMenuItem<String>>(
-                                                (String value) {
-                                              return DropdownMenuItem<String>(
-                                                value: value,
-                                                child: Text(value),
-                                              );
-                                            }).toList(),
-                                          ),
-                                        ),
-                                        actions: <Widget>[
-                                          FlatButton(
-                                            onPressed: () {
-                                              // TODO Cancel
-                                              Navigator.of(context).pop();
-                                            },
-                                            child: Text("Cancel"),
-                                          ),
-                                          FlatButton(
-                                            onPressed: () {
-                                              // TODO Save
-                                            },
-                                            color: Colors.green,
-                                            shape: RoundedRectangleBorder(
-                                                borderRadius:
-                                                    BorderRadius.circular(15)),
-                                            child: Text("Save"),
-                                          )
-                                        ],
-                                      );
-                                    }*/
-                                    );
+                                    child: new MyDialog(
+                                      onValueChange: _onValueChange,
+                                      initialValue: quantityList[index],
+                                      bookIndex: index.toString(),
+                                      bookList: bookList,
+                                      quantityList: quantityList,
+                                    ));
                               }
                             });
                           },
@@ -198,47 +136,6 @@ class BasketLayoutState extends State<BasketLayout> {
                             ),
                           ],
                         ),
-
-                        /*GestureDetector(
-                          behavior: HitTestBehavior.translucent,
-                          onTap: () {
-                            showDialog(
-                              context: context,
-                              builder: (BuildContext context) {
-                                return AlertDialog(
-                                  shape: RoundedRectangleBorder(
-                                      borderRadius:
-                                          new BorderRadius.circular(15)),
-                                  title: new Text("Delete Order"),
-                                  content:
-                                      new Text("Are you sure to delete order?"),
-                                  actions: <Widget>[
-                                    // usually buttons at the bottom of the dialog
-                                    new FlatButton(
-                                      child: new Text("No"),
-                                      onPressed: () {
-                                        Navigator.of(context).pop();
-                                      },
-                                    ),
-                                    new FlatButton(
-                                      onPressed: () {
-                                        Navigator.of(context).pop();
-                                      },
-                                      child: Text("Yes"),
-                                    ),
-                                  ],
-                                );
-                              },
-                            );
-                          },
-                          child: Container(
-                            width: 48,
-                            height: 48,
-                            padding: EdgeInsets.symmetric(vertical: 4.0),
-                            alignment: Alignment.center,
-                            child: Icon(Icons.more_horiz),
-                          ),
-                        ),*/
                         subtitle: Text(quantityList[index]),
                         title: Text(bookList[index]),
                         onTap: () {},
@@ -258,38 +155,35 @@ class BasketLayoutState extends State<BasketLayout> {
     );
   }
 
-  void increment() {
-    setState(() {
-      _quantity++;
-    });
-  }
-
-  void decrement() {
-    setState(() {
-      if (_quantity > 1) {
-        _quantity--;
-      }
-    });
-  }
-
   void _onValueChange(String value) {
     setState(() {
-      _selectedId = value;
+      _selectedQuantity = value;
     });
   }
 }
 
 class MyDialog extends StatefulWidget {
-  const MyDialog({this.onValueChange, this.initialValue});
+  const MyDialog({this.onValueChange, this.initialValue, this.bookIndex, this.bookList, this.quantityList});
 
   final String initialValue;
   final void Function(String) onValueChange;
+  final String bookIndex;
+  final List bookList;
+  final List quantityList;
 
   @override
-  State createState() => new MyDialogState();
+  State createState() => new MyDialogState(quantityList, bookList, bookIndex);
 }
 
 class MyDialogState extends State<MyDialog> {
+  List bookList;
+  List quantityLst;
+  String index;
+  MyDialogState(List _quantityList, List _bookList, String _index) {
+    bookList = _bookList;
+    quantityLst = _quantityList;
+    index = _index;
+  }
   String _selectedId;
 
   @override
@@ -302,36 +196,35 @@ class MyDialogState extends State<MyDialog> {
     return AlertDialog(
       title: new Text("Update Book Quantity"),
       content: new Padding(
-            padding: const EdgeInsets.fromLTRB(0, 50.0, 0, 0),
-            child: new DropdownButton<String>(
-              hint: const Text("Pick a thing"),
-              value: _selectedId,
-              style: TextStyle(fontSize: 24, color: Colors.deepPurple),
-              iconSize: 24,
-              elevation: 16,
-              underline: Container(
-                height: 2,
-                color: Colors.deepPurpleAccent,
-              ),
-              onChanged: (String value) {
-                setState(() {
-                  _selectedId = value;
-                });
-                widget.onValueChange(value);
-              },
-              items: <String>['1', '2', '3', '4', '5', '6', '7', '8', '9', '10'].map((String value) {
-                return new DropdownMenuItem<String>(
-                  value: value,
-                  child: new Text(value),
-                );
-              }).toList(),
-            )),
+          padding: const EdgeInsets.fromLTRB(50, 0.0, 50, 0),
+          child: new DropdownButton<String>(
+            value: _selectedId,
+            style: TextStyle(fontSize: 24, color: Colors.deepPurple),
+            iconSize: 24,
+            elevation: 16,
+            underline: Container(
+              height: 2,
+              color: Colors.deepPurpleAccent,
+            ),
+            onChanged: (String value) {
+              setState(() {
+                _selectedId = value;
+              });
+              widget.onValueChange(value);
+            },
+            items: <String>['1', '2', '3', '4', '5', '6', '7', '8', '9', '10']
+                .map((String value) {
+              return new DropdownMenuItem<String>(
+                value: value,
+                child: new Text(value),
+              );
+            }).toList(),
+          )),
       actions: <Widget>[
         FlatButton(
           color: Colors.red,
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(15)
-          ),
+          shape:
+              RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
           onPressed: () {
             // TODO Cancel
             Navigator.of(context).pop();
@@ -339,14 +232,24 @@ class MyDialogState extends State<MyDialog> {
           child: Text("Cancel"),
         ),
         FlatButton(
-          onPressed: () {
+          onPressed: () async {
             // TODO Save
             print("QUANTITY $_selectedId");
+            quantityLst[int.parse(index)] = _selectedId;
+            List<String> newList = [];
+            for (int i = 0; i < quantityLst.length; i++) {
+              newList.add(bookList[i]);
+              newList.add(quantityLst[i]);
+            }
+            print(bookList);
+            print(newList);
+            print("-----------");
+            SharedPreferences sharedPref = await SharedPreferences.getInstance();
+            sharedPref.setStringList(customerID, newList);
           },
           color: Colors.green,
-          shape: RoundedRectangleBorder(
-              borderRadius:
-              BorderRadius.circular(15)),
+          shape:
+              RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
           child: Text("Save"),
         )
       ],
