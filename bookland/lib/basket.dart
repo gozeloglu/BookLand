@@ -25,13 +25,19 @@ class BasketLayout extends StatefulWidget {
   State<StatefulWidget> createState() => BasketLayoutState();
 }
 
+enum WhyFarther { delete, quantity }
+
 class BasketLayoutState extends State<BasketLayout> {
   OrderHttp _orderHttp = new OrderHttp();
+  // This is the type used by the popup menu below.
+
   List aa = [];
   @override
   Widget build(BuildContext context) {
     return _basketListView(context);
   }
+
+  var _selection;
 
   Widget _basketListView(BuildContext context) {
     return Padding(
@@ -56,8 +62,60 @@ class BasketLayoutState extends State<BasketLayout> {
                       elevation: 5,
                       margin: const EdgeInsets.fromLTRB(0, 30, 0, 0),
                       child: ListTile(
-                        leading: Icon(Icons.bookmark_border),
-                        trailing: GestureDetector(
+                        leading: Icon(Icons.book),
+                        trailing: PopupMenuButton<WhyFarther>(
+                          onSelected: (WhyFarther result) {
+                            setState(() {
+                              _selection = result;
+                              if (_selection == WhyFarther.delete) {
+                                // TODO Delete operation
+                                showDialog(
+                                  context: context,
+                                  builder: (BuildContext context) {
+                                    return AlertDialog(
+                                      shape: RoundedRectangleBorder(
+                                          borderRadius:
+                                              new BorderRadius.circular(15)),
+                                      title: new Text("Delete Order"),
+                                      content: new Text(
+                                          "Are you sure to delete order?"),
+                                      actions: <Widget>[
+                                        // usually buttons at the bottom of the dialog
+                                        new FlatButton(
+                                          child: new Text("No"),
+                                          onPressed: () {
+                                            Navigator.of(context).pop();
+                                          },
+                                        ),
+                                        new FlatButton(
+                                          onPressed: () {
+                                            Navigator.of(context).pop();
+                                          },
+                                          child: Text("Yes"),
+                                        ),
+                                      ],
+                                    );
+                                  },
+                                );
+                              } else if (_selection == WhyFarther.quantity) {
+                                // TODO Quantity operation
+                              }
+                            });
+                          },
+                          itemBuilder: (BuildContext context) =>
+                              <PopupMenuEntry<WhyFarther>>[
+                            const PopupMenuItem<WhyFarther>(
+                              value: WhyFarther.delete,
+                              child: Text('Delete'),
+                            ),
+                            const PopupMenuItem<WhyFarther>(
+                              value: WhyFarther.quantity,
+                              child: Text('Quantity'),
+                            ),
+                          ],
+                        ),
+
+                        /*GestureDetector(
                           behavior: HitTestBehavior.translucent,
                           onTap: () {
                             showDialog(
@@ -94,9 +152,9 @@ class BasketLayoutState extends State<BasketLayout> {
                             height: 48,
                             padding: EdgeInsets.symmetric(vertical: 4.0),
                             alignment: Alignment.center,
-                            child: Icon(Icons.delete),
+                            child: Icon(Icons.more_horiz),
                           ),
-                        ),
+                        ),*/
                         subtitle: Text(quantityList[index]),
                         title: Text(bookList[index]),
                         onTap: () {},
