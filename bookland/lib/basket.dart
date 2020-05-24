@@ -100,6 +100,8 @@ class BasketLayoutState extends State<BasketLayout> {
                       elevation: 5,
                       margin: const EdgeInsets.fromLTRB(0, 30, 0, 0),
                       child: ListTile(
+                        //contentPadding: const EdgeInsets.fromLTRB(0, 10, 0, 20),
+                        //isThreeLine: true,
                         //leading: Icon(Icons.book),
                         leading: Image.network(imageList[index]),
                         trailing: PopupMenuButton<WhyFarther>(
@@ -172,16 +174,19 @@ class BasketLayoutState extends State<BasketLayout> {
                               <PopupMenuEntry<WhyFarther>>[
                             const PopupMenuItem<WhyFarther>(
                               value: WhyFarther.delete,
-                              child: Text('Delete'),
+                              child: Text('Delete Order'),
                             ),
                             const PopupMenuItem<WhyFarther>(
                               value: WhyFarther.quantity,
-                              child: Text('Quantity'),
+                              child: Text('Update Quantity'),
                             ),
                           ],
                         ),
+                        title: Text(bookNameList[index] +
+                            "\n" +
+                            "\$" +
+                            priceList[index].toString()),
                         subtitle: Text("Quantity: ${quantityList[index]}"),
-                        title: Text(bookNameList[index]),
                         onTap: () {},
                       ),
                     );
