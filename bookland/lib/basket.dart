@@ -100,7 +100,8 @@ class BasketLayoutState extends State<BasketLayout> {
                       elevation: 5,
                       margin: const EdgeInsets.fromLTRB(0, 30, 0, 0),
                       child: ListTile(
-                        leading: Icon(Icons.book),
+                        //leading: Icon(Icons.book),
+                        leading: Image.network(imageList[index]),
                         trailing: PopupMenuButton<WhyFarther>(
                           onSelected: (WhyFarther result) {
                             setState(() {
@@ -179,7 +180,7 @@ class BasketLayoutState extends State<BasketLayout> {
                             ),
                           ],
                         ),
-                        subtitle: Text(quantityList[index]),
+                        subtitle: Text("Quantity: ${quantityList[index]}"),
                         title: Text(bookNameList[index]),
                         onTap: () {},
                       ),
