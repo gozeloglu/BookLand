@@ -3,6 +3,7 @@ import 'dart:ffi';
 import 'package:bookland/elements/appBar.dart';
 import 'package:bookland/elements/bottomNavigatorBar.dart';
 import 'package:bookland/http_admin.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/foundation.dart';
 import 'package:bookland/http_book.dart';
@@ -38,6 +39,8 @@ class CustomerBookView extends StatelessWidget {
               print("snapshot has data");
               //Book returnedBook = snapshot.data;
               print("Here");
+              print(snapshot.data.price);
+              print(snapshot.data.firstPrice);
               //return Text(snapshot.data.bookName);
               return Container(
                 width: double.infinity,
@@ -58,11 +61,13 @@ class CustomerBookView extends StatelessWidget {
                       Text("\n"),
                       quantity((snapshot.data.quantity).toString()),
                       Text("\n"),
+                      (snapshot.data.inDiscount == 1) ? firstPrice((snapshot.data.firstPrice).toString()) : emptyWidget(),
                       priceBook((snapshot.data.price).toString()),
                       description((snapshot.data.description).toString()),
                       Text("\n"),
                       addBasketButton(context, customerID),
                     ],
+
                   ),
                 ),
               );
@@ -76,6 +81,7 @@ class CustomerBookView extends StatelessWidget {
         ),
         bottomNavigationBar: MyBottomNavigatorBar());
   }
+
 
   Widget imageBook(String url) {
     return new Stack(
@@ -127,12 +133,24 @@ class CustomerBookView extends StatelessWidget {
   }
 
   Widget description(String text) {
-    return Text(
-      '\nDescription:\n' + text,
-      textAlign: TextAlign.center,
-      style: TextStyle(
-        fontSize: 18,
-      ),
+    var title = Container(
+      margin: EdgeInsets.only(top: 15.0),
+        child: Text(
+        "Description",
+        style: TextStyle(fontSize: 22, decoration: TextDecoration.underline),
+        textAlign: TextAlign.center,
+        )
+        );
+    var description = Container(
+      padding: EdgeInsets.all(10.0),
+        child: Text(
+        text,
+        style: TextStyle(fontSize: 18)));
+
+    return Column(
+      children: <Widget>[
+        title, description
+      ],
     );
   }
 
@@ -167,6 +185,64 @@ class CustomerBookView extends StatelessWidget {
     );
   }
 
+  //BU WIDGET'I SİLMEYİN, İNDİRİMİ KONTROL EDİYOR
+  Widget emptyWidget (){
+    mainAxisSize: MainAxisSize.min;
+    return new Row(
+      children: <Widget>[
+        Text(" ")
+      ],
+    );
+  }
+
+  //Discountsuz hali
+  Widget firstPrice(String price) {
+    String stringPrice;
+    double realPrice = double.parse(price); //Convert to double the string price that comes from parameters
+    stringPrice = realPrice.toStringAsFixed(2); //Convert to string with 2 digits fractional part.
+
+    var fiyatNum = Row(
+      mainAxisAlignment: MainAxisAlignment.start,
+      children: <Widget>[
+        Text(
+          stringPrice,
+          style: TextStyle(
+            decoration: TextDecoration.lineThrough,
+            decorationThickness: 2.5,
+            decorationColor: Colors.red,
+            color: Color.fromARGB(140, 0, 0, 0),
+            fontSize: 30,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+        Text(
+          '\$',
+          style: TextStyle(
+            color: Color.fromARGB(140, 0, 0, 0),
+            decoration: TextDecoration.lineThrough,
+            fontSize: 30,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+      ],
+    );
+    var fiyat = Text(
+      '             ',
+      style: TextStyle(
+        fontSize: 20,
+        fontWeight: FontWeight.bold,
+      ),
+    );
+
+    return new Row(
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        children: [
+          fiyat,
+          fiyatNum,
+    ]);
+  }
+
+  //Discount varsa discount hali
   Widget priceBook(String price) {
     //price = '9.99';
     String stringPrice;
@@ -179,6 +255,7 @@ class CustomerBookView extends StatelessWidget {
         Text(
           stringPrice,
           style: TextStyle(
+            color: Colors.green,
             fontSize: 30,
             fontWeight: FontWeight.bold,
           ),
@@ -186,6 +263,7 @@ class CustomerBookView extends StatelessWidget {
         Text(
           '\$',
           style: TextStyle(
+            color: Colors.green,
             fontSize: 30,
             fontWeight: FontWeight.bold,
           ),

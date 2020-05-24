@@ -17,6 +17,8 @@ class Book {
   DateTime releasedTime;
   List<String> priceList;
   String price ;
+  String firstPrice;
+  int inDiscount;
 
   Book({
     this.bookId,
@@ -32,8 +34,11 @@ class Book {
     this.bookImage,
     this.releasedTime,
     this.price,
-    this.priceList
+    this.priceList,
+    this.firstPrice,
+    this.inDiscount
   });
+
 
 
   factory Book.fromJson(Map<String, dynamic> json) {
@@ -42,6 +47,11 @@ class Book {
     print(lenOfList);
     String real_price = json['priceList'][lenOfList-1]['price'].toString();
     print(real_price);
+    String first_price = json['priceList'][0]['price'].toString();
+    print(first_price);
+    String discountTest = json['inDiscount'].toString();
+    print("6666666666666666666666");
+    print(discountTest);
     return Book(
         bookId: json['bookId'],
         real_isbn: json['realIsbn'],
@@ -54,8 +64,9 @@ class Book {
         inHotList: json['inHotList'],
         status: json['status'],
         bookImage: json['bookImage'],
-        price: real_price
-
+        price: real_price,
+        firstPrice: first_price,
+        inDiscount: json['inDiscount']
     );
 
   }
