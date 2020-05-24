@@ -45,7 +45,7 @@ class OrderView extends StatelessWidget {
                 child: new SingleChildScrollView(
                   child: Column(
                     children: <Widget>[
-                      orderSummary(snapshot.data.orderDate.toString(),snapshot.data.orderId.toString(),snapshot.data.orderAdressline.toString(),snapshot.data.city.toString(),snapshot.data.country.toString()),
+                      orderSummary( context,snapshot.data.orderDate.toString(),snapshot.data.companyName.toString(),snapshot.data.orderAdressline.toString(),snapshot.data.city.toString(),snapshot.data.country.toString()),
                        SizedBox(
                               height: (snapshot.data.bookList.length).toDouble() * 200 ,
                               child: new ListView.builder(
@@ -116,7 +116,7 @@ class OrderView extends StatelessWidget {
     );
   }
 
-  Widget orderSummary(String orderdate,String orderid, String addressline,String city ,String country) {
+  Widget orderSummary(BuildContext context,String orderdate,String shippingComp, String addressline,String city ,String country) {
     String allAdress = addressline +"\t" + city +"\t" + country;
     return  Container(
       width: 500,
@@ -142,15 +142,27 @@ class OrderView extends StatelessWidget {
           Text("\t\tOrder Date:" ,style: TextStyle(fontWeight: FontWeight.bold,fontSize: 18), ),
           Text("\t\t" + orderdate ,style: TextStyle(fontWeight: FontWeight.normal,fontSize: 15), ),
 
-          Text("\t\tOrder Number/ID" ,style: TextStyle(fontWeight: FontWeight.bold,fontSize: 18), ),
-          Text("\t\t" +orderid ,style: TextStyle(fontWeight: FontWeight.normal,fontSize: 15), ),
+          Text("\t\tShipping Company" ,style: TextStyle(fontWeight: FontWeight.bold,fontSize: 18), ),
+          Text("\t\t" +shippingComp ,style: TextStyle(fontWeight: FontWeight.normal,fontSize: 15), ),
 
 
           Text("\t\tDelivery Address" ,style: TextStyle(fontWeight: FontWeight.bold,fontSize: 18), ),
           Text("\t\t" +allAdress ,style: TextStyle(fontWeight: FontWeight.normal,fontSize: 15), ),
 
-          RaisedButton(child: Text("Information Contract",style: TextStyle(fontWeight: FontWeight.bold,fontSize: 11)), onPressed: () {}),
-          RaisedButton(child: Text("Sales Contract",style: TextStyle(fontWeight: FontWeight.bold,fontSize: 11)), onPressed: () {}),
+          RaisedButton(child: Text("Information Contract",style: TextStyle(fontWeight: FontWeight.bold,fontSize: 11)), onPressed: () { Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) =>
+                // new BookView(isbn: isbnSet.elementAt(index).toString()),
+                new TextFull(),
+              ));}),
+          RaisedButton(child: Text("Sales Contract",style: TextStyle(fontWeight: FontWeight.bold,fontSize: 11)), onPressed: () {   Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) =>
+                // new BookView(isbn: isbnSet.elementAt(index).toString()),
+                new TextFull(),
+              ));}),
 
         ],
       ),
@@ -173,22 +185,30 @@ class OrderView extends StatelessWidget {
         fit: BoxFit.fill,
 
         ),),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.start,
+
+         child : Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      crossAxisAlignment: CrossAxisAlignment.start,
+
           children: <Widget>[
-            Text("\t\tOrdered Book Name:" ,style: TextStyle(fontWeight: FontWeight.bold,fontSize: 18), ),
-            Text("\t\t" + book_obj.bookName ,style: TextStyle(fontWeight: FontWeight.normal,fontSize: 15), ),
-            Text("\t\tAuthor:" ,style: TextStyle(fontWeight: FontWeight.bold,fontSize: 18), ),
-            Text("\t\t" + book_obj.author ,style: TextStyle(fontWeight: FontWeight.normal,fontSize: 15), ),
-            Text("\t\tQuantity:" ,style: TextStyle(fontWeight: FontWeight.bold,fontSize: 18), ),
-            Text("\t\t" + book_obj.quantity ,style: TextStyle(fontWeight: FontWeight.normal,fontSize: 15), ),
-            Text("\t\tPrice" ,style: TextStyle(fontWeight: FontWeight.bold,fontSize: 18), ),
-            Text("\t\t\$" + book_obj.price ,style: TextStyle(fontWeight: FontWeight.normal,fontSize: 15), ),
-            Spacer()
+            Image.network(book_obj.bookImage , width: 100, height:200),
+           Text("\t"),
+           Column(
+         children: <Widget>[
+           Text("\t\tOrdered Tracking No:" ,style: TextStyle(fontWeight: FontWeight.bold,fontSize: 15), ),
+           Text("\t\t" + book_obj.trackingNo ,style: TextStyle(fontWeight: FontWeight.normal,fontSize: 13), ),
+            Text("\t\tOrdered Book Name:" ,style: TextStyle(fontWeight: FontWeight.bold,fontSize: 15), ),
+            Text("\t\t" + book_obj.bookName ,style: TextStyle(fontWeight: FontWeight.normal,fontSize: 13), ),
+            Text("\t\tAuthor:" ,style: TextStyle(fontWeight: FontWeight.bold,fontSize: 15), ),
+            Text("\t\t" + book_obj.author ,style: TextStyle(fontWeight: FontWeight.normal,fontSize: 13), ),
+            Text("\t\tQuantity:" ,style: TextStyle(fontWeight: FontWeight.bold,fontSize: 15), ),
+            Text("\t\t" + book_obj.quantity ,style: TextStyle(fontWeight: FontWeight.normal,fontSize: 13), ),
+            Text("\t\tPrice" ,style: TextStyle(fontWeight: FontWeight.bold,fontSize: 15), ),
+            Text("\t\t\$" + book_obj.price ,style: TextStyle(fontWeight: FontWeight.normal,fontSize: 13), ),
+            Spacer()])
           ],
-        ),
-      );
+
+      ));
 
   }
   Widget costTotal(String totalCost,String shippingCost) {
@@ -239,15 +259,21 @@ class OrderView extends StatelessWidget {
         image: DecorationImage(
           image:AssetImage("assets/orderdetails/background0.jpg"),
           fit: BoxFit.fill,
-
         ),
-
+        boxShadow: [
+          BoxShadow(
+            color: Colors.purple.withOpacity(1.0),
+            spreadRadius: 5,
+            blurRadius: 7,
+            offset: Offset(0, 3), // changes position of shadow
+          ),
+        ],
       ),
+
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
-
           Text("\t\t\t\t\t\t\t\t\t\tRecent Status" ,style: TextStyle(fontWeight: FontWeight.bold,fontSize: 25), ),
           Text("\t\t\t\t\t\t\t\t\t\t" + status.toUpperCase() ,style: TextStyle(fontWeight: FontWeight.bold,fontSize: 25 ), ),
 
@@ -257,3 +283,19 @@ class OrderView extends StatelessWidget {
   }
 
 }
+
+
+class TextFull extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text("Second Route"),
+      ),
+      body: Center(
+        child: Text( "This is an Contract"),
+      ),
+    );
+  }
+}
+

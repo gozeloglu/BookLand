@@ -2,7 +2,7 @@ import 'package:bookland/elements/appBar.dart';
 import 'package:bookland/my_addresses.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-
+import 'package:bookland/my_orders.dart';
 String username;
 
 class AccountPageStateless extends StatelessWidget {
@@ -128,6 +128,11 @@ class AccountPageState extends State<AccountPageStateful> {
                             child: new FlatButton(
                                 onPressed: () {
                                   print("FIRST BUTTON");
+                                  Navigator.push(
+                                    context,
+                                    new MaterialPageRoute(builder: (context) => new MyOrders()),
+                                  );
+
                                 },
                                 padding: EdgeInsets.only(left: 20),
                                 child: Text(
@@ -283,6 +288,7 @@ class AccountPageState extends State<AccountPageStateful> {
         padding: const EdgeInsets.only(left: 10, right: 55),
         onPressed: () {
           print("My Orders is pressed!");
+
         },
         child: Column(children: <Widget>[
           /*Padding(

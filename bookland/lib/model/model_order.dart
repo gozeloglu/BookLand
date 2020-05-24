@@ -83,15 +83,15 @@ class Model_Order_Details {
     return Model_Order_Details(
       //orderId:  json[],
        //order_customer : json['firstname'] + "\t" + json['surname'] ,
-       orderDate: json['orderedTime'],
-       orderAdressline: json['addressLine'],
-       country:  json['country'],
-       city: json['city'],
-       companyName:  json['companyName'],
+       orderDate: json['orderedTime'].toString(),
+       orderAdressline: json['addressLine'].toString(),
+       country:  json['country'].toString(),
+       city: json['city'].toString(),
+       companyName:  json['companyName'].toString(),
        bookList : difference,
-        totalPrice: "123",
-        shippingPrice: "4",
-      status:   json['status'],
+        totalPrice: json['totalAmount'].toString(),
+        shippingPrice:json['shippingPrice'].toString(),
+      status:   json['status'].toString(),
     );
 
   }
@@ -102,6 +102,7 @@ class Book {
   final String quantity;
   final String bookImage;
   final String price ;
+  final String trackingNo ;
 
   Book({
     this.bookName,
@@ -109,6 +110,7 @@ class Book {
     this.quantity,
     this.bookImage,
     this.price,
+    this.trackingNo
   });
 
 
@@ -117,8 +119,9 @@ class Book {
         bookName: json['bookName'].toString(),
         author: json['author'].toString(),
         quantity: json['quantity'].toString(),
-        //bookImage: json['bookImage'].toString(),
-        price: json['price'].toString()
+        bookImage: json['bookImage'].toString(),
+        price: json['price'].toString(),
+        trackingNo: json['trackingNumber'].toString()
 
     );
 
