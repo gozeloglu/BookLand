@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:bookland/main.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:bookland/http_basket.dart';
 import 'package:bookland/customerBookView.dart';
 
 // This is meaningless comment line
@@ -28,7 +29,8 @@ class BasketLayout extends StatefulWidget {
 enum WhyFarther { delete, quantity }
 
 class BasketLayoutState extends State<BasketLayout> {
-  OrderHttp _orderHttp = new OrderHttp();
+  List<String> bookIdList = [];
+  BasketHttp basket = new BasketHttp();
   // This is the type used by the popup menu below.
 
   List aa = [];
@@ -43,12 +45,16 @@ class BasketLayoutState extends State<BasketLayout> {
   String _selectedQuantity;
 
   Widget _basketListView(BuildContext context) {
+    getOrders(customerID);
     return Padding(
       padding: const EdgeInsets.all(16),
       child: FutureBuilder<List<dynamic>>(
-          future: _orderHttp.getOrders(customerID),
+          future: basket.getBasketBooks(bookIdList),
           builder: (context, snapshot) {
             if (snapshot.hasData) {
+              print("SNAPSHOT");
+              print(snapshot.data);
+              print(snapshot.data[0]);
               List<String> bookList = List();
               List<String> quantityList = List();
 
@@ -104,7 +110,8 @@ class BasketLayoutState extends State<BasketLayout> {
                                           ),
                                           color: Colors.green,
                                           onPressed: () {
-                                            deleteBookFromSharedPref(customerID, index*2);
+                                            deleteBookFromSharedPref(
+                                                customerID, index * 2);
                                             Navigator.of(context).pop();
                                           },
                                         ),
@@ -147,6 +154,13 @@ class BasketLayoutState extends State<BasketLayout> {
             } else if (snapshot.data == null) {
               // TODO This part should be fixed
               print("NO DATA");
+              return Center(
+                child: Text(
+                  "Book basket is empty!",
+                  textAlign: TextAlign.center,
+                  style: TextStyle(fontSize: 30),
+                ),
+              );
             }
             return Container(
               alignment: Alignment.center,
@@ -166,13 +180,29 @@ class BasketLayoutState extends State<BasketLayout> {
   void deleteBookFromSharedPref(String _customerId, int _bookId) async {
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
     List<String> bookList = sharedPreferences.getStringList(_customerId);
-    bookList.removeRange(_bookId, _bookId+2);
+    bookList.removeRange(_bookId, _bookId + 2);
     sharedPreferences.setStringList(_customerId, bookList);
+  }
+
+  void getOrders(String _customerId) async {
+    print("getOrders");
+    print(_customerId);
+    SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
+    bookIdList = sharedPreferences.getStringList(_customerId);
+    print(sharedPreferences.getStringList(_customerId));
+    print("booklist");
+    print(bookIdList);
+    print(_customerId);
   }
 }
 
 class MyDialog extends StatefulWidget {
-  const MyDialog({this.onValueChange, this.initialValue, this.bookIndex, this.bookList, this.quantityList});
+  const MyDialog(
+      {this.onValueChange,
+      this.initialValue,
+      this.bookIndex,
+      this.bookList,
+      this.quantityList});
 
   final String initialValue;
   final void Function(String) onValueChange;
@@ -253,7 +283,8 @@ class MyDialogState extends State<MyDialog> {
             print(bookList);
             print(newList);
             print("-----------");
-            SharedPreferences sharedPref = await SharedPreferences.getInstance();
+            SharedPreferences sharedPref =
+                await SharedPreferences.getInstance();
             sharedPref.setStringList(customerID, newList);
           },
           color: Colors.green,
@@ -266,16 +297,3 @@ class MyDialogState extends State<MyDialog> {
   }
 }
 
-class OrderHttp {
-  Future<List<dynamic>> getOrders(String _customerId) async {
-    print("getOrders");
-    print(_customerId);
-    SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
-    List bookList = sharedPreferences.getStringList(_customerId);
-    print(sharedPreferences.getStringList(_customerId));
-    print("booklist");
-    print(bookList);
-    print(_customerId);
-    return bookList;
-  }
-}
