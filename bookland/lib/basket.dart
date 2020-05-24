@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:bookland/main.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -6,6 +8,8 @@ import 'package:bookland/customerBookView.dart';
 
 // This is meaningless comment line
 List<String> bookIdList = [];
+List<String> bookQuantityList = [];
+
 class Basket extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -16,6 +20,17 @@ class Basket extends StatelessWidget {
           title: Text("My Basket"),
         ),
         body: BasketLayout(),
+        floatingActionButton: FloatingActionButton(
+          child: Icon(Icons.navigate_next),
+          backgroundColor: Colors.green,
+          onPressed: () {
+            /*Navigator.push(
+              context,
+              new MaterialPageRoute(
+                  builder: (context) => new CustomerAddressAdd()),*/
+            //);
+          },
+        ),
       ),
     );
   }
@@ -57,13 +72,19 @@ class BasketLayoutState extends State<BasketLayout> {
               print(snapshot.data.length);
               print(snapshot.data);
               print("*-*-*-*-*-*-*-*-*-*-*-");
+              print(quantityList);
+              print(quantityList.length);
+              print(bookIdList);
+              print(bookIdList.length);
+              print(snapshot.data.length);
+              print("========================");
 
               for (int i = 0; i < snapshot.data.length; i++) {
                 print("NAME $snapshot.data[i]['bookName']");
                 bookNameList.add(snapshot.data[i]["bookName"]);
                 imageList.add(snapshot.data[i]["bookImage"]);
                 priceList.add(snapshot.data[i]["price"]);
-                quantityList.add(bookIdList[i]);
+                quantityList.add(bookQuantityList[i]);
               }
               print("---------------------");
               print(bookNameList);
@@ -196,14 +217,24 @@ class BasketLayoutState extends State<BasketLayout> {
     print("getOrders");
     print(_customerId);
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
-    bookIdList = sharedPreferences.getStringList(_customerId);
+    List tmpList = sharedPreferences.getStringList(_customerId);
+    print("///////////////////////////////");
+    print(tmpList);
+    print(tmpList.length);
+    bookIdList = [];
+    bookQuantityList = [];
+    for (int i = 0; i < tmpList.length; i += 2) {
+      bookIdList.add(tmpList[i]);
+      bookQuantityList.add(tmpList[i + 1]);
+    }
+    print(bookIdList);
+    print(bookQuantityList);
+    print("///////////////////////////////");
     print(sharedPreferences.getStringList(_customerId));
     print("booklist");
     print(bookIdList);
     print(_customerId);
   }
-
-
 }
 
 class MyDialog extends StatefulWidget {
