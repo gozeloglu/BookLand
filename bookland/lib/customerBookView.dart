@@ -13,7 +13,6 @@ import 'package:bookland/main.dart';
 import 'package:bookland/login.dart';
 
 /// This class contains the objects which is the same in GET allBooks method
-SharedPreferences pref;
 
 class CustomerBookView extends StatelessWidget {
   String _bookName;

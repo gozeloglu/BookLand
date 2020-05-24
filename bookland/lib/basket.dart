@@ -128,9 +128,9 @@ class OrderHttp {
   Future<List<dynamic>> getOrders(String _customerId) async {
     print("getOrders");
     print(_customerId);
-    //SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
-    List bookList = pref.getStringList(_customerId);
-    print(pref.getStringList(_customerId));
+    SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
+    List bookList = sharedPreferences.getStringList(_customerId);
+    print(sharedPreferences.getStringList(_customerId));
     print("booklist");
     print(bookList);
     print(_customerId);
