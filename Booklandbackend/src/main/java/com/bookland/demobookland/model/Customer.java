@@ -84,6 +84,12 @@ public class Customer {
     private List<Card> customerCardList = new ArrayList<>();
 
     @ManyToMany(cascade = CascadeType.ALL)
+    @JoinTable(name = "wish_list",
+            joinColumns = {@JoinColumn(name = "CustomerId")},
+            inverseJoinColumns = {@JoinColumn(name = "ISBN")})
+    private List<Book> customerWishList = new ArrayList<>();
+
+    @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(name = "customeraddress",
             joinColumns = {@JoinColumn(name = "CustomerId")},
             inverseJoinColumns = {@JoinColumn(name = "addressid")})

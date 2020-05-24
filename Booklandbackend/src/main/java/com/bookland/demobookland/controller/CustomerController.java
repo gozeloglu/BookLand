@@ -8,17 +8,14 @@ import com.bookland.demobookland.model.validationGroups.LoginGroup;
 import com.bookland.demobookland.model.validationGroups.SignUpGroup;
 import com.bookland.demobookland.services.CustomerServices;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.security.auth.login.LoginException;
 
 @RestController
 public class CustomerController {
-
 
     @Autowired
     private CustomerServices customerServices;
@@ -44,8 +41,13 @@ public class CustomerController {
         return customerServices.updateCustomer(customer, customerId);
     }
 
-    /*@PostMapping(value = "/doComment")
-    public Comment comment(@RequestBody Comment comment) {
-        return customerServices.comment(comment);
-    }*/
+    @GetMapping(value = "/addFromWishList/{customerId}/{ISBN}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public Integer addWishList(@PathVariable Integer customerId, @PathVariable Integer ISBN) {
+        return customerServices.addWishList(customerId, ISBN);
+    }
+
+    @GetMapping(value = "/removeFromWishList/{customerId}/{ISBN}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public Integer removeWishList(@PathVariable Integer customerId, @PathVariable Integer ISBN) {
+        return customerServices.removeWishList(customerId, ISBN);
+    }
 }

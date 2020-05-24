@@ -1,6 +1,7 @@
 package com.bookland.demobookland.controller;
 
 import com.bookland.demobookland.model.Book;
+import com.bookland.demobookland.model.projections.BestSellerProjection;
 import com.bookland.demobookland.model.projections.BookDetailsProjection;
 import com.bookland.demobookland.model.projections.CartDetailProjection;
 import com.bookland.demobookland.model.projections.ExplorePageProjection;
@@ -138,13 +139,13 @@ public class BookController {
         return bookServices.getBookCountByFilters(author, categories, minPrice, maxPrice);
     }
 
-   /* @GetMapping(value = "/cartDetails", produces = MediaType.APPLICATION_JSON_VALUE)
-    public List<CartDetailProjection> showBooksInCart(@RequestParam ArrayList<String> BookIds) {
-        return bookServices.cartDetails(BookIds);
-    }*/
-
     @PostMapping(value = "/cartDetails", produces = MediaType.APPLICATION_JSON_VALUE)
-    public List<CartDetailProjection> showBooksInCart(@RequestBody Map<String,List<String>> BookIds) {
+    public List<CartDetailProjection> showBooksInCart(@RequestBody Map<String, List<String>> BookIds) {
         return bookServices.cartDetails(BookIds);
+    }
+
+    @GetMapping(value = "/getBestSeller", produces = MediaType.APPLICATION_JSON_VALUE)
+    public List<BestSellerProjection> getHotList() {
+        return bookServices.getBestSellers();
     }
 }
