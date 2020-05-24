@@ -5,7 +5,7 @@ import 'package:bookland/http_basket.dart';
 import 'package:bookland/customerBookView.dart';
 
 // This is meaningless comment line
-
+List<String> bookIdList = [];
 class Basket extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -29,41 +29,49 @@ class BasketLayout extends StatefulWidget {
 enum WhyFarther { delete, quantity }
 
 class BasketLayoutState extends State<BasketLayout> {
-  List<String> bookIdList = [];
   BasketHttp basket = new BasketHttp();
-  // This is the type used by the popup menu below.
 
-  List aa = [];
   @override
   Widget build(BuildContext context) {
+    getOrders(customerID);
     return _basketListView(context);
   }
 
   var _selection;
-  int _quantity = 1;
-  String quantityValue = "1";
   String _selectedQuantity;
 
   Widget _basketListView(BuildContext context) {
-    getOrders(customerID);
     return Padding(
       padding: const EdgeInsets.all(16),
       child: FutureBuilder<List<dynamic>>(
           future: basket.getBasketBooks(bookIdList),
           builder: (context, snapshot) {
+            print(snapshot.data);
             if (snapshot.hasData) {
               print("SNAPSHOT");
-              print(snapshot.data);
-              print(snapshot.data[0]);
-              List<String> bookList = List();
+              List<String> bookNameList = List();
               List<String> quantityList = List();
+              List<String> imageList = List();
+              List<double> priceList = List();
+              print("*-*-*-*-*-*-*-*-*-*-*-");
+              print(snapshot.data.length);
+              print(snapshot.data);
+              print("*-*-*-*-*-*-*-*-*-*-*-");
 
-              for (int i = 0; i < snapshot.data.length; i += 2) {
-                bookList.add(snapshot.data[i]);
-                quantityList.add(snapshot.data[i + 1]);
+              for (int i = 0; i < snapshot.data.length; i++) {
+                print("NAME $snapshot.data[i]['bookName']");
+                bookNameList.add(snapshot.data[i]["bookName"]);
+                imageList.add(snapshot.data[i]["bookImage"]);
+                priceList.add(snapshot.data[i]["price"]);
+                quantityList.add(bookIdList[i]);
               }
+              print("---------------------");
+              print(bookNameList);
+              print(imageList);
+              print(priceList);
+              print(quantityList);
               return ListView.builder(
-                  itemCount: bookList.length,
+                  itemCount: bookNameList.length,
                   itemBuilder: (context, index) {
                     return Card(
                       shape: new RoundedRectangleBorder(
@@ -127,7 +135,7 @@ class BasketLayoutState extends State<BasketLayout> {
                                       onValueChange: _onValueChange,
                                       initialValue: quantityList[index],
                                       bookIndex: index.toString(),
-                                      bookList: bookList,
+                                      bookList: bookIdList,
                                       quantityList: quantityList,
                                     ));
                               }
@@ -146,7 +154,7 @@ class BasketLayoutState extends State<BasketLayout> {
                           ],
                         ),
                         subtitle: Text(quantityList[index]),
-                        title: Text(bookList[index]),
+                        title: Text(bookNameList[index]),
                         onTap: () {},
                       ),
                     );
@@ -194,6 +202,8 @@ class BasketLayoutState extends State<BasketLayout> {
     print(bookIdList);
     print(_customerId);
   }
+
+
 }
 
 class MyDialog extends StatefulWidget {
@@ -296,4 +306,3 @@ class MyDialogState extends State<MyDialog> {
     );
   }
 }
-
