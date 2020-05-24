@@ -86,15 +86,23 @@ class BasketLayoutState extends State<BasketLayout> {
                                         // usually buttons at the bottom of the dialog
                                         new FlatButton(
                                           child: new Text("No"),
+                                          color: Colors.red,
+                                          shape: RoundedRectangleBorder(
+                                            borderRadius: BorderRadius.circular(15),
+                                          ),
                                           onPressed: () {
                                             Navigator.of(context).pop();
                                           },
                                         ),
                                         new FlatButton(
+                                          child: Text("Yes"),
+                                          shape: RoundedRectangleBorder(
+                                            borderRadius: BorderRadius.circular(15),
+                                          ),
+                                          color: Colors.green,
                                           onPressed: () {
                                             Navigator.of(context).pop();
                                           },
-                                          child: Text("Yes"),
                                         ),
                                       ],
                                     );
