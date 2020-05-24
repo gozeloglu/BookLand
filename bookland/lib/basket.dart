@@ -38,6 +38,8 @@ class BasketLayoutState extends State<BasketLayout> {
   }
 
   var _selection;
+  int _quantity = 1;
+  String dropdownValue = "1";
 
   Widget _basketListView(BuildContext context) {
     return Padding(
@@ -99,6 +101,70 @@ class BasketLayoutState extends State<BasketLayout> {
                                 );
                               } else if (_selection == WhyFarther.quantity) {
                                 // TODO Quantity operation
+                                showDialog(
+                                    context: context,
+                                    builder: (BuildContext context) {
+                                      return AlertDialog(
+                                        shape: RoundedRectangleBorder(
+                                          borderRadius: BorderRadius.circular(15)
+                                        ),
+                                        title: Text("Change Book Quantity"),
+                                        content: Padding(
+                                          padding: const EdgeInsets.fromLTRB(
+                                              50, 0, 50, 0),
+                                          child: DropdownButton<String>(
+                                            value: dropdownValue,
+                                            iconSize: 24,
+                                            elevation: 16,
+                                            style: TextStyle(
+                                                fontSize: 24,
+                                                color: Colors.deepPurple),
+                                            underline: Container(
+                                              height: 2,
+                                              color: Colors.deepPurpleAccent,
+                                            ),
+                                            onChanged: (String newValue) {
+                                              setState(() {
+                                                dropdownValue = newValue;
+                                              });
+                                            },
+                                            items: <String>[
+                                              '1',
+                                              '2',
+                                              '3',
+                                              '4',
+                                              '5',
+                                              '6',
+                                              '7',
+                                              '8',
+                                              '9',
+                                              '10'
+                                            ].map<DropdownMenuItem<String>>(
+                                                (String value) {
+                                              return DropdownMenuItem<String>(
+                                                value: value,
+                                                child: Text(value),
+                                              );
+                                            }).toList(),
+                                          ),
+                                        ),
+                                        actions: <Widget>[
+                                          FlatButton(
+                                            onPressed: () {
+                                              // TODO Cancel
+                                              Navigator.of(context).pop();
+                                            },
+                                            child: Text("Cancel"),
+                                          ),
+                                          FlatButton(
+                                            onPressed: () {
+                                              // TODO Save
+                                            },
+                                            child: Text("Save"),
+                                          )
+                                        ],
+                                      );
+                                    });
                               }
                             });
                           },
@@ -172,6 +238,20 @@ class BasketLayoutState extends State<BasketLayout> {
             );
           }),
     );
+  }
+
+  void increment() {
+    setState(() {
+      _quantity++;
+    });
+  }
+
+  void decrement() {
+    setState(() {
+      if (_quantity > 1) {
+        _quantity--;
+      }
+    });
   }
 }
 
