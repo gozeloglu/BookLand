@@ -132,6 +132,7 @@ class BasketLayoutState extends State<BasketLayout> {
                                           },
                                         ),
                                         new FlatButton(
+                                          // Confirm deletion
                                           child: Text("Yes"),
                                           shape: RoundedRectangleBorder(
                                             borderRadius:
@@ -141,7 +142,11 @@ class BasketLayoutState extends State<BasketLayout> {
                                           onPressed: () {
                                             deleteBookFromSharedPref(
                                                 customerID, index * 2);
-                                            Navigator.of(context).pop();
+                                            Navigator.push(
+                                                context,
+                                                new MaterialPageRoute(
+                                                    builder: (context) =>
+                                                        new Basket()));
                                           },
                                         ),
                                       ],
@@ -327,6 +332,8 @@ class MyDialogState extends State<MyDialog> {
             SharedPreferences sharedPref =
                 await SharedPreferences.getInstance();
             sharedPref.setStringList(customerID, newList);
+            Navigator.push(context,
+                new MaterialPageRoute(builder: (context) => new Basket()));
           },
           color: Colors.green,
           shape:
