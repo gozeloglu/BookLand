@@ -50,7 +50,7 @@ class CustomerBookView extends StatelessWidget {
                       name((snapshot.data.bookName).toString()),
                       Text("\n"),
                       imageBook((snapshot.data.bookImage).toString()),
-                      Text("\n"),
+                      Post(),
                       stars(),
                       author((snapshot.data.author).toString()),
                       Text("\n"),
@@ -102,6 +102,7 @@ class CustomerBookView extends StatelessWidget {
       ],
     );
   }
+
 
   Widget name(String text) {
     _bookName = text;
@@ -266,5 +267,43 @@ class CustomerBookView extends StatelessWidget {
     bookList.add("1");
     pref.setStringList(_customerId, bookList);
     print(pref.getStringList(_customerId));*/
+  }
+}
+
+
+// Bu satırdan aşağısı kitabı beğenip wishlist'e eklemek için.
+// Kalp oluşturabilmek için bir widget oluşturdum.
+// Post methodunu da yukarda widget arrayinde 53.satır'da çağırdım.
+// Backend'i yazıldıktan sonra eklemeler buraya yapılabilir.
+
+class Post extends StatefulWidget {
+  @override
+  PostState createState() => new PostState();
+}
+
+class PostState extends State<Post> {
+  bool liked = false;
+
+  _pressedLikeButton(){
+    setState(() {
+      liked = !liked;
+    });
+  }
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      child: IconButton(
+        iconSize: 48,
+        icon: Icon(liked ? Icons.favorite : Icons.favorite_border,
+        color: liked ? Colors.red : Colors.grey),
+        onPressed: () => _pressedLikeButton(),
+      )
+    );
+  }
+}
+class PostHeader extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+
   }
 }
