@@ -13,7 +13,14 @@ import 'package:bookland/model/model_shippingcompany.dart';
 
 import 'package:bookland/payment.dart';
 
+String customerId;
+String addressId;
+
 class ShippingCompany extends StatefulWidget {
+  ShippingCompany(String _customerId, String _addressId) {
+    customerId = _customerId;
+    addressId = _addressId;
+  }
   @override
   ShippingCompanyState createState() => new ShippingCompanyState();
 }
@@ -155,6 +162,10 @@ class ShippingCompanyState extends State<ShippingCompany> {
               style: new TextStyle(fontSize: 20.0, color: Colors.black87)),
           // TODO onPressed should be updated
           onPressed: () {
+            print("----------------------------------");
+            print(customerId);
+            print(addressId);
+            print("***************************************");
             if(shipping_companyid == "-1"){
               showDialog(
                 context: context,

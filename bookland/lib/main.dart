@@ -321,11 +321,6 @@ class MyStatelessWidget extends StatelessWidget {
               title: new Text("Campaigns"),
               trailing: new Icon(Icons.notifications_active),
               onTap: () {
-                Navigator.push(
-                  context,
-                  new MaterialPageRoute(
-                      builder: (context) => new ShippingCompany()),
-                );
               },
             ),
             new Divider(),
@@ -389,7 +384,7 @@ class MyStatelessWidget extends StatelessWidget {
                     if (isLogin)  {
                       Basket basket = new Basket();
                       SharedPrefBooks _sharedPrefBooks = new SharedPrefBooks();
-                      _sharedPrefBooks.getOrders(customerID);
+                      _sharedPrefBooks.getOrdersFromSharedPref(customerID);
                       Navigator.push(
                           context,
                           new MaterialPageRoute(

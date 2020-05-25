@@ -1,21 +1,21 @@
 import 'dart:io';
 
+import 'package:bookland/address_select.dart';
 import 'package:flutter/material.dart';
 import 'package:bookland/main.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:bookland/http_basket.dart';
-import 'package:bookland/customerBookView.dart';
 
-// This is meaningless comment line
+// These lists store book id and quantities
 List<String> bookIdList = [];
 List<String> bookQuantityList = [];
-enum WhyFarther { delete, quantity }
+enum WhyFarther { delete, quantity } // This is for popup menu items
 
 class Basket extends StatelessWidget {
   SharedPrefBooks _sharedPrefBooks = new SharedPrefBooks();
   @override
   Widget build(BuildContext context) {
-    _sharedPrefBooks.getOrders(customerID);
+    _sharedPrefBooks.getOrdersFromSharedPref(customerID);
     return MaterialApp(
       title: "My Basket",
       home: Scaffold(
@@ -28,12 +28,11 @@ class Basket extends StatelessWidget {
           child: Icon(Icons.navigate_next),
           backgroundColor: Colors.green,
           onPressed: () {
-            // TODO Next page
-            /*Navigator.push(
+            // Go to next page - Address select
+            Navigator.push(
               context,
-              new MaterialPageRoute(
-                  builder: (context) => new CustomerAddressAdd()),*/
-            //);
+              new MaterialPageRoute(builder: (context) => new AddressSelect()),
+            );
           },
         ),
       ),
@@ -52,49 +51,33 @@ class BasketLayoutState extends State<BasketLayout> {
 
   @override
   Widget build(BuildContext context) {
-    _sharedPrefBooks.getOrders(customerID);
+    _sharedPrefBooks.getOrdersFromSharedPref(customerID);
     return _basketListView(context);
   }
 
   var _selection;
   String _selectedQuantity;
 
+  /// This function builds basket page
   Widget _basketListView(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.all(16),
       child: FutureBuilder<List<dynamic>>(
           future: basket.getBasketBooks(bookIdList),
           builder: (context, snapshot) {
-            print(snapshot.data);
             if (snapshot.hasData) {
-              print("SNAPSHOT");
               List<String> bookNameList = List();
               List<String> quantityList = List();
               List<String> imageList = List();
               List<double> priceList = List();
-              print("*-*-*-*-*-*-*-*-*-*-*-");
-              print(snapshot.data.length);
-              print(snapshot.data);
-              print("*-*-*-*-*-*-*-*-*-*-*-");
-              print(bookQuantityList);
-              print(bookQuantityList.length);
-              print(bookIdList);
-              print(bookIdList.length);
-              print(snapshot.data.length);
-              print("========================");
 
+              // Add book name, book image, price, and quantities on the lists
               for (int i = 0; i < snapshot.data.length; i++) {
-                print("NAME $snapshot.data[i]['bookName']");
                 bookNameList.add(snapshot.data[i]["bookName"]);
                 imageList.add(snapshot.data[i]["bookImage"]);
                 priceList.add(snapshot.data[i]["price"]);
                 quantityList.add(bookQuantityList[i]);
               }
-              print("---------------------");
-              print(bookNameList);
-              print(imageList);
-              print(priceList);
-              print(quantityList);
               return ListView.builder(
                   itemCount: bookNameList.length,
                   itemBuilder: (context, index) {
@@ -104,16 +87,14 @@ class BasketLayoutState extends State<BasketLayout> {
                       elevation: 5,
                       margin: const EdgeInsets.fromLTRB(0, 30, 0, 0),
                       child: ListTile(
-                        //contentPadding: const EdgeInsets.fromLTRB(0, 10, 0, 20),
-                        //isThreeLine: true,
-                        //leading: Icon(Icons.book),
                         leading: Image.network(imageList[index]),
                         trailing: PopupMenuButton<WhyFarther>(
                           onSelected: (WhyFarther result) {
                             setState(() {
                               _selection = result;
+
+                              // If user wants to delete a book
                               if (_selection == WhyFarther.delete) {
-                                // TODO Delete operation
                                 showDialog(
                                   context: context,
                                   builder: (BuildContext context) {
@@ -125,7 +106,6 @@ class BasketLayoutState extends State<BasketLayout> {
                                       content: new Text(
                                           "Are you sure to delete order?"),
                                       actions: <Widget>[
-                                        // usually buttons at the bottom of the dialog
                                         new FlatButton(
                                           child: new Text("No"),
                                           color: Colors.red,
@@ -134,7 +114,6 @@ class BasketLayoutState extends State<BasketLayout> {
                                                 BorderRadius.circular(15),
                                           ),
                                           onPressed: () {
-                                            // TODO Delete from shared pref
                                             Navigator.of(context).pop();
                                           },
                                         ),
@@ -147,9 +126,13 @@ class BasketLayoutState extends State<BasketLayout> {
                                           ),
                                           color: Colors.green,
                                           onPressed: () {
+                                            // Delete from shared preferences
+                                            // Get books from shared preferences
                                             deleteBookFromSharedPref(
                                                 customerID, index * 2);
-                                            _sharedPrefBooks.getOrders(customerID);
+                                            _sharedPrefBooks
+                                                .getOrdersFromSharedPref(
+                                                    customerID);
                                             Navigator.push(
                                                 context,
                                                 new MaterialPageRoute(
@@ -162,10 +145,11 @@ class BasketLayoutState extends State<BasketLayout> {
                                   },
                                 );
                               } else if (_selection == WhyFarther.quantity) {
-                                // TODO Quantity operation
+                                // This alert dialog is used for
+                                // updating book quantity
                                 showDialog(
                                     context: context,
-                                    child: new MyDialog(
+                                    child: new UpdateDialog(
                                       onValueChange: _onValueChange,
                                       initialValue: quantityList[index],
                                       bookIndex: index.toString(),
@@ -192,13 +176,10 @@ class BasketLayoutState extends State<BasketLayout> {
                             "\$" +
                             priceList[index].toString()),
                         subtitle: Text("Quantity: ${quantityList[index]}"),
-                        onTap: () {},
                       ),
                     );
                   });
             } else if (snapshot.data == null) {
-              // TODO This part should be fixed
-              print("NO DATA");
               return Center(
                 child: Text(
                   "Book basket is empty!",
@@ -216,12 +197,20 @@ class BasketLayoutState extends State<BasketLayout> {
     );
   }
 
+  /// @param value represents the new changed value on dropdown menu
+  /// This function sets the new updated state on dropdown menu
   void _onValueChange(String value) {
     setState(() {
       _selectedQuantity = value;
     });
   }
 
+  /// @param _customerId represents the customer's id
+  /// @param _bookId represents the book that we want to delete from shared pref
+  /// Create a shared preferences object
+  /// Read book list from shared preferences
+  /// Remove book id and book quantity from list
+  /// Update the shared preferences by writing back
   void deleteBookFromSharedPref(String _customerId, int _bookId) async {
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
     List<String> bookList = sharedPreferences.getStringList(_customerId);
@@ -231,32 +220,30 @@ class BasketLayoutState extends State<BasketLayout> {
 }
 
 class SharedPrefBooks {
-  void getOrders(String _customerId) async {
-    print("getOrders");
-    print(_customerId);
+  /// This class is using for accessing function from multiple places on the code
+
+  /// @param _customerId represents the customer id that we want to get book
+  /// This function is used for getting orders from shared preferences
+  /// Creates a shared preferences object
+  /// Gets book list from shared preferences
+  /// Makes empty book id list and book quantity list if they are not empty
+  /// Adds book ids and book quantities
+  void getOrdersFromSharedPref(String _customerId) async {
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
     List tmpList = sharedPreferences.getStringList(_customerId);
-    print("///////////////////////////////");
-    print(tmpList);
-    print(tmpList.length);
+
     bookIdList = [];
     bookQuantityList = [];
     for (int i = 0; i < tmpList.length; i += 2) {
       bookIdList.add(tmpList[i]);
       bookQuantityList.add(tmpList[i + 1]);
     }
-    print(bookIdList);
-    print(bookQuantityList);
-    print("///////////////////////////////");
-    print(sharedPreferences.getStringList(_customerId));
-    print("booklist");
-    print(bookIdList);
-    print(_customerId);
   }
 }
 
-class MyDialog extends StatefulWidget {
-  const MyDialog(
+class UpdateDialog extends StatefulWidget {
+  /// This class is used for book update alert dialog
+  const UpdateDialog(
       {this.onValueChange,
       this.initialValue,
       this.bookIndex,
@@ -270,14 +257,15 @@ class MyDialog extends StatefulWidget {
   final List quantityList;
 
   @override
-  State createState() => new MyDialogState(quantityList, bookList, bookIndex);
+  State createState() =>
+      new UpdateDialogState(quantityList, bookList, bookIndex);
 }
 
-class MyDialogState extends State<MyDialog> {
+class UpdateDialogState extends State<UpdateDialog> {
   List bookList;
   List quantityLst;
   String index;
-  MyDialogState(List _quantityList, List _bookList, String _index) {
+  UpdateDialogState(List _quantityList, List _bookList, String _index) {
     bookList = _bookList;
     quantityLst = _quantityList;
     index = _index;
@@ -331,17 +319,12 @@ class MyDialogState extends State<MyDialog> {
         ),
         FlatButton(
           onPressed: () async {
-            // TODO Save
-            print("QUANTITY $_selectedId");
             quantityLst[int.parse(index)] = _selectedId;
             List<String> newList = [];
             for (int i = 0; i < quantityLst.length; i++) {
               newList.add(bookList[i]);
               newList.add(quantityLst[i]);
             }
-            print(bookList);
-            print(newList);
-            print("-----------");
             SharedPreferences sharedPref =
                 await SharedPreferences.getInstance();
             sharedPref.setStringList(customerID, newList);
