@@ -31,6 +31,7 @@ public class PaymentServices {
     @Autowired
     private CustomerRepository customerRepository;
 
+
     public Boolean saveMyCard(String cardNo, String cardOwner, Integer customerId) {
         Customer customer = customerRepository.findByCustomerId(customerId);
 
@@ -87,9 +88,11 @@ public class PaymentServices {
 
     @Transactional
     public String orderCreate(String basketInfo, Float totalAmount, Integer customerId,
-                              Integer addressId, Integer shippingId, String cardNo) {
+                              Integer addressId, Integer shippingId, String cardNo, String coupon) {
         List<Integer> bookIds = new ArrayList<>();
         List<Integer> quantities = new ArrayList<>();
+
+        Campaign campaign = campaignRepository.findByCouponCode(coupon);
 
         String[] basket = basketInfo.split(",");
         for (int i = 0; i < basket.length; i++) {
@@ -100,6 +103,10 @@ public class PaymentServices {
         }
 
         Order currentOrder = new Order();
+        if (campaign != null) {
+            currentOrder.setCampaignId(campaign.getCampaignId());
+            campaign.setParticipantQuantity(campaign.getParticipantQuantity() - 1);
+        }
         currentOrder.setAddressId(addressId);
         currentOrder.setCustomerId(customerId);
         currentOrder.setTotalAmount(totalAmount);
