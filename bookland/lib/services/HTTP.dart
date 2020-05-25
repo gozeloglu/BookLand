@@ -200,4 +200,30 @@ class HTTPAll {
       throw Exception("Can't get books.");
     }
   }
+  Future<String> getPromoCode(String promocode , String totalcost) async {
+    print(promocode);
+    print(totalcost);
+    String username = 'Daryl';
+    String password = 'WalkingDead';
+    String basicAuth =
+        'Basic ' + base64Encode(utf8.encode('$username:$password'));
+    http.Response response;
+
+    response = await http.post('http://10.0.2.2:8080/couponCheck', //TODO paramtere yap
+      headers: <String, String>{'Authorization': basicAuth,'Content-Type': 'application/json; charset=UTF-8',
+      },
+      body: jsonEncode(<String, dynamic>{
+        "${promocode}": 126,
+      }),
+    );
+    print("HERE!!!!");
+    if (response.statusCode == 200) {
+      String text = response.body;
+      print(response.body.toString());
+      print(text);
+      return text;
+    } else {
+      throw "Can't get books.";
+    }
+  }
 }

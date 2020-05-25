@@ -7,7 +7,7 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-public interface ShippingCompanyRepository extends PagingAndSortingRepository<ShippingCompany,Integer> {
+public interface ShippingCompanyRepository extends PagingAndSortingRepository<ShippingCompany, Integer> {
 
     List<ShippingCompany> findAll();
 }

@@ -7,7 +7,6 @@ import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Data;
-import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
 import javax.validation.GroupSequence;
@@ -49,7 +48,7 @@ public class Customer {
     private String password;
 
     @Column(name = "DateOfBirth")
-    @JsonFormat(pattern="yyyy-MM-dd")
+    @JsonFormat(pattern = "yyyy-MM-dd")
     private Date dateOfBirth;
 
     @Column(name = "PhoneNumber")
@@ -82,6 +81,12 @@ public class Customer {
             joinColumns = {@JoinColumn(name = "CustomerId")},
             inverseJoinColumns = {@JoinColumn(name = "CardNo")})
     private List<Card> customerCardList = new ArrayList<>();
+
+    @ManyToMany(cascade = CascadeType.ALL)
+    @JoinTable(name = "wish_list",
+            joinColumns = {@JoinColumn(name = "CustomerId")},
+            inverseJoinColumns = {@JoinColumn(name = "ISBN")})
+    private List<Book> customerWishList = new ArrayList<>();
 
     @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(name = "customeraddress",

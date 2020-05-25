@@ -62,10 +62,10 @@ public class SearchServices {
             Long isbn = Long.parseLong(keyword);
             List<ExplorePageProjection> result = bookRepository.findByRealIsbn(isbn);
 
-            return (long)result.size();
+            return (long) result.size();
         } catch (Exception e) {
             List<ExplorePageProjection> result = bookRepository.findByAuthorContainsOrBookNameContainsOrCategoryContainsOrSubCategoryContains(keyword, keyword, keyword, keyword);
-            return (long)result.size();
+            return (long) result.size();
         }
 
     }

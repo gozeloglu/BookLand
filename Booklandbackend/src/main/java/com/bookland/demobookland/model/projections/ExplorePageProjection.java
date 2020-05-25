@@ -16,5 +16,4 @@ public interface ExplorePageProjection {
     Integer getInDiscount();
 
     List<Price> getPriceList();
-    //List<Contains> getContainsList();
 }
