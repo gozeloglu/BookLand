@@ -13,7 +13,6 @@ import 'package:bookland/main.dart';
 import 'package:bookland/login.dart';
 
 /// This class contains the objects which is the same in GET allBooks method
-SharedPreferences pref;
 
 class CustomerBookView extends StatelessWidget {
   String _bookName;
@@ -61,13 +60,14 @@ class CustomerBookView extends StatelessWidget {
                       Text("\n"),
                       quantity((snapshot.data.quantity).toString()),
                       Text("\n"),
-                      (snapshot.data.inDiscount == 1) ? firstPrice((snapshot.data.firstPrice).toString()) : emptyWidget(),
+                      (snapshot.data.inDiscount == 1)
+                          ? firstPrice((snapshot.data.firstPrice).toString())
+                          : emptyWidget(),
                       priceBook((snapshot.data.price).toString()),
                       description((snapshot.data.description).toString()),
                       Text("\n"),
-                      addBasketButton(context, customerID),
+                      addBasketButton(context, customerID, isLogin),
                     ],
-
                   ),
                 ),
               );
@@ -81,7 +81,6 @@ class CustomerBookView extends StatelessWidget {
         ),
         bottomNavigationBar: MyBottomNavigatorBar());
   }
-
 
   Widget imageBook(String url) {
     return new Stack(
@@ -109,7 +108,6 @@ class CustomerBookView extends StatelessWidget {
     );
   }
 
-
   Widget name(String text) {
     _bookName = text;
     return Text(
@@ -134,23 +132,18 @@ class CustomerBookView extends StatelessWidget {
 
   Widget description(String text) {
     var title = Container(
-      margin: EdgeInsets.only(top: 15.0),
+        margin: EdgeInsets.only(top: 15.0),
         child: Text(
-        "Description",
-        style: TextStyle(fontSize: 22, decoration: TextDecoration.underline),
-        textAlign: TextAlign.center,
-        )
-        );
+          "Description",
+          style: TextStyle(fontSize: 22, decoration: TextDecoration.underline),
+          textAlign: TextAlign.center,
+        ));
     var description = Container(
-      padding: EdgeInsets.all(10.0),
-        child: Text(
-        text,
-        style: TextStyle(fontSize: 18)));
+        padding: EdgeInsets.all(10.0),
+        child: Text(text, style: TextStyle(fontSize: 18)));
 
     return Column(
-      children: <Widget>[
-        title, description
-      ],
+      children: <Widget>[title, description],
     );
   }
 
@@ -186,20 +179,21 @@ class CustomerBookView extends StatelessWidget {
   }
 
   //BU WIDGET'I SİLMEYİN, İNDİRİMİ KONTROL EDİYOR
-  Widget emptyWidget (){
-    mainAxisSize: MainAxisSize.min;
+  Widget emptyWidget() {
+    mainAxisSize:
+    MainAxisSize.min;
     return new Row(
-      children: <Widget>[
-        Text(" ")
-      ],
+      children: <Widget>[Text(" ")],
     );
   }
 
   //Discountsuz hali
   Widget firstPrice(String price) {
     String stringPrice;
-    double realPrice = double.parse(price); //Convert to double the string price that comes from parameters
-    stringPrice = realPrice.toStringAsFixed(2); //Convert to string with 2 digits fractional part.
+    double realPrice = double.parse(
+        price); //Convert to double the string price that comes from parameters
+    stringPrice = realPrice
+        .toStringAsFixed(2); //Convert to string with 2 digits fractional part.
 
     var fiyatNum = Row(
       mainAxisAlignment: MainAxisAlignment.start,
@@ -234,11 +228,9 @@ class CustomerBookView extends StatelessWidget {
       ),
     );
 
-    return new Row(
-        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-        children: [
-          fiyat,
-          fiyatNum,
+    return new Row(mainAxisAlignment: MainAxisAlignment.spaceEvenly, children: [
+      fiyat,
+      fiyatNum,
     ]);
   }
 
@@ -246,8 +238,10 @@ class CustomerBookView extends StatelessWidget {
   Widget priceBook(String price) {
     //price = '9.99';
     String stringPrice;
-    double realPrice = double.parse(price); //Convert to double the string price that comes from parameters
-    stringPrice = realPrice.toStringAsFixed(2); //Convert to string with 2 digits fractional part.
+    double realPrice = double.parse(
+        price); //Convert to double the string price that comes from parameters
+    stringPrice = realPrice
+        .toStringAsFixed(2); //Convert to string with 2 digits fractional part.
 
     var fiyatNum = Row(
       mainAxisAlignment: MainAxisAlignment.start,
@@ -284,7 +278,8 @@ class CustomerBookView extends StatelessWidget {
     ]);
   }
 
-  Widget addBasketButton(BuildContext context, String _customerId) {
+  Widget addBasketButton(
+      BuildContext context, String _customerId, bool _isLogin) {
     return RaisedButton(
       onPressed: () {
         // TODO Call Basket class
@@ -292,8 +287,8 @@ class CustomerBookView extends StatelessWidget {
         print(_bookName);
         print(isbn);
         // If customer log in the system
-        if (_customerId != null) {
-          addBasketPref(_customerId);
+        if (_isLogin) {
+          addBasketPref(_customerId, isbn);
           getBasket(_customerId);
         } else {
           Navigator.push(
@@ -321,33 +316,75 @@ class CustomerBookView extends StatelessWidget {
     }
   }
 
-  void addBasketPref(String _customerId) async {
+  /// @param _customerId represents the customer's id who is using the app
+  /// @param _bookId represents the book id that we want to add on basket
+  /// This function adds new book in the shared preferences
+  void addBasketPref(String _customerId, String _bookId) async {
     // TODO quantity should be updated
-    print("ADD BASKET");
-    pref = await SharedPreferences.getInstance();
-    List bookList = pref.getStringList(_customerId);
-    bookList.add("13321");
-    pref.setStringList(_customerId, bookList);
-    print(pref.getStringList(_customerId));
-    /*print(bookList.length);
-    for (int i = 0; i < bookList.length; i += 2) {
-      if (bookList[i] == isbn) {
-        int tmpQuantity = int.parse(bookList[i+1]);
-        tmpQuantity++;
-        bookList[i+1] = tmpQuantity.toString();
-        pref.setStringList(_customerId, bookList);
-        print("PREF");
-        print(pref.getStringList(_customerId));
-        return;
+    printSharedPref();
+    // Create a shared preferences object
+    SharedPreferences sharedPref = await SharedPreferences.getInstance();
+
+    // Control user who is stored in shared preferences
+    // If user is saved in shared preferences, go with if block
+    if (sharedPref.containsKey(_customerId)) {
+      print("IF START");
+      List bookList = sharedPref.getStringList(_customerId); // Get book list
+      print("BOOK LIST");
+      print(bookList);
+      if (bookList == null) {
+        print("BOOK LIST IS NULL");
+        bookList = [];
+      } else {
+        print("BOOK LIST IS NOT NULL");
       }
-    }*/
-    /*bookList.add(isbn);
-    bookList.add("1");
-    pref.setStringList(_customerId, bookList);
-    print(pref.getStringList(_customerId));*/
+      int i = 0;
+      while (i < bookList.length) {
+        if (bookList[i] == _bookId) {
+          // If book is already added into list
+          // Get book quantity
+          // Increment quantity by one
+          // Update quantity with new value
+          // Update shared preferences with new list
+          int tempQuantity = int.parse(bookList[i + 1]);
+          tempQuantity++;
+          bookList[i + 1] = tempQuantity.toString();
+          sharedPref.setStringList(_customerId, bookList);
+          printSharedPref();
+          return;
+        }
+        i += 2;
+      }
+      // If book is not stored in the list
+      // Add book id and quantity(1)
+      // Update shared preferences with new list
+      bookList.add(_bookId);
+      bookList.add("1");
+      sharedPref.setStringList(_customerId, bookList);
+    } else {
+      // If user is not saved in the shared preferences
+      // Create a new list to store book id and quantity
+      // Add book id and quantity(1)
+      // Add new customer with book list
+      List<String> bookList = [];
+      bookList.add(_bookId);
+      bookList.add("1");
+      sharedPref.setStringList(_customerId, bookList);
+      printSharedPref();
+    }
+  }
+
+  void printSharedPref() async {
+    SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
+    print("PRINT SHARED");
+    print(sharedPreferences.getKeys());
+    for (String s in sharedPreferences.getKeys()) {
+      print(sharedPreferences.get(s));
+    }
+    print(sharedPreferences.getStringList("1"));
+    print("PRINT SHARED");
   }
 }
-
 
 // Bu satırdan aşağısı kitabı beğenip wishlist'e eklemek için.
 // Kalp oluşturabilmek için bir widget oluşturdum.
@@ -362,26 +399,25 @@ class Post extends StatefulWidget {
 class PostState extends State<Post> {
   bool liked = false;
 
-  _pressedLikeButton(){
+  _pressedLikeButton() {
     setState(() {
       liked = !liked;
     });
   }
+
   @override
   Widget build(BuildContext context) {
     return Container(
-      child: IconButton(
-        iconSize: 48,
-        icon: Icon(liked ? Icons.favorite : Icons.favorite_border,
-        color: liked ? Colors.red : Colors.grey),
-        onPressed: () => _pressedLikeButton(),
-      )
-    );
+        child: IconButton(
+      iconSize: 48,
+      icon: Icon(liked ? Icons.favorite : Icons.favorite_border,
+          color: liked ? Colors.red : Colors.grey),
+      onPressed: () => _pressedLikeButton(),
+    ));
   }
 }
+
 class PostHeader extends StatelessWidget {
   @override
-  Widget build(BuildContext context) {
-
-  }
+  Widget build(BuildContext context) {}
 }

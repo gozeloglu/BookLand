@@ -36,14 +36,10 @@ Future<void> mainFuture() async {
   WidgetsFlutterBinding.ensureInitialized();
   SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
   isLogin = sharedPreferences.getBool("isLogin");
-  print(isLogin);
-  print(sharedPreferences.getKeys());
   try {
     if (isLogin) {
       customerID = sharedPreferences.getString("customerId");
-      //FIRSTNAME = sharedPreferences.getString("firstName");
       customerFirstName = sharedPreferences.getString("firstName");
-      //print(FIRSTNAME);
     } else {
       customerID = "-1";
       customerFirstName = "Please Login";
@@ -240,8 +236,6 @@ class MyStatelessWidget extends StatelessWidget {
               trailing: new Icon(Icons.account_circle),
               onTap: () {
                 if (isLogin) {
-                  print(customerID == null);
-                  print(customerFirstName);
                   Navigator.push(
                       context,
                       new MaterialPageRoute(
@@ -280,22 +274,13 @@ class MyStatelessWidget extends StatelessWidget {
             new ListTile(
               title: new Text("Campaigns"),
               trailing: new Icon(Icons.notifications_active),
-              onTap: () {
-                Navigator.push(
-                  context,
-                  new MaterialPageRoute(
-                      builder: (context) => new ShippingCompany()),
-                );
-              },
+              onTap: () {},
             ),
             new Divider(),
             new ListTile(
               title: new Text("Manuels"),
               trailing: new Icon(Icons.help),
-              onTap: () {
-
-
-              },
+              onTap: () {},
             ),
             new Divider(),
             new ListTile(
@@ -345,8 +330,11 @@ class MyStatelessWidget extends StatelessWidget {
               Text("           "),
               IconButton(
                   icon: Icon(Icons.shopping_basket),
-                  onPressed: () {
+                  onPressed: () async {
                     if (isLogin) {
+                      Basket basket = new Basket();
+                      SharedPrefBooks _sharedPrefBooks = new SharedPrefBooks();
+                      _sharedPrefBooks.getOrdersFromSharedPref(customerID);
                       Navigator.push(
                           context,
                           new MaterialPageRoute(
