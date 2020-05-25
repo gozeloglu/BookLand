@@ -15,7 +15,7 @@ import 'dart:convert';
 import 'package:bookland/http_admin.dart';
 
 import 'package:bookland/bookview.dart';
-
+/*
 void openPage(BuildContext context) {
   Navigator.push(context, MaterialPageRoute(
     builder: (BuildContext context) {
@@ -57,7 +57,7 @@ void openPage(BuildContext context) {
     },
   ));
 }
-
+*/
 /***class adminUpdateBook extends StatelessWidget{
 
 

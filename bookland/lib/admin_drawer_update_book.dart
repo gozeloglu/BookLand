@@ -7,7 +7,7 @@ import 'dart:io';
 import 'dart:convert';
 
 import 'package:bookland/http_admin.dart';
-
+/*
 void openPage(BuildContext context) {
 
   Navigator.push(context, MaterialPageRoute(
@@ -52,7 +52,7 @@ void openPage(BuildContext context) {
     },
   ));
 }
-
+*/
 
 
 class admin_drawer_update_book extends StatelessWidget {
@@ -218,7 +218,7 @@ class admin_drawer_update_book extends StatelessWidget {
                       IconButton(
                           icon : Icon(Icons.search),
                           onPressed :() {
-                            openPage(context);
+                           // openPage(context);
                           }
                       ),
                       Text("           "),
