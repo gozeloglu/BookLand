@@ -38,7 +38,9 @@ class Basket extends StatelessWidget {
               finalOrders += bookQuantityList[i];
               finalOrders += ",";
             }
-            print(finalOrders);
+
+            // If basket is empty
+            // Show up alert dialog
             if (finalOrders.length == 0) {
               showDialog(
                   context: context,
@@ -54,12 +56,10 @@ class Basket extends StatelessWidget {
                           // Confirm deletion
                           child: Text("OK"),
                           shape: RoundedRectangleBorder(
-                            borderRadius:
-                            BorderRadius.circular(15),
+                            borderRadius: BorderRadius.circular(15),
                           ),
                           onPressed: () {
                             Navigator.of(context).pop();
-
                           },
                         ),
                       ],
@@ -68,8 +68,9 @@ class Basket extends StatelessWidget {
             } else {
               // Go to next page - Address select
               Navigator.push(
-                  context,
-                  new MaterialPageRoute(builder: (context) => new AddressSelect()),
+                context,
+                new MaterialPageRoute(
+                    builder: (context) => new AddressSelect()),
               );
             }
           },
