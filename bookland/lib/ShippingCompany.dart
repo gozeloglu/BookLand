@@ -10,6 +10,7 @@ import 'dart:io';
 import 'dart:convert';
 import 'package:bookland/services/HTTP.dart';
 import 'package:bookland/model/model_shippingcompany.dart';
+import 'package:bookland/basket.dart';
 
 import 'package:bookland/payment.dart';
 
@@ -20,6 +21,10 @@ class ShippingCompany extends StatefulWidget {
   ShippingCompany(String _customerId, String _addressId) {
     customerId = _customerId;
     addressId = _addressId;
+    print("Final Orders");
+    print("----------------");
+    print(finalOrders);
+    print("----------------");
   }
   @override
   ShippingCompanyState createState() => new ShippingCompanyState();

@@ -54,16 +54,18 @@ class AddressSelectLayoutState extends State<AddressSelectLayout> {
             future: _address.getAddresses(_userId),
             builder: (context, snapshot) {
               if (snapshot.hasData) {
+                List<String> addressIdList = List();
                 List<String> addressLineList = List();
                 List<String> cityCountryList = List();
                 List<Icon> iconList = List();
                 for (int i = 0; i < snapshot.data.length; i++) {
+                  addressIdList.add(snapshot.data[i]["addressId"].toString());
                   addressLineList.add(snapshot.data[i]["addressLine"]);
                   String cityCountry =
-                  snapshot.data[i]["postalCodeCity"]["city"]["city"];
+                      snapshot.data[i]["postalCodeCity"]["city"]["city"];
                   cityCountry += ", ";
                   cityCountry +=
-                  snapshot.data[i]["postalCodeCity"]["city"]["country"];
+                      snapshot.data[i]["postalCodeCity"]["city"]["country"];
                   cityCountryList.add(cityCountry);
                   if (snapshot.data[i]["addressTitle"] == "School") {
                     iconList.add(Icon(Icons.school));
@@ -94,9 +96,8 @@ class AddressSelectLayoutState extends State<AddressSelectLayout> {
                             Navigator.push(
                               context,
                               new MaterialPageRoute(
-                                  builder: (context) =>
-                                      new ShippingCompany(customerID, "23")
-                              ),
+                                  builder: (context) => new ShippingCompany(
+                                      customerID, addressIdList[index])),
                             );
                             print(addressLineList[index]);
                           },

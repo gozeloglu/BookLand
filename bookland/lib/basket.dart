@@ -7,8 +7,10 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:bookland/http_basket.dart';
 
 // These lists store book id and quantities
+// finalOrders stores latest order in string format
 List<String> bookIdList = [];
 List<String> bookQuantityList = [];
+String finalOrders = "";
 enum WhyFarther { delete, quantity } // This is for popup menu items
 
 class Basket extends StatelessWidget {
@@ -28,10 +30,20 @@ class Basket extends StatelessWidget {
           child: Icon(Icons.navigate_next),
           backgroundColor: Colors.green,
           onPressed: () {
+            // Latest order list is converted to string format
+            finalOrders = "";
+            for (int i = 0; i < bookIdList.length; i++) {
+              finalOrders += bookIdList[i];
+              finalOrders += ",";
+              finalOrders += bookQuantityList[i];
+              finalOrders += ",";
+            }
+            print(finalOrders);
             // Go to next page - Address select
             Navigator.push(
               context,
-              new MaterialPageRoute(builder: (context) => new AddressSelect()),
+              new MaterialPageRoute(
+                  builder: (context) => new AddressSelect()),
             );
           },
         ),
