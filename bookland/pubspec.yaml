@@ -29,6 +29,7 @@ dependencies:
   cupertino_icons: ^0.1.2
   sprintf: "^4.0.0"
   shared_preferences: ^0.5.7+3
+  flappy_search_bar: 1.4.1
 
 
 dev_dependencies:

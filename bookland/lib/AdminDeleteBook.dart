@@ -15,7 +15,7 @@ void main() {
     home: DeletePage(),
   ));
 }
-
+/*
 void openPage(BuildContext context) {
   Navigator.push(context, MaterialPageRoute(
     builder: (BuildContext context) {
@@ -59,7 +59,7 @@ void openPage(BuildContext context) {
       );
     },
   ));
-}
+}*/
 
 class DeletePage extends StatefulWidget {
   @override
@@ -210,7 +210,7 @@ class _DeletePageState extends State<DeletePage> {
               IconButton(
                   icon: Icon(Icons.search),
                   onPressed: () {
-                    openPage(context);
+                  //  openPage(context);
                   }),
               Text("           "),
               IconButton(

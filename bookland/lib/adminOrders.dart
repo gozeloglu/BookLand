@@ -11,7 +11,7 @@ import 'package:http/http.dart' as http;
 import 'package:bookland/OrderViewAdmin.dart';
 import 'package:flutter_paginator/flutter_paginator.dart';
 
-
+/*
 void openPage(BuildContext context) {
   Navigator.push(context, MaterialPageRoute(
     builder: (BuildContext context) {
@@ -55,7 +55,7 @@ void openPage(BuildContext context) {
       );
     },
   ));
-}
+}*/
 
 
 Map<String, IconData> iconMapping = {
@@ -230,34 +230,34 @@ class AdminOrdersState extends State<AdminOrdersPage> {
     String text_part = value_list[0];
     String orderidPar = value_list[1];
     return Card(
-        child: ListTile(
-            leading: new Icon(iconMapping [choseniconStr], color: Colors.black) ,
-            title:  Text(text_part),
-            onTap: (){
-              Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) =>new OrderViewAdmin(orderid : orderidPar),
-                  ));
-            }, trailing: Wrap(
-          spacing: 12, // space between two icons
-          children: <Widget>[
-            IconButton(
+      child: ListTile(
+        leading: new Icon(iconMapping [choseniconStr], color: Colors.black) ,
+        title:  Text(text_part),
+        onTap: (){
+          Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) =>new OrderViewAdmin(orderid : orderidPar),
+              ));
+        }, trailing: Wrap(
+        spacing: 12, // space between two icons
+        children: <Widget>[
+          IconButton(
               icon: Icon(Icons.beenhere),
               tooltip: 'Increase volume by 10',
               onPressed: () {
               },color: Colors.green
-            ),// icon-1
-            IconButton(
+          ),// icon-1
+          IconButton(
               icon: Icon(Icons.cancel),
               tooltip: 'Increase volume by 10',
               onPressed: () {
               },color: Colors.red
-            ),// icon-2
-          ],
-        ),
+          ),// icon-2
+        ],
+      ),
 
-        ),);
+      ),);
   }
 
   Widget errorWidgetMaker(OrderData ordersData, retryListener) {
