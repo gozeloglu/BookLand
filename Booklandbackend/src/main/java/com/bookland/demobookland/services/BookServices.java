@@ -439,6 +439,11 @@ public class BookServices {
             public Integer getOrderCount() {
                 return quantity;
             }
+
+            @Override
+            public Float getPrice() {
+                return book.getPriceList().get(book.getPriceList().size()-1).getPrice();
+            }
         };
     }
 }

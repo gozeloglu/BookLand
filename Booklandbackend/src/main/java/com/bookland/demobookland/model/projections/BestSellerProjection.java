@@ -9,4 +9,6 @@ public interface BestSellerProjection {
     String getBookImage();
 
     Integer getOrderCount();
+
+    Float getPrice();
 }
