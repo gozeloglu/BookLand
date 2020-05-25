@@ -28,11 +28,6 @@ public class OrderController {
         return orderServices.getCustomerOrderCount(customerId);
     }
 
-    @DeleteMapping(value = "/deleteOrder/{customerId}/{orderId}")
-    public String deleteOrder(@PathVariable Integer customerId, @PathVariable Integer orderId) {
-        return orderServices.deleteOrder(customerId, orderId);
-    }
-
     @GetMapping(value = "/orderDetails/{orderId}", produces = MediaType.APPLICATION_JSON_VALUE)
     public OrderDetailsProjection orderDetails(@PathVariable Integer orderId) {
         return orderServices.orderDetails(orderId);

@@ -83,7 +83,6 @@ public class CustomerServices {
                 currentCustomer.setSurname(customer.getSurname());
             }
             if (customer.getDateOfBirth() != null) {
-                System.out.println(customer.getDateOfBirth());
                 currentCustomer.setDateOfBirth(customer.getDateOfBirth());
             }
             if (customer.getPhoneNumber() != null) {
