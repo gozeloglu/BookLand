@@ -2,10 +2,13 @@ package com.bookland.demobookland.services;
 
 import com.bookland.demobookland.model.Contains;
 import com.bookland.demobookland.model.Order;
+import com.bookland.demobookland.model.PurchasedDetailedInfo;
 import com.bookland.demobookland.model.projections.OrderDetailsProjection;
 import com.bookland.demobookland.model.projections.OrderDifferentProjection;
 import com.bookland.demobookland.model.projections.OrderSimpleProjection;
+import com.bookland.demobookland.repository.ContainsRepository;
 import com.bookland.demobookland.repository.OrderRepository;
+import com.bookland.demobookland.repository.PurchaseDetailRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -13,15 +16,15 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 @Service
 public class OrderServices {
     @Autowired
     private OrderRepository orderRepository;
+
+    @Autowired
+    private PurchaseDetailRepository purchaseDetailRepository;
 
     public List<OrderSimpleProjection> getMyOrders(Integer pageNo, Integer pageSize, Integer customerID) {
         Pageable paging = PageRequest.of(pageNo, pageSize);
@@ -29,8 +32,8 @@ public class OrderServices {
 
         Page<Order> pagedResult = orderRepository.findByCustomerId(paging, customerID);
         for (Order order : pagedResult.toList()) {
+            checkDeliveryTime(order);
             orderSimpleProjections.add(orderSimpleConverter(order));
-
         }
 
         return orderSimpleProjections;
@@ -63,10 +66,6 @@ public class OrderServices {
                 return order.getTotalAmount();
             }
         };
-    }
-
-    public Order createOrder(Order order) {
-        return orderRepository.save(order);
     }
 
     @Transactional
@@ -182,5 +181,20 @@ public class OrderServices {
 
     public Long getCustomerOrderCount(Integer customerId) {
         return (long) orderRepository.findAllByCustomerId(customerId).size();
+    }
+
+    @Transactional
+    public void checkDeliveryTime(Order order) {
+        Date today = new Date();
+        System.out.println(today);
+        for (Contains c : order.getContainsList()) {
+            if (c.getPurchasedDetailedInfo().getReleasedTime().compareTo(today) <= 0) {
+                c.getPurchasedDetailedInfo().setStatus("Delivered");
+                System.out.println(c.getTrackingNumber());
+                System.out.println(c.getPurchasedDetailedInfo().getReleasedTime());
+            }else {
+                System.out.println("compare hatası");
+            }
+        }
     }
 }
