@@ -388,7 +388,8 @@ class MyStatelessWidget extends StatelessWidget {
                   onPressed: () async {
                     if (isLogin)  {
                       Basket basket = new Basket();
-                      basket.getOrders(customerID);
+                      SharedPrefBooks _sharedPrefBooks = new SharedPrefBooks();
+                      _sharedPrefBooks.getOrders(customerID);
                       Navigator.push(
                           context,
                           new MaterialPageRoute(

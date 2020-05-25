@@ -12,25 +12,16 @@ List<String> bookQuantityList = [];
 enum WhyFarther { delete, quantity }
 
 class Basket extends StatelessWidget {
+  SharedPrefBooks _sharedPrefBooks = new SharedPrefBooks();
   @override
   Widget build(BuildContext context) {
-    getOrders(customerID);
+    _sharedPrefBooks.getOrders(customerID);
     return MaterialApp(
       title: "My Basket",
       home: Scaffold(
         appBar: AppBar(
           title: Text("My Basket"),
-          actions: <Widget>[
-            IconButton(
-              icon: const Icon(Icons.refresh),
-              tooltip: 'Refresh Page',
-              onPressed: () {
-                BasketLayoutState basketLayout = new BasketLayoutState();
-                //basketLayout.getOrders(customerID);
-                basketLayout.build(context);
-              },
-            ),
-          ],
+          centerTitle: true,
         ),
         body: BasketLayout(),
         floatingActionButton: FloatingActionButton(
@@ -48,29 +39,6 @@ class Basket extends StatelessWidget {
       ),
     );
   }
-
-  void getOrders(String _customerId) async {
-    print("getOrders");
-    print(_customerId);
-    SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
-    List tmpList = sharedPreferences.getStringList(_customerId);
-    print("///////////////////////////////");
-    print(tmpList);
-    print(tmpList.length);
-    bookIdList = [];
-    bookQuantityList = [];
-    for (int i = 0; i < tmpList.length; i += 2) {
-      bookIdList.add(tmpList[i]);
-      bookQuantityList.add(tmpList[i + 1]);
-    }
-    print(bookIdList);
-    print(bookQuantityList);
-    print("///////////////////////////////");
-    print(sharedPreferences.getStringList(_customerId));
-    print("booklist");
-    print(bookIdList);
-    print(_customerId);
-  }
 }
 
 class BasketLayout extends StatefulWidget {
@@ -80,10 +48,11 @@ class BasketLayout extends StatefulWidget {
 
 class BasketLayoutState extends State<BasketLayout> {
   BasketHttp basket = new BasketHttp();
+  SharedPrefBooks _sharedPrefBooks = new SharedPrefBooks();
 
   @override
   Widget build(BuildContext context) {
-    getOrders(customerID);
+    _sharedPrefBooks.getOrders(customerID);
     return _basketListView(context);
   }
 
@@ -180,7 +149,7 @@ class BasketLayoutState extends State<BasketLayout> {
                                           onPressed: () {
                                             deleteBookFromSharedPref(
                                                 customerID, index * 2);
-                                            getOrders(customerID);
+                                            _sharedPrefBooks.getOrders(customerID);
                                             Navigator.push(
                                                 context,
                                                 new MaterialPageRoute(
@@ -259,7 +228,9 @@ class BasketLayoutState extends State<BasketLayout> {
     bookList.removeRange(_bookId, _bookId + 2);
     sharedPreferences.setStringList(_customerId, bookList);
   }
+}
 
+class SharedPrefBooks {
   void getOrders(String _customerId) async {
     print("getOrders");
     print(_customerId);
