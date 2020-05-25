@@ -181,6 +181,6 @@ public class OrderServices {
     }
 
     public Long getCustomerOrderCount(Integer customerId) {
-        return (long)orderRepository.findAllByCustomerId(customerId).size();
+        return (long) orderRepository.findAllByCustomerId(customerId).size();
     }
 }

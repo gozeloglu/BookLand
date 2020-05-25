@@ -1,8 +1,12 @@
 package com.bookland.demobookland.model.projections;
 
+public interface BestSellerProjection {
 
-public interface HotlistProjection {
     String getBookName();
 
+    String getAuthor();
+
     String getBookImage();
+
+    Integer getOrderCount();
 }

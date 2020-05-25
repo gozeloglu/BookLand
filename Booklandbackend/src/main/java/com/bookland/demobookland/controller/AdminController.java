@@ -1,13 +1,12 @@
 package com.bookland.demobookland.controller;
 
-import com.bookland.demobookland.model.Book;
 import com.bookland.demobookland.model.Campaign;
 import com.bookland.demobookland.model.projections.CustomerInfoProjection;
-import com.bookland.demobookland.model.validationGroups.AddBookGroup;
+import com.bookland.demobookland.model.projections.OrderAdminSimpleProjection;
+import com.bookland.demobookland.model.projections.OrderDetailAdminProjection;
 import com.bookland.demobookland.services.AdminServices;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -35,13 +34,26 @@ public class AdminController {
     }
 
     @PutMapping(value = "/deActivateAccount/{customerId}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public String applyDiscount(@PathVariable Integer customerId) {
+    public String deactivateAccount(@PathVariable Integer customerId) {
         return adminServices.deActivateAccount(customerId);
     }
 
     @PostMapping(value = "/addCampaign", produces = MediaType.APPLICATION_JSON_VALUE)
     public String addCampaign(@Valid @RequestBody Campaign campaign) {
         return adminServices.addCampaign(campaign);
+    }
+
+
+    /*Get a specific order of details*/
+    @GetMapping(value = "/showDetailOrderAdmin/{orderId}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public OrderDetailAdminProjection showDetailOrderAdmin(@PathVariable Integer orderId) {
+        return adminServices.showDetailOrderAdmin(orderId);
+    }
+
+    /*Taking all orders*/
+    @GetMapping(value = "/showDetailOrderAdmin/{pageNo}/{pageSize}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public List<OrderAdminSimpleProjection> showDetailOrderAdmin(@PathVariable Integer pageNo, @PathVariable Integer pageSize) {
+        return adminServices.showAllOrdersAdmin(pageNo - 1, pageSize);
     }
 }
 

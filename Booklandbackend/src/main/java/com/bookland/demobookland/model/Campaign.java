@@ -24,7 +24,7 @@ public class Campaign {
     private Integer campaignId;
 
     @Column(name = "CouponCode", nullable = false)
-    @Length(min = 8,max = 16,message = "Coupon code must be valid")
+    @Length(min = 8, max = 16, message = "Coupon code must be valid")
     private String couponCode;
 
     @Column(name = "CouponDiscount", nullable = false)
