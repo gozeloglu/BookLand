@@ -112,6 +112,7 @@ class HTTPAll {
       headers: <String, String>{'Authorization': basicAuth,'Content-Type': 'application/json; charset=UTF-8',
       },
       body: jsonEncode(<String, dynamic>{
+        "totalAmount" : totalcost,
         "cardNo": cardNumber,
         "cardOwner": cardOwner,
         "basketInfo": finalval,
