@@ -34,7 +34,7 @@ public class AdminController {
     }
 
     @PutMapping(value = "/deActivateAccount/{customerId}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public String applyDiscount(@PathVariable Integer customerId) {
+    public String deactivateAccount(@PathVariable Integer customerId) {
         return adminServices.deActivateAccount(customerId);
     }
 
