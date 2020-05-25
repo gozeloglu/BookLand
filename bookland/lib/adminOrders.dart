@@ -11,7 +11,7 @@ import 'package:http/http.dart' as http;
 import 'package:bookland/OrderViewAdmin.dart';
 import 'package:flutter_paginator/flutter_paginator.dart';
 
-
+/*
 void openPage(BuildContext context) {
   Navigator.push(context, MaterialPageRoute(
     builder: (BuildContext context) {
@@ -55,7 +55,7 @@ void openPage(BuildContext context) {
       );
     },
   ));
-}
+}*/
 
 
 Map<String, IconData> iconMapping = {
