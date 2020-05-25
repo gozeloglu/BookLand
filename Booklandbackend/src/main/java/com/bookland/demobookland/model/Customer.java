@@ -47,6 +47,7 @@ public class Customer {
     @Size(min = 8, message = "Your password must be at least 8 characters", groups = {SignUpGroup.class, LoginGroup.class})
     private String password;
 
+    @Temporal(TemporalType.DATE)
     @Column(name = "DateOfBirth")
     @JsonFormat(pattern = "yyyy-MM-dd")
     private Date dateOfBirth;

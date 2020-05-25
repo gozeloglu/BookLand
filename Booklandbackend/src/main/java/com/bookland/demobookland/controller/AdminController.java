@@ -57,8 +57,18 @@ public class AdminController {
     }
 
     @GetMapping(value = "/getOrderCountTotal", produces = MediaType.APPLICATION_JSON_VALUE)
-    public Long getBookCountByCategory() {
+    public Long getOrderCountTotal() {
         return adminServices.getOrderCountTotal();
+    }
+
+    @GetMapping(value = "/confirmOrder/{orderId}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public Integer confirmOrder(@PathVariable Integer orderId) {
+        return adminServices.confirmOrder(orderId);
+    }
+
+    @GetMapping(value = "/rejectOrder/{orderId}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public Integer rejectOrder(@PathVariable Integer orderId) {
+        return adminServices.rejectOrder(orderId);
     }
 }
 
