@@ -76,7 +76,7 @@ public class PaymentServices {
 
         PurchasedDetailedInfo purchasedDetailedInfo = new PurchasedDetailedInfo();
         purchasedDetailedInfo.setShippingCompanyId(shippingId);
-        purchasedDetailedInfo.setReleasedTime(dt);
+        purchasedDetailedInfo.setReleasedTime(null);
         purchaseDetailRepository.save(purchasedDetailedInfo);
         return purchasedDetailedInfo.getTrackingNumber();
     }

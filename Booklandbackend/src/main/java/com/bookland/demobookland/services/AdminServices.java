@@ -18,10 +18,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 @Service
 public class AdminServices {
@@ -274,6 +271,46 @@ public class AdminServices {
 
     public Long getOrderCountTotal() {
         return orderRepository.count();
+    }
+
+    public Integer confirmOrder(Integer orderId) {
+        Optional<Order> order = orderRepository.findById(orderId);
+        Order currentOrder = order.get();
+        boolean stock = true;
+
+        for (Contains c : currentOrder.getContainsList()) {
+            if (c.getBook().getQuantity() < c.getQuantity()) {
+                stock = false;
+                break;
+            }
+        }
+        if (changeStatusOrder(currentOrder, stock))
+            return 1;
+        else
+            return 0;
+    }
+
+    @Transactional
+    public boolean changeStatusOrder(Order order, boolean stock) {
+        Date dt = new Date();
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(dt);
+        calendar.add(Calendar.DATE, 1);
+        dt = calendar.getTime();
+
+        if (stock) {
+            for (Contains c : order.getContainsList()) {
+                c.getPurchasedDetailedInfo().setStatus("Shipped");
+                c.getBook().setQuantity(c.getBook().getQuantity() - c.getQuantity());
+                c.getPurchasedDetailedInfo().setReleasedTime(dt);
+            }
+        } else {
+            for (Contains c : order.getContainsList()) {
+                c.getPurchasedDetailedInfo().setStatus("Cancelled");
+            }
+        }
+        orderRepository.save(order);
+        return stock;
     }
 }
 
