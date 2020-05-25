@@ -26,7 +26,7 @@ class MyAppBar extends StatelessWidget with PreferredSizeWidget{
           leading: new IconButton(
             icon: new Icon(Icons.arrow_back, color: Colors.white),
             onPressed:() {Navigator.push(
-              context, new MaterialPageRoute(builder: (context) => new adminOrdersStatefulWidget()),//TODO kullanıcıya göre değişcek
+              context, new MaterialPageRoute(builder: (context) => new AdminOrders()),//TODO kullanıcıya göre değişcek
             );},
           ),
           actions: <Widget>[
@@ -55,7 +55,7 @@ class MyAppBar extends StatelessWidget with PreferredSizeWidget{
         leading: new IconButton(
           icon: new Icon(Icons.arrow_back, color: Colors.white),
           onPressed:() {Navigator.push(
-            context, new MaterialPageRoute(builder: (context) => new adminOrders()),
+            context, new MaterialPageRoute(builder: (context) => new AdminOrders()),
           );},
         ),
       );

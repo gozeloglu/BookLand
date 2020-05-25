@@ -180,7 +180,7 @@ class _LoginPageState extends State<LoginStatefulWidget> {
                   Navigator.push(
                     context,
                     new MaterialPageRoute(
-                        builder: (context) => new adminOrders()),
+                        builder: (context) => new AdminOrders()),
                   );
                 }
               } else {

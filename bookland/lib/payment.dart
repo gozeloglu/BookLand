@@ -186,8 +186,18 @@ class _PaymentPageState extends State<PaymentStatefulWidget> {
                 },child: new Text("Use Promo-Code"),
                 textColor: Colors.black,
                 color: Colors.yellow,),
-              //Text("\t\tDiscounted Cost:\$"+ final_total_price +"\t\t\t\t" ,style: TextStyle(fontWeight: FontWeight.bold,fontSize: 20), ),
 
+              Column(
+                children: <Widget>[
+                  Icon(
+                    Icons.brightness_1,
+                    color: Colors.red,
+                  ),
+                  Text("\tonly one coupon" ,style: TextStyle(fontWeight: FontWeight.bold,fontSize: 10), ),
+                  Text("can be used" ,style: TextStyle(fontWeight: FontWeight.bold,fontSize: 10), ),
+
+                ],
+              )
 
             ]),
             Row( children: <Widget>[
