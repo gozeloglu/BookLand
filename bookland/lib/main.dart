@@ -17,6 +17,8 @@ import 'package:bookland/ShippingCompany.dart';
 import 'package:bookland/basket.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import 'Search.dart';
+
 String customerID;
 bool isLogin;
 
@@ -74,49 +76,6 @@ class MyApp extends StatelessWidget {
 final duplicateItems = List<String>.generate(10000, (i) => "Item $i");
 var items = List<String>();
 
-void openPage(BuildContext context) {
-  Navigator.push(context, MaterialPageRoute(
-    builder: (BuildContext context) {
-      return Scaffold(
-        appBar: AppBar(
-          title: const Text('Search'),
-        ),
-        body: Container(
-          child: Column(
-            children: <Widget>[
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: TextField(
-                  onChanged: (value) {},
-                  //controller: editingController,
-                  decoration: InputDecoration(
-                      labelText: "Search",
-                      hintText: "Search",
-                      prefixIcon: Icon(Icons.search),
-                      border: OutlineInputBorder(
-                          borderRadius:
-                              BorderRadius.all(Radius.circular(25.0)))),
-                ),
-              ),
-              Expanded(
-                child: ListView.builder(
-                  shrinkWrap: true,
-                  itemCount: 100,
-                  itemBuilder: (context, index) {
-                    return ListTile(
-                      title: Text(
-                          'book'), //https://blog.usejournal.com/flutter-search-in-listview-1ffa40956685
-                    );
-                  },
-                ),
-              ),
-            ],
-          ),
-        ),
-      );
-    },
-  ));
-}
 
 /// This is the stateless widget that the main application instantiates.
 class MyStatelessWidget extends StatelessWidget {
@@ -151,7 +110,8 @@ class MyStatelessWidget extends StatelessWidget {
             icon: const Icon(Icons.search),
             tooltip: 'Search Page',
             onPressed: () {
-              openPage(context);
+              Search s = new Search();
+              s.openPage(context);
             },
           ),
         ],
