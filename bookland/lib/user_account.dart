@@ -1,4 +1,6 @@
+import 'package:bookland/customerPersonalInfo.dart';
 import 'package:bookland/elements/appBar.dart';
+import 'package:bookland/main.dart';
 import 'package:bookland/my_addresses.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -156,6 +158,10 @@ class AccountPageState extends State<AccountPageStateful> {
                               new FlatButton(
                                   onPressed: () {
                                     print("SECOND ");
+                                    Navigator.push(
+                                        context,
+                                        new MaterialPageRoute(
+                                            builder: (context) => customerPersonalInfo(customerId: customerID)));
                                   },
                                   child: Text(
                                     "Personal Info",

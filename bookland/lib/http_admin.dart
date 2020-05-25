@@ -10,6 +10,8 @@ import 'package:http_auth/http_auth.dart' as http_auth;
 import 'package:sprintf/sprintf.dart';
 import 'package:bookland/model/error.dart';
 
+import 'model/model_user.dart';
+
 class HttpAdmin {
   Future<String> adminAddBook(String isbn,String book_name,String book_category,String book_sub_category,String book_author,
       String book_quantity, String book_hotlist, String book_img,String book_description ,String book_price) async {
@@ -181,4 +183,27 @@ class HttpAdmin {
 
   }
 
+  Future<User> adminGetCustomerDetails(String CustomerId) async {
+    var client = http.Client();
+    var url = "http://10.0.2.2:8080";
+    String username = 'Daryl';
+    String password = 'WalkingDead';
+    String basicAuth =
+        'Basic ' + base64Encode(utf8.encode('$username:$password'));
+    http.Response response;
+    response = await http.get(
+        'http://10.0.2.2:8080/getCustomerDetails/$CustomerId',
+        headers: <String, String>{
+          'Authorization': basicAuth,
+          'Content-Type': 'application/json; charset=UTF-8',
+        });
+
+
+    User obj = User.fromJson(json.decode(response.body));
+    return obj;
+    if(response.statusCode <= 200){
+      print("Müthişş");
+    }
+
+  }
 }
