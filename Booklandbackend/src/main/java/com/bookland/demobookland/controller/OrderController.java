@@ -1,13 +1,15 @@
 package com.bookland.demobookland.controller;
 
-import com.bookland.demobookland.model.Order;
 import com.bookland.demobookland.model.projections.OrderDetailsProjection;
 import com.bookland.demobookland.model.projections.OrderSimpleProjection;
 import com.bookland.demobookland.services.OrderServices;
 import com.bookland.demobookland.services.ShippingServices;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
@@ -15,23 +17,15 @@ import java.util.List;
 public class OrderController {
     @Autowired
     private OrderServices orderServices;
-    @Autowired
-    private ShippingServices shippingServices;
 
     @GetMapping(value = "/myOrders/{pageNo}/{pageSize}/{customerId}", produces = MediaType.APPLICATION_JSON_VALUE)
     public List<OrderSimpleProjection> showMyOrders(@PathVariable Integer pageNo, @PathVariable Integer pageSize, @PathVariable Integer customerId) {
-
         return orderServices.getMyOrders(pageNo - 1, pageSize, customerId);
     }
 
     @GetMapping(value = "/getCustomerOrderCount/{customerId}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public Long getBookCountByCategory(@PathVariable Integer customerId) {
+    public Long getCustomerOrderCount(@PathVariable Integer customerId) {
         return orderServices.getCustomerOrderCount(customerId);
-    }
-
-    @PostMapping(value = "/createOrder")
-    public Order createOrder(@RequestBody Order order) {
-        return orderServices.createOrder(order);
     }
 
     @DeleteMapping(value = "/deleteOrder/{customerId}/{orderId}")
