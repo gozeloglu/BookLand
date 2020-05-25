@@ -9,7 +9,7 @@ import 'package:bookland/customerBookView.dart';
 // This is meaningless comment line
 List<String> bookIdList = [];
 List<String> bookQuantityList = [];
-
+enum WhyFarther { delete, quantity }
 class Basket extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -24,6 +24,7 @@ class Basket extends StatelessWidget {
           child: Icon(Icons.navigate_next),
           backgroundColor: Colors.green,
           onPressed: () {
+            // TODO Next page
             /*Navigator.push(
               context,
               new MaterialPageRoute(
@@ -40,8 +41,6 @@ class BasketLayout extends StatefulWidget {
   @override
   State<StatefulWidget> createState() => BasketLayoutState();
 }
-
-enum WhyFarther { delete, quantity }
 
 class BasketLayoutState extends State<BasketLayout> {
   BasketHttp basket = new BasketHttp();
@@ -145,6 +144,7 @@ class BasketLayoutState extends State<BasketLayout> {
                                           onPressed: () {
                                             deleteBookFromSharedPref(
                                                 customerID, index * 2);
+                                            getOrders(customerID);
                                             Navigator.push(
                                                 context,
                                                 new MaterialPageRoute(
