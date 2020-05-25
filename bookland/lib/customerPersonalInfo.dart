@@ -12,6 +12,8 @@ import 'package:bookland/basket.dart';
 import 'package:bookland/main.dart';
 import 'package:bookland/login.dart';
 
+import 'customerProfileUpdate.dart';
+
 
 class customerPersonalInfo extends StatelessWidget {
 
@@ -33,6 +35,7 @@ class customerPersonalInfo extends StatelessWidget {
           builder: (BuildContext context, AsyncSnapshot snapshot) {
             if (snapshot.hasData) {
 
+              print(snapshot.data.toString());
               return Container(
                 width: double.infinity,
                 padding: EdgeInsets.only(top: 20, bottom: 20),
@@ -47,7 +50,8 @@ class customerPersonalInfo extends StatelessWidget {
                       customerEmail((snapshot.data.customerEmail).toString()),
                       customerPhone((snapshot.data.customerPhone).toString()),
                       customerDoB((snapshot.data.customerDoB).toString()),
-                      updateProfileButton(context, customerID),
+                      //customerPassword((snapshot.data.Password).toString()),
+                      updateProfileButton(context, snapshot),
                     ],
 
                   ),
@@ -121,17 +125,33 @@ class customerPersonalInfo extends StatelessWidget {
     );
   }
 
-
-  Widget updateProfileButton(BuildContext context, String _customerId) {
-    return RaisedButton(
-      onPressed: () {},
-      textColor: Colors.white,
-      padding: const EdgeInsets.all(0.0),
-      child: Container(
-        color: Colors.orangeAccent,
-        padding: const EdgeInsets.all(10.0),
-        child: const Text('Update Profile', style: TextStyle(fontSize: 20)),
+  /*Widget customerPassword(String text) {
+    return Text(
+      'Password: ' + text,
+      style: TextStyle(
+        fontSize: 20,
+        fontWeight: FontWeight.bold,
       ),
+    );
+  }*/
+
+
+  Widget updateProfileButton(BuildContext context, AsyncSnapshot snapshot) {
+    return new Container(
+        margin: EdgeInsets.only(top: 96.0),
+        child: new RaisedButton(
+          onPressed: () {
+            Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => new CustomerProfileUpdate(snapshot: snapshot),
+                ));
+          },
+          padding: const EdgeInsets.fromLTRB(10.0, 12.0, 10.0, 12.0),
+          textColor: Colors.white,
+          color: Colors.orange,
+          child: const Text('Update Profile', style: TextStyle(fontSize: 20)),
+        )
     );
   }
 }
