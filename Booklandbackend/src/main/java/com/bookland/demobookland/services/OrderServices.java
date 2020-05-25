@@ -66,19 +66,6 @@ public class OrderServices {
         };
     }
 
-    @Transactional
-    public String deleteOrder(Integer customerId, Integer orderId) {
-        String response;
-        try {
-            orderRepository.deleteByCustomerIdAndOrderId(customerId, orderId);
-            response = "Order deleted";
-            return response;
-        } catch (Exception e) {
-            response = "Order cannot deleted";
-            return response;
-        }
-    }
-
     public OrderDetailsProjection orderDetails(Integer orderId) {
         Optional<Order> orderDetails = orderRepository.findById(orderId);
         return OrderConverter(orderDetails.get());
