@@ -1,27 +1,16 @@
-import 'package:bookland/AdminDeleteBook.dart';
-import 'package:bookland/admin_drawer_update_book.dart';
 import 'package:bookland/elements/appBar.dart';
 import 'package:bookland/elements/bottomNavigatorBar.dart';
 import 'package:bookland/elements/drawer.dart';
-import 'package:bookland/services/globalVariable.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'adminDiscount.dart';
-import 'main.dart';
-import 'adminAddBook.dart';
 import 'dart:io';
 import 'dart:convert';
-////
 import 'dart:async';
 import 'dart:collection';
-
 import 'package:http/http.dart' as http;
-import 'package:bookland/OrderView.dart';
-
-
+import 'package:bookland/OrderViewAdmin.dart';
 import 'package:flutter_paginator/flutter_paginator.dart';
 
-/////
 
 void openPage(BuildContext context) {
   Navigator.push(context, MaterialPageRoute(
@@ -240,33 +229,35 @@ class AdminOrdersState extends State<AdminOrdersPage> {
     var value_list = value.toString().split("|");
     String text_part = value_list[0];
     String orderidPar = value_list[1];
-
     return Card(
         child: ListTile(
-            leading: new Icon(iconMapping [choseniconStr], color: Colors.green) ,
+            leading: new Icon(iconMapping [choseniconStr], color: Colors.black) ,
             title:  Text(text_part),
             onTap: (){
               Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (context) =>new OrderView(orderid : orderidPar),
+                    builder: (context) =>new OrderViewAdmin(orderid : orderidPar),
                   ));
-            }
+            }, trailing: Wrap(
+          spacing: 12, // space between two icons
+          children: <Widget>[
+            IconButton(
+              icon: Icon(Icons.beenhere),
+              tooltip: 'Increase volume by 10',
+              onPressed: () {
+              },color: Colors.green
+            ),// icon-1
+            IconButton(
+              icon: Icon(Icons.cancel),
+              tooltip: 'Increase volume by 10',
+              onPressed: () {
+              },color: Colors.red
+            ),// icon-2
+          ],
+        ),
 
-        ));
-    /*return ListTile(
-      //  leading:  Image.network(img_part),
-
-        title: Text(value),
-        onTap: () {
-          /*Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (context) =>
-                // new orderView(isbn: isbnSet.elementAt(index).toString()),
-                new orderView(isbn: orderid_send),
-              ));*/
-        });*/
+        ),);
   }
 
   Widget errorWidgetMaker(OrderData ordersData, retryListener) {
