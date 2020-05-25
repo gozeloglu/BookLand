@@ -10,14 +10,27 @@ import 'package:bookland/customerBookView.dart';
 List<String> bookIdList = [];
 List<String> bookQuantityList = [];
 enum WhyFarther { delete, quantity }
+
 class Basket extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    getOrders(customerID);
     return MaterialApp(
       title: "My Basket",
       home: Scaffold(
         appBar: AppBar(
           title: Text("My Basket"),
+          actions: <Widget>[
+            IconButton(
+              icon: const Icon(Icons.refresh),
+              tooltip: 'Refresh Page',
+              onPressed: () {
+                BasketLayoutState basketLayout = new BasketLayoutState();
+                //basketLayout.getOrders(customerID);
+                basketLayout.build(context);
+              },
+            ),
+          ],
         ),
         body: BasketLayout(),
         floatingActionButton: FloatingActionButton(
@@ -34,6 +47,29 @@ class Basket extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  void getOrders(String _customerId) async {
+    print("getOrders");
+    print(_customerId);
+    SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
+    List tmpList = sharedPreferences.getStringList(_customerId);
+    print("///////////////////////////////");
+    print(tmpList);
+    print(tmpList.length);
+    bookIdList = [];
+    bookQuantityList = [];
+    for (int i = 0; i < tmpList.length; i += 2) {
+      bookIdList.add(tmpList[i]);
+      bookQuantityList.add(tmpList[i + 1]);
+    }
+    print(bookIdList);
+    print(bookQuantityList);
+    print("///////////////////////////////");
+    print(sharedPreferences.getStringList(_customerId));
+    print("booklist");
+    print(bookIdList);
+    print(_customerId);
   }
 }
 
@@ -71,8 +107,8 @@ class BasketLayoutState extends State<BasketLayout> {
               print(snapshot.data.length);
               print(snapshot.data);
               print("*-*-*-*-*-*-*-*-*-*-*-");
-              print(quantityList);
-              print(quantityList.length);
+              print(bookQuantityList);
+              print(bookQuantityList.length);
               print(bookIdList);
               print(bookIdList.length);
               print(snapshot.data.length);

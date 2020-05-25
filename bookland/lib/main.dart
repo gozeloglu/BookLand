@@ -387,12 +387,8 @@ class MyStatelessWidget extends StatelessWidget {
                   icon: Icon(Icons.shopping_basket),
                   onPressed: () async {
                     if (isLogin)  {
-                      SharedPreferences pref = await SharedPreferences.getInstance();
-                      List a = pref.getStringList(customerID);
-                      //a.removeLast();
-                      //pref.setStringList(customerID, a);
-                      print(pref.getStringList(customerID));
-                      print("*********");
+                      Basket basket = new Basket();
+                      basket.getOrders(customerID);
                       Navigator.push(
                           context,
                           new MaterialPageRoute(
