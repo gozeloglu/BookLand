@@ -34,7 +34,7 @@ public class AdminController {
     }
 
     @PutMapping(value = "/deActivateAccount/{customerId}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public String applyDiscount(@PathVariable Integer customerId) {
+    public String deactivateAccount(@PathVariable Integer customerId) {
         return adminServices.deActivateAccount(customerId);
     }
 
@@ -51,9 +51,24 @@ public class AdminController {
     }
 
     /*Taking all orders*/
-    @GetMapping(value = "/showDetailOrderAdmin/{pageNo}/{pageSize}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public List<OrderAdminSimpleProjection> showDetailOrderAdmin(@PathVariable Integer pageNo, @PathVariable Integer pageSize) {
+    @GetMapping(value = "/showAllOrdersAdmin/{pageNo}/{pageSize}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public List<OrderAdminSimpleProjection> showAllOrdersAdmin(@PathVariable Integer pageNo, @PathVariable Integer pageSize) {
         return adminServices.showAllOrdersAdmin(pageNo - 1, pageSize);
+    }
+
+    @GetMapping(value = "/getOrderCountTotal", produces = MediaType.APPLICATION_JSON_VALUE)
+    public Long getOrderCountTotal() {
+        return adminServices.getOrderCountTotal();
+    }
+
+    @GetMapping(value = "/confirmOrder/{orderId}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public Integer confirmOrder(@PathVariable Integer orderId) {
+        return adminServices.confirmOrder(orderId);
+    }
+
+    @GetMapping(value = "/rejectOrder/{orderId}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public Integer rejectOrder(@PathVariable Integer orderId) {
+        return adminServices.rejectOrder(orderId);
     }
 }
 

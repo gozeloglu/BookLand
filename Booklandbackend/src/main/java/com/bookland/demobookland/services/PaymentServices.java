@@ -5,6 +5,8 @@ import com.bookland.demobookland.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -23,25 +25,43 @@ public class PaymentServices {
     @Autowired
     private CampaignRepository campaignRepository;
 
-    /*@Autowired
-    private ContainsRepository containsRepository;*/
+    @Autowired
+    private ContainsRepository containsRepository;
+
+    @Autowired
+    private OrderRepository orderRepository;
 
     @Autowired
     private CustomerRepository customerRepository;
 
-    public Boolean saveMyCard(Card card, Integer customerId) {
+
+    public Boolean saveMyCard(String cardNo, String cardOwner, Integer customerId) {
         Customer customer = customerRepository.findByCustomerId(customerId);
 
-        Card cardExist = paymentRepository.findByCardNo(card.getCardNo());
+        Card cardExist = paymentRepository.findByCardNo(cardNo);
+        String name;
+        String surname;
+        try {
+            String[] cardDetails = cardOwner.split("\\s+");
+            name = cardDetails[0];
+            surname = cardDetails[1];
+        } catch (Exception e) {
+            name = cardOwner;
+            surname = cardOwner;
+        }
 
         if (cardExist != null) {
-            if (!card.getOwnerName().equals(cardExist.getOwnerName()) || !card.getOwnerSurname().equals(cardExist.getOwnerSurname()))
+            if (!name.equals(cardExist.getOwnerName()) || !surname.equals(cardExist.getOwnerSurname()))
                 return false;
             if (customer.getCustomerCardList().contains(cardExist))
                 return true;
             customer.getCustomerCardList().add(cardExist);
             return true;
         }
+        Card card = new Card();
+        card.setCardNo(cardNo);
+        card.setOwnerName(name);
+        card.setOwnerSurname(surname);
 
         cardExist = paymentRepository.save(card);
         customer.getCustomerCardList().add(cardExist);
@@ -49,15 +69,58 @@ public class PaymentServices {
         return true;
     }
 
-    public void cargoCreation(Integer shippingId) {
+    @Transactional
+    public Integer cargoCreation(Integer shippingId) {
         PurchasedDetailedInfo purchasedDetailedInfo = new PurchasedDetailedInfo();
         purchasedDetailedInfo.setShippingCompanyId(shippingId);
+        purchasedDetailedInfo.setReleasedTime(null);
         purchaseDetailRepository.save(purchasedDetailedInfo);
+        return purchasedDetailedInfo.getTrackingNumber();
     }
 
 
     public List<ShippingCompany> getCompanies() {
         return shippingCompanyRepository.findAll();
+    }
+
+    @Transactional
+    public String orderCreate(String basketInfo, Float totalAmount, Integer customerId,
+                              Integer addressId, Integer shippingId, String cardNo, String coupon) {
+        List<Integer> bookIds = new ArrayList<>();
+        List<Integer> quantities = new ArrayList<>();
+
+        Campaign campaign = campaignRepository.findByCouponCode(coupon);
+
+        String[] basket = basketInfo.split(",");
+        for (int i = 0; i < basket.length; i++) {
+            if (i % 2 == 0)
+                bookIds.add(Integer.valueOf(basket[i]));
+            else
+                quantities.add(Integer.valueOf(basket[i]));
+        }
+
+        Order currentOrder = new Order();
+        if (campaign != null) {
+            currentOrder.setCampaignId(campaign.getCampaignId());
+            campaign.setParticipantQuantity(campaign.getParticipantQuantity() - 1);
+        }
+        currentOrder.setAddressId(addressId);
+        currentOrder.setCustomerId(customerId);
+        currentOrder.setTotalAmount(totalAmount);
+        currentOrder.setOrderedTime(new Date());
+        currentOrder.setCardNo(cardNo);
+        orderRepository.save(currentOrder);
+
+        for (int i = 0; i < bookIds.size(); i++) {
+            Contains contains = new Contains();
+            contains.setIsbn(bookIds.get(i));
+            contains.setOrderId(currentOrder.getOrderId());
+            contains.setQuantity(quantities.get(i));
+            contains.setStatus(1);
+            contains.setTrackingNumber(cargoCreation(shippingId));
+            containsRepository.save(contains);
+        }
+        return "Your order has been received";
     }
 
 

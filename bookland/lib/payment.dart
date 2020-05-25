@@ -11,20 +11,28 @@ import 'dart:convert';
 import 'package:bookland/services/HTTP.dart';
 import 'package:bookland/model/model_shippingcompany.dart';
 
+
+String nt_price = "";
 //TODO CUSTOMER SPECIAL
+
+
 class Payment extends StatelessWidget {
   static const String _title = 'Payment';
   final String totalcost;
   final String shippingcompany_id;
   final String customerid;
-  Payment({Key key, @required this.totalcost , @required this.shippingcompany_id ,this.customerid}) : super(key: key);
+  final String addressid;
+  Payment({Key key, @required this.totalcost , @required this.shippingcompany_id , @required  this.customerid , @required  this.addressid} ) {
+    nt_price = totalcost;
+
+  }
 
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
     return MaterialApp(
       title: _title,
-      home: PaymentStatefulWidget(totalcost,shippingcompany_id,customerid),
+      home: PaymentStatefulWidget(totalcost,shippingcompany_id,customerid,addressid),
     );
   }
 }
@@ -33,17 +41,22 @@ class PaymentStatefulWidget extends StatefulWidget {
   final String totalcost;
   final String shippingcompany_id;
   final String customerid;
-  PaymentStatefulWidget(this.totalcost,this.shippingcompany_id,this.customerid);
+  final String addressid;
+  PaymentStatefulWidget(this.totalcost,this.shippingcompany_id,this.customerid,this.addressid);
 
   @override
-  _PaymentPageState createState() => _PaymentPageState(totalcost,shippingcompany_id,customerid);
+  _PaymentPageState createState() => _PaymentPageState(totalcost,shippingcompany_id,customerid,addressid);
 }
 
 class _PaymentPageState extends State<PaymentStatefulWidget> {
   final String totalcost;
   final String shippingcompany_id;
   final String customerid;
-  _PaymentPageState(this.totalcost , this.shippingcompany_id,this.customerid);
+  final String addressid;
+
+  _PaymentPageState(this.totalcost , this.shippingcompany_id,this.customerid,this.addressid);
+
+
    final HTTPAll http_obj = HTTPAll();
 
   String cardnumber;
@@ -51,13 +64,62 @@ class _PaymentPageState extends State<PaymentStatefulWidget> {
   String month = "MONTH";
   String year = "YEAR";
   String cvc;
+  String promocode= "NoCoup";
+  String installement = "1";
 
-
+  String final_total_price  = nt_price;
 
   TextEditingController cardnumberController = new TextEditingController();
   TextEditingController card_ownerController = new TextEditingController();
   TextEditingController cvcController = new TextEditingController();
+  TextEditingController promocodeController = new TextEditingController();
+  TextEditingController ifPromoNewPrice = new TextEditingController();
 
+
+
+  //https://www.youtube.com/watch?v=FGfhnS6skMQ
+     createAlertDialog(BuildContext context)  {
+  return showDialog(context:context ,builder : (context) {
+    return AlertDialog(
+      title: Text("Promocode"),
+      content: TextField(
+        controller: promocodeController,
+      ),
+      actions: <Widget>[
+        MaterialButton(
+          elevation :5.0,
+          child:Text("Control"),
+          onPressed:() async {
+
+            final String  result =  await http_obj.getPromoCode( promocodeController.text.toString(),totalcost);
+            print(result);
+            if (result == "0.0"){
+              nt_price = nt_price;
+              Navigator.pop(context);
+              //Navigator.of(context).pop(promocodeController.text.toString());
+            }else{
+              final_total_price = result;
+              nt_price = final_total_price;
+              print(nt_price);
+              //Navigator.of(context).pop(nt_price);
+              Navigator.pop(context);
+            }
+          },
+        ), MaterialButton(
+          elevation :5.0,
+          child:Text("Cancel"),
+          onPressed:()  {
+            promocodeController.text = "";
+            promocode = "NoCoup";
+            nt_price = totalcost;
+            final_total_price ="-1";
+             Navigator.of(context).pop();
+          },
+        )
+      ],
+    );
+  });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -109,8 +171,60 @@ class _PaymentPageState extends State<PaymentStatefulWidget> {
                 color: Colors.green,
               ), dropYear(context),
             ]),
+
             showCVCInput(),
-            Text("\nTotal Cost:\$${totalcost}" ,style: TextStyle(fontWeight: FontWeight.bold,fontSize: 20), ),
+
+            Row( children: <Widget>[
+
+              Text("\t\tTotal Cost:\$"+ final_total_price +"\t\t\t\t" ,style: TextStyle(fontWeight: FontWeight.bold,fontSize: 20), ),
+
+              new RaisedButton(onPressed: () {
+
+                  createAlertDialog(context);
+                  print("NNNNTTTTT");
+
+                },child: new Text("Use Promo-Code"),
+                textColor: Colors.black,
+                color: Colors.yellow,),
+
+              Column(
+                children: <Widget>[
+                  Icon(
+                    Icons.brightness_1,
+                    color: Colors.red,
+                  ),
+                  Text("\tonly one coupon" ,style: TextStyle(fontWeight: FontWeight.bold,fontSize: 10), ),
+                  Text("can be used" ,style: TextStyle(fontWeight: FontWeight.bold,fontSize: 10), ),
+
+                ],
+              )
+
+            ]),
+            Row( children: <Widget>[
+              FlatButton( child: Text("Information Contract",style: TextStyle(fontWeight: FontWeight.bold,fontSize: 11,decoration: TextDecoration.underline,color: Colors.indigo)), onPressed: () { Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) =>
+                    // new BookView(isbn: isbnSet.elementAt(index).toString()),
+                    new TextFull(),
+                  ));}),
+              FlatButton(child: Text("Sales Contract",style: TextStyle(fontWeight: FontWeight.bold,fontSize: 11,decoration: TextDecoration.underline,color: Colors.indigo)), onPressed: () {   Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) =>
+                    // new BookView(isbn: isbnSet.elementAt(index).toString()),
+                    new TextFull(),
+                  ));}),
+              Column(
+                  children: <Widget>[
+                    Text("\nHire Purchase" ,style: TextStyle(fontWeight: FontWeight.bold,fontSize: 13,color: Colors.black)),
+                    installment(context),
+                  ]
+              )
+
+            ]),
+            //installment(context),
+
             showPayButton(totalcost),
             Image.asset('assets/payment.jpg')
           ],
@@ -342,7 +456,6 @@ class _PaymentPageState extends State<PaymentStatefulWidget> {
         body : FutureBuilder(
             future: http_obj.getCompanies(),
             builder: (BuildContext context, AsyncSnapshot snapshot) {
-              print("HERE IMAMMMM");
               if (snapshot.hasData) {
                 List<Model_ShippingCompany> shippingCompList =  snapshot.data;
                 List<String> printList = ['Shipping Company'];
@@ -350,8 +463,7 @@ class _PaymentPageState extends State<PaymentStatefulWidget> {
                   printList.add(shippingCompList[i].companyName + "\t\$"+ shippingCompList[i].shippingPrice );
                 }
                 print(printList);
-                print("snapshot has data");
-                print("Here");
+
                 return Container(
                     width: 300.0,
                     height: 60,
@@ -418,15 +530,35 @@ class _PaymentPageState extends State<PaymentStatefulWidget> {
           // TODO onPressed should be updated
           onPressed: () {
             //_formKey.currentState.validate();
-
-
+/*
+  final String totalcost;
+  final String shippingcompany_id; yes
+  final String customerid;  yes
+  final String addressid;
+ */
+print("********");
+            print(nt_price);
+            print(shippingcompany_id);
+            print(customerid);
+            print(addressid);
+print("********");
             cardnumber = cardnumberController.text;
             card_owner = card_ownerController.text;
             month = month; //monthController.text;
             year = year;//yearController.text;
             cvc = cvcController.text;
+            print(promocode);
+            if(promocodeController.text.length > 1){
+              print(promocodeController.text);
+              print("here i am ");
+              promocode = promocodeController.text.toString();
+              print(promocode);
 
-            var result = http_obj.Payment( customerid,cardnumber,card_owner, month, year, cvc, shippingcompany_id);
+            }
+
+            print(promocode);
+
+            var result = http_obj.Payment( customerid,cardnumber,card_owner,shippingcompany_id,nt_price,addressid,promocode);
 
             // print(result);
             //print("****" + errorControl.toString());
@@ -482,5 +614,73 @@ class _PaymentPageState extends State<PaymentStatefulWidget> {
           }),
     );
   }
+
+  Widget applyPromo() {
+    return new Padding(
+      padding: EdgeInsets.fromLTRB(5, 5, 5, 5),
+      child: new IconButton(
+        icon: Icon(Icons.done_outline),
+        tooltip: 'apply',
+        onPressed: () {
+
+        },
+      ),
+    );
+  }///installment
+  Widget installment(BuildContext context) {
+    String dropdownValue = installement;
+    return Container(
+        width: 100,
+        height: 30,
+        margin: const EdgeInsets.symmetric(
+          vertical: 10,
+          horizontal:30,
+        ),
+        decoration: ShapeDecoration(
+          shape: RoundedRectangleBorder(
+            side: BorderSide(width: 0.50, style: BorderStyle.solid,color: Colors.grey),
+            borderRadius: BorderRadius.all(Radius.circular(5.0)),
+          ),
+        ),
+
+        child: DropdownButtonHideUnderline(
+            child: ButtonTheme(
+                alignedDropdown: true,
+                child : DropdownButton<String>(
+                  value: dropdownValue,
+                  icon: Icon(Icons.attach_money),
+                  iconSize: 20,
+                  elevation: 20,
+                  style: TextStyle(color: Colors.black),
+                  onChanged: (String newValue) {
+                    setState(() {
+                      dropdownValue = newValue;
+                      installement = dropdownValue;}
+                    );
+                  },
+                  items: <String>['1','3', '6', '9', '12']
+                      .map<DropdownMenuItem<String>>((String value) {
+                    return DropdownMenuItem<String>(
+                      value: value,
+                      child: Text(value ,style: TextStyle(fontWeight: FontWeight.bold), ) ,
+                    );
+                  }).toList(),
+                ))));
+  }
 }
+
+class TextFull extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text("Second Route"),
+      ),
+      body: Center(
+        child: Text( "This is an Contract"),
+      ),
+    );
+  }
+}
+
 

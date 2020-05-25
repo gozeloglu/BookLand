@@ -6,6 +6,7 @@ import 'package:http/http.dart' as http;
 import 'package:bookland/main.dart';
 import 'package:bookland/services/globalVariable.dart';
 import 'package:bookland/model/model_shippingcompany.dart';
+import 'package:bookland/basket.dart';
 
 class HTTPAll {
   static String basicAuth =
@@ -97,25 +98,25 @@ class HTTPAll {
   }
 
 
-  Future<String> Payment(String customerid, String cardNumber ,String cardOwner,String card_month,String card_year,String card_CVC ,String shippingCompid) async {
+  Future<String> Payment(String customerid, String cardNumber ,String cardOwner,String shippingCompid,String totalcost,String addressId,String promocode) async {
+    String finalval = finalOrders;
+    print(finalval);
 
-    var client = http.Client();
-    var url = "http://10.0.2.2:8080";
     String username = 'Daryl';
     String password = 'WalkingDead';
     String basicAuth =
         'Basic ' + base64Encode(utf8.encode('$username:$password'));
     http.Response response;
 
-    response = await http.post('http://10.0.2.2:8080/createOrder/${customerid}/${shippingCompid}', //TODO paramtere yap
+    response = await http.post('http://10.0.2.2:8080/createOrder/${customerid}/${addressId}/${shippingCompid}', //TODO paramtere yap
       headers: <String, String>{'Authorization': basicAuth,'Content-Type': 'application/json; charset=UTF-8',
       },
       body: jsonEncode(<String, dynamic>{
+        "totalAmount" : totalcost,
         "cardNo": cardNumber,
-        "ownerName": cardOwner,
-        "ownerSurname": cardOwner,
-        "customerCardList": [],
-        "orderList": [],
+        "cardOwner": cardOwner,
+        "basketInfo": finalval,
+        "couponCode": promocode
       }),
     );
 
@@ -129,7 +130,7 @@ class HTTPAll {
       print(msg.errors[0].toString());
       //throw Exception('Failed to load album');
       print("-----" + errorControl.toString());
-      return "SORRRY";
+      return "SORRRY" ;
     }
   }
 
@@ -198,6 +199,32 @@ class HTTPAll {
 
     } else {
       throw Exception("Can't get books.");
+    }
+  }
+  Future<String> getPromoCode(String promocode , String totalcost) async {
+    print(promocode);
+    print(totalcost);
+    String username = 'Daryl';
+    String password = 'WalkingDead';
+    String basicAuth =
+        'Basic ' + base64Encode(utf8.encode('$username:$password'));
+    http.Response response;
+
+    response = await http.post('http://10.0.2.2:8080/couponCheck', //TODO paramtere yap
+      headers: <String, String>{'Authorization': basicAuth,'Content-Type': 'application/json; charset=UTF-8',
+      },
+      body: jsonEncode(<String, dynamic>{
+        "${promocode}": 126,
+      }),
+    );
+    print("HERE!!!!");
+    if (response.statusCode == 200) {
+      String text = response.body;
+      print(response.body.toString());
+      print(text);
+      return text;
+    } else {
+      throw "Can't get books.";
     }
   }
 }

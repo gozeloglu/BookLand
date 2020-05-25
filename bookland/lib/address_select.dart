@@ -2,27 +2,27 @@ import 'package:bookland/customer_address_add.dart';
 import 'package:bookland/http_address.dart';
 import 'package:flutter/material.dart';
 import 'package:bookland/main.dart';
+import 'package:bookland/ShippingCompany.dart';
 import 'package:bookland/address_details.dart';
 
-class MyAddresses extends StatelessWidget {
+class AddressSelect extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: "My Addresses",
+      title: "Address Selection",
       home: Scaffold(
         appBar: AppBar(
-          title: Text("My Addresses"),
+          title: Text("Address Selection"),
         ),
-        body: MyAddressLayout(),
+        body: AddressSelectLayout(),
         floatingActionButton: FloatingActionButton(
           child: Icon(Icons.add),
           backgroundColor: Colors.green,
           onPressed: () {
-            print("Action button");
             Navigator.push(
               context,
               new MaterialPageRoute(
-                  builder: (context) => new CustomerAddressAdd(false)),
+                  builder: (context) => new CustomerAddressAdd(true)),
             );
           },
         ),
@@ -31,12 +31,12 @@ class MyAddresses extends StatelessWidget {
   }
 }
 
-class MyAddressLayout extends StatefulWidget {
+class AddressSelectLayout extends StatefulWidget {
   @override
-  State<StatefulWidget> createState() => MyAddressLayoutState();
+  State<StatefulWidget> createState() => AddressSelectLayoutState();
 }
 
-class MyAddressLayoutState extends State<MyAddressLayout> {
+class AddressSelectLayoutState extends State<AddressSelectLayout> {
   Address _address = new Address();
   int _userId = int.parse(customerID);
 
@@ -54,10 +54,12 @@ class MyAddressLayoutState extends State<MyAddressLayout> {
             future: _address.getAddresses(_userId),
             builder: (context, snapshot) {
               if (snapshot.hasData) {
+                List<String> addressIdList = List();
                 List<String> addressLineList = List();
                 List<String> cityCountryList = List();
                 List<Icon> iconList = List();
                 for (int i = 0; i < snapshot.data.length; i++) {
+                  addressIdList.add(snapshot.data[i]["addressId"].toString());
                   addressLineList.add(snapshot.data[i]["addressLine"]);
                   String cityCountry =
                       snapshot.data[i]["postalCodeCity"]["city"]["city"];
@@ -76,7 +78,6 @@ class MyAddressLayoutState extends State<MyAddressLayout> {
                   }
                 }
                 return ListView.builder(
-                    //padding: const EdgeInsets.fromLTRB(10, 4, 10, 4),
                     itemCount: addressLineList.length,
                     itemBuilder: (context, index) {
                       return Card(
@@ -95,10 +96,9 @@ class MyAddressLayoutState extends State<MyAddressLayout> {
                             Navigator.push(
                               context,
                               new MaterialPageRoute(
-                                  builder: (context) =>
-                                      new AddressDetails(snapshot.data[index])),
+                                  builder: (context) => new ShippingCompany(
+                                      customerID, addressIdList[index])),
                             );
-                            print(addressLineList[index]);
                           },
                         ),
                       );

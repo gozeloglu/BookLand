@@ -17,7 +17,7 @@ class MyBottomNavigatorBar extends StatelessWidget{
                 icon: Icon(Icons.home),
                 onPressed: () {
                   Navigator.push(
-                    context, new MaterialPageRoute(builder: (context) => new adminOrders()),
+                    context, new MaterialPageRoute(builder: (context) => new AdminOrders()),
                   );
                 }),
             Text("           "),

@@ -23,14 +23,15 @@ public class OrderServices {
     @Autowired
     private OrderRepository orderRepository;
 
+
     public List<OrderSimpleProjection> getMyOrders(Integer pageNo, Integer pageSize, Integer customerID) {
         Pageable paging = PageRequest.of(pageNo, pageSize);
         List<OrderSimpleProjection> orderSimpleProjections = new ArrayList<>();
 
         Page<Order> pagedResult = orderRepository.findByCustomerId(paging, customerID);
         for (Order order : pagedResult.toList()) {
+            checkDeliveryTime(order);
             orderSimpleProjections.add(orderSimpleConverter(order));
-
         }
 
         return orderSimpleProjections;
@@ -63,10 +64,6 @@ public class OrderServices {
                 return order.getTotalAmount();
             }
         };
-    }
-
-    public Order createOrder(Order order) {
-        return orderRepository.save(order);
     }
 
     @Transactional
@@ -181,6 +178,19 @@ public class OrderServices {
     }
 
     public Long getCustomerOrderCount(Integer customerId) {
-        return (long)orderRepository.findAllByCustomerId(customerId).size();
+        return (long) orderRepository.findAllByCustomerId(customerId).size();
+    }
+
+    @Transactional
+    public void checkDeliveryTime(Order order) {
+        Date today = new Date();
+        for (Contains c : order.getContainsList()) {
+            if (c.getPurchasedDetailedInfo().getReleasedTime() != null && c.getPurchasedDetailedInfo().getReleasedTime().compareTo(today) <= 0) {
+                c.getPurchasedDetailedInfo().setStatus("Delivered");
+                System.out.println(c.getTrackingNumber());
+                System.out.println(c.getPurchasedDetailedInfo().getStatus());
+            }
+        }
+        orderRepository.save(order);
     }
 }

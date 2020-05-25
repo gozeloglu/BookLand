@@ -39,6 +39,7 @@ class List_MainStateless extends StatelessWidget {
       title_main = "Last Views";
     } else if (MainPage == 5) {
       title_main = "Best Sellers";
+      parameter = "getBestSeller";
     }
 
     if (isbnSet.contains(deletedBookId)) {
@@ -142,7 +143,7 @@ class List_MainState extends State<List_MainPage> {
 
   Future<BooksData> sendBooksDataRequest(int page) async {
     try {
-      if (main_page_num != 3) {
+      if (main_page_num != 3 ) {
         getTotalCount();
       } else {
         getTotalCount2();
