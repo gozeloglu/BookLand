@@ -17,6 +17,7 @@ class ShippingCompany extends StatefulWidget {
   @override
   ShippingCompanyState createState() => new ShippingCompanyState();
 }
+
 class ShippingCompanyState extends State<ShippingCompany> {
   final HTTPAll http_obj = HTTPAll();
   String dropdownValue = "Shipping Company";
@@ -25,29 +26,35 @@ class ShippingCompanyState extends State<ShippingCompany> {
   Map mapPrice = {};
   @override
   Widget build(BuildContext context) {
-
     return Scaffold(
         appBar: MyAppBar(
           pageTitle: "Shipping Companies",
           back: true,
         ),
-        body : FutureBuilder(
-
+        body: FutureBuilder(
             future: http_obj.getCompanies(),
             builder: (BuildContext context, AsyncSnapshot snapshot) {
               print("HERE IMAMMMM");
               if (snapshot.hasData) {
-                List<Model_ShippingCompany> shippingCompList =  snapshot.data;
+                List<Model_ShippingCompany> shippingCompList = snapshot.data;
                 List<String> printList = ['Shipping Company'];
-                for(int i = 0; i<shippingCompList.length;i++){
-                  printList.add(shippingCompList[i].companyName + "\t\$"+ shippingCompList[i].shippingPrice );
+                for (int i = 0; i < shippingCompList.length; i++) {
+                  printList.add(shippingCompList[i].companyName +
+                      "\t\$" +
+                      shippingCompList[i].shippingPrice);
                 }
                 print(printList);
                 //var map1 = Map.fromIterable(shippingCompList, key: (e) => e.shippingCompanyId.toString(), value: (e) => (e.companyName.toString() +"\t\$"+e.shippingPrice.toString() ) );
-                map = Map.fromIterable(shippingCompList, key: (e) =>  (e.companyName.toString() +"\t\$"+e.shippingPrice.toString() ),value: (e) => e.shippingCompanyId.toString()  );
+                map = Map.fromIterable(shippingCompList,
+                    key: (e) => (e.companyName.toString() +
+                        "\t\$" +
+                        e.shippingPrice.toString()),
+                    value: (e) => e.shippingCompanyId.toString());
                 map['Shipping Company'] = "-1";
                 print(map);
-                mapPrice = Map.fromIterable(shippingCompList, key: (e) =>e.shippingCompanyId.toString()   ,value: (e) => e.shippingPrice.toString()  );
+                mapPrice = Map.fromIterable(shippingCompList,
+                    key: (e) => e.shippingCompanyId.toString(),
+                    value: (e) => e.shippingPrice.toString());
                 print(mapPrice);
                 //print(snapshot.data.companyName.toString());
                 print("snapshot has data");
@@ -60,44 +67,41 @@ class ShippingCompanyState extends State<ShippingCompany> {
                     image: DecorationImage(
                       image: AssetImage("assets/skyfall.png"),
                       fit: BoxFit.fill,
-
                     ),
-
                   ),
                   padding: EdgeInsets.all(1.0),
                   //resizeToAvoidBottomPadding: false,
                   child: new SingleChildScrollView(
                     child: new Column(
-
                       children: <Widget>[
                         Text("\n\n\n\n\n\n"),
                         Text("\n\n\n\n\n\n"),
 
                         Text("\n\n\n\n\n\n"),
-                       // Image.asset('assets/skyfall.png'),
+                        // Image.asset('assets/skyfall.png'),
                         Container(
-                        width: 300.0,
-                        height: 60,
-                        margin: const EdgeInsets.symmetric(
-                          vertical: 16.0,
-                          horizontal:30.0,
-                        ),
-
-                        decoration: ShapeDecoration(
-                          color: Colors.white,
-
-                          shape: RoundedRectangleBorder(
-                            side: BorderSide(width: 0.50, style: BorderStyle.solid,color: Colors.grey),
-                            borderRadius: BorderRadius.all(Radius.circular(5.0)),
-
-                          ),
-                        ),
-                        child: DropdownButtonHideUnderline(
-                            child: ButtonTheme(
-
-                                alignedDropdown: true,
-                                child: new SingleChildScrollView(
-                                    child: DropdownButton<String>(
+                            width: 300.0,
+                            height: 60,
+                            margin: const EdgeInsets.symmetric(
+                              vertical: 16.0,
+                              horizontal: 30.0,
+                            ),
+                            decoration: ShapeDecoration(
+                              color: Colors.white,
+                              shape: RoundedRectangleBorder(
+                                side: BorderSide(
+                                    width: 0.50,
+                                    style: BorderStyle.solid,
+                                    color: Colors.grey),
+                                borderRadius:
+                                    BorderRadius.all(Radius.circular(5.0)),
+                              ),
+                            ),
+                            child: DropdownButtonHideUnderline(
+                                child: ButtonTheme(
+                                    alignedDropdown: true,
+                                    child: new SingleChildScrollView(
+                                        child: DropdownButton<String>(
                                       value: dropdownValue,
                                       icon: Icon(Icons.arrow_downward),
                                       iconSize: 30,
@@ -108,15 +112,21 @@ class ShippingCompanyState extends State<ShippingCompany> {
                                         setState(() {
                                           dropdownValue = newValue;
                                           //shipping_company = newValue;
-                                          shipping_companyid = map[dropdownValue.toString()];
+                                          shipping_companyid =
+                                              map[dropdownValue.toString()];
                                           print(shipping_companyid);
-                                        }
-                                        );
+                                        });
                                       },
-                                      items: printList.map<DropdownMenuItem<String>>((String value) {
+                                      items: printList
+                                          .map<DropdownMenuItem<String>>(
+                                              (String value) {
                                         return DropdownMenuItem<String>(
                                           value: value,
-                                          child: Text(value ,style: TextStyle(fontWeight: FontWeight.bold), ) ,
+                                          child: Text(
+                                            value,
+                                            style: TextStyle(
+                                                fontWeight: FontWeight.bold),
+                                          ),
                                         );
                                       }).toList(),
                                     ))))),
@@ -137,10 +147,9 @@ class ShippingCompanyState extends State<ShippingCompany> {
                 print("EROROOROR");
                 return Center(child: CircularProgressIndicator());
               }
-            }
-        ));
-
+            }));
   }
+
   Widget chooseShippingComp() {
     return new Padding(
       padding: EdgeInsets.fromLTRB(100, 10, 100, 10),
@@ -155,14 +164,15 @@ class ShippingCompanyState extends State<ShippingCompany> {
               style: new TextStyle(fontSize: 20.0, color: Colors.black87)),
           // TODO onPressed should be updated
           onPressed: () {
-            if(shipping_companyid == "-1"){
+            if (shipping_companyid == "-1") {
               showDialog(
                 context: context,
                 builder: (BuildContext context) {
                   // return object of type Dialog
                   return AlertDialog(
                     title: new Text("Select an Shipping Company"),
-                    content: new Text("Please select a company from the drop-down menu to continue."),
+                    content: new Text(
+                        "Please select a company from the drop-down menu to continue."),
                     actions: <Widget>[
                       // usually buttons at the bottom of the dialog
                       new FlatButton(
@@ -175,18 +185,22 @@ class ShippingCompanyState extends State<ShippingCompany> {
                   );
                 },
               );
-            }else{
+            } else {
               print("CHOSEN shipping");
-              print(shipping_companyid);  //TODO send this to Payment
+              print(shipping_companyid); //TODO send this to Payment
               print(mapPrice[shipping_companyid]);
-              String customerid ="103";
-              String totalPrice = "126";  //TODO toplama işlemi
+              String customerid = "103";
+              String totalPrice = "126"; //TODO toplama işlemi
               Navigator.push(
                 context,
-                new MaterialPageRoute(builder: (context) => new Payment(totalcost: totalPrice,shippingcompany_id: shipping_companyid,customerid: customerid,)),
+                new MaterialPageRoute(
+                    builder: (context) => new Payment(
+                          totalcost: totalPrice,
+                          shippingcompany_id: shipping_companyid,
+                          customerid: customerid,
+                        )),
               );
             }
-
           }),
     );
   }
