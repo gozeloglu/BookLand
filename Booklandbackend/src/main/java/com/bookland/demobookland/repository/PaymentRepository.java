@@ -5,6 +5,6 @@ import org.springframework.data.repository.PagingAndSortingRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface PaymentRepository extends PagingAndSortingRepository<Card,String> {
+public interface PaymentRepository extends PagingAndSortingRepository<Card, String> {
     Card findByCardNo(String cardNo);
 }
