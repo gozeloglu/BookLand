@@ -21,7 +21,8 @@ class Payment extends StatelessWidget {
   final String totalcost;
   final String shippingcompany_id;
   final String customerid;
-  Payment({Key key, @required this.totalcost , @required this.shippingcompany_id ,this.customerid} ) {
+  final String addressid;
+  Payment({Key key, @required this.totalcost , @required this.shippingcompany_id , @required  this.customerid , @required  this.addressid} ) {
     nt_price = totalcost;
 
   }
@@ -31,7 +32,7 @@ class Payment extends StatelessWidget {
     // TODO: implement build
     return MaterialApp(
       title: _title,
-      home: PaymentStatefulWidget(totalcost,shippingcompany_id,customerid),
+      home: PaymentStatefulWidget(totalcost,shippingcompany_id,customerid,addressid),
     );
   }
 }
@@ -40,18 +41,20 @@ class PaymentStatefulWidget extends StatefulWidget {
   final String totalcost;
   final String shippingcompany_id;
   final String customerid;
-  PaymentStatefulWidget(this.totalcost,this.shippingcompany_id,this.customerid);
+  final String addressid;
+  PaymentStatefulWidget(this.totalcost,this.shippingcompany_id,this.customerid,this.addressid);
 
   @override
-  _PaymentPageState createState() => _PaymentPageState(totalcost,shippingcompany_id,customerid);
+  _PaymentPageState createState() => _PaymentPageState(totalcost,shippingcompany_id,customerid,addressid);
 }
 
 class _PaymentPageState extends State<PaymentStatefulWidget> {
   final String totalcost;
   final String shippingcompany_id;
   final String customerid;
+  final String addressid;
 
-  _PaymentPageState(this.totalcost , this.shippingcompany_id,this.customerid);
+  _PaymentPageState(this.totalcost , this.shippingcompany_id,this.customerid,this.addressid);
 
 
    final HTTPAll http_obj = HTTPAll();
@@ -61,7 +64,7 @@ class _PaymentPageState extends State<PaymentStatefulWidget> {
   String month = "MONTH";
   String year = "YEAR";
   String cvc;
-  String promocode="";
+  String promocode= "NoCoup";
   String installement = "1";
 
   String final_total_price  = nt_price;
@@ -107,6 +110,8 @@ class _PaymentPageState extends State<PaymentStatefulWidget> {
           child:Text("Cancel"),
           onPressed:()  {
             promocodeController.text = "";
+            promocode = "NoCoup";
+            nt_price = totalcost;
             final_total_price ="-1";
              Navigator.of(context).pop();
           },
@@ -515,15 +520,35 @@ class _PaymentPageState extends State<PaymentStatefulWidget> {
           // TODO onPressed should be updated
           onPressed: () {
             //_formKey.currentState.validate();
-
-
+/*
+  final String totalcost;
+  final String shippingcompany_id; yes
+  final String customerid;  yes
+  final String addressid;
+ */
+print("********");
+            print(nt_price);
+            print(shippingcompany_id);
+            print(customerid);
+            print(addressid);
+print("********");
             cardnumber = cardnumberController.text;
             card_owner = card_ownerController.text;
             month = month; //monthController.text;
             year = year;//yearController.text;
             cvc = cvcController.text;
+            print(promocode);
+            if(promocodeController.text.length > 1){
+              print(promocodeController.text);
+              print("here i am ");
+              promocode = promocodeController.text.toString();
+              print(promocode);
 
-            var result = http_obj.Payment( customerid,cardnumber,card_owner, month, year, cvc, shippingcompany_id);
+            }
+
+            print(promocode);
+
+            var result = http_obj.Payment( customerid,cardnumber,card_owner,shippingcompany_id,nt_price,addressid,promocode);
 
             // print(result);
             //print("****" + errorControl.toString());

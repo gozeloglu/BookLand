@@ -16,7 +16,7 @@ import 'package:bookland/payment.dart';
 
 String customerId;
 String addressId;
-
+String totalPrice;
 class ShippingCompany extends StatefulWidget {
   ShippingCompany(String _customerId, String _addressId) {
     customerId = _customerId;
@@ -197,7 +197,8 @@ class ShippingCompanyState extends State<ShippingCompany> {
               print("CHOSEN shipping");
               print(shipping_companyid); //TODO send this to Payment
               print(mapPrice[shipping_companyid]);
-              String customerid = "103";
+              String addrId = addressId;
+              String customerid = customerId;
               String totalPrice = "126"; //TODO toplama işlemi
               Navigator.push(
                 context,
@@ -206,6 +207,7 @@ class ShippingCompanyState extends State<ShippingCompany> {
                           totalcost: totalPrice,
                           shippingcompany_id: shipping_companyid,
                           customerid: customerid,
+                      addressid:addrId ,
                         )),
               );
             }
