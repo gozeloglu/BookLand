@@ -99,7 +99,6 @@ class AddressSelectLayoutState extends State<AddressSelectLayout> {
                                   builder: (context) => new ShippingCompany(
                                       customerID, addressIdList[index])),
                             );
-                            print(addressLineList[index]);
                           },
                         ),
                       );

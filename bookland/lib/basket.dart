@@ -42,8 +42,7 @@ class Basket extends StatelessWidget {
             // Go to next page - Address select
             Navigator.push(
               context,
-              new MaterialPageRoute(
-                  builder: (context) => new AddressSelect()),
+              new MaterialPageRoute(builder: (context) => new AddressSelect()),
             );
           },
         ),
