@@ -51,9 +51,14 @@ public class AdminController {
     }
 
     /*Taking all orders*/
-    @GetMapping(value = "/showDetailOrderAdmin/{pageNo}/{pageSize}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public List<OrderAdminSimpleProjection> showDetailOrderAdmin(@PathVariable Integer pageNo, @PathVariable Integer pageSize) {
+    @GetMapping(value = "/showAllOrdersAdmin/{pageNo}/{pageSize}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public List<OrderAdminSimpleProjection> showAllOrdersAdmin(@PathVariable Integer pageNo, @PathVariable Integer pageSize) {
         return adminServices.showAllOrdersAdmin(pageNo - 1, pageSize);
+    }
+
+    @GetMapping(value = "/getOrderCountTotal", produces = MediaType.APPLICATION_JSON_VALUE)
+    public Long getBookCountByCategory() {
+        return adminServices.getOrderCountTotal();
     }
 }
 

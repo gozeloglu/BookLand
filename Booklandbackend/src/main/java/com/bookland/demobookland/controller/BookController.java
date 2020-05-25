@@ -87,7 +87,6 @@ public class BookController {
 
     @GetMapping(value = "/getBookCountHotList", produces = MediaType.APPLICATION_JSON_VALUE)
     public Long getBookCountByCategory() {
-        System.out.println(bookServices.getBookCountByHotList());
         return bookServices.getBookCountByHotList();
     }
 
@@ -144,8 +143,8 @@ public class BookController {
         return bookServices.cartDetails(BookIds);
     }
 
-    @GetMapping(value = "/getBestSeller", produces = MediaType.APPLICATION_JSON_VALUE)
-    public List<BestSellerProjection> getHotList() {
+    @GetMapping(value = "/getBestSeller/{pageNo}/{pageSize}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public List<BestSellerProjection> getBestSeller(@PathVariable Integer pageNo, @PathVariable Integer pageSize) {
         return bookServices.getBestSellers();
     }
 }

@@ -271,6 +271,10 @@ public class AdminServices {
             }
         };
     }
+
+    public Long getOrderCountTotal() {
+        return orderRepository.count();
+    }
 }
 
 
