@@ -2,6 +2,8 @@ import 'package:http/http.dart' as http;
 import 'dart:convert';
 
 class BasketHttp {
+  /// @param bookIdList contains the book id - book quantity information as a List
+  /// This function sends a POST request to get book information for basket
   Future<List<dynamic>> getBasketBooks(List<String> bookIdList) async {
     String username = 'Daryl';
     String password = 'WalkingDead';
@@ -22,21 +24,6 @@ class BasketHttp {
       List resultList = [];
       resultList.add(json.decode(response.body));
       return json.decode(response.body);
-      /*print(resultList.runtimeType);
-      print(json.decode(response.body).runtimeType);
-      print(resultList[0]);
-      return BasketModel.fromJson(response.body) as List;*/
-      ////return (json.decode(response.body) as List);
-      /*print(jsonDecode(response.body)[0]);
-      print(jsonDecode(response.body).runtimeType);
-      print(jsonDecode(response.body).length);
-      List resultList = [];
-      for (int i = 0; i < response.body.length; i++) {
-        resultList.add(jsonDecode(response.body)[i]);
-      }
-      print(resultList);
-      print(resultList.length);
-      return resultList;*/
     } else {
       print("NOT SUCCESSFUL");
       throw Exception("Book cart could not fetched!");
