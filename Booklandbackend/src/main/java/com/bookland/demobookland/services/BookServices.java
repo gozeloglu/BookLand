@@ -1,10 +1,12 @@
 package com.bookland.demobookland.services;
 
 import com.bookland.demobookland.model.Book;
+import com.bookland.demobookland.model.Contains;
 import com.bookland.demobookland.model.Price;
 import com.bookland.demobookland.model.SearchCriteria.BookSpecification;
 import com.bookland.demobookland.model.SearchCriteria.SearchCriteria;
 import com.bookland.demobookland.model.SearchCriteria.SearchOperation;
+import com.bookland.demobookland.model.projections.BestSellerProjection;
 import com.bookland.demobookland.model.projections.BookDetailsProjection;
 import com.bookland.demobookland.model.projections.CartDetailProjection;
 import com.bookland.demobookland.model.projections.ExplorePageProjection;
@@ -18,6 +20,7 @@ import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
 public class BookServices {
@@ -349,7 +352,7 @@ public class BookServices {
         };
     }
 
-    public List<CartDetailProjection> cartDetails(Map<String,List<String>> bookIds) {
+    public List<CartDetailProjection> cartDetails(Map<String, List<String>> bookIds) {
         List<CartDetailProjection> booksInCart = new ArrayList<>();
         List<String> values = bookIds.get("BookIds");
         for (String s : values) {
@@ -378,6 +381,63 @@ public class BookServices {
             @Override
             public String getBookImage() {
                 return book.getBookImage();
+            }
+        };
+    }
+
+    public List<BestSellerProjection> getBestSellers() {
+        BookSpecification filter_categories = new BookSpecification();
+        List<Book> allBooks = bookRepository.findAll(filter_categories);
+        Map<Integer, Integer> bookOrders = new HashMap<>();
+        List<BestSellerProjection> result = new ArrayList<>();
+
+
+        for (Book b : allBooks) {
+            Integer orderCount = 0;
+            for (Contains c : b.getContainsList()) {
+                orderCount += c.getQuantity();
+            }
+            bookOrders.put(b.getBookId(), orderCount);
+        }
+
+        Map<Integer, Integer> topTen =
+                bookOrders.entrySet().stream()
+                        .sorted(Map.Entry.comparingByValue(Comparator.reverseOrder()))
+                        .limit(10)
+                        .collect(Collectors.toMap(
+                                Map.Entry::getKey, Map.Entry::getValue, (e1, e2) -> e1, LinkedHashMap::new));
+        allBooks.clear();
+
+        for(Integer i : topTen.keySet()){
+            filter_categories.add(new SearchCriteria("bookId",i,SearchOperation.EQUAL));
+            Optional<Book> bestSellerBook = bookRepository.findOne(filter_categories);
+            bestSellerBook.ifPresent(book -> result.add(bestSellerConverter(book, topTen.get(i))));
+            filter_categories.getList().clear();
+        }
+
+        return result;
+    }
+
+    public BestSellerProjection bestSellerConverter(Book book, Integer quantity){
+        return new BestSellerProjection() {
+            @Override
+            public String getBookName() {
+                return book.getBookName();
+            }
+
+            @Override
+            public String getAuthor() {
+                return book.getAuthor();
+            }
+
+            @Override
+            public String getBookImage() {
+                return book.getBookImage();
+            }
+
+            @Override
+            public Integer getOrderCount() {
+                return quantity;
             }
         };
     }
