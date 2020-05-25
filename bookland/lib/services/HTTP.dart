@@ -115,7 +115,7 @@ class HTTPAll {
         "ownerName": cardOwner,
         "ownerSurname": cardOwner,
         "customerCardList": [],
-        "orderList": [],
+        "orderList": "",
       }),
     );
 

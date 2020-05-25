@@ -14,13 +14,16 @@ import 'package:bookland/model/model_shippingcompany.dart';
 
 String nt_price = "";
 //TODO CUSTOMER SPECIAL
+
+
 class Payment extends StatelessWidget {
   static const String _title = 'Payment';
   final String totalcost;
   final String shippingcompany_id;
   final String customerid;
   Payment({Key key, @required this.totalcost , @required this.shippingcompany_id ,this.customerid} ) {
-    nt_price = totalcost; ;
+    nt_price = totalcost;
+
   }
 
   @override
