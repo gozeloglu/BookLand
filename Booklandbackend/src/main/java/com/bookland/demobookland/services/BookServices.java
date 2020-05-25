@@ -408,8 +408,8 @@ public class BookServices {
                                 Map.Entry::getKey, Map.Entry::getValue, (e1, e2) -> e1, LinkedHashMap::new));
         allBooks.clear();
 
-        for(Integer i : topTen.keySet()){
-            filter_categories.add(new SearchCriteria("bookId",i,SearchOperation.EQUAL));
+        for (Integer i : topTen.keySet()) {
+            filter_categories.add(new SearchCriteria("bookId", i, SearchOperation.EQUAL));
             Optional<Book> bestSellerBook = bookRepository.findOne(filter_categories);
             bestSellerBook.ifPresent(book -> result.add(bestSellerConverter(book, topTen.get(i))));
             filter_categories.getList().clear();
@@ -418,7 +418,7 @@ public class BookServices {
         return result;
     }
 
-    public BestSellerProjection bestSellerConverter(Book book, Integer quantity){
+    public BestSellerProjection bestSellerConverter(Book book, Integer quantity) {
         return new BestSellerProjection() {
             @Override
             public String getBookName() {
