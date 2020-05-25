@@ -38,12 +38,41 @@ class Basket extends StatelessWidget {
               finalOrders += bookQuantityList[i];
               finalOrders += ",";
             }
-            print(finalOrders);
-            // Go to next page - Address select
-            Navigator.push(
-              context,
-              new MaterialPageRoute(builder: (context) => new AddressSelect()),
-            );
+
+            // If basket is empty
+            // Show up alert dialog
+            if (finalOrders.length == 0) {
+              showDialog(
+                  context: context,
+                  builder: (BuildContext context) {
+                    return AlertDialog(
+                      title: Text("Error"),
+                      content: Text("You cannot go other page.\n"
+                          "Basket is empty!"),
+                      shape: new RoundedRectangleBorder(
+                          borderRadius: new BorderRadius.circular(25)),
+                      actions: <Widget>[
+                        new FlatButton(
+                          // Confirm deletion
+                          child: Text("OK"),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(15),
+                          ),
+                          onPressed: () {
+                            Navigator.of(context).pop();
+                          },
+                        ),
+                      ],
+                    );
+                  });
+            } else {
+              // Go to next page - Address select
+              Navigator.push(
+                context,
+                new MaterialPageRoute(
+                    builder: (context) => new AddressSelect()),
+              );
+            }
           },
         ),
       ),
