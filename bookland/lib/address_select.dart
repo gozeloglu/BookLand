@@ -9,7 +9,7 @@ class AddressSelect extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: "My Addresses",
+      title: "Address Selection",
       home: Scaffold(
         appBar: AppBar(
           title: Text("Address Selection"),
@@ -19,11 +19,10 @@ class AddressSelect extends StatelessWidget {
           child: Icon(Icons.add),
           backgroundColor: Colors.green,
           onPressed: () {
-            print("Action button");
             Navigator.push(
               context,
               new MaterialPageRoute(
-                  builder: (context) => new CustomerAddressAdd()),
+                  builder: (context) => new CustomerAddressAdd(true)),
             );
           },
         ),

@@ -22,7 +22,7 @@ class MyAddresses extends StatelessWidget {
             Navigator.push(
               context,
               new MaterialPageRoute(
-                  builder: (context) => new CustomerAddressAdd()),
+                  builder: (context) => new CustomerAddressAdd(false)),
             );
           },
         ),

@@ -1,3 +1,4 @@
+import 'package:bookland/address_select.dart';
 import 'package:bookland/elements/appBar.dart';
 import 'package:bookland/main.dart';
 import 'package:flutter/cupertino.dart';
@@ -8,8 +9,12 @@ import 'package:bookland/my_addresses.dart';
 /// This variable is responsible for informing
 /// that saving operation's status
 bool isSaved = false;
+bool isAddressSelectPage = false;
 
 class CustomerAddressAdd extends StatelessWidget {
+  CustomerAddressAdd(bool _isAddressSelectPage) {
+    isAddressSelectPage = _isAddressSelectPage;
+  }
   static const String _title = "Add Address";
 
   @override
@@ -265,10 +270,17 @@ class _AddressAddPageState extends State<CustomerAddressAddStateful> {
                         new FlatButton(
                           child: new Text("Close"),
                           onPressed: () {
-                            Navigator.push(
-                                context,
-                                new MaterialPageRoute(
-                                    builder: (context) => new MyAddresses()));
+                            if (isAddressSelectPage) {
+                              Navigator.push(
+                                  context,
+                                  new MaterialPageRoute(
+                                      builder: (context) => new AddressSelect()));
+                            } else {
+                              Navigator.push(
+                                  context,
+                                  new MaterialPageRoute(
+                                      builder: (context) => new MyAddresses()));
+                            }
                           },
                         )
                       ],
