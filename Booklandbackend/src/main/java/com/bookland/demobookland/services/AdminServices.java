@@ -312,6 +312,25 @@ public class AdminServices {
         orderRepository.save(order);
         return stock;
     }
+
+    @Transactional
+    public Integer rejectOrder(Integer orderId) {
+        Optional<Order> order = orderRepository.findById(orderId);
+        Order currentOrder = order.get();
+        boolean isValid = false;
+
+        for (Contains c : currentOrder.getContainsList()) {
+            if (c.getPurchasedDetailedInfo().getStatus().equals("Shipped") || c.getPurchasedDetailedInfo().getStatus().equals("Delivered")) {
+            } else {
+                c.getPurchasedDetailedInfo().setStatus("Cancelled");
+                isValid = true;
+            }
+        }
+        orderRepository.save(currentOrder);
+        if (isValid)
+            return 1;
+        return 0;
+    }
 }
 
 

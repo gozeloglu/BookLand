@@ -6,7 +6,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+import java.util.Map;
 
 @Service
 public class PaymentServices {
@@ -68,12 +71,6 @@ public class PaymentServices {
 
     @Transactional
     public Integer cargoCreation(Integer shippingId) {
-        Date dt = new Date();
-        Calendar c = Calendar.getInstance();
-        c.setTime(dt);
-        c.add(Calendar.DATE, 1);
-        dt = c.getTime();
-
         PurchasedDetailedInfo purchasedDetailedInfo = new PurchasedDetailedInfo();
         purchasedDetailedInfo.setShippingCompanyId(shippingId);
         purchasedDetailedInfo.setReleasedTime(null);
