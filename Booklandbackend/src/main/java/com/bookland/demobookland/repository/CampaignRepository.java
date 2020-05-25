@@ -5,7 +5,7 @@ import org.springframework.data.repository.PagingAndSortingRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface CampaignRepository extends PagingAndSortingRepository<Campaign,Integer> {
+public interface CampaignRepository extends PagingAndSortingRepository<Campaign, Integer> {
 
     Campaign findByCouponCode(String couponCode);
 
