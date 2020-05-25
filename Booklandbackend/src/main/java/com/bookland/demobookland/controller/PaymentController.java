@@ -28,7 +28,7 @@ public class PaymentController {
         }
 
         return paymentServices.orderCreate(orderInfo.getBasketInfo(), orderInfo.getTotalAmount(),
-                customerId, addressId, shippingId, orderInfo.getCardNo());
+                customerId, addressId, shippingId, orderInfo.getCardNo(), orderInfo.getCouponCode());
     }
 
     @GetMapping(value = "/getCompanies", produces = MediaType.APPLICATION_JSON_VALUE)
