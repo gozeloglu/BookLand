@@ -1,5 +1,6 @@
 import 'dart:ffi';
 
+import 'package:bookland/comment_write.dart';
 import 'package:bookland/elements/appBar.dart';
 import 'package:bookland/elements/bottomNavigatorBar.dart';
 import 'package:bookland/http_admin.dart';
@@ -67,7 +68,7 @@ class CustomerBookView extends StatelessWidget {
                       description((snapshot.data.description).toString()),
                       Text("\n"),
                       addBasketButton(context, customerID, isLogin),
-                      commentButton(),
+                      commentButton(context),
                     ],
                   ),
                 ),
@@ -308,17 +309,17 @@ class CustomerBookView extends StatelessWidget {
     );
   }
 
-  Widget commentButton() {
+  Widget commentButton(BuildContext context) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       children: [
-      writeCommentButton(),
+      writeCommentButton(context),
       showCommentButton(),
     ],);
 
   }
 
-  Widget writeCommentButton() {
+  Widget writeCommentButton(BuildContext context) {
     return RaisedButton(
       child: Text(
         "Write Comment",
@@ -328,7 +329,13 @@ class CustomerBookView extends StatelessWidget {
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(15),
       ),
-      onPressed: () {},
+      onPressed: () {
+        Navigator.push(context,
+            MaterialPageRoute(
+              builder: (context) => CommentWrite(),
+            )
+        );
+      },
     );
   }
 
