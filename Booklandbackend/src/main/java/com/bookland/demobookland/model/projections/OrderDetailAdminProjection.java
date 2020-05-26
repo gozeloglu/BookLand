@@ -29,4 +29,8 @@ public interface OrderDetailAdminProjection {
     Integer getCustomerId();
 
     List<OrderDifferentProjection> getDifference();
+
+    Float getTotalAmount();
+
+    Float getShippingPrice();
 }
