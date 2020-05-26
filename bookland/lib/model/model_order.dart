@@ -49,15 +49,17 @@ class Model_Order_Details {
   final String orderAdressline ;
 
   final String companyName ;
+final String order_customer_id;
 
   final String shippingPrice ;
   final List<Book> bookList;
+  final String coupon ;
 
 
   Model_Order_Details({
     this.orderId,
     this.orderDate,
-
+    this.order_customer_id,
     this.status,
     this.totalPrice,
     this.order_customer,
@@ -68,7 +70,8 @@ class Model_Order_Details {
     this.orderAdressline,
     this.companyName,
     this.shippingPrice,
-    this.bookList
+    this.bookList,
+    this.coupon
   });
 
 
@@ -81,17 +84,20 @@ class Model_Order_Details {
     List<Book> difference = list.map((i) => Book.fromJson(i)).toList();
     print("HERE I AM");
     return Model_Order_Details(
-      //orderId:  json[],
-       //order_customer : json['firstname'] + "\t" + json['surname'] ,
-       orderDate: json['orderedTime'].toString(),
+        orderId:  json["orderId"].toString(),
+       order_customer : json['firstName'] + "\t" + json['surname'] ,
+      cardNo : json['cardNo'].toString() ,
+      order_customer_id :  json['customerId'].toString() ,
+      orderDate: json['orderedTime'].toString(),
        orderAdressline: json['addressLine'].toString(),
        country:  json['country'].toString(),
        city: json['city'].toString(),
        companyName:  json['companyName'].toString(),
-       bookList : difference,
+         bookList : difference,
         totalPrice: json['totalAmount'].toString(),
         shippingPrice:json['shippingPrice'].toString(),
         status:json['status'].toString(),
+         coupon:json['coupon'].toString(),
     );
 
   }
@@ -122,6 +128,56 @@ class Book {
         bookImage: json['bookImage'].toString(),
         price: json['price'].toString(),
         trackingNo: json['trackingNumber'].toString()
+
+    );
+
+  }
+}
+class Model_Order_Details_Customer {
+
+  final String orderDate;
+  final String status;
+  final String totalPrice;
+  final String country;
+  final String city;
+  final String orderAdressline ;
+  final String companyName ;
+  final String shippingPrice ;
+  final List<Book> bookList;
+
+
+
+  Model_Order_Details_Customer({
+    this.orderDate,
+    this.status,
+    this.totalPrice,
+    this.country,
+    this.city,
+    this.orderAdressline,
+    this.companyName,
+    this.shippingPrice,
+    this.bookList,
+  });
+
+
+  factory Model_Order_Details_Customer.fromJson(Map<String, dynamic> json) {
+    var list = json['difference'] as List;
+    print(list.toString());
+    //List<Book> difference = list.map((i) => Book.fromJson(i)).toList();
+    //print(difference.toString());
+
+    List<Book> difference = list.map((i) => Book.fromJson(i)).toList();
+    print("HERE I AM");
+    return Model_Order_Details_Customer(
+      orderDate: json['orderedTime'].toString(),
+      orderAdressline: json['addressLine'].toString(),
+      country:  json['country'].toString(),
+      city: json['city'].toString(),
+      companyName:  json['companyName'].toString(),
+      bookList : difference,
+      totalPrice: json['totalAmount'].toString(),
+      shippingPrice:json['shippingPrice'].toString(),
+      status:json['status'].toString(),
 
     );
 

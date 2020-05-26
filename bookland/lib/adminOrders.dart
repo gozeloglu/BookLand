@@ -123,6 +123,7 @@ class AdminOrdersState extends State<AdminOrdersPage> {
         totalItemsGetter: totalPagesGetter,
         pageErrorChecker: pageErrorChecker,
         scrollPhysics: BouncingScrollPhysics(),
+
       ),
 
       floatingActionButton: FloatingActionButton(
@@ -329,12 +330,10 @@ class OrderData {
     }
 
     for (int i = 0; i < jsonData.length; i++) {
-      //ordersList.add(jsonData[i]["orderedId"].toString());
-      ordersList.add("1");
+      ordersList.add(jsonData[i]["orderId"].toString());
       orderdatesList.add(jsonData[i]["orderedDate"].toString());
       orderpricesList.add(jsonData[i]["totalAmount"].toString());
-      //orderStatusList.add(jsonData[i]["status"]);
-      orderStatusList.add("Transport");
+      orderStatusList.add(jsonData[i]["status"].toString());
       orderCustomerList.add((jsonData[i]["customerName"].toString() + "\t" + jsonData[i]["customerSurname"].toString()).toUpperCase());
     }
 
