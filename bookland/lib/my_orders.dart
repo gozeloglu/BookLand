@@ -8,7 +8,7 @@ import 'package:bookland/elements/bottomNavigatorBar.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:bookland/OrderView.dart';
-
+import 'package:bookland/main.dart';
 
 import 'package:flutter_paginator/flutter_paginator.dart';
 
@@ -25,6 +25,7 @@ var globalExploreContext;
 int deletedOrderId = -1;
 List<String> choosenIcons = [];
 
+String customerid = customerID;
 
 class MyOrders extends StatelessWidget {
   MyOrdersStateless(int orderId) {
@@ -94,7 +95,7 @@ class MyOrdersState extends State<MyOrdersPage> {
       String password = 'WalkingDead';
       String basicAuth =
           'Basic ' + base64Encode(utf8.encode('$username:$password'));
-      var urlorderCount = "http://10.0.2.2:8080/getCustomerOrderCount/103";
+      var urlorderCount = "http://10.0.2.2:8080/getCustomerOrderCount/$customerid";
 
       String _urlorderCount = Uri.encodeFull(urlorderCount);
       http.Response responseCount = await http.get(
@@ -119,7 +120,7 @@ class MyOrdersState extends State<MyOrdersPage> {
     try {
       getTotalCount();
 
-      var url = "http://10.0.2.2:8080/myOrders/$page/10/103";
+      var url = "http://10.0.2.2:8080/myOrders/$page/10/$customerid";
       print(url);
       String username = 'Daryl';
       String password = 'WalkingDead';
