@@ -13,7 +13,7 @@ import 'package:bookland/main.dart';
 import 'package:flutter_paginator/flutter_paginator.dart';
 
 Map<String, IconData> iconMapping = {
-  'Transport' : Icons.local_shipping,
+  'Shipped' : Icons.local_shipping,
   'Delivered' : Icons.done_outline,
   'Cancelled' : Icons.cancel,
   'Waiting Confirmation' : Icons.watch_later,
@@ -119,7 +119,8 @@ class MyOrdersState extends State<MyOrdersPage> {
   Future<OrderData> sendordersDataRequest(int page) async {
     try {
       getTotalCount();
-
+      print("CustomerIDDDD");
+      print(customerid);
       var url = "http://10.0.2.2:8080/myOrders/$page/10/$customerid";
       print(url);
       String username = 'Daryl';
