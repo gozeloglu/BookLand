@@ -10,46 +10,69 @@ import 'elements/appBar.dart';
 import 'explore.dart';
 
 class Search extends StatelessWidget {
+
+
+  @override
+  Widget build(BuildContext context) {
+    globalExploreContext = context;
+    return MaterialApp(
+      theme: ThemeData(
+        primarySwatch: Colors.red,
+      ),
+      title: 'Search Page',
+      home: SearchPage(),
+    );
+  }
+}
+
+class SearchPage extends StatefulWidget {
+  @override
+  State<StatefulWidget> createState() {
+    return SearchState();
+  }
+}
+
+class SearchState extends State<SearchPage> {
   GlobalKey<PaginatorState> paginatorGlobalKey = GlobalKey();
 
-  Widget openPage(BuildContext context) {
-    print("sldcmsldkcnsdlkcnsd");
-    Navigator.push(context, MaterialPageRoute(
-        builder: (BuildContext context) {
+  //Widget openPage(BuildContext context) {}
+
+  @override
+  Widget build(BuildContext context) {
     return Scaffold(
-      appBar: MyAppBar(),
-      body: Paginator.listView(
-        key: paginatorGlobalKey,
-        pageLoadFuture: searchBooksDataRequest,
-        pageItemsGetter: listBooksGetter,
-        listItemBuilder: listBookBuilder,
-        //loadingWidgetBuilder: loadingWidgetMaker,
-        //errorWidgetBuilder: errorWidgetMaker,
-        //emptyListWidgetBuilder: emptyListWidgetMaker,
-       // totalItemsGetter: totalPagesGetter,
-        //pageErrorChecker: pageErrorChecker,
-        scrollPhysics: BouncingScrollPhysics(),
-      ),
+      appBar: MyAppBar(pageTitle: "Explore", back: true,filter_list:false ),
+      body: Container(
+        child: Stack(
+          children: <Widget>[
+            MySearch(),
+            Paginator.listView(
+              key: paginatorGlobalKey,
+              pageLoadFuture: searchBooksDataRequest,
+              pageItemsGetter: listBooksGetter,
+              listItemBuilder: listBookBuilder,
+              loadingWidgetBuilder: loadingWidgetMaker,
+              errorWidgetBuilder: errorWidgetMaker,
+              emptyListWidgetBuilder: emptyListWidgetMaker,
+              totalItemsGetter: totalPagesGetter,
+              pageErrorChecker: pageErrorChecker,
+              scrollPhysics: BouncingScrollPhysics(),
+            ),
+          ],
+        )
+      )
 
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          paginatorGlobalKey.currentState.changeState(
-              pageLoadFuture: searchBooksDataRequest, resetState: true);
-        },
-        child: Icon(Icons.refresh),
-      ),
 
 
-     // bottomNavigationBar: MyBottomNavigatorBar(),
+
+      // bottomNavigationBar: MyBottomNavigatorBar(),
 
     );
-        },
-    ));
-  }/*
+  }
+
+
   Widget MySearch(){
     return TextField(
       onChanged: (value) {
-        searchBooksDataRequest(1, value);
       },
       //controller: editingController,
       decoration: InputDecoration(
@@ -59,20 +82,15 @@ class Search extends StatelessWidget {
           border: OutlineInputBorder(
               borderRadius: BorderRadius.all(Radius.circular(25.0)))),
     );
-  }*/
-  @override
-  Widget build(BuildContext context) {
-    // TODO: implement build
-    throw UnimplementedError();
   }
 
 
+
   Future<BooksData> searchBooksDataRequest(int page) async {
-    print("helloooooooo");
 
     try {
-      getTotalCount("david");
-      var url = "http://10.0.2.2:8080/Search/1/2/2?keyword=david";
+      //getTotalCount("david");
+      var url = "http://10.0.2.2:8080/Search/1/2/9?keyword=david";
       print(url);
       String username = 'Daryl';
       String password = 'WalkingDead';
@@ -97,6 +115,7 @@ class Search extends StatelessWidget {
   }
 
   List<dynamic> listBooksGetter(BooksData booksData) {
+    print("listbookgetter");
     List<dynamic> bookNameList = [];
     List<int> isbnList = [];
     for (int i = 0; i < booksData.books.length; i++) {
@@ -120,7 +139,9 @@ class Search extends StatelessWidget {
   }
 
     Widget listBookBuilder(value, int index) {
-    // TODO BookView isbn should be changed with isbn
+      print("helloooooooo");
+
+      // TODO BookView isbn should be changed with isbn
     print("VALUEEEE");
     var value_list = value.toString().split("|");
     String text_part = value_list[0];
@@ -143,7 +164,41 @@ class Search extends StatelessWidget {
     ));*/
     });
     }
+  Widget loadingWidgetMaker() {
+    return Container(
+      alignment: Alignment.center,
+      height: 160.0,
+      child: CircularProgressIndicator(),
+    );
+  }
 
+  Widget errorWidgetMaker(BooksData booksData, retryListener) {
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: <Widget>[
+        Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: Text(booksData.errorMessage),
+        ),
+        FlatButton(
+          onPressed: retryListener,
+          child: Text("Retry"),
+        )
+      ],
+    );
+  }
+
+  Widget emptyListWidgetMaker(BooksData booksData) {
+    isbnSet.clear();
+    booksData.books.clear();
+    booksData.authors.clear();
+    booksData.prices.clear();
+    booksData.img_list.clear();
+    booksData.isbn_list.clear();
+    return Center(
+      child: Text("No books in the list"),
+    );
+  }
   void getTotalCount(String keyword) async {
     try {
       String username = 'Daryl';
@@ -169,6 +224,14 @@ class Search extends StatelessWidget {
       print("SocketException");
       throw Exception(e);
     }
+  }
+  int totalPagesGetter(BooksData booksData) {
+    // TODO This should be fixed
+    return total;
+  }
+
+  bool pageErrorChecker(BooksData booksData) {
+    return booksData.statusCode != 200;
   }
 }
 class BooksData {
@@ -197,17 +260,18 @@ class BooksData {
   List<double> priceList;
 
   BooksData.fromResponse(http.Response response) {
+    print("fromResponce");
     this.statusCode = response.statusCode;
     List jsonData = json.decode(response.body);
-    print(jsonData);
 
     // isbnSet.clear();
     if (isbnSet.contains(deletedBookId)) {
       isbnSet.remove(deletedBookId);
     }
-
+    print("jsondatalen:"+jsonData.length.toString());
     for (int i = 0; i < jsonData.length; i++) {
       books.add(jsonData[i]["bookName"]);
+      print(jsonData[i]["bookName"]);
       authors.add(jsonData[i]["author"]);
 
       isbnSet.add(jsonData[i]["bookId"]);
@@ -223,6 +287,7 @@ class BooksData {
     }
 
     nItems = books.length;
+
   }
 
   BooksData.withError(String errorMessage) {

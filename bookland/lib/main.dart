@@ -105,8 +105,13 @@ class MyStatelessWidget extends StatelessWidget {
             icon: const Icon(Icons.search),
             tooltip: 'Search Page',
             onPressed: () {
-              Search s = new Search();
-              s.openPage(context);
+              //Search s = new Search();
+              //s.openPage(context);
+              Navigator.push(
+                context,
+                new MaterialPageRoute(
+                    builder: (context) => new Search()),
+              );
             },
           ),
         ],
