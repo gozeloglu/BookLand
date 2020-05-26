@@ -42,10 +42,18 @@ class OrderViewAdmin extends StatelessWidget {
               return Container(
                 width: double.infinity,
                 padding: EdgeInsets.only(top: 20, bottom: 20),
+                decoration: BoxDecoration(
+                  image: DecorationImage(
+                    image: AssetImage("assets/orderdetails/backgroundAdmin.jpg"),
+                    fit: BoxFit.cover,
+                  ),
+                ),
                 child: new SingleChildScrollView(
                   child: Column(
                     children: <Widget>[
-                      orderSummary( context,snapshot.data.orderDate.toString(),snapshot.data.companyName.toString(),snapshot.data.orderAdressline.toString(),snapshot.data.city.toString(),snapshot.data.country.toString()),
+                      orderSummary( context,snapshot.data.orderDate.toString(),snapshot.data.companyName.toString(),snapshot.data.orderId.toString()),
+                    // BuildContext context,String orderdate,String shippingComp, String orderID
+                    orderCustomer(context,snapshot.data.order_customer.toString().toUpperCase(),snapshot.data.order_customer_id.toString(),snapshot.data.cardNo.toString(),snapshot.data.orderAdressline.toString(),snapshot.data.city.toString(),snapshot.data.country.toString()),
                       SizedBox(
                         height: (snapshot.data.bookList.length).toDouble() * 200 ,
                         child: new ListView.builder(
@@ -56,7 +64,7 @@ class OrderViewAdmin extends StatelessWidget {
                           },
                         ),
                       ),
-                      costTotal(snapshot.data.totalPrice.toString(),snapshot.data.shippingPrice.toString()),
+                      costTotal(snapshot.data.totalPrice.toString(),snapshot.data.shippingPrice.toString(),snapshot.data.coupon.toString()),
                       status(snapshot.data.status.toString())
                     ],
                   ),
@@ -87,36 +95,7 @@ class OrderViewAdmin extends StatelessWidget {
     );
   }
 
-  Widget orderCustomer(String orderdate,String orderid, String addressline,String city ,String country) {
-    String allAdress = addressline +"\t" + city +"\t" + country;
-    return  Container(
-      width: 500,
-      height: 300,
-      color: Colors.green,
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: <Widget>[
-
-          Text("\t\tOrder Date:" ,style: TextStyle(fontWeight: FontWeight.bold,fontSize: 18), ),
-          Text("\t\t" + orderdate ,style: TextStyle(fontWeight: FontWeight.normal,fontSize: 15), ),
-
-          Text("\t\tOrder Number/ID" ,style: TextStyle(fontWeight: FontWeight.bold,fontSize: 18), ),
-          Text("\t\t" +orderid ,style: TextStyle(fontWeight: FontWeight.normal,fontSize: 15), ),
-
-
-          Text("\t\tDelivery Address" ,style: TextStyle(fontWeight: FontWeight.bold,fontSize: 18), ),
-          Text("\t\t" +allAdress ,style: TextStyle(fontWeight: FontWeight.normal,fontSize: 15), ),
-
-          RaisedButton(child: Text("Information Contract",style: TextStyle(fontWeight: FontWeight.bold,fontSize: 11)), onPressed: () {}),
-          RaisedButton(child: Text("Sales Contract",style: TextStyle(fontWeight: FontWeight.bold,fontSize: 11)), onPressed: () {}),
-
-        ],
-      ),
-    );
-  }
-
-  Widget orderSummary(BuildContext context,String orderdate,String shippingComp, String addressline,String city ,String country) {
+  Widget orderCustomer(BuildContext context,String orderCustomer,String orderCustomerID, String orderCustomerCard,String addressline,String city,String country) {
     String allAdress = addressline +"\t" + city +"\t" + country;
     return  Container(
       width: 500,
@@ -128,7 +107,44 @@ class OrderViewAdmin extends StatelessWidget {
         //border: new Border.all(color: Colors.grey[500]),
         //color: Colors.indigo,
         image: DecorationImage(
-          image: AssetImage("assets/orderdetails/background1.jpg"),
+          image: AssetImage("assets/orderdetails/backgroundAdmin1.jpg"),
+          fit: BoxFit.fill,
+
+        ),
+
+      ),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: <Widget>[
+          Text("\t\t\t\t\t\t\t\t\t\tOrder Customer Details\n" ,style: TextStyle(fontWeight: FontWeight.bold,fontSize: 22), ),
+          Text("\t\tCustomer ID" ,style: TextStyle(fontWeight: FontWeight.bold,fontSize: 18), ),
+          Text("\t\t" +orderCustomerID ,style: TextStyle(fontWeight: FontWeight.normal,fontSize: 15), ),
+          Text("\t\tCustomer Name" ,style: TextStyle(fontWeight: FontWeight.bold,fontSize: 18), ),
+          Text("\t\t" +orderCustomer ,style: TextStyle(fontWeight: FontWeight.normal,fontSize: 15), ),
+          Text("\t\tCustomer Card No" ,style: TextStyle(fontWeight: FontWeight.bold,fontSize: 18), ),
+          Text("\t\t" +orderCustomerCard ,style: TextStyle(fontWeight: FontWeight.normal,fontSize: 15), ),
+          Text("\t\tDelivery Address" ,style: TextStyle(fontWeight: FontWeight.bold,fontSize: 18), ),
+          Text("\t\t" +allAdress ,style: TextStyle(fontWeight: FontWeight.normal,fontSize: 15), ),
+
+        ],
+      ),
+    );
+  }
+
+  Widget orderSummary(BuildContext context,String orderdate,String shippingComp, String orderID) {
+
+    return  Container(
+      width: 500,
+      height: 300,
+      //color: Colors.greenAccent,
+      margin: const EdgeInsets.all(10.0),
+      padding: const EdgeInsets.all(5.0),
+      decoration: new BoxDecoration(
+        //border: new Border.all(color: Colors.grey[500]),
+        //color: Colors.indigo,
+        image: DecorationImage(
+          image: AssetImage("assets/orderdetails/backgroundAdmin1.jpg"),
           fit: BoxFit.fill,
 
         ),
@@ -139,30 +155,12 @@ class OrderViewAdmin extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
           Text("\t\t\t\t\t\t\t\t\t\tOrder Summary\n" ,style: TextStyle(fontWeight: FontWeight.bold,fontSize: 22), ),
+          Text("\t\tOrder ID:" ,style: TextStyle(fontWeight: FontWeight.bold,fontSize: 18), ),
+          Text("\t\t" + orderID ,style: TextStyle(fontWeight: FontWeight.normal,fontSize: 15), ),
           Text("\t\tOrder Date:" ,style: TextStyle(fontWeight: FontWeight.bold,fontSize: 18), ),
           Text("\t\t" + orderdate ,style: TextStyle(fontWeight: FontWeight.normal,fontSize: 15), ),
-
-          Text("\t\tShipping Company" ,style: TextStyle(fontWeight: FontWeight.bold,fontSize: 18), ),
+         Text("\t\tShipping Company" ,style: TextStyle(fontWeight: FontWeight.bold,fontSize: 18), ),
           Text("\t\t" +shippingComp ,style: TextStyle(fontWeight: FontWeight.normal,fontSize: 15), ),
-
-
-          Text("\t\tDelivery Address" ,style: TextStyle(fontWeight: FontWeight.bold,fontSize: 18), ),
-          Text("\t\t" +allAdress ,style: TextStyle(fontWeight: FontWeight.normal,fontSize: 15), ),
-
-          RaisedButton(child: Text("Information Contract",style: TextStyle(fontWeight: FontWeight.bold,fontSize: 11)), onPressed: () { Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (context) =>
-                // new BookView(isbn: isbnSet.elementAt(index).toString()),
-                new TextFull(),
-              ));}),
-          RaisedButton(child: Text("Sales Contract",style: TextStyle(fontWeight: FontWeight.bold,fontSize: 11)), onPressed: () {   Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (context) =>
-                // new BookView(isbn: isbnSet.elementAt(index).toString()),
-                new TextFull(),
-              ));}),
 
         ],
       ),
@@ -181,7 +179,7 @@ class OrderViewAdmin extends StatelessWidget {
           //border: new Border.all(color: Colors.grey[500]),
           //color: Colors.indigo,
           image: DecorationImage(
-            image:AssetImage("assets/orderdetails/background3.jpg"),
+            image:AssetImage("assets/orderdetails/backgroundAdmin1.jpg"),
             fit: BoxFit.fill,
 
           ),),
@@ -211,7 +209,7 @@ class OrderViewAdmin extends StatelessWidget {
         ));
 
   }
-  Widget costTotal(String totalCost,String shippingCost) {
+  Widget costTotal(String totalCost,String shippingCost,String coupon) {
     return  Container(
       width: 500,
       height: 200,
@@ -220,9 +218,9 @@ class OrderViewAdmin extends StatelessWidget {
       padding: const EdgeInsets.all(5.0),
       decoration: new BoxDecoration(
         //border: new Border.all(color: Colors.grey[500]),
-        //color: Colors.indigo,
+        //color: Colors.white,
         image: DecorationImage(
-          image: AssetImage("assets/orderdetails/background1.jpg"),
+          image: AssetImage("assets/orderdetails/backgroundAdmin1.jpg"),
           fit: BoxFit.fill,
 
         ),
@@ -239,8 +237,11 @@ class OrderViewAdmin extends StatelessWidget {
           Text("\t\tShipping Cost" ,style: TextStyle(fontWeight: FontWeight.bold,fontSize: 18), ),
           Text("\t\t\$" + shippingCost ,style: TextStyle(fontWeight: FontWeight.normal,fontSize: 15), ),
 
+
           Text("\t\tTotal Cost" ,style: TextStyle(fontWeight: FontWeight.bold,fontSize: 18), ),
           Text("\t\t\$" +( double.parse(totalCost) + double.parse(shippingCost) ).toString(),style: TextStyle(fontWeight: FontWeight.normal,fontSize: 15), ),
+          Text("\t\tCoupon Usage:" ,style: TextStyle(fontWeight: FontWeight.bold,fontSize: 18), ),
+          Text("\t\t" + coupon ,style: TextStyle(fontWeight: FontWeight.normal,fontSize: 15), ),
 
 
         ],
@@ -255,14 +256,14 @@ class OrderViewAdmin extends StatelessWidget {
       padding: const EdgeInsets.all(5.0),
       decoration: new BoxDecoration(
         //border: new Border.all(color: Colors.grey[500]),
-        //color: Colors.indigo,
+        //color: Colors.white,
         image: DecorationImage(
-          image:AssetImage("assets/orderdetails/background0.jpg"),
+          image:AssetImage("assets/orderdetails/background2.jpg"),
           fit: BoxFit.fill,
         ),
         boxShadow: [
           BoxShadow(
-            color: Colors.purple.withOpacity(1.0),
+            color: Colors.deepOrange.withOpacity(1.0),
             spreadRadius: 5,
             blurRadius: 7,
             offset: Offset(0, 3), // changes position of shadow
@@ -274,8 +275,8 @@ class OrderViewAdmin extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
-          Text("\t\t\t\t\t\t\t\t\t\tRecent Status" ,style: TextStyle(fontWeight: FontWeight.bold,fontSize: 25), ),
-          Text("\t\t\t\t\t\t\t\t\t\t" + status.toUpperCase() ,style: TextStyle(fontWeight: FontWeight.bold,fontSize: 25 ), ),
+          Text("\t\t\t\t\t\t\t\t\t\tRecent Status" ,style: TextStyle(fontWeight: FontWeight.bold,fontSize: 25,color: Colors.white), ),
+          Text("\t\t\t\t\t\t\t\t\t\t" + status.toUpperCase() ,style: TextStyle(fontWeight: FontWeight.bold,fontSize: 25 ,color: Colors.white), ),
 
         ],
       ),

@@ -171,7 +171,7 @@ class HTTPAll {
       throw Exception("Can't get books.");
     }
   }
-  Future<Model_Order_Details> getOrder(String orderid) async {
+  Future<Model_Order_Details_Customer> getOrder(String orderid) async {
     var url = "http://10.0.2.2:8080/orderDetails/$orderid";
     String username = 'Daryl';
     String password = 'WalkingDead';
@@ -192,7 +192,7 @@ class HTTPAll {
     if (response.statusCode == 200) {
       print("just after if");
 
-      Model_Order_Details obj = Model_Order_Details.fromJson(json.decode(response.body));
+      Model_Order_Details_Customer obj = Model_Order_Details_Customer.fromJson(json.decode(response.body));
       print(obj.orderAdressline);
       print(obj.bookList[0].author);
       return obj;
