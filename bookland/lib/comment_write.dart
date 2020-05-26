@@ -1,9 +1,20 @@
+import 'package:bookland/customerBookView.dart';
 import 'package:bookland/elements/appBar.dart';
+import 'package:bookland/http_comment_vote.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:smooth_star_rating/smooth_star_rating.dart';
 
+bool isCommentSend = false;
+String bookId;
+String customerId;
+
 class CommentWrite extends StatelessWidget {
+  CommentWrite(String _bookId, String _customerId) {
+    bookId = _bookId;
+    customerId = _customerId;
+  }
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -19,6 +30,7 @@ class CommentWriteStateful extends StatefulWidget {
 }
 
 class _CommentWriteState extends State<CommentWriteStateful> {
+  CommentVote commentVote = new CommentVote();
   TextEditingController commentTextController = new TextEditingController();
   String comment;
   var rating = 0.0;
@@ -46,7 +58,7 @@ class _CommentWriteState extends State<CommentWriteStateful> {
           shrinkWrap: true,
           children: [
             commentTextField(),
-            rateField(),
+            //rateField(),
             commentButton(),
           ],
         ),
@@ -79,7 +91,8 @@ class _CommentWriteState extends State<CommentWriteStateful> {
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
             Text(
-              "Rate: ", style: TextStyle(fontSize: 20),
+              "Rate: ",
+              style: TextStyle(fontSize: 20),
             ),
             SmoothStarRating(
                 rating: rating,
@@ -109,7 +122,66 @@ class _CommentWriteState extends State<CommentWriteStateful> {
             "Send Comment",
             style: TextStyle(fontSize: 20, color: Colors.white),
           ),
-          onPressed: () {}),
+          onPressed: () {
+            String comment = commentTextController.text;
+            bool isEmpty = false;
+            if (comment == "") {
+              isEmpty = true;
+            }
+
+            if (isEmpty) {
+              showDialog(
+                  context: context,
+                  builder: (BuildContext context) {
+                    return AlertDialog(
+                      title: Text("Error!"),
+                      content: Text("Comment cannot be empty!"),
+                      shape: new RoundedRectangleBorder(
+                          borderRadius: new BorderRadius.circular(25)),
+                    );
+                  });
+            } else {
+              // TODO book id and customer id
+              commentVote.sendComment(bookId, customerId, comment);
+            }
+            if (isCommentSend) {
+              showDialog(
+                  context: context,
+                  builder: (BuildContext context) {
+                    return AlertDialog(
+                      title: Text("Successful!"),
+                      content: Text("Comment is sent!"),
+                      shape: new RoundedRectangleBorder(
+                          borderRadius: new BorderRadius.circular(25)),
+                      actions: [
+                        new FlatButton(
+                            onPressed: () {
+                              Navigator.push(
+                                  context,
+                                  new MaterialPageRoute(
+                                      builder: (context) =>
+                                          new CustomerBookView(isbn: bookId)));
+                            },
+                            child: Text("OK")),
+                      ],
+                    );
+                  });
+            } else if (!isCommentSend) {
+              showDialog(
+                  context: context,
+                  builder: (BuildContext context) {
+                    return AlertDialog(
+                      title: Text("Error!"),
+                      content: Text("Comment could not sent!"),
+                      shape: new RoundedRectangleBorder(
+                          borderRadius: new BorderRadius.circular(25)),
+                      actions: [
+                        new FlatButton(onPressed: () {}, child: Text("Close")),
+                      ],
+                    );
+                  });
+            }
+          }),
     );
   }
 }

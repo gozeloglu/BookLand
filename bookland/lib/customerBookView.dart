@@ -330,11 +330,19 @@ class CustomerBookView extends StatelessWidget {
         borderRadius: BorderRadius.circular(15),
       ),
       onPressed: () {
-        Navigator.push(context,
-            MaterialPageRoute(
-              builder: (context) => CommentWrite(),
-            )
-        );
+        if (isLogin) {
+          Navigator.push(context,
+              MaterialPageRoute(
+                builder: (context) => CommentWrite(isbn, customerID),
+              )
+          );
+        } else {
+          Navigator.push(context,
+              MaterialPageRoute(
+                builder: (context) => Login(),
+              )
+          );
+        }
       },
     );
   }
