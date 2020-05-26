@@ -67,6 +67,7 @@ class CustomerBookView extends StatelessWidget {
                       description((snapshot.data.description).toString()),
                       Text("\n"),
                       addBasketButton(context, customerID, isLogin),
+                      commentButton(),
                     ],
                   ),
                 ),
@@ -304,6 +305,46 @@ class CustomerBookView extends StatelessWidget {
         padding: const EdgeInsets.all(10.0),
         child: const Text('Add Basket', style: TextStyle(fontSize: 20)),
       ),
+    );
+  }
+
+  Widget commentButton() {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+      children: [
+      writeCommentButton(),
+      showCommentButton(),
+    ],);
+
+  }
+
+  Widget writeCommentButton() {
+    return RaisedButton(
+      child: Text(
+        "Write Comment",
+        style: TextStyle(fontSize: 20, color: Colors.white),
+      ),
+      color: Colors.pinkAccent,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(15),
+      ),
+      onPressed: () {},
+    );
+  }
+
+  Widget showCommentButton() {
+    return RaisedButton(
+      child: Text(
+        "Comments",
+        style: TextStyle(fontSize: 20, color: Colors.white),
+      ),
+      color: Colors.green,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(15),
+      ),
+      onPressed: () {
+
+      },
     );
   }
 
