@@ -27,7 +27,7 @@ public class BookController {
     public List<ExplorePageProjection> getBooks(@PathVariable Integer pageNo, @PathVariable Integer pageSize) {
         return bookServices.getAllBooks(pageNo - 1, pageSize);
     }
-    
+
     @PostMapping(value = "/addBook")
     public String addBook(@Validated(AddBookGroup.class) @RequestBody Book book) {
         return bookServices.addBook(book);

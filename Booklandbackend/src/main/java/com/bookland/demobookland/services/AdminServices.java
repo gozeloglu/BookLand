@@ -253,6 +253,16 @@ public class AdminServices {
             }
 
             @Override
+            public Integer getOrderId() {
+                return orders.getOrderId();
+            }
+
+            @Override
+            public String getStatus() {
+                return orders.getContainsList().get(0).getPurchasedDetailedInfo().getStatus();
+            }
+
+            @Override
             public String getCustomerName() {
                 return orders.getCustomerOrder().getFirstName();
             }
