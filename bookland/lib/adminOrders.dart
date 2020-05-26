@@ -10,7 +10,8 @@ import 'dart:collection';
 import 'package:http/http.dart' as http;
 import 'package:bookland/OrderViewAdmin.dart';
 import 'package:flutter_paginator/flutter_paginator.dart';
-
+import 'package:bookland/services/HTTP.dart';
+import 'package:bookland/services/globalVariable.dart';
 /*
 void openPage(BuildContext context) {
   Navigator.push(context, MaterialPageRoute(
@@ -59,7 +60,7 @@ void openPage(BuildContext context) {
 
 
 Map<String, IconData> iconMapping = {
-  'Transport' : Icons.local_shipping,
+  'Shipped' : Icons.local_shipping,
   'Delivered' : Icons.done_outline,
   'Cancelled' : Icons.cancel,
   'Waiting Confirmation' : Icons.watch_later,
@@ -196,6 +197,7 @@ class AdminOrdersState extends State<AdminOrdersPage> {
   List<dynamic> listordersGetter(OrderData ordersData) {
     List<dynamic> orderNameList = [];
     List<int> isbnList = [];
+    choosenIcons = [];
     for (int i = 0; i < ordersData.ordersList.length; i++) {
       String val = "Order Date:\t" +
           ordersData.orderdatesList[i] +
@@ -203,7 +205,7 @@ class AdminOrdersState extends State<AdminOrdersPage> {
           "Order ID:\t" +
           ordersData.ordersList[i].toString() +
           "\n\n" +
-          "Total Cost:\t" +
+          "Total Cost:\t\$" +
           ordersData.orderpricesList[i] +
           "\n\n" +
           "Order Customer:\t" +
@@ -214,6 +216,7 @@ class AdminOrdersState extends State<AdminOrdersPage> {
       orderNameList.add(val);
       choosenIcons.add(ordersData.orderStatusList[i].toString());
     }
+    print(choosenIcons);
 
 
     return orderNameList;
@@ -228,6 +231,7 @@ class AdminOrdersState extends State<AdminOrdersPage> {
   }
 
   Widget listorderBuilder(value, int index) {
+    HTTPAll httpObj = new HTTPAll();
     String choseniconStr = choosenIcons[index].toString();
     print(choseniconStr.toString());
     var value_list = value.toString().split("|");
@@ -235,7 +239,7 @@ class AdminOrdersState extends State<AdminOrdersPage> {
     String orderidPar = value_list[1];
     return Card(
       child: ListTile(
-        leading: new Icon(iconMapping [choseniconStr], color: Colors.black) ,
+        leading: new Icon(iconMapping[choseniconStr], color: Colors.black) ,
         title:  Text(text_part),
         onTap: (){
           Navigator.push(
@@ -248,14 +252,125 @@ class AdminOrdersState extends State<AdminOrdersPage> {
         children: <Widget>[
           IconButton(
               icon: Icon(Icons.beenhere),
-              tooltip: 'Increase volume by 10',
+              tooltip: 'Approve Order',
               onPressed: () {
+                var result = httpObj.adminApproveOrder(orderidPar);
+                print(result);
+                Timer(Duration(seconds: 1), () {
+                  if (errorControl == false) {
+                    showDialog(
+                      context: context,
+                      builder: (BuildContext context) {
+                        // return object of type Dialog
+                        return AlertDialog(
+                          title: new Text("Order Approved"),
+                          content: new Text("Approving order is successful"),
+                          actions: <Widget>[
+                            // usually buttons at the bottom of the dialog
+                            new FlatButton(
+                              child: new Text("Close"),
+                              onPressed: () {
+                                Navigator.of(context).pop();
+                              },
+                            ),
+                          ],
+                        );
+                      },
+                    );
+
+
+                  }
+                  else {
+                    errorControl = false;
+                    Timer(Duration(seconds: 1), () {
+                      showDialog(
+                        context: context,
+                        builder: (BuildContext context) {
+                          // return object of type Dialog
+                          return AlertDialog(
+                            title: new Text("Can't Approve"),
+                            content: new Text(errorMessage),
+                            actions: <Widget>[
+                              // usually buttons at the bottom of the dialog
+                              new FlatButton(
+                                child: new Text("Close"),
+                                onPressed: () {
+                                  Navigator.of(context).pop();
+                                },
+                              ),
+                            ],
+                          );
+                        },
+                      );
+                    });
+                  }
+                });
+
+
+                /*Navigator.push(
+              context,
+              new MaterialPageRoute(
+                  builder: (context) => new MyApp(),
+            )
+            );*/
               },color: Colors.green
           ),// icon-1
           IconButton(
               icon: Icon(Icons.cancel),
-              tooltip: 'Increase volume by 10',
+              tooltip: 'Deny Order',
               onPressed: () {
+                var result = httpObj.adminDenyOrder(orderidPar);
+                print(result);
+                Timer(Duration(seconds: 1), () {
+                  if (errorControl == false) {
+                    showDialog(
+                      context: context,
+                      builder: (BuildContext context) {
+                        // return object of type Dialog
+                        return AlertDialog(
+                          title: new Text("Order Cancelled"),
+                          content: new Text("Order Denied"),
+                          actions: <Widget>[
+                            // usually buttons at the bottom of the dialog
+                            new FlatButton(
+                              child: new Text("Close"),
+                              onPressed: () {
+                                Navigator.of(context).pop();
+                              },
+                            ),
+                          ],
+                        );
+                      },
+                    );
+
+
+                  }
+                  else {
+                    errorControl = false;
+                    Timer(Duration(seconds: 1), () {
+                      showDialog(
+                        context: context,
+                        builder: (BuildContext context) {
+                          // return object of type Dialog
+                          return AlertDialog(
+                            title: new Text("Can't Approve"),
+                            content: new Text(errorMessage),
+                            actions: <Widget>[
+                              // usually buttons at the bottom of the dialog
+                              new FlatButton(
+                                child: new Text("Close"),
+                                onPressed: () {
+                                  Navigator.of(context).pop();
+                                },
+                              ),
+                            ],
+                          );
+                        },
+                      );
+                    });
+                  }
+                });
+
               },color: Colors.red
           ),// icon-2
         ],
