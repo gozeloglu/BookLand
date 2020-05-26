@@ -3,7 +3,6 @@ import 'package:bookland/elements/appBar.dart';
 import 'package:bookland/http_comment_vote.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:smooth_star_rating/smooth_star_rating.dart';
 
 bool isCommentSend = false;
 String bookId;
@@ -33,7 +32,6 @@ class _CommentWriteState extends State<CommentWriteStateful> {
   CommentVote commentVote = new CommentVote();
   TextEditingController commentTextController = new TextEditingController();
   String comment;
-  var rating = 0.0;
 
   @override
   Widget build(BuildContext context) {
@@ -84,7 +82,7 @@ class _CommentWriteState extends State<CommentWriteStateful> {
     );
   }
 
-  Widget rateField() {
+  /*Widget rateField() {
     return Padding(
         padding: const EdgeInsets.fromLTRB(50, 50, 0, 0),
         child: Row(
@@ -108,7 +106,7 @@ class _CommentWriteState extends State<CommentWriteStateful> {
                 }),
           ],
         ));
-  }
+  }*/
 
   Widget commentButton() {
     return Padding(
@@ -141,7 +139,6 @@ class _CommentWriteState extends State<CommentWriteStateful> {
                     );
                   });
             } else {
-              // TODO book id and customer id
               commentVote.sendComment(bookId, customerId, comment);
             }
             if (isCommentSend) {

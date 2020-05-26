@@ -12,6 +12,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:bookland/basket.dart';
 import 'package:bookland/main.dart';
 import 'package:bookland/login.dart';
+import 'package:smooth_star_rating/smooth_star_rating.dart';
 
 /// This class contains the objects which is the same in GET allBooks method
 
@@ -19,11 +20,14 @@ class CustomerBookView extends StatelessWidget {
   String _bookName;
   int _quantity;
   final String isbn;
+
   CustomerBookView({Key key, @required this.isbn}) : super(key: key);
 
   final HttpBook httpBook = HttpBook();
   final HttpAdmin httpAdmin = HttpAdmin();
   static const String _title = 'BookView';
+  var rating = 0.0;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -68,7 +72,8 @@ class CustomerBookView extends StatelessWidget {
                       description((snapshot.data.description).toString()),
                       Text("\n"),
                       addBasketButton(context, customerID, isLogin),
-                      commentButton(context),
+                      commentField(context),
+                      rateField(),
                     ],
                   ),
                 ),
@@ -309,14 +314,14 @@ class CustomerBookView extends StatelessWidget {
     );
   }
 
-  Widget commentButton(BuildContext context) {
+  Widget commentField(BuildContext context) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       children: [
-      writeCommentButton(context),
-      showCommentButton(),
-    ],);
-
+        writeCommentButton(context),
+        showCommentButton(),
+      ],
+    );
   }
 
   Widget writeCommentButton(BuildContext context) {
@@ -331,17 +336,17 @@ class CustomerBookView extends StatelessWidget {
       ),
       onPressed: () {
         if (isLogin) {
-          Navigator.push(context,
+          Navigator.push(
+              context,
               MaterialPageRoute(
                 builder: (context) => CommentWrite(isbn, customerID),
-              )
-          );
+              ));
         } else {
-          Navigator.push(context,
+          Navigator.push(
+              context,
               MaterialPageRoute(
                 builder: (context) => Login(),
-              )
-          );
+              ));
         }
       },
     );
@@ -350,16 +355,59 @@ class CustomerBookView extends StatelessWidget {
   Widget showCommentButton() {
     return RaisedButton(
       child: Text(
-        "Comments",
+        "View Comments",
         style: TextStyle(fontSize: 20, color: Colors.white),
       ),
       color: Colors.green,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(15),
       ),
-      onPressed: () {
+      onPressed: () {},
+    );
+  }
 
-      },
+  Widget rateField() {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+      children: [
+        rate(),
+        rateButton(),
+      ],
+    );
+  }
+
+  Widget rate() {
+    return Padding(
+      padding: const EdgeInsets.fromLTRB(0, 25, 0, 0),
+      child: SmoothStarRating(
+          rating: rating,
+          isReadOnly: false,
+          size: 30,
+          filledIconData: Icons.star,
+          defaultIconData: Icons.star_border,
+          starCount: 5,
+          allowHalfRating: false,
+          spacing: 2.0,
+          onRated: (value) {
+            print('rating value --> $value');
+          }),
+    );
+  }
+
+  Widget rateButton() {
+    return Padding(
+      padding: const EdgeInsets.fromLTRB(0, 25, 0, 0),
+      child: RaisedButton(
+        child: Text(
+          "Give Rate",
+          style: TextStyle(fontSize: 20, color: Colors.white),
+        ),
+        color: Colors.red,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(15),
+        ),
+        onPressed: () {},
+      ),
     );
   }
 
