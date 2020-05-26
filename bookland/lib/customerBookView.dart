@@ -13,6 +13,7 @@ import 'package:bookland/basket.dart';
 import 'package:bookland/main.dart';
 import 'package:bookland/login.dart';
 import 'package:smooth_star_rating/smooth_star_rating.dart';
+import 'package:bookland/comment_view.dart';
 
 /// This class contains the objects which is the same in GET allBooks method
 
@@ -319,7 +320,7 @@ class CustomerBookView extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       children: [
         writeCommentButton(context),
-        showCommentButton(),
+        viewCommentButton(context),
       ],
     );
   }
@@ -352,7 +353,7 @@ class CustomerBookView extends StatelessWidget {
     );
   }
 
-  Widget showCommentButton() {
+  Widget viewCommentButton(BuildContext context) {
     return RaisedButton(
       child: Text(
         "View Comments",
@@ -362,7 +363,10 @@ class CustomerBookView extends StatelessWidget {
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(15),
       ),
-      onPressed: () {},
+      onPressed: () {
+        Navigator.push(context,
+            new MaterialPageRoute(builder: (context) => CommentView()));
+      },
     );
   }
 
