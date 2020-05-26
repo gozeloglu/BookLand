@@ -1,6 +1,7 @@
 package com.bookland.demobookland.controller;
 
 import com.bookland.demobookland.model.Book;
+import com.bookland.demobookland.model.Vote;
 import com.bookland.demobookland.model.projections.BestSellerProjection;
 import com.bookland.demobookland.model.projections.BookDetailsProjection;
 import com.bookland.demobookland.model.projections.CartDetailProjection;
@@ -129,5 +130,10 @@ public class BookController {
     @GetMapping(value = "/getBestSeller/{pageNo}/{pageSize}", produces = MediaType.APPLICATION_JSON_VALUE)
     public List<BestSellerProjection> getBestSeller(@PathVariable Integer pageNo, @PathVariable Integer pageSize) {
         return bookServices.getBestSellers();
+    }
+
+    @PostMapping(value = "/voteBook", produces = MediaType.APPLICATION_JSON_VALUE)
+    public Float voteBook(@RequestBody Vote vote) {
+        return bookServices.voteBook(vote);
     }
 }
