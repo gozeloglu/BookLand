@@ -246,7 +246,7 @@ public class AdminServices {
 
     public List<OrderAdminSimpleProjection> showAllOrdersAdmin(Integer pageNo, Integer pageSize) {
         Pageable paging = PageRequest.of(pageNo, pageSize);
-        Page<Order> pagedResult = orderRepository.findAllByOrderByOrderedTimeDesc(paging);
+        Page<Order> pagedResult = orderRepository.findAllByOrderByOrderedTimeDescOrderIdDesc(paging);
         List<OrderAdminSimpleProjection> result = new ArrayList<>();
 
         for (Order o : pagedResult.toList()) {
