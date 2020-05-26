@@ -227,4 +227,35 @@ class HTTPAll {
       throw "Can't get books.";
     }
   }
+
+  Future<Model_Order_Details> getOrderAdmin(String orderid) async {
+    var url = "http://10.0.2.2:8080/showDetailOrderAdmin/$orderid";
+    String username = 'Daryl';
+    String password = 'WalkingDead';
+    String basicAuth =
+        'Basic ' + base64Encode(utf8.encode('$username:$password'));
+    print("Before GET");
+
+    final response = await http.get(
+      url,
+      headers: <String, String>{'authorization': basicAuth},
+    );
+
+    //http.Response responseJSON = json.decode(response.body);
+
+    print(response.statusCode);
+    print(response.body);
+
+    if (response.statusCode == 200) {
+      print("just after if");
+
+      Model_Order_Details obj = Model_Order_Details.fromJson(json.decode(response.body));
+      print(obj.orderAdressline);
+      print(obj.bookList[0].author);
+      return obj;
+
+    } else {
+      throw Exception("Can't get books.");
+    }
+  }
 }

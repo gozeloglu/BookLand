@@ -145,7 +145,7 @@ class AdminOrdersState extends State<AdminOrdersPage> {
       String password = 'WalkingDead';
       String basicAuth =
           'Basic ' + base64Encode(utf8.encode('$username:$password'));
-      var urlorderCount = "http://10.0.2.2:8080/getCustomerOrderCount/103";
+      var urlorderCount = "http://10.0.2.2:8080/getOrderCountTotal";
 
       String _urlorderCount = Uri.encodeFull(urlorderCount);
       http.Response responseCount = await http.get(
@@ -170,7 +170,7 @@ class AdminOrdersState extends State<AdminOrdersPage> {
     try {
       getTotalCount();
 
-      var url = "http://10.0.2.2:8080/myOrders/$page/10/103";
+      var url = "http://10.0.2.2:8080/showAllOrdersAdmin/$page/10";
       print(url);
       String username = 'Daryl';
       String password = 'WalkingDead';
@@ -204,6 +204,9 @@ class AdminOrdersState extends State<AdminOrdersPage> {
           "\n\n" +
           "Total Cost:\t" +
           ordersData.orderpricesList[i] +
+          "\n\n" +
+          "Order Customer:\t" +
+          ordersData.orderCustomerList[i] +
           "\n\n" +
           "Order Status:\t" +
           ordersData.orderStatusList[i] + '\n\n' + "|"+   ordersData.ordersList[i].toString() ;
@@ -281,8 +284,8 @@ class AdminOrdersState extends State<AdminOrdersPage> {
     ordersData.ordersList.clear();
     ordersData.orderdatesList.clear();
     ordersData.orderpricesList.clear();
-    ordersData.ordersadresstitleList.clear();
     ordersData.orderStatusList.clear();
+    ordersData.orderCustomerList.clear();
     return Center(
       child: Text("No order"),
     );
@@ -302,17 +305,17 @@ class OrderData {
   List<dynamic> ordersList = new List<dynamic>();
   List<dynamic> orderdatesList = new List<dynamic>();
   List<dynamic> orderpricesList = new List<dynamic>();
-  List<dynamic> ordersadresstitleList = new List<dynamic>();
   List<dynamic> orderStatusList = new List<dynamic>();
+  List<dynamic> orderCustomerList = new List<dynamic>(); //TODO same process with others
+
 
   int statusCode;
   String errorMessage;
   int nItems;
 
-  String orderId;
-  String OrderId;
+  String OrderID;
   String OrderDate;
-  String OrderAddress;
+  String OrderOwner;
   String Status;
   String TotalPrice;
 
@@ -326,11 +329,13 @@ class OrderData {
     }
 
     for (int i = 0; i < jsonData.length; i++) {
-      ordersList.add(jsonData[i]["orderId"].toString());
-      orderdatesList.add(jsonData[i]["orderDate"].toString());
+      //ordersList.add(jsonData[i]["orderedId"].toString());
+      ordersList.add("1");
+      orderdatesList.add(jsonData[i]["orderedDate"].toString());
       orderpricesList.add(jsonData[i]["totalAmount"].toString());
-      ordersadresstitleList.add(jsonData[i]["addressTitle"].toString());
-      orderStatusList.add(jsonData[i]["status"]);
+      //orderStatusList.add(jsonData[i]["status"]);
+      orderStatusList.add("Transport");
+      orderCustomerList.add((jsonData[i]["customerName"].toString() + "\t" + jsonData[i]["customerSurname"].toString()).toUpperCase());
     }
 
     nItems = ordersList.length;
