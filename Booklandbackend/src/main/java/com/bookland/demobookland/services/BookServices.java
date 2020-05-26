@@ -1,8 +1,6 @@
 package com.bookland.demobookland.services;
 
-import com.bookland.demobookland.model.Book;
-import com.bookland.demobookland.model.Contains;
-import com.bookland.demobookland.model.Price;
+import com.bookland.demobookland.model.*;
 import com.bookland.demobookland.model.SearchCriteria.BookSpecification;
 import com.bookland.demobookland.model.SearchCriteria.SearchCriteria;
 import com.bookland.demobookland.model.SearchCriteria.SearchOperation;
@@ -12,6 +10,7 @@ import com.bookland.demobookland.model.projections.CartDetailProjection;
 import com.bookland.demobookland.model.projections.ExplorePageProjection;
 import com.bookland.demobookland.repository.BookRepository;
 import com.bookland.demobookland.repository.PriceRepository;
+import com.bookland.demobookland.repository.VoteRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -29,6 +28,9 @@ public class BookServices {
     private BookRepository bookRepository;
 
     @Autowired
+    private VoteRepository voteRepository;
+
+    @Autowired
     private PriceRepository priceRepository;
 
     public List<ExplorePageProjection> getAllBooks(Integer pageNo, Integer pageSize) {
@@ -38,16 +40,6 @@ public class BookServices {
         return pagedResult.toList();
     }
 
-    // TODO Try other time
-    /*public Page<ExplorePageProjection> getAllBooks(Integer pageNo, Integer pageSize) {
-        Pageable paging = PageRequest.of(pageNo, pageSize);
-
-        Page<ExplorePageProjection> pagedResult = bookRepository.findAllProjectedBy(paging);
-        //System.out.println(pagedResult.get().map());
-        return pagedResult;
-    }*/
-
-    /* Add operation for book*/
     @Transactional
     public String addBook(Book book) {
         String response;
@@ -67,7 +59,6 @@ public class BookServices {
         }
 
     }
-
     /* Delete operation for book*/
 
     @Transactional
@@ -442,8 +433,28 @@ public class BookServices {
 
             @Override
             public Float getPrice() {
-                return book.getPriceList().get(book.getPriceList().size()-1).getPrice();
+                return book.getPriceList().get(book.getPriceList().size() - 1).getPrice();
             }
         };
+    }
+
+    public Float voteBook(Vote vote) {
+        VotePk votePk = new VotePk();
+        votePk.setCustomerId(vote.getCustomerId());
+        votePk.setIsbn(vote.getIsbn());
+        Optional<Vote> isVote = voteRepository.findById(votePk);
+
+        if(isVote.isPresent())
+            return (float)0;
+        else
+            voteRepository.save(vote);
+
+        Float f = (float) 0;
+        Optional<Book> book = bookRepository.findById(vote.getIsbn());
+        Book currentBook = book.get();
+        for (Vote v : currentBook.getVoteList()){
+            f+=v.getVoteNumber();
+        }
+        return f/currentBook.getVoteList().size();
     }
 }
