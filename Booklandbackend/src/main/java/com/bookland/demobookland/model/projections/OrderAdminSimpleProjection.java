@@ -6,6 +6,10 @@ public interface OrderAdminSimpleProjection {
 
     Float getTotalAmount();
 
+    Integer getOrderId();
+
+    String getStatus();
+
     String getCustomerName();
 
     String getCustomerSurname();
