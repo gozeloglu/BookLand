@@ -4,6 +4,7 @@ import 'package:bookland/comment_write.dart';
 import 'package:bookland/elements/appBar.dart';
 import 'package:bookland/elements/bottomNavigatorBar.dart';
 import 'package:bookland/http_admin.dart';
+import 'package:bookland/http_comment_vote.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/foundation.dart';
@@ -28,6 +29,7 @@ class CustomerBookView extends StatelessWidget {
   final HttpAdmin httpAdmin = HttpAdmin();
   static const String _title = 'BookView';
   var rating = 0.0;
+  CommentVote commentVote = new CommentVote();
 
   @override
   Widget build(BuildContext context) {
@@ -394,6 +396,7 @@ class CustomerBookView extends StatelessWidget {
           spacing: 2.0,
           onRated: (value) {
             print('rating value --> $value');
+            rating = value;
           }),
     );
   }
@@ -410,7 +413,11 @@ class CustomerBookView extends StatelessWidget {
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(15),
         ),
-        onPressed: () {},
+        onPressed: () {
+          print("NEW VALUE");
+          print(rating);
+          commentVote.giveRating(customerID, isbn, (rating).toInt());
+        },
       ),
     );
   }

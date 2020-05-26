@@ -4,7 +4,7 @@ import 'package:bookland/http_comment_vote.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-bool isCommentSend = false;
+bool isCommentSend = false; // Controls the http request response
 String bookId;
 String customerId;
 
@@ -95,12 +95,16 @@ class _CommentWriteState extends State<CommentWriteStateful> {
             style: TextStyle(fontSize: 20, color: Colors.white),
           ),
           onPressed: () {
+            // Get comment from text controller
             String comment = commentTextController.text;
             bool isEmpty = false;
+
+            // If comment is empty
             if (comment == "") {
               isEmpty = true;
             }
 
+            // Show up alert dialog if comment field is empty
             if (isEmpty) {
               showDialog(
                   context: context,
@@ -113,8 +117,11 @@ class _CommentWriteState extends State<CommentWriteStateful> {
                     );
                   });
             } else {
+              // Save on the database
               commentVote.sendComment(bookId, customerId, comment);
             }
+
+            // If comment is send successfully, show up an alert dialog
             if (isCommentSend) {
               showDialog(
                   context: context,
@@ -137,7 +144,8 @@ class _CommentWriteState extends State<CommentWriteStateful> {
                       ],
                     );
                   });
-            } else if (!isCommentSend) {
+            } else if (!isCommentSend && !isEmpty) {
+              // If comment could not saved and comment field is filled
               showDialog(
                   context: context,
                   builder: (BuildContext context) {
@@ -147,7 +155,11 @@ class _CommentWriteState extends State<CommentWriteStateful> {
                       shape: new RoundedRectangleBorder(
                           borderRadius: new BorderRadius.circular(25)),
                       actions: [
-                        new FlatButton(onPressed: () {}, child: Text("Close")),
+                        new FlatButton(
+                            onPressed: () {
+                              Navigator.of(context).pop();
+                            },
+                            child: Text("Close")),
                       ],
                     );
                   });
