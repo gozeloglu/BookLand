@@ -187,6 +187,16 @@ public class AdminServices {
             public List<OrderDifferentProjection> getDifference() {
                 return differentPartConverter(order);
             }
+
+            @Override
+            public Float getTotalAmount() {
+                return order.getTotalAmount();
+            }
+
+            @Override
+            public Float getShippingPrice() {
+                return order.getContainsList().get(0).getPurchasedDetailedInfo().getShippingCompany().getShippingPrice();
+            }
         };
     }
 
@@ -250,6 +260,16 @@ public class AdminServices {
             @Override
             public Float getTotalAmount() {
                 return orders.getTotalAmount();
+            }
+
+            @Override
+            public Integer getOrderId() {
+                return orders.getOrderId();
+            }
+
+            @Override
+            public String getStatus() {
+                return orders.getContainsList().get(0).getPurchasedDetailedInfo().getStatus();
             }
 
             @Override

@@ -91,7 +91,7 @@ class Model_Order_Details {
        bookList : difference,
         totalPrice: json['totalAmount'].toString(),
         shippingPrice:json['shippingPrice'].toString(),
-      status:   json['status'].toString(),
+        status:json['status'].toString(),
     );
 
   }

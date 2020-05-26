@@ -28,23 +28,6 @@ public class BookController {
         return bookServices.getAllBooks(pageNo - 1, pageSize);
     }
 
-    // TODO Try other time
-      /*public ResponseEntity<Map<String, Object>> getBooks(@PathVariable Integer pageNo, @PathVariable Integer pageSize) {
-    Page<ExplorePageProjection> p1 = bookServices.getAllBooks(pageNo - 1, pageSize);
-    List<ExplorePageProjection> tutorials = new ArrayList<ExplorePageProjection>();
-    tutorials = p1.getContent();
-
-
-    Map<String, Object> response = new HashMap<>();
-        response.put("tutorials", tutorials);
-        response.put("currentPage", p1.getNumber());
-        response.put("totalItems", p1.getTotalElements());
-        response.put("totalPages", p1.getTotalPages());
-
-        return new ResponseEntity<>(response, HttpStatus.OK);
-}*/
-
-
     @PostMapping(value = "/addBook")
     public String addBook(@Validated(AddBookGroup.class) @RequestBody Book book) {
         return bookServices.addBook(book);

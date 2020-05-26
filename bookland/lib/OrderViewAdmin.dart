@@ -32,7 +32,7 @@ class OrderViewAdmin extends StatelessWidget {
         ),
         body: FutureBuilder(
 
-          future: httporder.getOrder(orderid),
+          future: httporder.getOrderAdmin(orderid),
           builder: (BuildContext context, AsyncSnapshot snapshot) {
             if (snapshot.hasData) {
               print("snapshot has data");
