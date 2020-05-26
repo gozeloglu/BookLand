@@ -3,8 +3,8 @@ import 'package:http/http.dart' as http;
 import 'package:bookland/comment_write.dart';
 
 class CommentVote {
-  Future<String> sendComment(
-      String bookId, String customerId, String comment) async {
+  Future<String> sendComment(String bookId, String customerId,
+      String comment) async {
     String username = 'Daryl';
     String password = 'WalkingDead';
 
@@ -26,6 +26,31 @@ class CommentVote {
       print(response.statusCode);
       isCommentSend = false;
       throw Exception("Comment could not saved!");
+    }
+  }
+
+  Future<List<dynamic>> getComments(String bookId, int pageNo) async {
+    String username = 'Daryl';
+    String password = 'WalkingDead';
+
+    String basicAuth =
+        'Basic ' + base64Encode(utf8.encode('$username:$password'));
+
+    http.Response response = await http.get(
+        "http://10.0.2.2:8080/getBookComments/$pageNo/5/$bookId",
+        headers: <String, String>{
+          'Authorization': basicAuth,
+          'Content-Type': 'application/json; charset=UTF-8'
+        }
+    );
+    print("RESPONSE BODY");
+    print(response.body);
+    if (response.statusCode < 400) {
+      return json.decode(response.body);
+    } else {
+      print("--No comment!");
+      print(response.statusCode);
+      throw Exception("No comment!");
     }
   }
 }

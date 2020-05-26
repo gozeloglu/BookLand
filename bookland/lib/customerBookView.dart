@@ -365,7 +365,7 @@ class CustomerBookView extends StatelessWidget {
       ),
       onPressed: () {
         Navigator.push(context,
-            new MaterialPageRoute(builder: (context) => CommentView()));
+            new MaterialPageRoute(builder: (context) => CommentView(isbn)));
       },
     );
   }

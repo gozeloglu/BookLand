@@ -82,32 +82,6 @@ class _CommentWriteState extends State<CommentWriteStateful> {
     );
   }
 
-  /*Widget rateField() {
-    return Padding(
-        padding: const EdgeInsets.fromLTRB(50, 50, 0, 0),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.start,
-          children: [
-            Text(
-              "Rate: ",
-              style: TextStyle(fontSize: 20),
-            ),
-            SmoothStarRating(
-                rating: rating,
-                isReadOnly: false,
-                size: 30,
-                filledIconData: Icons.star,
-                defaultIconData: Icons.star_border,
-                starCount: 5,
-                allowHalfRating: false,
-                spacing: 2.0,
-                onRated: (value) {
-                  print('rating value --> $value');
-                }),
-          ],
-        ));
-  }*/
-
   Widget commentButton() {
     return Padding(
       padding: const EdgeInsets.fromLTRB(0, 50, 0, 0),
