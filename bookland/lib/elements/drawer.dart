@@ -4,7 +4,9 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import '../AdminDeleteBook.dart';
+import '../AdminOrders.dart';
 import '../adminAddBook.dart';
+import '../adminCampaign.dart';
 import '../adminDiscount.dart';
 import '../admin_drawer_update_book.dart';
 import '../main.dart';
@@ -75,10 +77,29 @@ class MyDrawer extends StatelessWidget {
             ),
           ),
           InkWell(
-            onTap: () {},
+            onTap: () {
+              Navigator.push(
+                context,
+                new MaterialPageRoute(
+                    builder: (context) => new AdminOrders()),
+              );
+            },
             child: ListTile(
               title: Text("Orders", style: TextStyle(fontSize: 18)),
               leading: Icon(Icons.check),
+            ),
+          ),
+          InkWell(
+            onTap: () {
+              Navigator.push(
+                context,
+                new MaterialPageRoute(
+                    builder: (context) => new adminCampaign() ),
+              );
+            },
+            child: ListTile(
+              title: Text("Campaigns", style: TextStyle(fontSize: 18)),
+              leading: Icon(Icons.money_off),
             ),
           ),
           Container(
