@@ -10,14 +10,13 @@ import 'elements/appBar.dart';
 import 'explore.dart';
 
 class Search extends StatelessWidget {
-
-
+  int total = 0;
   @override
   Widget build(BuildContext context) {
     globalExploreContext = context;
     return MaterialApp(
       theme: ThemeData(
-        primarySwatch: Colors.red,
+        primarySwatch: Colors.blue,
       ),
       title: 'Search Page',
       home: SearchPage(),
@@ -35,17 +34,20 @@ class SearchPage extends StatefulWidget {
 class SearchState extends State<SearchPage> {
   GlobalKey<PaginatorState> paginatorGlobalKey = GlobalKey();
 
+  var keyword = "";
+
   //Widget openPage(BuildContext context) {}
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: MyAppBar(pageTitle: "Explore", back: true,filter_list:false ),
-      body: Container(
-        child: Stack(
+        appBar: MyAppBar(pageTitle: "Search", back: true, filter_list: false),
+        body: new SingleChildScrollView(
+            child: Column(
           children: <Widget>[
             MySearch(),
             Paginator.listView(
+              shrinkWrap: true,
               key: paginatorGlobalKey,
               pageLoadFuture: searchBooksDataRequest,
               pageItemsGetter: listBooksGetter,
@@ -58,21 +60,21 @@ class SearchState extends State<SearchPage> {
               scrollPhysics: BouncingScrollPhysics(),
             ),
           ],
-        )
-      )
+        ))
 
+        // bottomNavigationBar: MyBottomNavigatorBar(),
 
-
-
-      // bottomNavigationBar: MyBottomNavigatorBar(),
-
-    );
+        );
   }
 
-
-  Widget MySearch(){
+  Widget MySearch() {
     return TextField(
+      /// value değiştikçe istek atıyor
       onChanged: (value) {
+        keyword = value;
+        paginatorGlobalKey.currentState.changeState(
+            pageLoadFuture: searchBooksDataRequest, resetState: true);
+        // print(value);
       },
       //controller: editingController,
       decoration: InputDecoration(
@@ -84,13 +86,12 @@ class SearchState extends State<SearchPage> {
     );
   }
 
-
+//TODO customerId eklenmeli
 
   Future<BooksData> searchBooksDataRequest(int page) async {
-
     try {
-      //getTotalCount("david");
-      var url = "http://10.0.2.2:8080/Search/1/2/9?keyword=david";
+      getTotalCount();
+      var url = "http://10.0.2.2:8080/Search/$page/2/9?keyword=${keyword}";
       print(url);
       String username = 'Daryl';
       String password = 'WalkingDead';
@@ -103,7 +104,6 @@ class SearchState extends State<SearchPage> {
       );
       print(response.body);
       return BooksData.fromResponse(response);
-
     } catch (e) {
       if (e is IOException) {
         return BooksData.withError("Please check your internet connection.");
@@ -115,7 +115,6 @@ class SearchState extends State<SearchPage> {
   }
 
   List<dynamic> listBooksGetter(BooksData booksData) {
-    print("listbookgetter");
     List<dynamic> bookNameList = [];
     List<int> isbnList = [];
     for (int i = 0; i < booksData.books.length; i++) {
@@ -138,36 +137,31 @@ class SearchState extends State<SearchPage> {
     return bookNameList;
   }
 
-    Widget listBookBuilder(value, int index) {
-      print("helloooooooo");
-
-      // TODO BookView isbn should be changed with isbn
-    print("VALUEEEE");
+  Widget listBookBuilder(value, int index) {
+    // TODO BookView isbn should be changed with isbn
     var value_list = value.toString().split("|");
     String text_part = value_list[0];
     String img_part = value_list[1];
     String bookid_send = value_list[2];
-    print("BOOKIDDD");
-    print(bookid_send);
-    print("VALUEEEE");
     return ListTile(
-    //leading:  Image.network("https://dictionary.cambridge.org/tr/images/thumb/book_noun_001_01679.jpg?version=5.0.75"),
-    leading:  Image.network(img_part),
-    title: Text(text_part),
-    onTap: () {
-    /*Navigator.push(
+        //leading:  Image.network("https://dictionary.cambridge.org/tr/images/thumb/book_noun_001_01679.jpg?version=5.0.75"),
+        leading: Image.network(img_part),
+        title: Text(text_part),
+        onTap: () {
+          /*Navigator.push(
     context,
     MaterialPageRoute(
     builder: (context) =>
     // new BookView(isbn: isbnSet.elementAt(index).toString()),
     new BookView(isbn: bookid_send),
     ));*/
-    });
-    }
+        });
+  }
+
   Widget loadingWidgetMaker() {
     return Container(
       alignment: Alignment.center,
-      height: 160.0,
+      height: 100.0,
       child: CircularProgressIndicator(),
     );
   }
@@ -196,16 +190,17 @@ class SearchState extends State<SearchPage> {
     booksData.img_list.clear();
     booksData.isbn_list.clear();
     return Center(
-      child: Text("No books in the list"),
+      child: Text("There is no book"),
     );
   }
-  void getTotalCount(String keyword) async {
+
+  void getTotalCount() async {
     try {
       String username = 'Daryl';
       String password = 'WalkingDead';
       String basicAuth =
           'Basic ' + base64Encode(utf8.encode('$username:$password'));
-      var urlBookCount = "http://10.0.2.2:8080/searchCount?=${keyword}";
+      var urlBookCount = "http://10.0.2.2:8080/searchCount?keyword=${keyword}";
 
       String _urlBookCount = Uri.encodeFull(urlBookCount);
       http.Response responseCount = await http.get(
@@ -215,7 +210,7 @@ class SearchState extends State<SearchPage> {
 
       if (responseCount.statusCode == 200) {
         total = json.decode(responseCount.body);
-        // print(total+ "*****");
+        print(total.toString() + "*****");
       } else {
         print(responseCount.statusCode);
         throw Exception("Books are not retrieved!");
@@ -225,6 +220,7 @@ class SearchState extends State<SearchPage> {
       throw Exception(e);
     }
   }
+
   int totalPagesGetter(BooksData booksData) {
     // TODO This should be fixed
     return total;
@@ -234,6 +230,7 @@ class SearchState extends State<SearchPage> {
     return booksData.statusCode != 200;
   }
 }
+
 class BooksData {
   List<dynamic> books = new List<dynamic>();
   List<dynamic> authors = new List<dynamic>();
@@ -260,7 +257,6 @@ class BooksData {
   List<double> priceList;
 
   BooksData.fromResponse(http.Response response) {
-    print("fromResponce");
     this.statusCode = response.statusCode;
     List jsonData = json.decode(response.body);
 
@@ -268,30 +264,22 @@ class BooksData {
     if (isbnSet.contains(deletedBookId)) {
       isbnSet.remove(deletedBookId);
     }
-    print("jsondatalen:"+jsonData.length.toString());
     for (int i = 0; i < jsonData.length; i++) {
       books.add(jsonData[i]["bookName"]);
-      print(jsonData[i]["bookName"]);
       authors.add(jsonData[i]["author"]);
-
       isbnSet.add(jsonData[i]["bookId"]);
       int priceListLen = jsonData[i]["priceList"].length;
       double lastPrice = 0;
       lastPrice += jsonData[i]["priceList"][priceListLen - 1]["price"];
       bool moreThanOne = false;
-
       prices.add(lastPrice);
       img_list.add(jsonData[i]["bookImage"]);
       isbn_list.add(jsonData[i]["bookId"]);
-
     }
-
     nItems = books.length;
-
   }
 
   BooksData.withError(String errorMessage) {
     this.errorMessage = errorMessage;
   }
 }
-
