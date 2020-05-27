@@ -338,6 +338,7 @@ class CustomerBookView extends StatelessWidget {
         borderRadius: BorderRadius.circular(15),
       ),
       onPressed: () {
+        // Control the user who is login or not
         if (isLogin) {
           Navigator.push(
               context,
@@ -355,6 +356,7 @@ class CustomerBookView extends StatelessWidget {
     );
   }
 
+  // TODO This widget will be developed with better UI
   Widget viewCommentButton(BuildContext context) {
     return RaisedButton(
       child: Text(
@@ -372,6 +374,7 @@ class CustomerBookView extends StatelessWidget {
     );
   }
 
+  /// This widget keeps the rating starts and button in row
   Widget rateField() {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -382,6 +385,8 @@ class CustomerBookView extends StatelessWidget {
     );
   }
 
+  /// This function builds a star votes
+  /// Updates rating value at each rated
   Widget rate() {
     return Padding(
       padding: const EdgeInsets.fromLTRB(0, 25, 0, 0),
@@ -401,12 +406,13 @@ class CustomerBookView extends StatelessWidget {
     );
   }
 
+  /// This function builds a button for giving vote
   Widget rateButton() {
     return Padding(
       padding: const EdgeInsets.fromLTRB(0, 25, 0, 0),
       child: RaisedButton(
         child: Text(
-          "Give Rate",
+          "Vote!",
           style: TextStyle(fontSize: 20, color: Colors.white),
         ),
         color: Colors.red,
@@ -414,8 +420,7 @@ class CustomerBookView extends StatelessWidget {
           borderRadius: BorderRadius.circular(15),
         ),
         onPressed: () {
-          print("NEW VALUE");
-          print(rating);
+          // Save rating on the database
           commentVote.giveRating(customerID, isbn, (rating).toInt());
         },
       ),
