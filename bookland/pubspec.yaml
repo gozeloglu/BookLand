@@ -30,6 +30,7 @@ dependencies:
   sprintf: "^4.0.0"
   shared_preferences: ^0.5.7+3
   flappy_search_bar: 1.4.1
+  smooth_star_rating: ^1.1.1
 
 
 dev_dependencies:

@@ -1,8 +1,10 @@
 import 'dart:ffi';
 
+import 'package:bookland/comment_write.dart';
 import 'package:bookland/elements/appBar.dart';
 import 'package:bookland/elements/bottomNavigatorBar.dart';
 import 'package:bookland/http_admin.dart';
+import 'package:bookland/http_comment_vote.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/foundation.dart';
@@ -11,6 +13,8 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:bookland/basket.dart';
 import 'package:bookland/main.dart';
 import 'package:bookland/login.dart';
+import 'package:smooth_star_rating/smooth_star_rating.dart';
+import 'package:bookland/comment_view.dart';
 
 /// This class contains the objects which is the same in GET allBooks method
 
@@ -18,11 +22,15 @@ class CustomerBookView extends StatelessWidget {
   String _bookName;
   int _quantity;
   final String isbn;
+
   CustomerBookView({Key key, @required this.isbn}) : super(key: key);
 
   final HttpBook httpBook = HttpBook();
   final HttpAdmin httpAdmin = HttpAdmin();
   static const String _title = 'BookView';
+  var rating = 0.0;
+  CommentVote commentVote = new CommentVote();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -67,6 +75,8 @@ class CustomerBookView extends StatelessWidget {
                       description((snapshot.data.description).toString()),
                       Text("\n"),
                       addBasketButton(context, customerID, isLogin),
+                      commentField(context),
+                      rateField(),
                     ],
                   ),
                 ),
@@ -303,6 +313,116 @@ class CustomerBookView extends StatelessWidget {
         color: Colors.orangeAccent,
         padding: const EdgeInsets.all(10.0),
         child: const Text('Add Basket', style: TextStyle(fontSize: 20)),
+      ),
+    );
+  }
+
+  Widget commentField(BuildContext context) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+      children: [
+        writeCommentButton(context),
+        viewCommentButton(context),
+      ],
+    );
+  }
+
+  Widget writeCommentButton(BuildContext context) {
+    return RaisedButton(
+      child: Text(
+        "Write Comment",
+        style: TextStyle(fontSize: 20, color: Colors.white),
+      ),
+      color: Colors.pinkAccent,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(15),
+      ),
+      onPressed: () {
+        // Control the user who is login or not
+        if (isLogin) {
+          Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => CommentWrite(isbn, customerID),
+              ));
+        } else {
+          Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => Login(),
+              ));
+        }
+      },
+    );
+  }
+
+  // TODO This widget will be developed with better UI
+  Widget viewCommentButton(BuildContext context) {
+    return RaisedButton(
+      child: Text(
+        "View Comments",
+        style: TextStyle(fontSize: 20, color: Colors.white),
+      ),
+      color: Colors.green,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(15),
+      ),
+      onPressed: () {
+        Navigator.push(context,
+            new MaterialPageRoute(builder: (context) => CommentView(isbn)));
+      },
+    );
+  }
+
+  /// This widget keeps the rating starts and button in row
+  Widget rateField() {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+      children: [
+        rate(),
+        rateButton(),
+      ],
+    );
+  }
+
+  /// This function builds a star votes
+  /// Updates rating value at each rated
+  Widget rate() {
+    return Padding(
+      padding: const EdgeInsets.fromLTRB(0, 25, 0, 0),
+      child: SmoothStarRating(
+          rating: rating,
+          isReadOnly: false,
+          size: 30,
+          filledIconData: Icons.star,
+          defaultIconData: Icons.star_border,
+          starCount: 5,
+          allowHalfRating: false,
+          spacing: 2.0,
+          onRated: (value) {
+            print('rating value --> $value');
+            rating = value;
+          }),
+    );
+  }
+
+  /// This function builds a button for giving vote
+  Widget rateButton() {
+    return Padding(
+      padding: const EdgeInsets.fromLTRB(0, 25, 0, 0),
+      child: RaisedButton(
+        child: Text(
+          "Vote!",
+          style: TextStyle(fontSize: 20, color: Colors.white),
+        ),
+        color: Colors.red,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(15),
+        ),
+        onPressed: () {
+          // Save rating on the database
+          commentVote.giveRating(customerID, isbn, (rating).toInt());
+        },
       ),
     );
   }

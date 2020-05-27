@@ -106,120 +106,126 @@ class BasketLayoutState extends State<BasketLayout> {
           future: basket.getBasketBooks(bookIdList),
           builder: (context, snapshot) {
             if (snapshot.hasData) {
-              List<String> bookNameList = List();
-              List<String> quantityList = List();
-              List<String> imageList = List();
-              List<double> priceList = List();
 
-              // Add book name, book image, price, and quantities on the lists
-              for (int i = 0; i < snapshot.data.length; i++) {
-                bookNameList.add(snapshot.data[i]["bookName"]);
-                imageList.add(snapshot.data[i]["bookImage"]);
-                priceList.add(snapshot.data[i]["price"]);
-                quantityList.add(bookQuantityList[i]);
-              }
-              return ListView.builder(
-                  itemCount: bookNameList.length,
-                  itemBuilder: (context, index) {
-                    return Card(
-                      shape: new RoundedRectangleBorder(
-                          borderRadius: new BorderRadius.circular(15)),
-                      elevation: 5,
-                      margin: const EdgeInsets.fromLTRB(0, 30, 0, 0),
-                      child: ListTile(
-                        leading: Image.network(imageList[index]),
-                        trailing: PopupMenuButton<WhyFarther>(
-                          onSelected: (WhyFarther result) {
-                            setState(() {
-                              _selection = result;
+              // If snapshot.data length is zero
+              // Return warning message
+              if (snapshot.data.length == 0) {
+                emptyBasketWidget();
+              } else {
+                List<String> bookNameList = List();
+                List<String> quantityList = List();
+                List<String> imageList = List();
+                List<double> priceList = List();
+                // Add book name, book image, price, and quantities on the lists
+                for (int i = 0; i < snapshot.data.length; i++) {
+                  bookNameList.add(snapshot.data[i]["bookName"]);
+                  imageList.add(snapshot.data[i]["bookImage"]);
+                  priceList.add(snapshot.data[i]["price"]);
+                  quantityList.add(bookQuantityList[i]);
+                }
+                return ListView.builder(
+                    itemCount: bookNameList.length,
+                    itemBuilder: (context, index) {
+                      return Card(
+                        shape: new RoundedRectangleBorder(
+                            borderRadius: new BorderRadius.circular(15)),
+                        elevation: 5,
+                        margin: const EdgeInsets.fromLTRB(0, 30, 0, 0),
+                        child: ListTile(
+                          leading: Image.network(imageList[index]),
+                          trailing: PopupMenuButton<WhyFarther>(
+                            onSelected: (WhyFarther result) {
+                              setState(() {
+                                _selection = result;
 
-                              // If user wants to delete a book
-                              if (_selection == WhyFarther.delete) {
-                                showDialog(
-                                  context: context,
-                                  builder: (BuildContext context) {
-                                    return AlertDialog(
-                                      shape: RoundedRectangleBorder(
-                                          borderRadius:
-                                              new BorderRadius.circular(15)),
-                                      title: new Text("Delete Order"),
-                                      content: new Text(
-                                          "Are you sure to delete order?"),
-                                      actions: <Widget>[
-                                        new FlatButton(
-                                          child: new Text("No"),
-                                          color: Colors.red,
-                                          shape: RoundedRectangleBorder(
-                                            borderRadius:
-                                                BorderRadius.circular(15),
-                                          ),
-                                          onPressed: () {
-                                            Navigator.of(context).pop();
-                                          },
-                                        ),
-                                        new FlatButton(
-                                          // Confirm deletion
-                                          child: Text("Yes"),
-                                          shape: RoundedRectangleBorder(
-                                            borderRadius:
-                                                BorderRadius.circular(15),
-                                          ),
-                                          color: Colors.green,
-                                          onPressed: () {
-                                            // Delete from shared preferences
-                                            // Get books from shared preferences
-                                            deleteBookFromSharedPref(
-                                                customerID, index * 2);
-                                            _sharedPrefBooks
-                                                .getOrdersFromSharedPref(
-                                                    customerID);
-                                            Navigator.push(
-                                                context,
-                                                new MaterialPageRoute(
-                                                    builder: (context) =>
-                                                        new Basket()));
-                                          },
-                                        ),
-                                      ],
-                                    );
-                                  },
-                                );
-                              } else if (_selection == WhyFarther.quantity) {
-                                // This alert dialog is used for
-                                // updating book quantity
-                                showDialog(
+                                // If user wants to delete a book
+                                if (_selection == WhyFarther.delete) {
+                                  showDialog(
                                     context: context,
-                                    child: new UpdateDialog(
-                                      onValueChange: _onValueChange,
-                                      initialValue: quantityList[index],
-                                      bookIndex: index.toString(),
-                                      bookList: bookIdList,
-                                      quantityList: quantityList,
-                                    ));
-                              }
-                            });
-                          },
-                          itemBuilder: (BuildContext context) =>
-                              <PopupMenuEntry<WhyFarther>>[
-                            const PopupMenuItem<WhyFarther>(
-                              value: WhyFarther.delete,
-                              child: Text('Delete Order'),
-                            ),
-                            const PopupMenuItem<WhyFarther>(
-                              value: WhyFarther.quantity,
-                              child: Text('Update Quantity'),
-                            ),
-                          ],
+                                    builder: (BuildContext context) {
+                                      return AlertDialog(
+                                        shape: RoundedRectangleBorder(
+                                            borderRadius:
+                                                new BorderRadius.circular(15)),
+                                        title: new Text("Delete Order"),
+                                        content: new Text(
+                                            "Are you sure to delete order?"),
+                                        actions: <Widget>[
+                                          new FlatButton(
+                                            child: new Text("No"),
+                                            color: Colors.red,
+                                            shape: RoundedRectangleBorder(
+                                              borderRadius:
+                                                  BorderRadius.circular(15),
+                                            ),
+                                            onPressed: () {
+                                              Navigator.of(context).pop();
+                                            },
+                                          ),
+                                          new FlatButton(
+                                            // Confirm deletion
+                                            child: Text("Yes"),
+                                            shape: RoundedRectangleBorder(
+                                              borderRadius:
+                                                  BorderRadius.circular(15),
+                                            ),
+                                            color: Colors.green,
+                                            onPressed: () {
+                                              // Delete from shared preferences
+                                              // Get books from shared preferences
+                                              deleteBookFromSharedPref(
+                                                  customerID, index * 2);
+                                              _sharedPrefBooks
+                                                  .getOrdersFromSharedPref(
+                                                      customerID);
+                                              Navigator.push(
+                                                  context,
+                                                  new MaterialPageRoute(
+                                                      builder: (context) =>
+                                                          new Basket()));
+                                            },
+                                          ),
+                                        ],
+                                      );
+                                    },
+                                  );
+                                } else if (_selection == WhyFarther.quantity) {
+                                  // This alert dialog is used for
+                                  // updating book quantity
+                                  showDialog(
+                                      context: context,
+                                      child: new UpdateDialog(
+                                        onValueChange: _onValueChange,
+                                        initialValue: quantityList[index],
+                                        bookIndex: index.toString(),
+                                        bookList: bookIdList,
+                                        quantityList: quantityList,
+                                      ));
+                                }
+                              });
+                            },
+                            itemBuilder: (BuildContext context) =>
+                                <PopupMenuEntry<WhyFarther>>[
+                              const PopupMenuItem<WhyFarther>(
+                                value: WhyFarther.delete,
+                                child: Text('Delete Order'),
+                              ),
+                              const PopupMenuItem<WhyFarther>(
+                                value: WhyFarther.quantity,
+                                child: Text('Update Quantity'),
+                              ),
+                            ],
+                          ),
+                          title: Text(bookNameList[index] +
+                              "\n" +
+                              "\$" +
+                              priceList[index].toString()),
+                          subtitle: Text("Quantity: ${quantityList[index]}"),
                         ),
-                        title: Text(bookNameList[index] +
-                            "\n" +
-                            "\$" +
-                            priceList[index].toString()),
-                        subtitle: Text("Quantity: ${quantityList[index]}"),
-                      ),
-                    );
-                  });
-            } else if (snapshot.data == null) {
+                      );
+                    });
+              }
+            } else if (!snapshot.hasData) {
               return Center(
                 child: Text(
                   "Book basket is empty!",
@@ -227,13 +233,31 @@ class BasketLayoutState extends State<BasketLayout> {
                   style: TextStyle(fontSize: 30),
                 ),
               );
+            } else {
+              return Container(
+                alignment: Alignment.center,
+                height: 160.0,
+                child: CircularProgressIndicator(),
+              );
             }
-            return Container(
-              alignment: Alignment.center,
-              height: 160.0,
-              child: CircularProgressIndicator(),
+            return Center(
+              child: Text(
+                "Book basket is empty!",
+                textAlign: TextAlign.center,
+                style: TextStyle(fontSize: 30),
+              ),
             );
           }),
+    );
+  }
+
+  Widget emptyBasketWidget() {
+    return Center(
+      child: Text(
+        "Book basket is empty!",
+        textAlign: TextAlign.center,
+        style: TextStyle(fontSize: 30),
+      ),
     );
   }
 

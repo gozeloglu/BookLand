@@ -376,37 +376,3 @@ class Author_FilterState extends State<Author_Filter> {
   }
 }
 
-/* body: FutureBuilder(
-
-          future: httpall.getCategories(),
-          builder: (BuildContext context, AsyncSnapshot snapshot) {
-
-            if (snapshot.hasData) {
-
-              print("snapshot has data");
-              //Book returnedBook = snapshot.data;
-              print(snapshot.data.toString());
-              List<dynamic>  lists = json.decode(snapshot.data.toString());
-              print(lists);
-              int index = 0;
-              my_dictionary = list_to_map(lists);
-              //return Text(snapshot.data.bookName);
-              return new ListView(
-                  children: my_dictionary.keys.map((String key) {
-                    return new CheckboxListTile(
-                      title: new Text(key),
-                      value: my_dictionary[key],
-                      //controlAffinity: ListTileControlAffinity.leading,
-                      onChanged: (bool value) {
-                        setState(() {
-                          my_dictionary[key] = value;
-                        });
-                      },
-                    );
-                  }).toList());
-
-            } else if (snapshot.hasError) {
-              print("Snapshot has error*");
-              return Text("${snapshot.error}");
-            } else {
-              return Center(child: CircularProgressIndicator());*/

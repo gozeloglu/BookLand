@@ -258,4 +258,56 @@ class HTTPAll {
       throw Exception("Can't get books.");
     }
   }
+
+
+
+
+  Future<String> adminApproveOrder(String orderid) async {
+    var client = http.Client();
+    var url = "http://10.0.2.2:8080";
+    String username = 'Daryl';
+    String password = 'WalkingDead';
+    String basicAuth =
+        'Basic ' + base64Encode(utf8.encode('$username:$password'));
+
+    http.Response response = await http.get('http://10.0.2.2:8080/confirmOrder/${orderid}',
+      headers: <String, String>{'Authorization': basicAuth,'Content-Type': 'application/json; charset=UTF-8',
+      },
+    );
+
+    if (response.statusCode < 400) {
+      return  "PERFECT";
+    } else {
+      errorControl = true;
+      errorMessage = "Deleting Book has Failed";
+      // If the server did not return a 201 CREATED response,
+      // then throw an exception.
+      throw Exception('Failed to load album');
+      return "SORRRY" ;
+    }
+  }
+  Future<String> adminDenyOrder(String orderid) async {
+    var client = http.Client();
+    var url = "http://10.0.2.2:8080";
+    String username = 'Daryl';
+    String password = 'WalkingDead';
+    String basicAuth =
+        'Basic ' + base64Encode(utf8.encode('$username:$password'));
+
+    http.Response response = await http.get('http://10.0.2.2:8080/rejectOrder/${orderid}',
+      headers: <String, String>{'Authorization': basicAuth,'Content-Type': 'application/json; charset=UTF-8',
+      },
+    );
+
+    if (response.statusCode < 400) {
+      return  "PERFECT";
+    } else {
+      errorControl = true;
+      errorMessage = "Deleting Book has Failed";
+      // If the server did not return a 201 CREATED response,
+      // then throw an exception.
+      throw Exception('Failed to load album');
+      return "SORRRY" ;
+    }
+  }
 }
