@@ -30,28 +30,9 @@ class ExploreStateless extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     globalExploreContext = context;
-    return MaterialApp(
-      theme: ThemeData(
-        primarySwatch: Colors.red,
-      ),
-      title: 'Explore Page',
-      home: ExplorePage(),
-    );
-  }
-}
+    GlobalKey<PaginatorState> paginatorGlobalKey = GlobalKey();
 
-class ExplorePage extends StatefulWidget {
-  @override
-  State<StatefulWidget> createState() {
-    return ExploreState();
-  }
-}
-
-class ExploreState extends State<ExplorePage> {
-  GlobalKey<PaginatorState> paginatorGlobalKey = GlobalKey();
-
-  @override
-  Widget build(BuildContext context) {
+    
     return Scaffold(
       appBar: MyAppBar(pageTitle: "Explore", back: true,filter_list:true ),
       body: Paginator.listView(
@@ -176,8 +157,9 @@ class ExploreState extends State<ExplorePage> {
         leading:  Image.network(img_part),
         title: Text(text_part),
         onTap: () {
+          BuildContext context;
           Navigator.push(
-              context,
+              globalExploreContext,
               MaterialPageRoute(
                 builder: (context) =>
                 // new BookView(isbn: isbnSet.elementAt(index).toString()),
