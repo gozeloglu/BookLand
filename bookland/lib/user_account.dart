@@ -1,7 +1,7 @@
 import 'package:bookland/customerPersonalInfo.dart';
 import 'package:bookland/elements/appBar.dart';
 import 'package:bookland/main.dart';
-import 'package:bookland/my_addresses.dart';
+import 'package:bookland/address_list.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:bookland/my_orders.dart';

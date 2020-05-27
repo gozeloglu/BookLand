@@ -4,7 +4,7 @@ import 'package:bookland/main.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:bookland/http_address.dart';
-import 'package:bookland/my_addresses.dart';
+import 'package:bookland/address_list.dart';
 
 /// This variable is responsible for informing
 /// that saving operation's status
