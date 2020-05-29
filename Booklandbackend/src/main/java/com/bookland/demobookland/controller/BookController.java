@@ -2,10 +2,7 @@ package com.bookland.demobookland.controller;
 
 import com.bookland.demobookland.model.Book;
 import com.bookland.demobookland.model.Vote;
-import com.bookland.demobookland.model.projections.BestSellerProjection;
-import com.bookland.demobookland.model.projections.BookDetailsProjection;
-import com.bookland.demobookland.model.projections.CartDetailProjection;
-import com.bookland.demobookland.model.projections.ExplorePageProjection;
+import com.bookland.demobookland.model.projections.*;
 import com.bookland.demobookland.model.validationGroups.AddBookGroup;
 import com.bookland.demobookland.services.BookServices;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -90,7 +87,7 @@ public class BookController {
     }
 
     @GetMapping(value = "/getBookDetails/{ISBN}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public BookDetailsProjection getBookById(@PathVariable Integer ISBN) {
+    public BookDetailsAll getBookById(@PathVariable Integer ISBN) {
         return bookServices.getBookById(ISBN);
     }
 

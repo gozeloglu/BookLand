@@ -108,9 +108,6 @@ public class SearchServices {
                 }
             }
         }
-       /* words.forEach(System.out::println);
-        System.out.println(words.size());
-        System.out.println(recommendationResults.size());*/
         Collections.shuffle(recommendationResults);
         return recommendationResults.stream().limit(10).collect(Collectors.toList());
     }
