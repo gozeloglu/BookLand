@@ -65,7 +65,7 @@ class Book {
         status: json['status'],
         bookImage: json['bookImage'],
         price: real_price,
-        firstPrice: first_price,
+        firstPrice: first_price, //İndirimsiz fiyatı
         inDiscount: json['inDiscount']
     );
 
