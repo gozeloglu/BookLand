@@ -19,6 +19,8 @@ SplayTreeSet isbnSet = new SplayTreeSet();
 var globalExploreContext;
 int deletedBookId = -1;
 
+List<String> oldPriceList = [];
+
 class ExploreStateless extends StatelessWidget {
   ExploreStateless(int bookId) {
     deletedBookId = bookId;
@@ -78,7 +80,7 @@ class ExploreStateless extends StatelessWidget {
 
       if (responseCount.statusCode == 200) {
         total = json.decode(responseCount.body);
-        print(total);
+        //print(total);
       } else {
         print(responseCount.statusCode);
         throw Exception("Books are not retrieved!");
@@ -124,7 +126,8 @@ class ExploreStateless extends StatelessWidget {
           "Author:\t" +
           booksData.authors[i] +
           "\n" +
-          "Price:\t" +
+          "Price:\t"
+          + "|"+
           booksData.prices[i].toString()
           + "|"+ (booksData.img_list[i].toString()) + "|" + booksData.isbn_list[i].toString();
       // String img_val = (booksData.img_list[i].toString());
@@ -143,29 +146,66 @@ class ExploreStateless extends StatelessWidget {
   }
 
   Widget listBookBuilder(value, int index) {
-    // TODO BookView isbn should be changed with isbn
-    print("VALUEEEE");
+
     var value_list = value.toString().split("|");
     String text_part = value_list[0];
-    String img_part = value_list[1];
-    String bookid_send = value_list[2];
-    print("BOOKIDDD");
-    print(bookid_send);
-    print("VALUEEEE");
-    return ListTile(
-      //leading:  Image.network("https://dictionary.cambridge.org/tr/images/thumb/book_noun_001_01679.jpg?version=5.0.75"),
-        leading:  Image.network(img_part),
-        title: Text(text_part),
-        onTap: () {
-          BuildContext context;
-          Navigator.push(
-              globalExploreContext,
-              MaterialPageRoute(
-                builder: (context) =>
-                // new BookView(isbn: isbnSet.elementAt(index).toString()),
-                new BookView(isbn: bookid_send),
-              ));
-        });
+    String last_price_part = value_list[1];
+    String img_part = value_list[2];
+    String bookid_send = value_list[3];
+    String final_text = text_part;
+
+    if(oldPriceList[index] == "0" ){
+      final_text = final_text + last_price_part + "\$";
+      return ListTile(
+        //leading:  Image.network("https://dictionary.cambridge.org/tr/images/thumb/book_noun_001_01679.jpg?version=5.0.75"),
+          leading:  Image.network(img_part ,
+              height: 200,
+              fit:BoxFit.fill,),
+          title: Text(final_text,style: TextStyle(
+            fontSize: 18,
+            fontWeight: FontWeight.bold,
+          ),) ,
+          onTap: () {
+            BuildContext context;
+            Navigator.push(
+                globalExploreContext,
+                MaterialPageRoute(
+                  builder: (context) =>
+                  // new BookView(isbn: isbnSet.elementAt(index).toString()),
+                  new BookView(isbn: bookid_send),
+                ));
+          });
+    }else{
+      final_text = final_text + last_price_part + "\$";
+
+      return ListTile(
+
+        //leading:  Image.network("https://dictionary.cambridge.org/tr/images/thumb/book_noun_001_01679.jpg?version=5.0.75"),
+          leading:  Image.network(img_part , height: 200,
+            fit:BoxFit.fill,),
+          title: Text(final_text,style: TextStyle(
+            fontSize: 18,
+            fontWeight: FontWeight.bold,
+          ),) ,
+          subtitle: Text(oldPriceList[index] +"\$" ,style: TextStyle(
+            decoration: TextDecoration.lineThrough,
+            decorationThickness: 2.5,
+            decorationColor: Colors.red,
+            color: Color.fromARGB(140, 0, 0, 0),
+            fontSize: 18,
+            fontWeight: FontWeight.bold,
+          ),),
+          onTap: () {
+            BuildContext context;
+            Navigator.push(
+                globalExploreContext,
+                MaterialPageRoute(
+                  builder: (context) =>
+                  // new BookView(isbn: isbnSet.elementAt(index).toString()),
+                  new BookView(isbn: bookid_send),
+                ));
+          });
+    }
   }
 
   Widget errorWidgetMaker(BooksData booksData, retryListener) {
@@ -213,6 +253,7 @@ class BooksData {
   List<dynamic> isbn = new List<dynamic>();
   List<dynamic> img_list = new List<dynamic>();
   List<dynamic> isbn_list = new List<dynamic>();
+  List<dynamic> oldPrice_List = new List<dynamic>();
 
   int statusCode;
   String errorMessage;
@@ -231,10 +272,11 @@ class BooksData {
   DateTime releasedTime;
   List<double> priceList;
 
+
   BooksData.fromResponse(http.Response response) {
     this.statusCode = response.statusCode;
     List jsonData = json.decode(response.body);
-    print(jsonData);
+    //print(jsonData);
 
     // isbnSet.clear();
     if (isbnSet.contains(deletedBookId)) {
@@ -254,9 +296,19 @@ class BooksData {
       prices.add(lastPrice);
       img_list.add(jsonData[i]["bookImage"]);
       isbn_list.add(jsonData[i]["bookId"]);
+      String inDiscount = jsonData[i]["inDiscount"].toString();
+
+
+      if (inDiscount =="1" ){
+        oldPrice_List.add(jsonData[i]["priceList"][priceListLen - 2]["price"].toString());
+        oldPriceList.add(jsonData[i]["priceList"][priceListLen - 2]["price"].toString());
+      }else{
+        oldPrice_List.add("0");
+        oldPriceList.add("0");
+      }
 
     }
-
+    //oldPriceList = oldPrice_List ;
     nItems = books.length;
   }
 

@@ -22,7 +22,7 @@ int deletedBookId = -1;
 String title_main = "MainPage";
 int main_page_num = 0;
 String parameter = "getHotList";
-
+List<String> oldPriceList = [];
 class List_MainStateless extends StatelessWidget {
   List_MainStateless(int bookId, int MainPage) {
     deletedBookId = bookId;
@@ -113,11 +113,11 @@ class List_MainState extends State<List_MainPage> {
         _urlBookCount,
         headers: <String, String>{'authorization': basicAuth},
       );
-      print("HEREEE");
+
       if (responseCount.statusCode == 200) {
         total = json.decode(responseCount.body);
         print(total);
-        print("UPPPPPUPPPP");
+
       } else {
         print(responseCount.statusCode);
         throw Exception("Books are not retrieved!");
@@ -133,7 +133,7 @@ class List_MainState extends State<List_MainPage> {
     try {
       total = 10;
       print(total);
-      print("UPPPPPUPPPP");
+
     } catch (e) {
       print("SocketException");
       throw Exception(e);
@@ -149,7 +149,7 @@ class List_MainState extends State<List_MainPage> {
         getTotalCount2();
         page = 1;
       }
-      print("*****PAGEEEE");
+
       print(page);
       var url = "http://10.0.2.2:8080/${parameter}/${page}/10";
       print(url);
@@ -162,7 +162,7 @@ class List_MainState extends State<List_MainPage> {
         _url,
         headers: <String, String>{'authorization': basicAuth},
       );
-      print("HEREIAMMMMM");
+
       return BooksData.fromResponse(response);
     } catch (e) {
       if (e is IOException) {
@@ -185,6 +185,7 @@ class List_MainState extends State<List_MainPage> {
           booksData.authors[i] +
           "\n" +
           "Price:\t" +
+          "|"+
           booksData.prices[i].toString() +
           "|" +
           (booksData.img_list[i].toString()) +
@@ -206,28 +207,61 @@ class List_MainState extends State<List_MainPage> {
   }
 
   Widget listBookBuilder(value, int index) {
-    // TODO BookView isbn should be changed with isbn
-    print("VALUEEEE");
-    var value_list = value.toString().split("|");
+     var value_list = value.toString().split("|");
     String text_part = value_list[0];
-    String img_part = value_list[1];
-    String bookid_send = value_list[2];
-    print("BOOKIDDD");
-    print(bookid_send);
-    print("VALUEEEE");
-    return ListTile(
+    String last_price_part = value_list[1];
+    String img_part = value_list[2];
+    String bookid_send = value_list[3];
+    String final_text = text_part;
+
+    if(oldPriceList[index] == "0" ){
+      final_text = final_text + last_price_part + "  \$";
+      return ListTile(
         //leading:  Image.network("https://dictionary.cambridge.org/tr/images/thumb/book_noun_001_01679.jpg?version=5.0.75"),
-        leading: Image.network(img_part),
-        title: Text(text_part),
-        onTap: () {
-          Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (context) =>
-                    // new BookView(isbn: isbnSet.elementAt(index).toString()),
-                    new CustomerBookView(isbn: bookid_send),
-              ));
-        });
+          leading:  Image.network(img_part),
+          title: Text(final_text ,style: TextStyle(
+            fontSize: 18,
+            fontWeight: FontWeight.bold,
+          ),) ,
+          onTap: () {
+            Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) =>
+                  // new BookView(isbn: isbnSet.elementAt(index).toString()),
+                  new CustomerBookView(isbn: bookid_send),
+                ));
+          });
+    }else{
+      final_text = final_text +last_price_part  + " \$";
+
+      return ListTile(
+
+        //leading:  Image.network("https://dictionary.cambridge.org/tr/images/thumb/book_noun_001_01679.jpg?version=5.0.75"),
+          leading:  Image.network(img_part),
+          title: Text(final_text ,style: TextStyle(
+            fontSize: 18,
+            fontWeight: FontWeight.bold,
+          ),) ,
+          subtitle: Text(oldPriceList[index] + " \$" ,style: TextStyle(
+            decoration: TextDecoration.lineThrough,
+            decorationThickness: 2.5,
+            decorationColor: Colors.red,
+            color: Color.fromARGB(140, 0, 0, 0),
+            fontSize: 18,
+            fontWeight: FontWeight.bold,
+          ),),
+          onTap: () {
+            Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) =>
+                  // new BookView(isbn: isbnSet.elementAt(index).toString()),
+                  new CustomerBookView(isbn: bookid_send),
+                ));
+          });
+    }
+
   }
 
   Widget errorWidgetMaker(BooksData booksData, retryListener) {
@@ -275,6 +309,7 @@ class BooksData {
   List<dynamic> isbn = new List<dynamic>();
   List<dynamic> img_list = new List<dynamic>();
   List<dynamic> isbn_list = new List<dynamic>();
+  List<dynamic> oldPrice_List = new List<dynamic>();
 
   int statusCode;
   String errorMessage;
@@ -292,6 +327,7 @@ class BooksData {
   String bookImage;
   DateTime releasedTime;
   List<double> priceList;
+
 
   BooksData.fromResponse(http.Response response) {
     this.statusCode = response.statusCode;
@@ -313,19 +349,22 @@ class BooksData {
       lastPrice += jsonData[i]["priceList"][priceListLen - 1]["price"];
       bool moreThanOne = false;
 
-      /**if (jsonData[i]["priceList"].length >= 2) {
-          lastPrice += jsonData[i]["priceList"][priceListLen - 2]["price"];
-          moreThanOne = true;
-          }
-          if (moreThanOne) {
-          lastPrice /= 2;
-          }*/
-
       prices.add(lastPrice);
       img_list.add(jsonData[i]["bookImage"]);
       isbn_list.add(jsonData[i]["bookId"]);
-    }
+      String inDiscount = jsonData[i]["inDiscount"].toString();
 
+
+      if (inDiscount =="1" ){
+        oldPrice_List.add(jsonData[i]["priceList"][priceListLen - 2]["price"].toString());
+        oldPriceList.add(jsonData[i]["priceList"][priceListLen - 2]["price"].toString());
+      }else{
+        oldPrice_List.add("0");
+        oldPriceList.add("0");
+      }
+
+    }
+    //oldPriceList = oldPrice_List ;
     nItems = books.length;
   }
 
@@ -333,3 +372,4 @@ class BooksData {
     this.errorMessage = errorMessage;
   }
 }
+
