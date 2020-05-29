@@ -336,13 +336,13 @@ class MyStatelessWidget extends StatelessWidget {
                   icon: Icon(Icons.shopping_basket),
                   onPressed: () async {
                     if (isLogin) {
-                      Basket basket = new Basket();
+                      Basket basket = new Basket(0);
                       SharedPrefBooks _sharedPrefBooks = new SharedPrefBooks();
                       _sharedPrefBooks.getOrdersFromSharedPref(customerID);
                       Navigator.push(
                           context,
                           new MaterialPageRoute(
-                              builder: (context) => new Basket()));
+                              builder: (context) => new Basket(0)));
                     } else {
                       Navigator.push(
                           context,

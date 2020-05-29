@@ -8,12 +8,17 @@ import 'package:bookland/http_basket.dart';
 
 // These lists store book id and quantities
 // finalOrders stores latest order in string format
+// totalBasketPrice keeps the total price of basket
 List<String> bookIdList = [];
 List<String> bookQuantityList = [];
 String finalOrders = "";
+double totalBasketPrice = 0;
 enum WhyFarther { delete, quantity } // This is for popup menu items
 
 class Basket extends StatelessWidget {
+  Basket(double _totalBasketPrice) {
+    totalBasketPrice = _totalBasketPrice;
+  }
   SharedPrefBooks _sharedPrefBooks = new SharedPrefBooks();
   @override
   Widget build(BuildContext context) {
@@ -122,6 +127,7 @@ class BasketLayoutState extends State<BasketLayout> {
                   imageList.add(snapshot.data[i]["bookImage"]);
                   priceList.add(snapshot.data[i]["price"]);
                   quantityList.add(bookQuantityList[i]);
+                  totalBasketPrice += (snapshot.data[i]["price"] * int.parse(quantityList[i]));  // Add price
                 }
                 return ListView.builder(
                     itemCount: bookNameList.length,
@@ -182,7 +188,7 @@ class BasketLayoutState extends State<BasketLayout> {
                                                   context,
                                                   new MaterialPageRoute(
                                                       builder: (context) =>
-                                                          new Basket()));
+                                                          new Basket(0)));
                                             },
                                           ),
                                         ],
@@ -393,7 +399,7 @@ class UpdateDialogState extends State<UpdateDialog> {
                 await SharedPreferences.getInstance();
             sharedPref.setStringList(customerID, newList);
             Navigator.push(context,
-                new MaterialPageRoute(builder: (context) => new Basket()));
+                new MaterialPageRoute(builder: (context) => new Basket(0)));
           },
           color: Colors.green,
           shape:
