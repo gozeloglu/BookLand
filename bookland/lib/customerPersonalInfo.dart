@@ -45,7 +45,7 @@ class customerPersonalInfo extends StatelessWidget {
                       fullName((snapshot.data.FirstName).toString(),
                           (snapshot.data.customerSurname).toString()),
                       Text("\n"),
-                      customerIdWidget((snapshot.data.CustomerId).toString()),
+                      //customerIdWidget((snapshot.data.CustomerId).toString()),
                       Text("\n"),
                       customerEmail((snapshot.data.customerEmail).toString()),
                       customerPhone((snapshot.data.customerPhone).toString()),

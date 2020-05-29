@@ -50,4 +50,50 @@ class HttpCustomer {
       return "SORRRY" ;
     }
   }
+
+  Future<String> addToWishList(String customerId, String isbn) async {
+    var client = http.Client();
+    var url = "http://10.0.2.2:8080";
+    String username = 'Daryl';
+    String password = 'WalkingDead';
+    String basicAuth =
+        'Basic ' + base64Encode(utf8.encode('$username:$password'));
+    http.Response response;
+    response = await http.get(
+        'http://10.0.2.2:8080/addFromWishList/$customerId/$isbn',
+        headers: <String, String>{
+        'Authorization': basicAuth,
+        'Content-Type': 'application/json; charset=UTF-8',
+        },
+    );
+
+    body: jsonEncode(<String, dynamic>{
+      "CustomerId": customerId,
+      "bookId": isbn
+    }
+    );
+  }
+
+  Future<String> removeFromWishList(String customerId, String isbn) async {
+    var client = http.Client();
+    var url = "http://10.0.2.2:8080";
+    String username = 'Daryl';
+    String password = 'WalkingDead';
+    String basicAuth =
+        'Basic ' + base64Encode(utf8.encode('$username:$password'));
+    http.Response response;
+    response = await http.get(
+      'http://10.0.2.2:8080/removeFromWishList/$customerId/$isbn',
+      headers: <String, String>{
+        'Authorization': basicAuth,
+        'Content-Type': 'application/json; charset=UTF-8',
+      },
+    );
+
+    body: jsonEncode(<String, dynamic>{
+      "CustomerId": customerId,
+      "bookId": isbn
+    }
+    );
+  }
 }

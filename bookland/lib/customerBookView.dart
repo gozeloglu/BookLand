@@ -16,7 +16,11 @@ import 'package:bookland/login.dart';
 import 'package:smooth_star_rating/smooth_star_rating.dart';
 import 'package:bookland/comment_view.dart';
 
+import 'http_customer.dart';
+
 /// This class contains the objects which is the same in GET allBooks method
+
+String customerBookId;
 
 class CustomerBookView extends StatelessWidget {
   String _bookName;
@@ -48,6 +52,7 @@ class CustomerBookView extends StatelessWidget {
               print("Here");
               print(snapshot.data.price);
               print(snapshot.data.firstPrice);
+              customerBookId = snapshot.data.bookId.toString();
               //return Text(snapshot.data.bookName);
               return Container(
                 width: double.infinity,
@@ -517,12 +522,19 @@ class Post extends StatefulWidget {
 }
 
 class PostState extends State<Post> {
+
+  final HttpCustomer httpCustomer = HttpCustomer();
   bool liked = false;
 
   _pressedLikeButton() {
     setState(() {
       liked = !liked;
     });
+    if (liked == true){
+      httpCustomer.addToWishList(customerID, customerBookId);
+    } else if(liked == false){
+      httpCustomer.removeFromWishList(customerID, customerBookId);
+    }
   }
 
   @override
