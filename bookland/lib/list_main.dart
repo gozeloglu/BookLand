@@ -143,13 +143,13 @@ class List_MainState extends State<List_MainPage> {
 
   Future<BooksData> sendBooksDataRequest(int page) async {
     try {
-      if (main_page_num != 3 ) {
+      if (main_page_num != 3 ||  main_page_num != 5) {
         getTotalCount();
       } else {
         getTotalCount2();
         page = 1;
       }
-
+      print(parameter);
       print(page);
       var url = "http://10.0.2.2:8080/${parameter}/${page}/10";
       print(url);

@@ -91,7 +91,7 @@ class SearchState extends State<SearchPage> {
   Future<BooksData> searchBooksDataRequest(int page) async {
     try {
       getTotalCount();
-      var url = "http://10.0.2.2:8080/Search/$page/2/9?keyword=${keyword}";
+      var url = "http://10.0.2.2:8080/Search/$page/2/104?keyword=${keyword}";
       print(url);
       String username = 'Daryl';
       String password = 'WalkingDead';

@@ -4,7 +4,7 @@ import 'package:http/http.dart' as http;
 
 class HttpBook {
 
-  Future<Book> getBook(String isbn) async {
+  Future<Customer_Book_Model> getBook(String isbn) async {
     var client = http.Client();
     var url = "http://10.0.2.2:8080";
     String username = 'Daryl';
@@ -18,8 +18,8 @@ class HttpBook {
       headers: <String, String>{'authorization': basicAuth});
 
     if (response.statusCode == 200) {
-      Book obj = Book.fromJson(json.decode(response.body));
-      print(obj.bookId);
+      Customer_Book_Model obj = Customer_Book_Model.fromJson(json.decode(response.body));
+      print(obj.details.bookName);
       return obj;
     } else {
       throw "Can't get books.";
