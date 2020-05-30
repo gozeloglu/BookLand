@@ -99,7 +99,7 @@ class BookView extends StatelessWidget {
           height: 300,
           width: 200,
         ),**/
-        Image.network(url)
+        Image.network(url ,width: 300,height: 400,)
       ],
     );
   }
