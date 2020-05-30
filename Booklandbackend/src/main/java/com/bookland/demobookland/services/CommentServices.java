@@ -53,4 +53,8 @@ public class CommentServices {
             }
         };
     }
+
+    public Long getBookCommentCount(Integer isbn) {
+        return commentRepository.countByBookIdEquals(isbn);
+    }
 }

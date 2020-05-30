@@ -17,7 +17,12 @@ public class CommentController {
     CommentServices commentServices;
 
     @GetMapping(value = "/getBookComments/{pageNo}/{pageSize}/{ISBN}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public List<CommentProjection> getBookById(@PathVariable Integer pageNo, @PathVariable Integer pageSize, @PathVariable Integer ISBN) {
+    public List<CommentProjection> getBookComments(@PathVariable Integer pageNo, @PathVariable Integer pageSize, @PathVariable Integer ISBN) {
         return commentServices.getBookComments(pageNo - 1, pageSize, ISBN);
+    }
+
+    @GetMapping(value = "/getBookComments/{ISBN}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public Long getBookCommentCount(@PathVariable Integer ISBN) {
+        return commentServices.getBookCommentCount(ISBN);
     }
 }
