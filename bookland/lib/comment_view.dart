@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:bookland/http_comment_vote.dart';
 
 int commentCount = 0;
+
 class CommentView extends StatefulWidget {
   final String bookId;
 
@@ -95,7 +96,6 @@ class _CommentViewState extends State<CommentView> {
                   });
             }
           } else if (!snapshot.hasData) {
-
             noComment();
           }
           return Center(
@@ -122,6 +122,8 @@ class _CommentViewState extends State<CommentView> {
       ),
       disabledColor: Colors.grey,
       disabledTextColor: Colors.white,
+      // If we do not reach beginning page, enable the back button
+      // Otherwise, disable back button
       onPressed: page > 1
           ? () {
               setState(() {
@@ -134,23 +136,25 @@ class _CommentViewState extends State<CommentView> {
 
   Widget nextButton() {
     return RaisedButton(
-      child: Text(
-        "Next",
-        style: TextStyle(fontSize: 20, color: Colors.white),
-      ),
-      color: Colors.green,
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(15),
-      ),
-      disabledColor: Colors.grey,
-      disabledTextColor: Colors.white,
-      onPressed: (page < (commentCount / 5))? () {
-        setState(() {
-          page += 1;
-        });
-      }
-      : null
-    );
+        child: Text(
+          "Next",
+          style: TextStyle(fontSize: 20, color: Colors.white),
+        ),
+        color: Colors.green,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(15),
+        ),
+        disabledColor: Colors.grey,
+        disabledTextColor: Colors.white,
+        // If total page is not bigger than current page, increment page by 1
+        // If we reach final page, disable the button
+        onPressed: (page < (commentCount / 5))
+            ? () {
+                setState(() {
+                  page++;
+                });
+              }
+            : null);
   }
 
   Widget noComment() {

@@ -405,11 +405,6 @@ class CustomerBookView extends StatelessWidget {
         borderRadius: BorderRadius.circular(15),
       ),
       onPressed: () {
-        /// commentCount = 0;
-
-        print("-----------------Comment Count--------------------");
-        print(commentCount);
-        print("-----------------Comment Count--------------------");
         Navigator.push(context,
             new MaterialPageRoute(builder: (context) => CommentView(isbn)));
       },
