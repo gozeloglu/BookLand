@@ -39,10 +39,7 @@ class HTTPAll {
       print("CUSTOMER ID $CUSTOMERID");
       print("********************************");
     } else {
-      //print(response.body);
 
-      // Error msg = Error.fromJson(json.decode(response.body));
-      // print(msg.errors[0].toString());
       isAnyUserLogin = false;
     }
   }
@@ -66,8 +63,7 @@ class HTTPAll {
       }),
     );
 
-    //print(response.statusCode);
-    // print(response.body);
+
     if (response.statusCode < 400) {
     } else {
       Error msg = Error.fromJson(json.decode(response.body));
@@ -87,10 +83,10 @@ class HTTPAll {
 
     http.Response response = await http.get('http://10.0.2.2:8080/getCategory',
         headers: <String, String>{'authorization': basicAuth});
-    print("HERE!!!!");
+
     if (response.statusCode == 200) {
       String text = response.body;
-      print(text);
+
       return text;
     } else {
       throw "Can't get books.";
@@ -98,29 +94,36 @@ class HTTPAll {
   }
 
 
-  Future<String> Payment(String customerid, String cardNumber ,String cardOwner,String shippingCompid,String totalcost,String addressId,String promocode) async {
+  Future<String> Payment(String customerid, String cardNumber ,String cardOwner,String shippingCompid,String totalcost,String addressId,String promocode,String month,String year,String cvc) async {
     String finalval = finalOrders;
-    print(finalval);
+    totalcost = totalcost.replaceAll(",", ".");
+    print(totalcost);
 
+    if(month == "MONTH" || year == "YEAR" || cvc == ""){
+      errorControl = true;
+      errorMessage = "Please fill in the empty fields to pay.";
+      return "EMPTY";
+    }
     String username = 'Daryl';
     String password = 'WalkingDead';
     String basicAuth =
         'Basic ' + base64Encode(utf8.encode('$username:$password'));
     http.Response response;
 
-    response = await http.post('http://10.0.2.2:8080/createOrder/${customerid}/${addressId}/${shippingCompid}', //TODO paramtere yap
+    response = await http.post('http://10.0.2.2:8080/createOrder/$customerid/$addressId/$shippingCompid', //TODO paramtere yap
       headers: <String, String>{'Authorization': basicAuth,'Content-Type': 'application/json; charset=UTF-8',
       },
       body: jsonEncode(<String, dynamic>{
-        "totalAmount" : totalcost,
-        "cardNo": cardNumber,
-        "cardOwner": cardOwner,
-        "basketInfo": finalval,
-        "couponCode": promocode
+        "totalAmount" : totalcost.toString(),
+        "cardNo": cardNumber.toString(),
+        "cardOwner": cardOwner.toString(),
+        "basketInfo": finalval.toString(),
+        "couponCode": promocode.toString()
       }),
     );
 
     if (response.statusCode < 400) {
+
       return "PERFECT";
     } else {
       Error msg = Error.fromJson(json.decode(response.body));
@@ -128,7 +131,6 @@ class HTTPAll {
       errorMessage = msg.errors[0].toString();
       print(response.body);
       print(msg.errors[0].toString());
-      //throw Exception('Failed to load album');
       print("-----" + errorControl.toString());
       return "SORRRY" ;
     }
@@ -140,32 +142,22 @@ class HTTPAll {
     String password = 'WalkingDead';
     String basicAuth =
         'Basic ' + base64Encode(utf8.encode('$username:$password'));
-    print("Before GET");
+
 
     final response = await http.get(
       url,
       headers: <String, String>{'authorization': basicAuth},
     );
 
-    //http.Response responseJSON = json.decode(response.body);
-
-    print(response.statusCode);
-    print(response.body);
-
     if (response.statusCode == 200) {
-      print("just after if");
+
       Iterable l = json.decode(response.body);
       List<Model_ShippingCompany> myModels =
           (json.decode(response.body) as List)
               .map((i) => Model_ShippingCompany.fromJson(i))
               .toList();
       ;
-      print("*****LİSTEMMM");
-      print(myModels);
-      print("*****LİSTEMMM");
 
-      print("dönüyoruzzz");
-      print(myModels[0].companyName);
       return myModels;
     } else {
       throw Exception("Can't get books.");
@@ -177,7 +169,7 @@ class HTTPAll {
     String password = 'WalkingDead';
     String basicAuth =
         'Basic ' + base64Encode(utf8.encode('$username:$password'));
-    print("Before GET");
+
 
     final response = await http.get(
       url,
@@ -186,15 +178,13 @@ class HTTPAll {
 
     //http.Response responseJSON = json.decode(response.body);
 
-    print(response.statusCode);
-    print(response.body);
+
 
     if (response.statusCode == 200) {
-      print("just after if");
+
 
       Model_Order_Details_Customer obj = Model_Order_Details_Customer.fromJson(json.decode(response.body));
-      print(obj.orderAdressline);
-      print(obj.bookList[0].author);
+
       return obj;
 
     } else {
@@ -202,8 +192,8 @@ class HTTPAll {
     }
   }
   Future<String> getPromoCode(String promocode , String totalcost) async {
-    print(promocode);
-    print(totalcost);
+
+    totalcost = totalcost.replaceAll(",", ".");
     String username = 'Daryl';
     String password = 'WalkingDead';
     String basicAuth =
@@ -214,14 +204,19 @@ class HTTPAll {
       headers: <String, String>{'Authorization': basicAuth,'Content-Type': 'application/json; charset=UTF-8',
       },
       body: jsonEncode(<String, dynamic>{
-        "${promocode}": 126,
+        "${promocode}": totalcost,
       }),
     );
-    print("HERE!!!!");
+    
+
     if (response.statusCode == 200) {
       String text = response.body;
-      print(response.body.toString());
-      print(text);
+
+
+      double newPrice = double.parse(text); //Convert to double the string price that comes from parameters
+      text = newPrice.toStringAsFixed(2);
+      text =text.toString();
+
       return text;
     } else {
       throw "Can't get books.";
@@ -234,7 +229,7 @@ class HTTPAll {
     String password = 'WalkingDead';
     String basicAuth =
         'Basic ' + base64Encode(utf8.encode('$username:$password'));
-    print("Before GET");
+
 
     final response = await http.get(
       url,
@@ -243,15 +238,12 @@ class HTTPAll {
 
     //http.Response responseJSON = json.decode(response.body);
 
-    print(response.statusCode);
-    print(response.body);
 
     if (response.statusCode == 200) {
-      print("just after if");
+
 
       Model_Order_Details obj = Model_Order_Details.fromJson(json.decode(response.body));
-      print(obj.orderAdressline);
-      print(obj.bookList[0].author);
+
       return obj;
 
     } else {

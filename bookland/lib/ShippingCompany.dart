@@ -199,7 +199,7 @@ class ShippingCompanyState extends State<ShippingCompany> {
               print(mapPrice[shipping_companyid]);
               String addrId = addressId;
               String customerid = customerId;
-              String totalPrice = "126"; //TODO toplama işlemi
+              String totalPrice = "19,99"; //TODO toplama işlemi
               Navigator.push(
                 context,
                 new MaterialPageRoute(
