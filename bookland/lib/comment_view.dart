@@ -33,19 +33,41 @@ class _CommentViewState extends State<CommentViewStateful> {
           centerTitle: true,
           title: Text("Comments"),
         ),
-        body: commentList());
+        body: commentPage());
+  }
+
+  Widget commentPage() {
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+      children: <Widget>[
+        Expanded(
+          flex: 6,
+          child: comment(),
+        ),
+        Expanded(
+          flex: 1,
+          child: buttons(),
+        )
+      ],
+    );
   }
 
   Widget commentList() {
     return Column(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: [Expanded(child: comment())],
+      children: [comment()],
     );
   }
 
+  Widget buttons() {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+      children: [backButton(), nextButton()],
+    );
+  }
   Widget comment() {
     return Padding(
-      padding: const EdgeInsets.fromLTRB(20, 50, 0, 0),
+      padding: const EdgeInsets.fromLTRB(20, 20, 20, 0),
       child: FutureBuilder<List<dynamic>>(
         future: commentVote.getComments(bookId, 1),
         builder: (context, snapshot) {
@@ -96,7 +118,34 @@ class _CommentViewState extends State<CommentViewStateful> {
     );
   }
 
-  Widget buttons() {
-    return Row();
+  Widget backButton() {
+
+    return RaisedButton(
+      child: Text(
+        "Back",
+        style: TextStyle(fontSize: 20, color: Colors.white),
+      ),
+      color: Colors.green,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(15),
+      ),
+      disabledColor: Colors.grey,
+      disabledTextColor: Colors.white,
+    );
+  }
+
+  Widget nextButton() {
+    return RaisedButton(
+      child: Text(
+        "Next",
+        style: TextStyle(fontSize: 20, color: Colors.white),
+      ),
+      color: Colors.green,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(15),
+      ),
+      disabledColor: Colors.grey,
+      disabledTextColor: Colors.white,
+    );
   }
 }
