@@ -36,6 +36,8 @@ class List_MainStateless extends StatelessWidget {
       title_main = "Last Release";
       parameter = "getLastReleased";
     } else if (MainPage == 4) {
+      parameter = "SearchRecommendation/" + customerID.toString();
+      print(parameter);
       title_main = "Last Views";
     } else if (MainPage == 5) {
       title_main = "Best Sellers";
@@ -143,7 +145,7 @@ class List_MainState extends State<List_MainPage> {
 
   Future<BooksData> sendBooksDataRequest(int page) async {
     try {
-      if (main_page_num != 3 ||  main_page_num != 5) {
+      if (main_page_num != 3 ||  main_page_num != 5 ||  main_page_num != 4) {
         getTotalCount();
       } else {
         getTotalCount2();
@@ -347,7 +349,7 @@ class BooksData {
       int priceListLen = jsonData[i]["priceList"].length;
       double lastPrice = 0;
       lastPrice += jsonData[i]["priceList"][priceListLen - 1]["price"];
-      bool moreThanOne = false;
+
 
       prices.add(lastPrice);
       img_list.add(jsonData[i]["bookImage"]);
