@@ -8,6 +8,8 @@ public interface BestSellerProjection {
 
     String getBookName();
 
+    Integer getBookId();
+
     String getAuthor();
 
     String getBookImage();
