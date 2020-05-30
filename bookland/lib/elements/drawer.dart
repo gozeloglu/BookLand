@@ -10,6 +10,9 @@ import '../adminCampaign.dart';
 import '../adminDiscount.dart';
 import '../admin_drawer_update_book.dart';
 import '../main.dart';
+import '../AdminPages/Admin_CustomerManage.dart';
+
+
 
 class MyDrawer extends StatelessWidget {
   final String drawerHeader;
@@ -100,6 +103,19 @@ class MyDrawer extends StatelessWidget {
             child: ListTile(
               title: Text("Campaigns", style: TextStyle(fontSize: 18)),
               leading: Icon(Icons.money_off),
+            ),
+          ),
+          InkWell(
+            onTap: () {
+              Navigator.push(
+                context,
+                new MaterialPageRoute(
+                    builder: (context) => new Admin_customerManageStateless(-1) ),
+              );
+            },
+            child: ListTile(
+              title: Text("Customer Manage", style: TextStyle(fontSize: 18)),
+              leading: Icon(Icons.people),
             ),
           ),
           Container(

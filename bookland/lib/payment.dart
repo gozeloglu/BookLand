@@ -112,7 +112,7 @@ class _PaymentPageState extends State<PaymentStatefulWidget> {
             promocodeController.text = "";
             promocode = "NoCoup";
             nt_price = totalcost;
-            final_total_price ="-1";
+            final_total_price = nt_price;
              Navigator.of(context).pop();
           },
         )
