@@ -75,6 +75,10 @@ public class SearchServices {
         List<Integer> ids = new ArrayList<>();
         List<ExplorePageProjection> recommendationResults = new ArrayList<>();
 
+        if(customerId.equals(-1)){
+            return bookRepository.findTop10ByInHotListEquals(1);
+        }
+
         /*top5 yaparsan son 5 aradığı kelimeye göre önerilen kitapları getirir*/
         List<KeywordProjection> lastSearchedWords = searchRepository.findTop10ByCustomerIdOrderByReleasedTimeDesc(customerId);
 

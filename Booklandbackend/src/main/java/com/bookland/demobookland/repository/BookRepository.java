@@ -43,6 +43,8 @@ public interface BookRepository extends PagingAndSortingRepository<Book, Integer
     /*If we want to return all the properties of book just change the return type to book*/
     Page<ExplorePageProjection> findByInHotListEquals(Pageable paging, Integer hotList);
 
+    List<ExplorePageProjection> findTop10ByInHotListEquals(Integer hotList);
+
     Page<ExplorePageProjection> findByRealIsbn(Pageable paging, Long isbn);
 
     List<ExplorePageProjection> findByRealIsbn(Long isbn);

@@ -86,9 +86,9 @@ public class BookController {
         return bookServices.getLastReleased(pageNo - 1, pageSize);
     }
 
-    @GetMapping(value = "/getBookDetails/{ISBN}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public BookDetailsAll getBookById(@PathVariable Integer ISBN) {
-        return bookServices.getBookById(ISBN);
+    @GetMapping(value = "/getBookDetails/{ISBN}/{customerId}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public BookDetailsAll getBookById(@PathVariable Integer ISBN, @PathVariable Integer customerId) {
+        return bookServices.getBookById(ISBN, customerId);
     }
 
     @PutMapping(value = "/applyDiscount/{book_id}/{percentage}", produces = MediaType.APPLICATION_JSON_VALUE)
