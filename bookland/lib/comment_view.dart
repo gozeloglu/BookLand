@@ -37,7 +37,7 @@ class _CommentViewState extends State<CommentView> {
         ),
         Expanded(
           flex: 1,
-          child: buttons(),
+          child: commentCount > 0 ? buttons() : Row(),
         )
       ],
     );
@@ -144,7 +144,7 @@ class _CommentViewState extends State<CommentView> {
       ),
       disabledColor: Colors.grey,
       disabledTextColor: Colors.white,
-      onPressed: (page < (commentCount / 5) || commentCount != 0 )? () {
+      onPressed: (page < (commentCount / 5))? () {
         setState(() {
           page += 1;
         });

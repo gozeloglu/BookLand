@@ -38,6 +38,7 @@ class CustomerBookView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    getTotalCommentCount();   // Fetch total comment before comment view page
     return Scaffold(
         appBar: MyAppBar(
           pageTitle: "Book",
@@ -404,7 +405,11 @@ class CustomerBookView extends StatelessWidget {
         borderRadius: BorderRadius.circular(15),
       ),
       onPressed: () {
-        getTotalCommentCount();   // Fetch total comment before comment view page
+        /// commentCount = 0;
+
+        print("-----------------Comment Count--------------------");
+        print(commentCount);
+        print("-----------------Comment Count--------------------");
         Navigator.push(context,
             new MaterialPageRoute(builder: (context) => CommentView(isbn)));
       },
