@@ -15,6 +15,7 @@ import 'package:bookland/main.dart';
 import 'package:bookland/login.dart';
 import 'package:smooth_star_rating/smooth_star_rating.dart';
 import 'package:bookland/comment_view.dart';
+import 'package:bookland/http_comment_vote.dart';
 
 import 'http_customer.dart';
 
@@ -71,10 +72,12 @@ class CustomerBookView extends StatelessWidget {
                       quantity((snapshot.data.details.quantity).toString()),
                       Text("\n"),
                       (snapshot.data.details.inDiscount == 1)
-                          ? firstPrice((snapshot.data.details.firstPrice).toString())
+                          ? firstPrice(
+                              (snapshot.data.details.firstPrice).toString())
                           : emptyWidget(),
                       priceBook((snapshot.data.details.price).toString()),
-                      description((snapshot.data.details.description).toString()),
+                      description(
+                          (snapshot.data.details.description).toString()),
                       Text("\n"),
                       addBasketButton(context, customerID, isLogin),
                       commentField(context),
@@ -102,7 +105,11 @@ class CustomerBookView extends StatelessWidget {
             height: 300,
             width: 200,
             ),**/
-        Image.network(url ,width: 300,height: 400,)
+        Image.network(
+          url,
+          width: 300,
+          height: 400,
+        )
       ],
     );
   }
@@ -397,10 +404,18 @@ class CustomerBookView extends StatelessWidget {
         borderRadius: BorderRadius.circular(15),
       ),
       onPressed: () {
+        getTotalCommentCount();   // Fetch total comment before comment view page
         Navigator.push(context,
             new MaterialPageRoute(builder: (context) => CommentView(isbn)));
       },
     );
+  }
+
+  /// This function fetches the total comment count
+  /// And assigns to integer value
+  void getTotalCommentCount() async {
+    CommentVote commentVote = new CommentVote();
+    commentCount = await commentVote.getCommentCount(isbn);
   }
 
   /// This widget keeps the rating starts and button in row
@@ -546,7 +561,6 @@ class Post extends StatefulWidget {
 }
 
 class PostState extends State<Post> {
-
   final HttpCustomer httpCustomer = HttpCustomer();
   bool liked = false;
 
@@ -554,9 +568,9 @@ class PostState extends State<Post> {
     setState(() {
       liked = !liked;
     });
-    if (liked == true){
+    if (liked == true) {
       httpCustomer.addToWishList(customerID, customerBookId);
-    } else if(liked == false){
+    } else if (liked == false) {
       httpCustomer.removeFromWishList(customerID, customerBookId);
     }
   }

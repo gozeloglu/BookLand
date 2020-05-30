@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:bookland/http_comment_vote.dart';
 
+int commentCount = 0;
 class CommentView extends StatefulWidget {
   final String bookId;
 
@@ -59,12 +60,9 @@ class _CommentViewState extends State<CommentView> {
             if (snapshot.data.length == 0) {
               noComment();
             } else {
-              print("HAS DATA");
               List<String> commentList = [];
               List<String> commenterList = [];
 
-              print("SNAPSHOT");
-              print(snapshot.data);
               for (int i = 0; i < snapshot.data.length; i++) {
                 commentList.add(snapshot.data[i]["commentText"]);
                 commenterList.add(snapshot.data[i]["commenterName"] +
@@ -97,9 +95,8 @@ class _CommentViewState extends State<CommentView> {
                   });
             }
           } else if (!snapshot.hasData) {
-            // TODO Not data
+
             noComment();
-            print("No comment!");
           }
           return Center(
             child: Text(
@@ -147,11 +144,12 @@ class _CommentViewState extends State<CommentView> {
       ),
       disabledColor: Colors.grey,
       disabledTextColor: Colors.white,
-      onPressed: () {
+      onPressed: (page < (commentCount / 5) || commentCount != 0 )? () {
         setState(() {
           page += 1;
         });
-      },
+      }
+      : null
     );
   }
 
