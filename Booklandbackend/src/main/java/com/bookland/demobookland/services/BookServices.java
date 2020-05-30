@@ -199,7 +199,6 @@ public class BookServices {
 
             @Override
             public Float getVoteRatio() {
-                System.out.println(voteRatio);
                 return voteRatio;
             }
 
@@ -502,9 +501,9 @@ public class BookServices {
 
     public Float getVoteRatio(Book book) {
         Float ratio = (float) 0;
-        System.out.println(book.getVoteList());
-        if(book.getVoteList().isEmpty())
+        if(book.getVoteList().isEmpty()) {
             return (float) 0;
+        }
         for (Vote vote : book.getVoteList()) {
             ratio += vote.getVoteNumber();
         }
