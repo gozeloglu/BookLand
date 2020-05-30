@@ -10,7 +10,7 @@ import 'dart:io';
 import 'dart:convert';
 import 'package:bookland/services/HTTP.dart';
 import 'package:bookland/model/model_shippingcompany.dart';
-
+import 'package:shared_preferences/shared_preferences.dart';
 
 String nt_price = "";
 //TODO CUSTOMER SPECIAL
@@ -557,10 +557,6 @@ print("********");
             }
 
             print(promocode);
-
-
-
-
             var result = http_obj.Payment( customerid,cardnumber,card_owner,shippingcompany_id,nt_price,addressid,promocode,month,year,cvc);
             print(result);
             // print(result);
@@ -570,6 +566,7 @@ print("********");
                 showDialog(
                   context: context,
                   builder: (BuildContext context) {
+                    deleteBasket();
                     // return object of type Dialog
                     return AlertDialog(
                       title: new Text("Payment"),
@@ -579,7 +576,7 @@ print("********");
                         new FlatButton(
                           child: new Text("Close"),
                           onPressed: () {
-                            Navigator.of(context).pop();
+                            Navigator.push(  context, new MaterialPageRoute(builder: (context) => new MyApp()), );
                           },
                         ),
                       ],
@@ -670,6 +667,13 @@ print("********");
                   }).toList(),
                 ))));
   }
+  Future<void> deleteBasket() async {
+    SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
+   // List<String> basketList = sharedPreferences.getStringList("customerId");
+    List<String> emptyList =[];
+    sharedPreferences.setStringList(customerID,emptyList);
+    print(sharedPreferences.getStringList(customerID));
+    }
 }
 
 class TextFull extends StatelessWidget {
