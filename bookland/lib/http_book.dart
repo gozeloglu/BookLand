@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:bookland/main.dart';
 import 'package:bookland/model_book.dart';
 import 'package:http/http.dart' as http;
 
@@ -14,7 +15,7 @@ class HttpBook {
         'Basic ' + base64Encode(utf8.encode('$username:$password'));
 
     http.Response response = await http.get(
-        'http://10.0.2.2:8080/getBookDetails/${isbn}/104',
+        'http://10.0.2.2:8080/getBookDetails/$isbn/$customerID',
       headers: <String, String>{'authorization': basicAuth});
 
     if (response.statusCode == 200) {
