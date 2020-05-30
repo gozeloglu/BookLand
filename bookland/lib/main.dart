@@ -16,7 +16,7 @@ import 'package:bookland/adminOrders.dart';
 import 'package:bookland/ShippingCompany.dart';
 import 'package:bookland/basket.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-
+import 'package:bookland/CustomerPages/Campaigns.dart';
 import 'Search.dart';
 
 String customerID;
@@ -156,7 +156,7 @@ class MyStatelessWidget extends StatelessWidget {
                     Navigator.push(
                       context,
                       new MaterialPageRoute(
-                          builder: (context) => new List_MainStateless(-1, 2)),
+                          builder: (context) => new CampaignsStateless(-1)),
                     );
                   },
                   color: Colors.pink,
@@ -278,7 +278,12 @@ class MyStatelessWidget extends StatelessWidget {
             new ListTile(
               title: new Text("Campaigns"),
               trailing: new Icon(Icons.notifications_active),
-              onTap: () {},
+              onTap: () {
+
+
+
+
+              },
             ),
             new Divider(),
             new ListTile(
