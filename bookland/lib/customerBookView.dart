@@ -302,6 +302,33 @@ class CustomerBookView extends StatelessWidget {
         if (_isLogin) {
           addBasketPref(_customerId, isbn);
           getBasket(_customerId);
+          // TODO Show up dialog
+          showDialog(
+            context: context,
+            builder: (BuildContext context) {
+              // return object of type Dialog
+              return AlertDialog(
+                shape: new RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(25),
+                ),
+                title: new Text("Basket"),
+                content: new Text("You've added to basket."),
+                actions: <Widget>[
+                  // usually buttons at the bottom of the dialog
+                  new FlatButton(
+                    shape: new RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(20),
+                    ),
+                    color: Colors.blue,
+                    child: new Text("OK"),
+                    onPressed: () {
+                      Navigator.of(context).pop();
+                    },
+                  ),
+                ],
+              );
+            },
+          );
         } else {
           Navigator.push(
             context,

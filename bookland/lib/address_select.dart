@@ -1,3 +1,4 @@
+import 'package:bookland/basket.dart';
 import 'package:bookland/customer_address_add.dart';
 import 'package:bookland/http_address.dart';
 import 'package:flutter/material.dart';
@@ -48,6 +49,9 @@ class AddressSelectLayoutState extends State<AddressSelectLayout> {
   /// This function builds a list view for listing
   /// addresses on the screen
   Widget _addressListView(BuildContext context) {
+    print("TOTAL PRICE");
+    print(totalBasketPrice);
+    print("---------------------");
     return Padding(
         padding: const EdgeInsets.all(16),
         child: FutureBuilder<List<dynamic>>(
