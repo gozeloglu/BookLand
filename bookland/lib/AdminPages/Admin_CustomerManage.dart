@@ -33,8 +33,6 @@ class Admin_customerManageStateless extends StatelessWidget {
   Widget build(BuildContext context) {
     globalAdmin_customerManageContext = context;
     GlobalKey<PaginatorState> paginatorGlobalKey = GlobalKey();
-
-
     return Scaffold(
       appBar: MyAppBar(pageTitle: "Customer Manage", back: true,filter_list:false ),
       body: Paginator.listView(

@@ -97,6 +97,7 @@ class HTTPAll {
   Future<String> Payment(String customerid, String cardNumber ,String cardOwner,String shippingCompid,String totalcost,String addressId,String promocode,String month,String year,String cvc) async {
     String finalval = finalOrders;
     totalcost = totalcost.replaceAll(",", ".");
+    print("***---***");
     print(totalcost);
 
     if(month == "MONTH" || year == "YEAR" || cvc == ""){

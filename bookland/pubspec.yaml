@@ -83,6 +83,11 @@ flutter:
     - assets/orderdetails/background3.jpg
     - assets/orderdetails/backgroundAdmin.jpg
     - assets/orderdetails/backgroundAdmin1.jpg
+    - assets/mainPage/NBS.png
+    - assets/mainPage/NC.png
+    - assets/mainPage/NLR.png
+    - assets/mainPage/NRFY.png
+    - assets/mainPage/NTL.png
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.

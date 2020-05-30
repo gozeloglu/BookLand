@@ -67,7 +67,7 @@ class _PaymentPageState extends State<PaymentStatefulWidget> {
   String promocode= "NoCoup";
   String installement = "1";
 
-  String final_total_price  = nt_price;
+  double final_total_price  = double.parse(nt_price);
 
   TextEditingController cardnumberController = new TextEditingController();
   TextEditingController card_ownerController = new TextEditingController();
@@ -93,13 +93,16 @@ class _PaymentPageState extends State<PaymentStatefulWidget> {
 
             final String  result =  await http_obj.getPromoCode( promocodeController.text.toString(),totalcost);
             print(result);
-            if (result == "0.0"){
+            if (result == "0.00"){
+              print("HEREEE");
+
+              promocodeController.text = "";
               nt_price = nt_price;
               Navigator.pop(context);
               //Navigator.of(context).pop(promocodeController.text.toString());
             }else{
-              final_total_price = result;
-              nt_price = final_total_price;
+              final_total_price = double.parse(result);
+              nt_price = final_total_price.toStringAsFixed(2);
               print(nt_price);
               //Navigator.of(context).pop(nt_price);
               Navigator.pop(context);
@@ -112,7 +115,7 @@ class _PaymentPageState extends State<PaymentStatefulWidget> {
             promocodeController.text = "";
             promocode = "NoCoup";
             nt_price = totalcost;
-            final_total_price = nt_price;
+            final_total_price = double.parse(nt_price);
              Navigator.of(context).pop();
           },
         )
@@ -176,7 +179,7 @@ class _PaymentPageState extends State<PaymentStatefulWidget> {
 
             Row( children: <Widget>[
 
-              Text("\t\tTotal Cost:\$"+ final_total_price +"\t\t\t\t" ,style: TextStyle(fontWeight: FontWeight.bold,fontSize: 20), ),
+              Text("\t\tTotal Cost:\$"+ final_total_price.toStringAsFixed(2) +"\t\t" ,style: TextStyle(fontWeight: FontWeight.bold,fontSize: 20), ),
 
               new RaisedButton(onPressed: () {
 
@@ -193,8 +196,8 @@ class _PaymentPageState extends State<PaymentStatefulWidget> {
                     Icons.brightness_1,
                     color: Colors.red,
                   ),
-                  Text("\tonly one coupon" ,style: TextStyle(fontWeight: FontWeight.bold,fontSize: 10), ),
-                  Text("can be used" ,style: TextStyle(fontWeight: FontWeight.bold,fontSize: 10), ),
+                  Text("\tonly one coupon" ,style: TextStyle(fontWeight: FontWeight.bold,fontSize: 9), ),
+                  Text("can be used" ,style: TextStyle(fontWeight: FontWeight.bold,fontSize: 9), ),
 
                 ],
               )
@@ -648,7 +651,7 @@ print("********");
                 alignedDropdown: true,
                 child : DropdownButton<String>(
                   value: dropdownValue,
-                  icon: Icon(Icons.attach_money),
+                  icon: Icon(Icons.calendar_view_day),
                   iconSize: 20,
                   elevation: 20,
                   style: TextStyle(color: Colors.black),
