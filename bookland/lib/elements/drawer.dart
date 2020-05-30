@@ -1,7 +1,10 @@
+import 'dart:async';
+
 import 'package:bookland/adminUpdateBook.dart';
 import 'package:bookland/services/globalVariable.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../AdminDeleteBook.dart';
 import '../AdminOrders.dart';
@@ -129,12 +132,14 @@ class MyDrawer extends StatelessWidget {
               splashColor: Colors.red,
               onPressed: () {
                 isAnyUserLogin = false;
-                ISADMIN = 0;
+
+                logout();
                 ///FIRSTNAME = "Please LogIn";
+    Timer(Duration(seconds: 1), () {
                 Navigator.push(
                   context,
                   new MaterialPageRoute(builder: (context) => new MyApp()),
-                );
+                );});
               },
               child: Text("Logout", style: TextStyle(fontSize: 22)),
             ),
@@ -142,5 +147,18 @@ class MyDrawer extends StatelessWidget {
         ],
       ),
     );
+  }
+
+  void logout() async {
+    SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
+    sharedPreferences.setString("customerId", "-1");
+    sharedPreferences.setString("customerName", "Please Login");
+    sharedPreferences.setBool("isLogin", false);
+    sharedPreferences.setInt("isAdmin", 0);
+    customerFirstName = "Please Login";
+    customerID = "-1";
+    isAdmin = 0;
+
+    //FIRSTNAME = "Please Login";
   }
 }
