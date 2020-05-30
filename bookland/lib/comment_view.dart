@@ -2,28 +2,18 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:bookland/http_comment_vote.dart';
 
-String bookId;
 
-class CommentView extends StatelessWidget {
-  CommentView(String _bookId) {
-    bookId = _bookId;
-  }
+class CommentView extends StatefulWidget {
 
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      title: "Comments",
-      home: CommentViewStateful(),
-    );
-  }
-}
+  final String bookId;
+  CommentView(this.bookId);
 
-class CommentViewStateful extends StatefulWidget {
   @override
   _CommentViewState createState() => _CommentViewState();
 }
 
-class _CommentViewState extends State<CommentViewStateful> {
+class _CommentViewState extends State<CommentView> {
+  int page = 1;
   CommentVote commentVote = new CommentVote();
 
   @override
@@ -69,7 +59,7 @@ class _CommentViewState extends State<CommentViewStateful> {
     return Padding(
       padding: const EdgeInsets.fromLTRB(20, 20, 20, 0),
       child: FutureBuilder<List<dynamic>>(
-        future: commentVote.getComments(bookId, 1),
+        future: commentVote.getComments(widget.bookId, page),
         builder: (context, snapshot) {
           if (snapshot.hasData) {
             print("HAS DATA");
@@ -86,14 +76,24 @@ class _CommentViewState extends State<CommentViewStateful> {
             }
 
             return ListView.builder(
+              physics: BouncingScrollPhysics(),
                 itemCount: snapshot.data.length,
                 itemBuilder: (context, index) {
                   // TODO Card can be changed
-                  return Card(
-                    shape: new RoundedRectangleBorder(
-                        borderRadius: new BorderRadius.circular(10)),
-                    elevation: 5,
-                    margin: const EdgeInsets.fromLTRB(0, 30, 0, 0),
+                  return Container(
+                    padding: EdgeInsets.all(12),
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.grey.withOpacity(0.5),
+                          spreadRadius: 2,
+                          blurRadius: 7,
+                        ),
+                      ],
+                      borderRadius: BorderRadius.circular(10)
+                    ),
+                    margin: const EdgeInsets.all(10),
                     child: ListTile(
                         title: Text(commenterList[index]),
                         subtitle: Text(commentList[index])),
@@ -131,6 +131,13 @@ class _CommentViewState extends State<CommentViewStateful> {
       ),
       disabledColor: Colors.grey,
       disabledTextColor: Colors.white,
+      onPressed: page > 1 ? () {
+        setState(() {
+          page--;
+        });
+        // TODO Retrieve previous page data
+
+    } : null,
     );
   }
 
@@ -146,6 +153,12 @@ class _CommentViewState extends State<CommentViewStateful> {
       ),
       disabledColor: Colors.grey,
       disabledTextColor: Colors.white,
+      onPressed: () {
+        setState(() {
+          page += 1;
+        });
+        // TODO Retrieve next page data
+      },
     );
   }
 }
