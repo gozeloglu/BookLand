@@ -459,9 +459,15 @@ public class BookServices {
             }
 
             @Override
-            public Float getPrice() {
-                return book.getPriceList().get(book.getPriceList().size() - 1).getPrice();
+            public List<Price> getPriceList() {
+                return book.getPriceList();
             }
+
+            @Override
+            public Integer getInDiscount() {
+                return book.getInDiscount();
+            }
+
         };
     }
 
