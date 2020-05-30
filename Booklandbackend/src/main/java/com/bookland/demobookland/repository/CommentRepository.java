@@ -11,4 +11,6 @@ public interface CommentRepository extends PagingAndSortingRepository<Comment, I
 
     Page<Comment> findAllByBookId(Pageable paging, Integer bookId);
 
+    Long countByBookIdEquals(Integer isbn);
+
 }

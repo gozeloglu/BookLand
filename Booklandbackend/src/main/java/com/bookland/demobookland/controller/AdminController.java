@@ -33,6 +33,11 @@ public class AdminController {
         return adminServices.manageCustomers(pageNo - 1, pageSize);
     }
 
+    @GetMapping(value = "/getCustomerCount", produces = MediaType.APPLICATION_JSON_VALUE)
+    public Long getCustomerCount() {
+        return adminServices.getCustomerCount();
+    }
+
     @PutMapping(value = "/deActivateAccount/{customerId}", produces = MediaType.APPLICATION_JSON_VALUE)
     public String deactivateAccount(@PathVariable Integer customerId) {
         return adminServices.deActivateAccount(customerId);

@@ -43,30 +43,27 @@ class BookView extends StatelessWidget {
           builder: (BuildContext context, AsyncSnapshot snapshot) {
             if (snapshot.hasData) {
               print("snapshot has data");
-              //Book returnedBook = snapshot.data;
-              print("Here");
-              //return Text(snapshot.data.bookName);
               return Container(
                 width: double.infinity,
                 padding: EdgeInsets.only(top: 20, bottom: 20),
                 child: new SingleChildScrollView(
                   child: Column(
                     children: <Widget>[
-                      real_isbn((snapshot.data.real_isbn).toString()),
+                      real_isbn((snapshot.data.details.real_isbn).toString()),
                       Text("\n"),
-                      name((snapshot.data.bookName).toString()),
+                      name((snapshot.data.details.bookName).toString()),
                       Text("\n"),
-                      imageBook((snapshot.data.bookImage).toString()),
+                      imageBook((snapshot.data.details.bookImage).toString()),
                       Text("\n"),
                       stars(),
-                      author((snapshot.data.author).toString()),
+                      author((snapshot.data.details.author).toString()),
                       Text("\n"),
-                      category((snapshot.data.category).toString()),
+                      category((snapshot.data.details.category).toString()),
                       Text("\n"),
-                      quantity((snapshot.data.quantity).toString()),
+                      quantity((snapshot.data.details.quantity).toString()),
                       Text("\n"),
-                      priceBook((snapshot.data.price).toString()),
-                      description((snapshot.data.description).toString()),
+                      priceBook((snapshot.data.details.price).toString()),
+                      description((snapshot.data.details.description).toString()),
                       Text("\n"),
                       Row(children: <Widget>[
                         Text(
@@ -74,7 +71,7 @@ class BookView extends StatelessWidget {
                         updateButton(context, snapshot),
                         Text("      \t\t\t"),
                         deleteButton(
-                            context, (snapshot.data.bookId).toString()),
+                            context, (snapshot.data.details.bookId).toString()),
                       ]),
                       Text("\n"),
                       discountButton(context, snapshot)
@@ -102,7 +99,7 @@ class BookView extends StatelessWidget {
           height: 300,
           width: 200,
         ),**/
-        Image.network(url)
+        Image.network(url ,width: 300,height: 400,)
       ],
     );
   }
@@ -225,7 +222,7 @@ class BookView extends StatelessWidget {
   Widget updateButton(BuildContext context, AsyncSnapshot snapshot) {
     return RaisedButton(
       onPressed: () {
-        print(snapshot.data.bookId.toString());
+        print(snapshot.data.details.bookId.toString());
         Navigator.push(
           context,
           new MaterialPageRoute(
@@ -315,7 +312,6 @@ class BookView extends StatelessWidget {
   Widget discountButton(BuildContext context, AsyncSnapshot snapshot){
     return RaisedButton(
       onPressed: () {
-        //print(snapshot.data.bookId.toString());
         Navigator.push(
           context,
           new MaterialPageRoute(

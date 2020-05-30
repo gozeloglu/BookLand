@@ -15,6 +15,8 @@ SplayTreeSet isbnSet = new SplayTreeSet();
 var globalExploreContext;
 int deletedBookId = -1;
 String filter_param ="" ;
+List<String> oldPriceList = [];
+
 class Explore_FilteredStateless extends StatelessWidget {
   Explore_FilteredStateless(int bookId,String filter_paramters) {
     deletedBookId = bookId;
@@ -145,6 +147,7 @@ class Explore_FilteredState extends State<Explore_FilteredPage> {
           booksData.authors[i] +
           "\n" +
           "Price:\t" +
+          "|"+
           booksData.prices[i].toString()
           + "|"+ (booksData.img_list[i].toString()) + "|" + booksData.isbn_list[i].toString();
       // String img_val = (booksData.img_list[i].toString());
@@ -163,17 +166,13 @@ class Explore_FilteredState extends State<Explore_FilteredPage> {
   }
 
   Widget listBookBuilder(value, int index) {
-    // TODO BookView isbn should be changed with isbn
-    print("VALUEEEE");
     var value_list = value.toString().split("|");
     String text_part = value_list[0];
-    String img_part = value_list[1];
-    String bookid_send = value_list[2];
-    print("BOOKIDDD");
-    print(bookid_send);
-    print("VALUEEEE");
+    String last_price_part = value_list[1];
+    String img_part = value_list[2];
+    String bookid_send = value_list[3];
+    text_part = text_part + last_price_part;
     return ListTile(
-      //leading:  Image.network("https://dictionary.cambridge.org/tr/images/thumb/book_noun_001_01679.jpg?version=5.0.75"),
         leading:  Image.network(img_part),
         title: Text(text_part),
         onTap: () {
@@ -232,6 +231,7 @@ class BooksData {
   List<dynamic> isbn = new List<dynamic>();
   List<dynamic> img_list = new List<dynamic>();
   List<dynamic> isbn_list = new List<dynamic>();
+  List<dynamic> oldPrice_List = new List<dynamic>();
 
   int statusCode;
   String errorMessage;
@@ -249,6 +249,7 @@ class BooksData {
   String bookImage;
   DateTime releasedTime;
   List<double> priceList;
+
 
   BooksData.fromResponse(http.Response response) {
     this.statusCode = response.statusCode;
@@ -270,20 +271,22 @@ class BooksData {
       lastPrice += jsonData[i]["priceList"][priceListLen - 1]["price"];
       bool moreThanOne = false;
 
-      /**if (jsonData[i]["priceList"].length >= 2) {
-          lastPrice += jsonData[i]["priceList"][priceListLen - 2]["price"];
-          moreThanOne = true;
-          }
-          if (moreThanOne) {
-          lastPrice /= 2;
-          }*/
-      
       prices.add(lastPrice);
       img_list.add(jsonData[i]["bookImage"]);
       isbn_list.add(jsonData[i]["bookId"]);
+      String inDiscount = jsonData[i]["inDiscount"].toString();
+
+
+      if (inDiscount =="1" ){
+        oldPrice_List.add(jsonData[i]["priceList"][priceListLen - 2]["price"].toString());
+        oldPriceList.add(jsonData[i]["priceList"][priceListLen - 2]["price"].toString());
+      }else{
+        oldPrice_List.add("0");
+        oldPriceList.add("0");
+      }
 
     }
-
+    //oldPriceList = oldPrice_List ;
     nItems = books.length;
   }
 
@@ -291,57 +294,3 @@ class BooksData {
     this.errorMessage = errorMessage;
   }
 }
-
-/*
-void getTotalCount() async {
-  try {
-    String username = 'Daryl';
-    String password = 'WalkingDead';
-    String basicAuth =
-        'Basic ' + base64Encode(utf8.encode('$username:$password'));
-    var urlBookCount = "http://10.0.2.2:8080/getBookCount";
-
-    String _urlBookCount = Uri.encodeFull(urlBookCount);
-    http.Response responseCount = await http.get(
-      _urlBookCount,
-      headers: <String, String>{'authorization': basicAuth},
-    );
-
-    if (responseCount.statusCode == 200) {
-      total = json.decode(responseCount.body);
-      total = 1; //TODO düzelince gidecek
-      print(total);
-    } else {
-      print(responseCount.statusCode);
-      throw Exception("Books are not retrieved!");
-    }
-  } catch (e) {
-    print("SocketException");
-    throw Exception(e);
-  }
-}
-
-Future<BooksData> sendBooksDataRequest(int page) async {
-  try {
-    getTotalCount();
-    var url = "http://10.0.2.2:8080/Filtering/1/10?${widget.url_list}";
-    print(url);
-    String username = 'Daryl';
-    String password = 'WalkingDead';
-    String basicAuth =
-        'Basic ' + base64Encode(utf8.encode('$username:$password'));
-    String _url = Uri.encodeFull(url);
-    http.Response response = await http.get(
-      _url,
-      headers: <String, String>{'authorization': basicAuth},
-    );
-    return BooksData.fromResponse(response);
-  } catch (e) {
-    if (e is IOException) {
-      return BooksData.withError("Please check your internet connection.");
-    } else {
-      print(e.toString());
-      return BooksData.withError("Something went wrong.");
-    }
-  }
-}*/

@@ -63,7 +63,7 @@ class _PaymentPageState extends State<PaymentStatefulWidget> {
   String card_owner;
   String month = "MONTH";
   String year = "YEAR";
-  String cvc;
+  String cvc = "-1";
   String promocode= "NoCoup";
   String installement = "1";
 
@@ -112,7 +112,7 @@ class _PaymentPageState extends State<PaymentStatefulWidget> {
             promocodeController.text = "";
             promocode = "NoCoup";
             nt_price = totalcost;
-            final_total_price ="-1";
+            final_total_price = nt_price;
              Navigator.of(context).pop();
           },
         )
@@ -558,8 +558,11 @@ print("********");
 
             print(promocode);
 
-            var result = http_obj.Payment( customerid,cardnumber,card_owner,shippingcompany_id,nt_price,addressid,promocode);
 
+
+
+            var result = http_obj.Payment( customerid,cardnumber,card_owner,shippingcompany_id,nt_price,addressid,promocode,month,year,cvc);
+            print(result);
             // print(result);
             //print("****" + errorControl.toString());
             Timer(Duration(seconds: 1), () {
@@ -672,14 +675,16 @@ print("********");
 class TextFull extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    String text = "This Distance Sales Contract has been prepared in accordance with the Law No. 6502 on Consumer Protection and the Regulation on Distance Contracts. The parties of this Agreement accept and declare that they know and understand their obligations and responsibilities arising from the Law and the Distance Contracts Regulation under this Agreement.Subject of this Agreement; From Buyer's website www.bookland.com  of Bookland Innovation Company (Bookland / Intermediary Service Provider), the goods or services of the Seller It establishes the determination of the rights and obligations of the parties in accordance with the provisions of the Law and Regulation on Distance Contracts regarding the sale and delivery of goods or services specified in the Contract, which are electronically ordered for their purchase.The conclusion of this Agreement will not prevent the performance of the provisions of the Website Membership Agreements signed between the parties and BOOKLAND separately, and the parties are not liable in any way to ensure that BOOKLAND is not a party to the sale of the goods or services subject to this Agreement and that the parties fulfill their obligations under the Agreement. they accept and declare that they have no responsibility or commitment.";
+    text = text + "\n"+ text;
     return Scaffold(
       appBar: AppBar(
-        title: Text("Second Route"),
+        leading: Text("\n"),
+        title: Text("Contract Page"),
       ),
       body: Center(
-        child: Text( "This is an Contract"),
-      ),
-    );
+        child: Text( text ),
+    ));
   }
 }
 

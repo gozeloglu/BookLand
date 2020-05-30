@@ -4,10 +4,7 @@ import com.bookland.demobookland.model.*;
 import com.bookland.demobookland.model.SearchCriteria.BookSpecification;
 import com.bookland.demobookland.model.SearchCriteria.SearchCriteria;
 import com.bookland.demobookland.model.SearchCriteria.SearchOperation;
-import com.bookland.demobookland.model.projections.BestSellerProjection;
-import com.bookland.demobookland.model.projections.BookDetailsProjection;
-import com.bookland.demobookland.model.projections.CartDetailProjection;
-import com.bookland.demobookland.model.projections.ExplorePageProjection;
+import com.bookland.demobookland.model.projections.*;
 import com.bookland.demobookland.repository.BookRepository;
 import com.bookland.demobookland.repository.PriceRepository;
 import com.bookland.demobookland.repository.VoteRepository;
@@ -26,6 +23,9 @@ public class BookServices {
 
     @Autowired
     private BookRepository bookRepository;
+
+    @Autowired
+    private WishListService wishListService;
 
     @Autowired
     private VoteRepository voteRepository;
@@ -174,11 +174,42 @@ public class BookServices {
     }
 
     /*Get book details by id*/
-    public BookDetailsProjection getBookById(Integer ISBN) {
-        return bookRepository.findByBookId(ISBN);
+    public BookDetailsAll getBookById(Integer ISBN,Integer customerId) {
+
+        Optional<Book> book = bookRepository.findById(ISBN);
+        BookDetailsProjection bp = bookRepository.findByBookId(ISBN);
+        Book currentBook = book.get();
+        Float vote = getVoteRatio(currentBook);
+
+        if(customerId.equals(-1))
+            return bookDetailsAll(bp, vote, 0);
+
+        Integer inWishList = wishListService.inWishList(customerId,ISBN);
+
+        return bookDetailsAll(bp, vote, inWishList);
     }
 
-    /*problem with paging,page size ı normalden büyük tutmak lazım*/
+
+    public BookDetailsAll bookDetailsAll(BookDetailsProjection bp, Float voteRatio, Integer inWishList) {
+        return new BookDetailsAll() {
+            @Override
+            public BookDetailsProjection getDetails() {
+                return bp;
+            }
+
+            @Override
+            public Float getVoteRatio() {
+                System.out.println(voteRatio);
+                return voteRatio;
+            }
+
+            @Override
+            public Integer getInWishlist() {
+                return inWishList;
+            }
+        };
+    }
+
     public List<BookDetailsProjection> getBookByFilters(Integer pageNo, Integer pageSize, String author, ArrayList<String> category, Integer minPrice, Integer maxPrice) {
         BookSpecification filter_categories = new BookSpecification();
         List<BookDetailsProjection> finalBookList = new ArrayList<>();
@@ -417,6 +448,11 @@ public class BookServices {
             }
 
             @Override
+            public Integer getBookId() {
+                return book.getBookId();
+            }
+
+            @Override
             public String getAuthor() {
                 return book.getAuthor();
             }
@@ -432,9 +468,15 @@ public class BookServices {
             }
 
             @Override
-            public Float getPrice() {
-                return book.getPriceList().get(book.getPriceList().size() - 1).getPrice();
+            public List<Price> getPriceList() {
+                return book.getPriceList();
             }
+
+            @Override
+            public Integer getInDiscount() {
+                return book.getInDiscount();
+            }
+
         };
     }
 
@@ -444,17 +486,28 @@ public class BookServices {
         votePk.setIsbn(vote.getIsbn());
         Optional<Vote> isVote = voteRepository.findById(votePk);
 
-        if(isVote.isPresent())
-            return (float)0;
+        if (isVote.isPresent())
+            return (float) 0;
         else
             voteRepository.save(vote);
 
         Float f = (float) 0;
         Optional<Book> book = bookRepository.findById(vote.getIsbn());
         Book currentBook = book.get();
-        for (Vote v : currentBook.getVoteList()){
-            f+=v.getVoteNumber();
+        for (Vote v : currentBook.getVoteList()) {
+            f += v.getVoteNumber();
         }
-        return f/currentBook.getVoteList().size();
+        return f / currentBook.getVoteList().size();
+    }
+
+    public Float getVoteRatio(Book book) {
+        Float ratio = (float) 0;
+        System.out.println(book.getVoteList());
+        if(book.getVoteList().isEmpty())
+            return (float) 0;
+        for (Vote vote : book.getVoteList()) {
+            ratio += vote.getVoteNumber();
+        }
+        return ratio / book.getVoteList().size();
     }
 }

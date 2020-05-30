@@ -351,6 +351,10 @@ public class AdminServices {
             return 1;
         return 0;
     }
+
+    public Long getCustomerCount() {
+        return customerRepository.count();
+    }
 }
 
 
