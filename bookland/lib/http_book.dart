@@ -14,12 +14,12 @@ class HttpBook {
         'Basic ' + base64Encode(utf8.encode('$username:$password'));
 
     http.Response response = await http.get(
-        'http://10.0.2.2:8080/getBookDetails/${isbn}',
+        'http://10.0.2.2:8080/getBookDetails/${isbn}/104',
       headers: <String, String>{'authorization': basicAuth});
 
     if (response.statusCode == 200) {
       Customer_Book_Model obj = Customer_Book_Model.fromJson(json.decode(response.body));
-      print(obj.details.bookName);
+
       return obj;
     } else {
       throw "Can't get books.";

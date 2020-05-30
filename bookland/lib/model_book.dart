@@ -21,7 +21,6 @@ class Book {
   int quantity;
   String bookImage;
   DateTime releasedTime;
-  List<String> priceList;
   String price ;
   String firstPrice;
   int inDiscount;
@@ -40,7 +39,6 @@ class Book {
     this.bookImage,
     this.releasedTime,
     this.price,
-    this.priceList,
     this.firstPrice,
     this.inDiscount
   });
@@ -56,8 +54,10 @@ class Book {
     String first_price = json['priceList'][0]['price'].toString();
     print(first_price);
     String discountTest = json['inDiscount'].toString();
-
-
+    print("******");
+    print(real_price);
+    print(first_price);
+    print("******");
     return Book(
         bookId: json['bookId'],
         real_isbn: json['realIsbn'],

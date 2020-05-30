@@ -48,11 +48,8 @@ class CustomerBookView extends StatelessWidget {
           builder: (BuildContext context, AsyncSnapshot snapshot) {
             if (snapshot.hasData) {
               print("snapshot has data");
-              //Book returnedBook = snapshot.data;
-              print("Here");
-              print(snapshot.data.price);
-              print(snapshot.data.firstPrice);
-              customerBookId = snapshot.data.bookId.toString();
+
+              customerBookId = snapshot.data.details.bookId.toString();
               //return Text(snapshot.data.bookName);
               return Container(
                 width: double.infinity,
@@ -60,24 +57,24 @@ class CustomerBookView extends StatelessWidget {
                 child: new SingleChildScrollView(
                   child: Column(
                     children: <Widget>[
-                      real_isbn((snapshot.data.real_isbn).toString()),
+                      real_isbn((snapshot.data.details.real_isbn).toString()),
                       Text("\n"),
-                      name((snapshot.data.bookName).toString()),
+                      name((snapshot.data.details.bookName).toString()),
                       Text("\n"),
-                      imageBook((snapshot.data.bookImage).toString()),
+                      imageBook((snapshot.data.details.bookImage).toString()),
                       Post(),
                       stars(),
-                      author((snapshot.data.author).toString()),
+                      author((snapshot.data.details.author).toString()),
                       Text("\n"),
-                      category((snapshot.data.category).toString()),
+                      category((snapshot.data.details.category).toString()),
                       Text("\n"),
-                      quantity((snapshot.data.quantity).toString()),
+                      quantity((snapshot.data.details.quantity).toString()),
                       Text("\n"),
-                      (snapshot.data.inDiscount == 1)
-                          ? firstPrice((snapshot.data.firstPrice).toString())
+                      (snapshot.data.details.inDiscount == 1)
+                          ? firstPrice((snapshot.data.details.firstPrice).toString())
                           : emptyWidget(),
-                      priceBook((snapshot.data.price).toString()),
-                      description((snapshot.data.description).toString()),
+                      priceBook((snapshot.data.details.price).toString()),
+                      description((snapshot.data.details.description).toString()),
                       Text("\n"),
                       addBasketButton(context, customerID, isLogin),
                       commentField(context),
@@ -105,7 +102,7 @@ class CustomerBookView extends StatelessWidget {
             height: 300,
             width: 200,
             ),**/
-        Image.network(url)
+        Image.network(url ,width: 300,height: 400,)
       ],
     );
   }
