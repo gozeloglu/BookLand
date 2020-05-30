@@ -2,6 +2,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:bookland/http_comment_vote.dart';
 
+int commentCount = 0;
+
 class CommentView extends StatefulWidget {
   final String bookId;
 
@@ -36,7 +38,7 @@ class _CommentViewState extends State<CommentView> {
         ),
         Expanded(
           flex: 1,
-          child: buttons(),
+          child: commentCount > 0 ? buttons() : Row(),
         )
       ],
     );
@@ -59,12 +61,9 @@ class _CommentViewState extends State<CommentView> {
             if (snapshot.data.length == 0) {
               noComment();
             } else {
-              print("HAS DATA");
               List<String> commentList = [];
               List<String> commenterList = [];
 
-              print("SNAPSHOT");
-              print(snapshot.data);
               for (int i = 0; i < snapshot.data.length; i++) {
                 commentList.add(snapshot.data[i]["commentText"]);
                 commenterList.add(snapshot.data[i]["commenterName"] +
@@ -97,9 +96,7 @@ class _CommentViewState extends State<CommentView> {
                   });
             }
           } else if (!snapshot.hasData) {
-            // TODO Not data
             noComment();
-            print("No comment!");
           }
           return Center(
             child: Text(
@@ -125,6 +122,8 @@ class _CommentViewState extends State<CommentView> {
       ),
       disabledColor: Colors.grey,
       disabledTextColor: Colors.white,
+      // If we do not reach beginning page, enable the back button
+      // Otherwise, disable back button
       onPressed: page > 1
           ? () {
               setState(() {
@@ -137,22 +136,25 @@ class _CommentViewState extends State<CommentView> {
 
   Widget nextButton() {
     return RaisedButton(
-      child: Text(
-        "Next",
-        style: TextStyle(fontSize: 20, color: Colors.white),
-      ),
-      color: Colors.green,
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(15),
-      ),
-      disabledColor: Colors.grey,
-      disabledTextColor: Colors.white,
-      onPressed: () {
-        setState(() {
-          page += 1;
-        });
-      },
-    );
+        child: Text(
+          "Next",
+          style: TextStyle(fontSize: 20, color: Colors.white),
+        ),
+        color: Colors.green,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(15),
+        ),
+        disabledColor: Colors.grey,
+        disabledTextColor: Colors.white,
+        // If total page is not bigger than current page, increment page by 1
+        // If we reach final page, disable the button
+        onPressed: (page < (commentCount / 5))
+            ? () {
+                setState(() {
+                  page++;
+                });
+              }
+            : null);
   }
 
   Widget noComment() {

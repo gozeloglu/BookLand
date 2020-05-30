@@ -1,9 +1,9 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:bookland/comment_write.dart';
+import 'package:bookland/comment_view.dart';
 
 class CommentVote {
-
   /// @param bookId represents the book that we want to write comment
   /// @param customerId represents the user who wants to write comment
   /// @param comment is a string that we want to save on database
@@ -51,14 +51,33 @@ class CommentVote {
           'Authorization': basicAuth,
           'Content-Type': 'application/json; charset=UTF-8'
         });
-    print("RESPONSE BODY");
-    print(response.body);
     if (response.statusCode < 400) {
       return json.decode(response.body);
     } else {
-      print("--No comment!");
-      print(response.statusCode);
       throw Exception("No comment!");
+    }
+  }
+
+  /// @param bookId represents the book id that we want to retrieve comments
+  /// This function fetches the total comment number
+  Future<int> getCommentCount(String bookId) async {
+    String username = 'Daryl';
+    String password = 'WalkingDead';
+
+    String basicAuth =
+        'Basic ' + base64Encode(utf8.encode('$username:$password'));
+
+    http.Response response = await http.get(
+        "http://10.0.2.2:8080/getBookComments/$bookId",
+        headers: <String, String>{
+          'Authorization': basicAuth,
+          'Content-Type': 'application/json; charset=UTF-8'
+        });
+
+    if (response.statusCode < 400) {
+      return json.decode(response.body);
+    } else {
+      throw Exception("Comment count could not retrieved!");
     }
   }
 
