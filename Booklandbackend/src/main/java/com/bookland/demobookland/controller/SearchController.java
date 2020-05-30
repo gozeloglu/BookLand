@@ -26,8 +26,8 @@ public class SearchController {
         return searchServices.getBookCountBySearchCriteria(keyword);
     }
 
-    @GetMapping(value = "/SearchRecommendation/{customerId}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public List<ExplorePageProjection> getBookBySearchHistory(@PathVariable Integer customerId) {
+    @GetMapping(value = "/SearchRecommendation/{pageNo}/{pageSize}/{customerId}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public List<ExplorePageProjection> getBookBySearchHistory(@PathVariable Integer pageNo, @PathVariable Integer pageSize, @PathVariable Integer customerId) {
         return searchServices.getBookBySearchHistory(customerId);
     }
 }
