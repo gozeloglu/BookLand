@@ -78,7 +78,12 @@ class MyStatelessWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       //key: scaffoldKey,
-      appBar: MyAppBar(pageTitle: "BookLand",),
+      appBar: MyAppBar(pageTitle: "BookLand",
+        loginIcon: true,
+        back: false,
+        filter_list: false,
+        search: true,
+      ),
       body: SingleChildScrollView(
         child: Column(
             mainAxisAlignment: MainAxisAlignment.start,

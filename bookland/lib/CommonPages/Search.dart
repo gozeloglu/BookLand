@@ -1,5 +1,7 @@
 import 'dart:convert';
 import 'dart:io';
+import 'package:bookland/AdminPages/bookview.dart';
+import 'package:bookland/CustomerPages/customerBookView.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_paginator/flutter_paginator.dart';
 import 'package:http/http.dart' as http;
@@ -10,37 +12,24 @@ import 'explore.dart';
 
 class Search extends StatelessWidget {
   int total = 0;
+  var keyword = "";
+  GlobalKey<PaginatorState> paginatorGlobalKey = GlobalKey();
+  var globalExploreContext;
+
   @override
   Widget build(BuildContext context) {
     globalExploreContext = context;
-    return MaterialApp(
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-      ),
-      title: 'Search Page',
-      home: SearchPage(),
-    );
-  }
-}
 
-class SearchPage extends StatefulWidget {
-  @override
-  State<StatefulWidget> createState() {
-    return SearchState();
-  }
-}
+    //Widget openPage(BuildContext context) {}
 
-class SearchState extends State<SearchPage> {
-  GlobalKey<PaginatorState> paginatorGlobalKey = GlobalKey();
-
-  var keyword = "";
-
-  //Widget openPage(BuildContext context) {}
-
-  @override
-  Widget build(BuildContext context) {
     return Scaffold(
-        appBar: MyAppBar(pageTitle: "Search", back: true, filter_list: false),
+        appBar: MyAppBar(
+          pageTitle: "Search",
+          loginIcon: false,
+          back: true,
+          filter_list: false,
+          search: true,
+        ),
         body: new SingleChildScrollView(
             child: Column(
           children: <Widget>[
@@ -90,7 +79,8 @@ class SearchState extends State<SearchPage> {
   Future<BooksData> searchBooksDataRequest(int page) async {
     try {
       getTotalCount();
-      var url = "http://10.0.2.2:8080/Search/$page/2/$customerID?keyword=${keyword}";
+      var url =
+          "http://10.0.2.2:8080/Search/$page/2/$customerID?keyword=${keyword}";
       print(url);
       String username = 'Daryl';
       String password = 'WalkingDead';
@@ -147,13 +137,13 @@ class SearchState extends State<SearchPage> {
         leading: Image.network(img_part),
         title: Text(text_part),
         onTap: () {
-          /*Navigator.push(
-    context,
-    MaterialPageRoute(
-    builder: (context) =>
-    // new BookView(isbn: isbnSet.elementAt(index).toString()),
-    new BookView(isbn: bookid_send),
-    ));*/
+          Navigator.push(
+              globalExploreContext,
+              MaterialPageRoute(
+                builder: (context) =>
+                    // new BookView(isbn: isbnSet.elementAt(index).toString()),
+                    new CustomerBookView(isbn: bookid_send),
+              ));
         });
   }
 

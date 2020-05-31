@@ -55,6 +55,7 @@ class List_MainStateless extends StatelessWidget {
       appBar: MyAppBar(
         pageTitle: title_main,
         back: true,
+        filter_list: true,
       ),
       body: Paginator.listView(
         key: paginatorGlobalKey,
