@@ -1,6 +1,7 @@
 import 'package:bookland/CustomerPages/my_orders.dart';
 import 'package:bookland/CustomerPages/user_account.dart';
 import 'package:bookland/CustomerPages/wishList.dart';
+import 'package:bookland/manual.dart';
 import 'package:bookland/services/globalVariable.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -103,9 +104,14 @@ class MyDrawer extends StatelessWidget {
           ),
           new Divider(),
           new ListTile(
-            title: new Text("Manuels"),
+            title: new Text("Manual"),
             trailing: new Icon(Icons.help,color:  Colors.purple,),
-            onTap: () {},
+            onTap: () {
+              Navigator.push(
+                context,
+                new MaterialPageRoute(builder: (context) => Manual()),
+              );
+            },
           ),
           new Divider(),
           new ListTile(
