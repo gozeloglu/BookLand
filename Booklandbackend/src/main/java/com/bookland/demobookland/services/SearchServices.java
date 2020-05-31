@@ -33,7 +33,7 @@ public class SearchServices {
             Pageable paging = PageRequest.of(pageNo, pageSize);
             Page<ExplorePageProjection> pagedResult = bookRepository.findByRealIsbn(paging, isbn);
 
-            if (!pagedResult.isEmpty()) {
+            if (!pagedResult.isEmpty() && customerId != -1) {
                 Search searchedWord = new Search();
                 searchedWord.setCustomerId(customerId);
                 searchedWord.setSearchedWord(keyword);
@@ -45,7 +45,7 @@ public class SearchServices {
             Pageable paging = PageRequest.of(pageNo, pageSize);
             Page<ExplorePageProjection> pagedResult = bookRepository.findByAuthorContainsOrBookNameContainsOrCategoryContainsOrSubCategoryContains(paging, keyword, keyword, keyword, keyword);
 
-            if (!pagedResult.isEmpty()) {
+            if (!pagedResult.isEmpty() && customerId != -1) {
                 Search searchedWord = new Search();
                 searchedWord.setCustomerId(customerId);
                 searchedWord.setSearchedWord(keyword);
@@ -75,7 +75,7 @@ public class SearchServices {
         List<Integer> ids = new ArrayList<>();
         List<ExplorePageProjection> recommendationResults = new ArrayList<>();
 
-        if(customerId.equals(-1)){
+        if (customerId.equals(-1)) {
             return bookRepository.findTop10ByInHotListEquals(1);
         }
 
