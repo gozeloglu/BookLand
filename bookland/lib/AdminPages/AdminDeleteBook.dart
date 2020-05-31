@@ -1,13 +1,13 @@
 //ignore: avoid_web_libraries_in_flutter
 //import 'dart:html';
 
-import 'file:///C:/Users/User/Desktop/1/bbm384-project-spring2020-nef-gb/bookland/lib/AdminPages/adminAddBook.dart';
-import 'file:///C:/Users/User/Desktop/1/bbm384-project-spring2020-nef-gb/bookland/lib/AdminPages/adminDiscount.dart';
-import 'file:///C:/Users/User/Desktop/1/bbm384-project-spring2020-nef-gb/bookland/lib/AdminPages/adminUpdateBook.dart';
+import 'package:bookland/AdminPages/adminAddBook.dart';
+import 'package:bookland/AdminPages/adminDiscount.dart';
+import 'package:bookland/AdminPages/adminUpdateBook.dart';
 import 'package:bookland/elements/appBar.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'file:///C:/Users/User/Desktop/1/bbm384-project-spring2020-nef-gb/bookland/lib/services/http_admin.dart';
+import 'package:bookland/services/http_admin.dart';
 
 void main() {
   runApp(new MaterialApp(

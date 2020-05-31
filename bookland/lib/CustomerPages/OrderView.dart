@@ -1,7 +1,3 @@
-import 'dart:async';
-import 'dart:ffi';
-
-import 'package:bookland/services/globalVariable.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -10,7 +6,6 @@ import 'package:bookland/elements/bottomNavigatorBar.dart';
 import 'package:bookland/services/HTTP.dart';
 
 import 'package:flutter/foundation.dart';
-import 'file:///C:/Users/User/Desktop/1/bbm384-project-spring2020-nef-gb/bookland/lib/services/http_book.dart';
 import 'package:bookland/model/model_order.dart';
 
 class OrderView extends StatelessWidget {

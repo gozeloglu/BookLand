@@ -1,21 +1,15 @@
 import 'dart:async';
-import 'dart:ffi';
-
-import 'file:///C:/Users/User/Desktop/1/bbm384-project-spring2020-nef-gb/bookland/lib/AdminPages/adminDiscount.dart';
+import 'package:bookland/AdminPages/adminDiscount.dart';
 import 'package:bookland/services/globalVariable.dart';
 import 'package:flutter/material.dart';
-
 import 'package:bookland/elements/appBar.dart';
 import 'package:bookland/elements/bottomNavigatorBar.dart';
-import 'file:///C:/Users/User/Desktop/1/bbm384-project-spring2020-nef-gb/bookland/lib/services/http_admin.dart';
-import 'package:flutter/material.dart';
+import 'package:bookland/services/http_admin.dart';
 import 'package:flutter/foundation.dart';
-import 'file:///C:/Users/User/Desktop/1/bbm384-project-spring2020-nef-gb/bookland/lib/services/http_book.dart';
-import 'file:///C:/Users/User/Desktop/1/bbm384-project-spring2020-nef-gb/bookland/lib/model/model_book.dart';
-import 'file:///C:/Users/User/Desktop/1/bbm384-project-spring2020-nef-gb/bookland/lib/AdminPages/AdminDeleteBook.dart';
-import 'file:///C:/Users/User/Desktop/1/bbm384-project-spring2020-nef-gb/bookland/lib/AdminPages/adminUpdateBook.dart';
+import 'package:bookland/services/http_book.dart';
+import 'package:bookland/AdminPages/adminUpdateBook.dart';
 
-import 'file:///C:/Users/User/Desktop/1/bbm384-project-spring2020-nef-gb/bookland/lib/CommonPages/explore.dart';
+import 'package:bookland/CommonPages/explore.dart';
 
 /// This class contains the objects which is the same in GET allBooks method
 

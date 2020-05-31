@@ -1,8 +1,8 @@
-import 'file:///C:/Users/User/Desktop/1/bbm384-project-spring2020-nef-gb/bookland/lib/CustomerPages/address_update.dart';
-import 'file:///C:/Users/User/Desktop/1/bbm384-project-spring2020-nef-gb/bookland/lib/CustomerPages/address_list.dart';
+import 'package:bookland/CustomerPages/address_update.dart';
+import 'package:bookland/CustomerPages/address_list.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'file:///C:/Users/User/Desktop/1/bbm384-project-spring2020-nef-gb/bookland/lib/services/http_address.dart';
+import 'package:bookland/services/http_address.dart';
 import 'package:bookland/main.dart';
 
 /// Given address' information to show up on the screen

@@ -1,6 +1,6 @@
 import 'dart:async';
 
-import 'file:///C:/Users/User/Desktop/1/bbm384-project-spring2020-nef-gb/bookland/lib/AdminPages/adminOrders.dart';
+import 'package:bookland/AdminPages/adminOrders.dart';
 import 'package:bookland/main.dart';
 import 'package:bookland/services/globalVariable.dart';
 import 'package:flutter/material.dart';

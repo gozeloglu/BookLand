@@ -1,6 +1,5 @@
-import 'file:///C:/Users/User/Desktop/1/bbm384-project-spring2020-nef-gb/bookland/lib/CustomerPages/customerBookView.dart';
-import 'package:bookland/elements/appBar.dart';
-import 'file:///C:/Users/User/Desktop/1/bbm384-project-spring2020-nef-gb/bookland/lib/services/http_comment_vote.dart';
+import 'package:bookland/CustomerPages/customerBookView.dart';
+import 'package:bookland/services/http_comment_vote.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 

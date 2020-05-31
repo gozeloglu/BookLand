@@ -1,12 +1,12 @@
-import 'file:///C:/Users/User/Desktop/1/bbm384-project-spring2020-nef-gb/bookland/lib/services/http_customer.dart';
-import 'package:bookland/main.dart';
+import 'package:bookland/services/http_customer.dart';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-import 'customerPersonalInfo.dart';
+
 import '../elements/appBar.dart';
 import '../elements/bottomNavigatorBar.dart';
-import '../elements/drawer.dart';
+
 
 class CustomerProfileUpdate extends StatelessWidget {
   final AsyncSnapshot snapshot ;

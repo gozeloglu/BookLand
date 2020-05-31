@@ -1,12 +1,8 @@
-import 'file:///C:/Users/User/Desktop/1/bbm384-project-spring2020-nef-gb/bookland/lib/AdminPages/AdminDeleteBook.dart';
-import 'file:///C:/Users/User/Desktop/1/bbm384-project-spring2020-nef-gb/bookland/lib/AdminPages/adminAddBook.dart';
-import 'file:///C:/Users/User/Desktop/1/bbm384-project-spring2020-nef-gb/bookland/lib/AdminPages/adminDiscount.dart';
+import 'package:bookland/AdminPages/AdminDeleteBook.dart';
+import 'package:bookland/AdminPages/adminAddBook.dart';
+import 'package:bookland/AdminPages/adminDiscount.dart';
 import 'package:flutter/material.dart';
-import '../main.dart';
-import 'dart:io';
-import 'dart:convert';
-
-import 'file:///C:/Users/User/Desktop/1/bbm384-project-spring2020-nef-gb/bookland/lib/services/http_admin.dart';
+import 'package:bookland/services/http_admin.dart';
 /*
 void openPage(BuildContext context) {
 

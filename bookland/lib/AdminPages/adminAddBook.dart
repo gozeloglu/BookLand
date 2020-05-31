@@ -7,7 +7,7 @@ import 'package:flutter/material.dart';
 import '../main.dart';
 import 'dart:io';
 import 'dart:convert';
-import 'file:///C:/Users/User/Desktop/1/bbm384-project-spring2020-nef-gb/bookland/lib/services/http_admin.dart';
+import 'package:bookland/services/http_admin.dart';
 
 class adminAddBook extends StatelessWidget {
   static const String _title = 'AdminAddBook';

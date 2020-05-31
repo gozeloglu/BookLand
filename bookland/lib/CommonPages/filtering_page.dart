@@ -1,8 +1,6 @@
-import 'dart:async';
-import 'file:///C:/Users/User/Desktop/1/bbm384-project-spring2020-nef-gb/bookland/lib/CommonPages/list_dynamic.dart';
 import 'package:flutter/material.dart';
 import 'package:bookland/elements/appBar.dart';
-import 'file:///C:/Users/User/Desktop/1/bbm384-project-spring2020-nef-gb/bookland/lib/CommonPages/filtering_list.dart';
+import 'package:bookland/CommonPages/filtering_list.dart';
 
 String category_god ="-1";
 class filtering extends StatelessWidget {

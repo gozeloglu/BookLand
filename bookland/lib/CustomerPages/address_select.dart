@@ -1,10 +1,10 @@
-import 'file:///C:/Users/User/Desktop/1/bbm384-project-spring2020-nef-gb/bookland/lib/CustomerPages/basket.dart';
-import 'file:///C:/Users/User/Desktop/1/bbm384-project-spring2020-nef-gb/bookland/lib/CustomerPages/customer_address_add.dart';
-import 'file:///C:/Users/User/Desktop/1/bbm384-project-spring2020-nef-gb/bookland/lib/services/http_address.dart';
+import 'package:bookland/CustomerPages/basket.dart';
+import 'package:bookland/CustomerPages/customer_address_add.dart';
+import 'package:bookland/services/http_address.dart';
 import 'package:flutter/material.dart';
 import 'package:bookland/main.dart';
-import 'file:///C:/Users/User/Desktop/1/bbm384-project-spring2020-nef-gb/bookland/lib/CommonPages/ShippingCompany.dart';
-import 'file:///C:/Users/User/Desktop/1/bbm384-project-spring2020-nef-gb/bookland/lib/CustomerPages/address_details.dart';
+import 'package:bookland/CommonPages/ShippingCompany.dart';
+
 
 class AddressSelect extends StatelessWidget {
   @override

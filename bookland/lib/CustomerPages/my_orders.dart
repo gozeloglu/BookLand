@@ -7,7 +7,7 @@ import 'package:bookland/elements/appBar.dart';
 import 'package:bookland/elements/bottomNavigatorBar.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
-import 'file:///C:/Users/User/Desktop/1/bbm384-project-spring2020-nef-gb/bookland/lib/CustomerPages/OrderView.dart';
+import 'package:bookland/CustomerPages/OrderView.dart';
 import 'package:bookland/main.dart';
 
 import 'package:flutter_paginator/flutter_paginator.dart';

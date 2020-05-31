@@ -8,7 +8,7 @@ import 'package:flutter/material.dart';
 
 
 import 'login.dart';
-import 'main.dart';
+
 var globalContext;
 
 class SignUp extends StatelessWidget {

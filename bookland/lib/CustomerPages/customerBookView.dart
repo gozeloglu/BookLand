@@ -1,21 +1,19 @@
-import 'dart:ffi';
-
-import 'file:///C:/Users/User/Desktop/1/bbm384-project-spring2020-nef-gb/bookland/lib/CustomerPages/comment_write.dart';
+import 'package:bookland/CustomerPages/comment_write.dart';
 import 'package:bookland/elements/appBar.dart';
 import 'package:bookland/elements/bottomNavigatorBar.dart';
-import 'file:///C:/Users/User/Desktop/1/bbm384-project-spring2020-nef-gb/bookland/lib/services/http_admin.dart';
-import 'file:///C:/Users/User/Desktop/1/bbm384-project-spring2020-nef-gb/bookland/lib/services/http_comment_vote.dart';
+import 'package:bookland/services/http_admin.dart';
+import 'package:bookland/services/http_comment_vote.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/foundation.dart';
-import 'file:///C:/Users/User/Desktop/1/bbm384-project-spring2020-nef-gb/bookland/lib/services/http_book.dart';
+import 'package:bookland/services/http_book.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'file:///C:/Users/User/Desktop/1/bbm384-project-spring2020-nef-gb/bookland/lib/CustomerPages/basket.dart';
+
 import 'package:bookland/main.dart';
 import 'package:bookland/login.dart';
 import 'package:smooth_star_rating/smooth_star_rating.dart';
-import 'file:///C:/Users/User/Desktop/1/bbm384-project-spring2020-nef-gb/bookland/lib/CustomerPages/comment_view.dart';
-import 'file:///C:/Users/User/Desktop/1/bbm384-project-spring2020-nef-gb/bookland/lib/services/http_comment_vote.dart';
+import 'package:bookland/CustomerPages/comment_view.dart';
+
 
 import '../services/http_customer.dart';
 

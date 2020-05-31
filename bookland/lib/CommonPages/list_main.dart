@@ -4,8 +4,7 @@ import 'dart:collection';
 import 'dart:convert';
 import 'dart:io';
 
-import 'file:///C:/Users/User/Desktop/1/bbm384-project-spring2020-nef-gb/bookland/lib/AdminPages/bookview.dart';
-import 'file:///C:/Users/User/Desktop/1/bbm384-project-spring2020-nef-gb/bookland/lib/CustomerPages/customerBookView.dart';
+import 'package:bookland/CustomerPages/customerBookView.dart';
 import 'package:bookland/elements/appBar.dart';
 import 'package:bookland/elements/bottomNavigatorBar.dart';
 import 'package:bookland/main.dart';

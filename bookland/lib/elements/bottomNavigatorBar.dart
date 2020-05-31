@@ -1,9 +1,14 @@
-import 'file:///C:/Users/User/Desktop/1/bbm384-project-spring2020-nef-gb/bookland/lib/AdminPages/adminOrders.dart';
+import 'package:bookland/AdminPages/adminOrders.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:bookland/CommonPages/explore.dart';
 
-import '../CommonPages/explore.dart';
+import 'package:bookland/CustomerPages/basket.dart';
+import 'package:bookland/CommonPages/category.dart';
+import 'package:bookland/CommonPages/explore.dart';
+import '../login.dart';
 import '../main.dart';
+
 
 class MyBottomNavigatorBar extends StatelessWidget{
   @override

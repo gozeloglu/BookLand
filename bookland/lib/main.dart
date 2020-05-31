@@ -1,12 +1,12 @@
-import 'file:///C:/Users/User/Desktop/1/bbm384-project-spring2020-nef-gb/bookland/lib/CustomerPages/my_orders.dart';
+import 'package:bookland/CustomerPages/my_orders.dart';
 import 'package:bookland/services/globalVariable.dart';
-import 'file:///C:/Users/User/Desktop/1/bbm384-project-spring2020-nef-gb/bookland/lib/CustomerPages/user_account.dart';
+import 'package:bookland/CustomerPages/user_account.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:bookland/login.dart';
-import 'file:///C:/Users/User/Desktop/1/bbm384-project-spring2020-nef-gb/bookland/lib/CommonPages/list_main.dart';
-import 'file:///C:/Users/User/Desktop/1/bbm384-project-spring2020-nef-gb/bookland/lib/CommonPages/category.dart';
-import 'file:///C:/Users/User/Desktop/1/bbm384-project-spring2020-nef-gb/bookland/lib/CustomerPages/basket.dart';
+import 'package:bookland/CommonPages/list_main.dart';
+import 'package:bookland/CommonPages/category.dart';
+import 'package:bookland/CustomerPages/basket.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:bookland/CustomerPages/Campaigns.dart';
 import 'CommonPages/Search.dart';

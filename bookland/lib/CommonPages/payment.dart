@@ -1,13 +1,8 @@
 import 'dart:async';
-import 'dart:ffi';
-
 import 'package:bookland/elements/appBar.dart';
-import 'package:bookland/elements/drawer.dart';
 import 'package:bookland/services/globalVariable.dart';
 import 'package:flutter/material.dart';
 import '../main.dart';
-import 'dart:io';
-import 'dart:convert';
 import 'package:bookland/services/HTTP.dart';
 import 'package:bookland/model/model_shippingcompany.dart';
 import 'package:shared_preferences/shared_preferences.dart';

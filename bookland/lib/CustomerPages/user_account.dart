@@ -1,10 +1,10 @@
-import 'file:///C:/Users/User/Desktop/1/bbm384-project-spring2020-nef-gb/bookland/lib/CustomerPages/customerPersonalInfo.dart';
+import 'package:bookland/CustomerPages/customerPersonalInfo.dart';
 import 'package:bookland/elements/appBar.dart';
 import 'package:bookland/main.dart';
-import 'file:///C:/Users/User/Desktop/1/bbm384-project-spring2020-nef-gb/bookland/lib/CustomerPages/address_list.dart';
+import 'package:bookland/CustomerPages/address_list.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'file:///C:/Users/User/Desktop/1/bbm384-project-spring2020-nef-gb/bookland/lib/CustomerPages/my_orders.dart';
+import 'package:bookland/CustomerPages/my_orders.dart';
 String username;
 
 class AccountPageStateless extends StatelessWidget {

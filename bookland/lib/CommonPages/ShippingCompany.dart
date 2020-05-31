@@ -1,18 +1,9 @@
-import 'dart:async';
-import 'dart:ffi';
-
 import 'package:bookland/elements/appBar.dart';
-import 'package:bookland/elements/drawer.dart';
-import 'package:bookland/services/globalVariable.dart';
 import 'package:flutter/material.dart';
-import '../main.dart';
-import 'dart:io';
-import 'dart:convert';
 import 'package:bookland/services/HTTP.dart';
 import 'package:bookland/model/model_shippingcompany.dart';
-import 'file:///C:/Users/User/Desktop/1/bbm384-project-spring2020-nef-gb/bookland/lib/CustomerPages/basket.dart';
-
-import 'file:///C:/Users/User/Desktop/1/bbm384-project-spring2020-nef-gb/bookland/lib/CommonPages/payment.dart';
+import 'package:bookland/CustomerPages/basket.dart';
+import 'package:bookland/CommonPages/payment.dart';
 
 String customerId;
 String addressId;
