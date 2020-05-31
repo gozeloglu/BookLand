@@ -3,6 +3,8 @@ package com.bookland.demobookland.services;
 import com.bookland.demobookland.model.Book;
 import com.bookland.demobookland.model.Comment;
 import com.bookland.demobookland.model.Customer;
+import com.bookland.demobookland.model.Price;
+import com.bookland.demobookland.model.projections.BestSellerProjection;
 import com.bookland.demobookland.model.projections.LoginInterface;
 import com.bookland.demobookland.repository.BookRepository;
 import com.bookland.demobookland.repository.CommentRepository;
@@ -14,6 +16,8 @@ import org.springframework.stereotype.Service;
 
 import javax.security.auth.login.LoginException;
 import javax.transaction.Transactional;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 @Service

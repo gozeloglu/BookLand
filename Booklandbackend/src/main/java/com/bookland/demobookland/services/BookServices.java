@@ -174,17 +174,17 @@ public class BookServices {
     }
 
     /*Get book details by id*/
-    public BookDetailsAll getBookById(Integer ISBN,Integer customerId) {
+    public BookDetailsAll getBookById(Integer ISBN, Integer customerId) {
 
         Optional<Book> book = bookRepository.findById(ISBN);
         BookDetailsProjection bp = bookRepository.findByBookId(ISBN);
         Book currentBook = book.get();
         Float vote = getVoteRatio(currentBook);
 
-        if(customerId.equals(-1))
+        if (customerId.equals(-1))
             return bookDetailsAll(bp, vote, 0);
 
-        Integer inWishList = wishListService.inWishList(customerId,ISBN);
+        Integer inWishList = wishListService.inWishList(customerId, ISBN);
 
         return bookDetailsAll(bp, vote, inWishList);
     }
@@ -501,7 +501,7 @@ public class BookServices {
 
     public Float getVoteRatio(Book book) {
         Float ratio = (float) 0;
-        if(book.getVoteList().isEmpty()) {
+        if (book.getVoteList().isEmpty()) {
             return (float) 0;
         }
         for (Vote vote : book.getVoteList()) {
