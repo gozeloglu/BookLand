@@ -154,7 +154,6 @@ class ExploreStateless extends StatelessWidget {
     if(oldPriceList[index] == "0" ){
       final_text = final_text + last_price_part + "\$";
       return ListTile(
-        //leading:  Image.network("https://dictionary.cambridge.org/tr/images/thumb/book_noun_001_01679.jpg?version=5.0.75"),
           leading:  Image.network(img_part ,
               height: 200,
               fit:BoxFit.fill,),

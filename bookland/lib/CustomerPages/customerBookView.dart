@@ -48,6 +48,11 @@ class CustomerBookView extends StatelessWidget {
           builder: (BuildContext context, AsyncSnapshot snapshot) {
             if (snapshot.hasData) {
               print("snapshot has data");
+              if(snapshot.data.inWishlist.toString() == "1"){
+                inWhistlist = true;
+              }else{
+                inWhistlist = false;
+              }
 
               customerBookId = snapshot.data.details.bookId.toString();
               //return Text(snapshot.data.bookName);
@@ -552,15 +557,16 @@ class CustomerBookView extends StatelessWidget {
 // Kalp oluşturabilmek için bir widget oluşturdum.
 // Post methodunu da yukarda widget arrayinde 53.satır'da çağırdım.
 // Backend'i yazıldıktan sonra eklemeler buraya yapılabilir.
-
+bool inWhistlist ;
 class Post extends StatefulWidget {
+
   @override
   PostState createState() => new PostState();
 }
 
 class PostState extends State<Post> {
   final HttpCustomer httpCustomer = HttpCustomer();
-  bool liked = false;
+  bool liked = inWhistlist;
 
   _pressedLikeButton() {
     setState(() {
