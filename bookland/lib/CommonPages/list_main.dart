@@ -54,8 +54,10 @@ class List_MainStateless extends StatelessWidget {
     return Scaffold(
       appBar: MyAppBar(
         pageTitle: title_main,
-        back: true,
-        filter_list: true,
+        loginIcon: false,
+        back: false,
+        filter_list: false,
+        search: true,
       ),
       body: Paginator.listView(
         key: paginatorGlobalKey,
