@@ -12,7 +12,7 @@ import 'package:bookland/CustomerPages/Campaigns.dart';
 import 'CommonPages/Search.dart';
 import 'package:bookland/elements/appBar.dart';
 import 'package:bookland/elements/bottomNavigatorBar.dart';
-
+import 'package:bookland/CustomerPages/wishList.dart';
 
 String customerID;
 bool isLogin;
@@ -253,7 +253,7 @@ class MyStatelessWidget extends StatelessWidget {
             ),
             new ListTile(
               title: new Text("Account"),
-              trailing: new Icon(Icons.account_circle),
+              trailing: new Icon(Icons.account_circle,color : Colors.blue),
               onTap: () {
                 if (isLogin) {
                   Navigator.push(
@@ -273,7 +273,7 @@ class MyStatelessWidget extends StatelessWidget {
             new Divider(),
             new ListTile(
               title: new Text("Orders"),
-              trailing: new Icon(Icons.add_shopping_cart),
+              trailing: new Icon(Icons.add_shopping_cart,color: Colors.green,),
               onTap: () {
                 Navigator.push(
                   context,
@@ -285,21 +285,27 @@ class MyStatelessWidget extends StatelessWidget {
             new Divider(),
 
             new ListTile(
-              title: new Text("Library"),
-              trailing: new Icon(Icons.library_books),
-              onTap: () {},
+              title: new Text("Wish List"),
+              trailing: new Icon(Icons.favorite,color: Colors.red,),
+              onTap: () {
+                Navigator.push(
+                  context, new MaterialPageRoute(builder: (context) => new WishListStateless(-1)),
+                );
+
+
+              },
             ),
 
             new Divider(),
             new ListTile(
               title: new Text("Campaigns"),
-              trailing: new Icon(Icons.notifications_active),
+              trailing: new Icon(Icons.notifications_active,color: Colors.yellow,),
               onTap: () {},
             ),
             new Divider(),
             new ListTile(
               title: new Text("Manuels"),
-              trailing: new Icon(Icons.help),
+              trailing: new Icon(Icons.help,color:  Colors.purple,),
               onTap: () {},
             ),
             new Divider(),
