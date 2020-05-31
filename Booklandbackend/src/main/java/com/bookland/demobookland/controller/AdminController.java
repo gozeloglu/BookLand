@@ -43,6 +43,11 @@ public class AdminController {
         return adminServices.deActivateAccount(customerId);
     }
 
+    @PutMapping(value = "/activateAccount/{customerId}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public String activateAccount(@PathVariable Integer customerId) {
+        return adminServices.activateAccount(customerId);
+    }
+
     @PostMapping(value = "/addCampaign", produces = MediaType.APPLICATION_JSON_VALUE)
     public String addCampaign(@Valid @RequestBody Campaign campaign) {
         return adminServices.addCampaign(campaign);

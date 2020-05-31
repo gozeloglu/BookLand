@@ -207,7 +207,6 @@ class HttpAdmin {
           'Content-Type': 'application/json; charset=UTF-8',
         });
 
-
     User obj = User.fromJson(json.decode(response.body));
     return obj;
     if (response.statusCode <= 200) {
@@ -256,4 +255,61 @@ class HttpAdmin {
       return "SORRRY";
     }
   }
+
+  Future<String> deactivateCustomer(String customerId) async {
+    print("Buralar" + customerId);
+    var client = http.Client();
+    var url = "http://10.0.2.2:8080";
+    String username = 'Daryl';
+    String password = 'WalkingDead';
+    String basicAuth =  'Basic ' + base64Encode(utf8.encode('$username:$password'));
+    http.Response response;
+    response = await http.put('http://10.0.2.2:8080/deActivateAccount/$customerId',
+      headers: <String, String>{
+        'Authorization': basicAuth,
+        'Content-Type': 'application/json; charset=UTF-8',
+      },
+
+      );
+
+    print("response.body");
+    if (response.statusCode < 400) {
+      print("Durum ne? İYİ");
+      return "PERFECT";
+    } else {
+      print("Durum ne? Kötü");
+      return "BADBADBAD";
+
+    }
+  }
+
+  Future<String> activateCustomer(String customerId) async {
+    print("Buralar" + customerId);
+    var client = http.Client();
+    var url = "http://10.0.2.2:8080";
+    String username = 'Daryl';
+    String password = 'WalkingDead';
+    String basicAuth =  'Basic ' + base64Encode(utf8.encode('$username:$password'));
+    http.Response response;
+    response = await http.put('http://10.0.2.2:8080/activateAccount/$customerId',
+      headers: <String, String>{
+        'Authorization': basicAuth,
+        'Content-Type': 'application/json; charset=UTF-8',
+      },
+
+    );
+
+    print("response.body");
+    if (response.statusCode < 400) {
+      print("Durum ne? İYİ");
+      return "PERFECT";
+    } else {
+      print("Durum ne? Kötü");
+      return "BADBADBAD";
+
+    }
+  }
+
+
+
 }

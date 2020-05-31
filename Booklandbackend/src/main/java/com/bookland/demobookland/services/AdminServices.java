@@ -109,6 +109,24 @@ public class AdminServices {
     }
 
     @Transactional
+    public String activateAccount(Integer customerId) {
+        try {
+            Optional<Customer> customer = customerRepository.findById(customerId);
+            if (customer.isPresent()) {
+                Customer existingCustomer = customer.get();
+                existingCustomer.setStatus(1);
+                customerRepository.save(existingCustomer);
+                return "Account Activated";
+            } else {
+                return "User Not Found";
+            }
+        } catch (Exception e) {
+            return "Some Problem Occured";
+        }
+
+    }
+
+    @Transactional
     public String addCampaign(Campaign campaign) {
         campaignRepository.save(campaign);
         return "Campaign created";

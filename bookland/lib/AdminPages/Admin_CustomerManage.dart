@@ -3,6 +3,8 @@ import 'dart:collection';
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:bookland/AdminPages/adminCustomerDetails.dart';
+import 'package:bookland/CommonPages/ShippingCompany.dart';
 import 'package:bookland/elements/appBar.dart';
 import 'package:bookland/elements/bottomNavigatorBar.dart';
 import 'package:flutter/material.dart';
@@ -138,9 +140,17 @@ class Admin_customerManageStateless extends StatelessWidget {
   }
 
   Widget listCustomerBuilder(value, int index) {
+
     List<String> valueList = value.split("|");
     String customerInfo = valueList[0];
+
+    //print(customerInfo);
     String mailAvatar = valueList[1].toUpperCase();
+    List<String> customerInfoParsed = customerInfo.split("\t");
+    List<String> customerLastInfoParsed = customerInfoParsed[1].split("\n");
+    String customerIDLAST = customerLastInfoParsed[0];
+    print("---***---**---");
+    print(customerIDLAST);
 
     return Card(
 
@@ -156,16 +166,15 @@ class Admin_customerManageStateless extends StatelessWidget {
           dense: false,
 
           onTap: () {
-            /*
             BuildContext context;
             Navigator.push(
                 globalAdmin_customerManageContext,
                 MaterialPageRoute(
                   builder: (context) =>
                   // new BookView(isbn: isbnSet.elementAt(index).toString()),
-                  new BookView(isbn: bookid_send),
+                  new adminCustomerDetails(customerId: customerIDLAST),
                 ));
-          */},
+          },
         ),);
 
   }

@@ -11,6 +11,7 @@ class User{
   String customerEmail;
   String customerDoB;
   String customerPhone;
+  int customerStatus;
 
   User({
     this.FirstName,
@@ -20,7 +21,8 @@ class User{
     this.customerSurname,
     this.customerEmail,
     this.customerDoB,
-    this.customerPhone
+    this.customerPhone,
+    this.customerStatus
   });
 
   factory User.fromJson(Map<String, dynamic> json) {
@@ -33,6 +35,7 @@ class User{
       customerEmail: json['email'],
       customerDoB: json['dateOfBirth'],
       customerPhone: json['phoneNumber'],
+      customerStatus: json['status']
     );
   }
 
