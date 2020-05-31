@@ -1,6 +1,6 @@
 import 'dart:convert';
 import 'dart:io';
-import 'file:///C:/Users/User/Desktop/1/bbm384-project-spring2020-nef-gb/bookland/lib/model/books_model.dart';
+import 'package:bookland/model/books_model.dart';
 import 'package:http/http.dart' as http;
 import 'package:http_auth/http_auth.dart' as http_auth;
 

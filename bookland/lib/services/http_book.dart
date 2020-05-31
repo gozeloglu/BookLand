@@ -1,6 +1,6 @@
 import 'dart:convert';
 import 'package:bookland/main.dart';
-import 'file:///C:/Users/User/Desktop/1/bbm384-project-spring2020-nef-gb/bookland/lib/model/model_book.dart';
+import 'package:bookland/model/model_book.dart';
 import 'package:http/http.dart' as http;
 
 class HttpBook {
