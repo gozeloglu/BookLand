@@ -8,7 +8,8 @@ import '../AdminPages/adminCampaign.dart';
 import '../AdminPages/adminDiscount.dart';
 import '../main.dart';
 import '../AdminPages/Admin_CustomerManage.dart';
-
+import 'package:shared_preferences/shared_preferences.dart';
+import 'dart:async';
 
 
 class MyDrawer extends StatelessWidget {
@@ -126,12 +127,14 @@ class MyDrawer extends StatelessWidget {
               splashColor: Colors.red,
               onPressed: () {
                 isAnyUserLogin = false;
-                ISADMIN = 0;
+
+                logout();
                 ///FIRSTNAME = "Please LogIn";
+    Timer(Duration(seconds: 1), () {
                 Navigator.push(
                   context,
                   new MaterialPageRoute(builder: (context) => new MyApp()),
-                );
+                );});
               },
               child: Text("Logout", style: TextStyle(fontSize: 22)),
             ),
@@ -139,5 +142,18 @@ class MyDrawer extends StatelessWidget {
         ],
       ),
     );
+  }
+
+  void logout() async {
+    SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
+    sharedPreferences.setString("customerId", "-1");
+    sharedPreferences.setString("customerName", "Please Login");
+    sharedPreferences.setBool("isLogin", false);
+    sharedPreferences.setInt("isAdmin", 0);
+    customerFirstName = "Please Login";
+    customerID = "-1";
+    isAdmin = 0;
+
+    //FIRSTNAME = "Please Login";
   }
 }
