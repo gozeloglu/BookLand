@@ -13,12 +13,12 @@ import 'explore.dart';
 class Search extends StatelessWidget {
   int total = 0;
   var keyword = "";
-  GlobalKey<PaginatorState> paginatorGlobalKey = GlobalKey();
-  var globalExploreContext;
+  GlobalKey<PaginatorState> paginatorSearch = GlobalKey();
+  var globalSearchContext;
 
   @override
   Widget build(BuildContext context) {
-    globalExploreContext = context;
+    globalSearchContext = context;
 
     //Widget openPage(BuildContext context) {}
 
@@ -36,7 +36,7 @@ class Search extends StatelessWidget {
             MySearch(),
             Paginator.listView(
               shrinkWrap: true,
-              key: paginatorGlobalKey,
+              key: paginatorSearch,
               pageLoadFuture: searchBooksDataRequest,
               pageItemsGetter: listBooksGetter,
               listItemBuilder: listBookBuilder,
@@ -60,7 +60,7 @@ class Search extends StatelessWidget {
       /// value değiştikçe istek atıyor
       onChanged: (value) {
         keyword = value;
-        paginatorGlobalKey.currentState.changeState(
+        paginatorSearch.currentState.changeState(
             pageLoadFuture: searchBooksDataRequest, resetState: true);
         // print(value);
       },
@@ -138,7 +138,7 @@ class Search extends StatelessWidget {
         title: Text(text_part),
         onTap: () {
           Navigator.push(
-              globalExploreContext,
+              globalSearchContext,
               MaterialPageRoute(
                 builder: (context) =>
                     // new BookView(isbn: isbnSet.elementAt(index).toString()),

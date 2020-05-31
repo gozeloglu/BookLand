@@ -20,11 +20,11 @@ class MyAppBar extends StatelessWidget with PreferredSizeWidget {
 
   @override
   Widget build(BuildContext context) {
-    if (isAdmin == 1) {
-      return adminAppBar(context);
-    } else {
+   // if (isAdmin == 1) {
+     // return adminAppBar(context);
+   // } else {
       return customerAppBar(context);
-    }
+   // }
   }
   Widget customerAppBar(BuildContext context){
     print("burasıııııııııııııııııııııııııııııııı");
@@ -97,7 +97,7 @@ class MyAppBar extends StatelessWidget with PreferredSizeWidget {
     );
   }
 
-
+/*
 
   Widget adminAppBar(BuildContext context) {
     if (back == true) {
@@ -156,7 +156,7 @@ class MyAppBar extends StatelessWidget with PreferredSizeWidget {
         //drawer: ISADMIN == 1 ? MyDrawer(drawerHeader: "Hello Admin",) : MyDrawer(drawerHeader: "Hello User",),
       );
     }
-  }
+  }*/
 
   @override
   // TODO: implement preferredSize
