@@ -60,4 +60,9 @@ public class CustomerController {
     public List<WishListProjection> myWishList(@PathVariable Integer pageNo, @PathVariable Integer pageSize, @PathVariable Integer customerId) {
         return wishListService.myWishList(pageNo - 1, pageSize, customerId);
     }
+
+    @GetMapping(value = "/myWishListCount/{customerId}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public Long myWishListCount( @PathVariable Integer customerId) {
+        return wishListService.myWishListCount(customerId);
+    }
 }
