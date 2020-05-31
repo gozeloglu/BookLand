@@ -147,33 +147,33 @@ class adminUpdateBook extends StatelessWidget {
             //showISBNInput(book),
             showNameInput(book == null
                 ? "BookName"
-                : book.data.bookName.toString()), //book == null ? "BookName" :
+                : book.data.details.bookName.toString()), //book == null ? "BookName" :
             showAuthorInput(book == null
                 ? null
-                : book.data.author.toString()), //book == null ? null :
+                : book.data.details.author.toString()), //book == null ? null :
             showCategoryInput(book == null
                 ? null
-                : book.data.category.toString()), //book == null ? null :
+                : book.data.details.category.toString()), //book == null ? null :
             showSubcategoryInput(book == null
                 ? null
-                : book.data.subCategory.toString()), //book == null ? null :
+                : book.data.details.subCategory.toString()), //book == null ? null :
             showImageInput(book == null
                 ? null
-                : book.data.bookImage.toString()), //book == null ? null :
+                : book.data.details.bookImage.toString()), //book == null ? null :
             showPriceInput(book == null
                 ? null
-                : book.data.price.toString()), //book == null ? null :
+                : book.data.details.price.toString()), //book == null ? null :
             showStockInput(book == null
                 ? null
-                : book.data.quantity.toString()), //book == null ? null :
+                : book.data.details.quantity.toString()), //book == null ? null :
             showHotlistInput(book == null
                 ? null
-                : book.data.inHotList.toString()), //book == null ? null :
+                : book.data.details.inHotList.toString()), //book == null ? null :
             showDescriptionInput(book == null
                 ? null
-                : book.data.description.toString()), //book == null ? null :
+                : book.data.details.description.toString()), //book == null ? null :
             showUpdateBookButton(
-                book == null ? null : book.data.bookId.toString(),
+                book == null ? null : book.data.details.bookId.toString(),
                 context) //book == null ? null :
           ],
         ),
