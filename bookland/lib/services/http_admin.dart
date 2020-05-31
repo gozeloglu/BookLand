@@ -215,7 +215,7 @@ class HttpAdmin {
     }
   }
 
-  Future<String> adminMakeCampaign(String campaignId, String couponCode,
+  Future<String> adminMakeCampaign(String couponCode,
       String couponDiscount, String campaignName,
       String endDate, String quantity) async {
     var client = http.Client();
@@ -230,7 +230,6 @@ class HttpAdmin {
         'Content-Type': 'application/json; charset=UTF-8',
       },
       body: jsonEncode(<String, dynamic>{
-        'campaignId': campaignId,
         "couponCode": couponCode,
         "couponDiscount": couponDiscount,
         "campaignName": campaignName,
