@@ -14,27 +14,14 @@ class AccountPageStateless extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return new MaterialApp(
-      title: "Account",
-      home: AccountPageStateful(),
-    );
-  }
-}
 
-class AccountPageStateful extends StatefulWidget {
-  AccountPageStateful({Key key}) : super(key: key);
-
-  @override
-  AccountPageState createState() => AccountPageState();
-}
-
-class AccountPageState extends State<AccountPageStateful> {
-  @override
-  Widget build(BuildContext context) {
     return new Scaffold(
       appBar: MyAppBar(
         pageTitle: "Account",
+        loginIcon: true,
         back: false,
+        filter_list: false,
+        search: true,
       ),
       body: new Container(
         color: Colors.white,

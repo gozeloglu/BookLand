@@ -1,4 +1,5 @@
 import 'package:bookland/CustomerPages/customer_address_add.dart';
+import 'package:bookland/elements/appBar.dart';
 import 'package:bookland/services/http_address.dart';
 import 'package:flutter/material.dart';
 import 'package:bookland/main.dart';
@@ -7,11 +8,12 @@ import 'package:bookland/CustomerPages/address_details.dart';
 class MyAddresses extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: "My Addresses",
-      home: Scaffold(
-        appBar: AppBar(
-          title: Text("My Addresses"),
+    return  Scaffold(
+        appBar: MyAppBar( pageTitle : "My Addresses",
+          loginIcon: false,
+          back: true,
+          filter_list: false,
+          search: true,
         ),
         body: MyAddressLayout(),
         floatingActionButton: FloatingActionButton(
@@ -26,7 +28,7 @@ class MyAddresses extends StatelessWidget {
             );
           },
         ),
-      ),
+
     );
   }
 }

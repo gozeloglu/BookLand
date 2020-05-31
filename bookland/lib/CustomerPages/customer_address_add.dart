@@ -52,7 +52,10 @@ class _AddressAddPageState extends State<CustomerAddressAddStateful> {
     return new Scaffold(
       appBar: MyAppBar(
         pageTitle: "Add Address",
-        back: true,
+        loginIcon: true,
+        back: false,
+        filter_list: false,
+        search: true,
       ),
       body: Stack(
         children: <Widget>[_showForm()],
