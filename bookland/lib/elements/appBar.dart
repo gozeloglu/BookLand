@@ -3,12 +3,14 @@ import 'file:///C:/Users/User/Desktop/1/bbm384-project-spring2020-nef-gb/booklan
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
+import '../Search.dart';
+import '../login.dart';
 import '../main.dart';
 
 class MyAppBar extends StatelessWidget with PreferredSizeWidget{
   final String pageTitle;
   final bool back;
-  final filter_list;
+  final bool filter_list;
 
 
 
@@ -16,6 +18,52 @@ class MyAppBar extends StatelessWidget with PreferredSizeWidget{
 
   @override
   Widget build(BuildContext context) {
+    if(isAdmin == 1){
+      print("adminappbar");
+      return adminAppBar(context);
+    }else{
+      return customerAppBar(context);
+    }
+
+  }
+  Widget customerAppBar(BuildContext context){
+    return AppBar(
+      title: Text( pageTitle,
+          style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold)),
+      actions: <Widget>[
+        Container(
+            child: IconButton(
+              icon: Icon(
+                Icons.account_circle,
+                color: Colors.white,
+              ),
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  new MaterialPageRoute(builder: (context) => new Login()),
+                );
+                // TODO Login page will be here
+              },
+            ),
+            width: 30.0,
+            height: 30.0),
+        //Text('PROFILE', style: new TextStyle(color: Colors.white)),
+        IconButton(
+          icon: const Icon(Icons.search),
+          tooltip: 'Search Page',
+          onPressed: () {
+            //Search s = new Search();
+            //s.openPage(context);
+            Navigator.push(
+              context,
+              new MaterialPageRoute(builder: (context) => new Search()),
+            );
+          },
+        ),
+      ],
+    );
+  }
+  Widget adminAppBar(BuildContext context){
     if(back == true){
       if(filter_list == true){
         return AppBar(
@@ -37,8 +85,8 @@ class MyAppBar extends StatelessWidget with PreferredSizeWidget{
               onPressed:() {
                 print(pageTitle);
                 Navigator.push(
-                context, new MaterialPageRoute(builder: (context) => new FilterStatefulWidget(pageTitle)),//TO
-              );},
+                  context, new MaterialPageRoute(builder: (context) => new FilterStatefulWidget(pageTitle)),//TO
+                );},
             ),
           ],);
       }
@@ -66,9 +114,7 @@ class MyAppBar extends StatelessWidget with PreferredSizeWidget{
         //drawer: ISADMIN == 1 ? MyDrawer(drawerHeader: "Hello Admin",) : MyDrawer(drawerHeader: "Hello User",),
       );
     }
-
   }
-
   @override
   // TODO: implement preferredSize
   Size get preferredSize => Size.fromHeight(kToolbarHeight);

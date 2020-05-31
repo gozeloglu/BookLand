@@ -1,18 +1,18 @@
-import 'file:///C:/Users/User/Desktop/1/bbm384-project-spring2020-nef-gb/bookland/lib/CustomerPages/my_orders.dart';
+import 'package:bookland/CustomerPages/my_orders.dart';
 import 'package:bookland/services/globalVariable.dart';
-import 'file:///C:/Users/User/Desktop/1/bbm384-project-spring2020-nef-gb/bookland/lib/CustomerPages/user_account.dart';
+import 'package:bookland/CustomerPages/user_account.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:bookland/login.dart';
-import 'file:///C:/Users/User/Desktop/1/bbm384-project-spring2020-nef-gb/bookland/lib/CommonPages/list_main.dart';
-import 'file:///C:/Users/User/Desktop/1/bbm384-project-spring2020-nef-gb/bookland/lib/CommonPages/category.dart';
-import 'file:///C:/Users/User/Desktop/1/bbm384-project-spring2020-nef-gb/bookland/lib/CustomerPages/basket.dart';
+import 'package:bookland/CommonPages/list_main.dart';
+import 'package:bookland/CommonPages/category.dart';
+import 'package:bookland/CustomerPages/basket.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:bookland/CustomerPages/Campaigns.dart';
 import 'CommonPages/Search.dart';
-
 String customerID;
 bool isLogin;
+int isAdmin = 0;
 
 void main() {
   mainFuture();
@@ -32,6 +32,7 @@ Future<void> mainFuture() async {
     if (isLogin) {
       customerID = sharedPreferences.getString("customerId");
       customerFirstName = sharedPreferences.getString("firstName");
+      isAdmin = sharedPreferences.getInt("isAdmin");
     } else {
       customerID = "-1";
       customerFirstName = "Please Login";
@@ -72,41 +73,7 @@ class MyStatelessWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       //key: scaffoldKey,
-      appBar: AppBar(
-        title: const Text('BookLand',
-            style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold)),
-        actions: <Widget>[
-          Container(
-              child: IconButton(
-                icon: Icon(
-                  Icons.account_circle,
-                  color: Colors.white,
-                ),
-                onPressed: () {
-                  Navigator.push(
-                    context,
-                    new MaterialPageRoute(builder: (context) => new Login()),
-                  );
-                  // TODO Login page will be here
-                },
-              ),
-              width: 30.0,
-              height: 30.0),
-          //Text('PROFILE', style: new TextStyle(color: Colors.white)),
-          IconButton(
-            icon: const Icon(Icons.search),
-            tooltip: 'Search Page',
-            onPressed: () {
-              //Search s = new Search();
-              //s.openPage(context);
-              Navigator.push(
-                context,
-                new MaterialPageRoute(builder: (context) => new Search()),
-              );
-            },
-          ),
-        ],
-      ),
+      appBar: MyAppBar(pageTitle: "BookLand",),
       body: SingleChildScrollView(
         child: Column(
             mainAxisAlignment: MainAxisAlignment.start,
@@ -351,53 +318,7 @@ class MyStatelessWidget extends StatelessWidget {
           ],
         ),
       ),
-      bottomNavigationBar: BottomAppBar(
-        child: Container(
-            height: 50.0,
-            child: Row(children: <Widget>[
-              Text("           "),
-              IconButton(icon: Icon(Icons.home), onPressed: () {}),
-              Text("           "),
-              IconButton(
-                  icon: Icon(Icons.category),
-                  onPressed: () {
-                    Navigator.push(
-                      context,
-                      new MaterialPageRoute(builder: (context) => new NT()),
-                    );
-                  }),
-              Text("           "),
-              IconButton(
-                  icon: Icon(Icons.explore),
-                  onPressed: () {
-                    /* Navigator.push(
-                      context,
-                      new MaterialPageRoute(
-                          builder: (context) => new ExploreStateless(-1)),
-                    );*/
-                  }),
-              Text("           "),
-              IconButton(
-                  icon: Icon(Icons.shopping_basket),
-                  onPressed: () async {
-                    if (isLogin) {
-                      Basket basket = new Basket(0);
-                      SharedPrefBooks _sharedPrefBooks = new SharedPrefBooks();
-                      _sharedPrefBooks.getOrdersFromSharedPref(customerID);
-                      Navigator.push(
-                          context,
-                          new MaterialPageRoute(
-                              builder: (context) => new Basket(0)));
-                    } else {
-                      Navigator.push(
-                          context,
-                          new MaterialPageRoute(
-                              builder: (context) => new Login()));
-                    }
-                  }),
-            ])),
-        color: Colors.blue,
-      ),
+      bottomNavigationBar: MyBottomNavigatorBar(),
     );
   }
 
@@ -408,8 +329,10 @@ class MyStatelessWidget extends StatelessWidget {
     sharedPreferences.setString("customerId", "-1");
     sharedPreferences.setString("customerName", "Please Login");
     sharedPreferences.setBool("isLogin", false);
+    sharedPreferences.setInt("isAdmin", 0);
     customerFirstName = "Please Login";
     customerID = "-1";
+
     //FIRSTNAME = "Please Login";
   }
 
@@ -419,6 +342,7 @@ class MyStatelessWidget extends StatelessWidget {
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
     customerFirstName = sharedPreferences.getString("customerName");
     isLogin = sharedPreferences.getBool("isLogin");
+    isAdmin = sharedPreferences.getInt("isAdmin");
     customerID = sharedPreferences.getString("customerId");
   }
 }

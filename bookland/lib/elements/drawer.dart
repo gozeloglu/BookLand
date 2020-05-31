@@ -1,4 +1,3 @@
-import 'file:///C:/Users/User/Desktop/1/bbm384-project-spring2020-nef-gb/bookland/lib/AdminPages/adminUpdateBook.dart';
 import 'package:bookland/services/globalVariable.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -8,9 +7,9 @@ import '../AdminPages/AdminOrders.dart';
 import '../AdminPages/adminAddBook.dart';
 import '../AdminPages/adminCampaign.dart';
 import '../AdminPages/adminDiscount.dart';
-import '../AdminPages/admin_drawer_update_book.dart';
 import '../main.dart';
 import '../AdminPages/Admin_CustomerManage.dart';
+
 
 
 
@@ -129,12 +128,14 @@ class MyDrawer extends StatelessWidget {
               splashColor: Colors.red,
               onPressed: () {
                 isAnyUserLogin = false;
-                ISADMIN = 0;
+
+                logout();
                 ///FIRSTNAME = "Please LogIn";
+    Timer(Duration(seconds: 1), () {
                 Navigator.push(
                   context,
                   new MaterialPageRoute(builder: (context) => new MyApp()),
-                );
+                );});
               },
               child: Text("Logout", style: TextStyle(fontSize: 22)),
             ),
@@ -142,5 +143,18 @@ class MyDrawer extends StatelessWidget {
         ],
       ),
     );
+  }
+
+  void logout() async {
+    SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
+    sharedPreferences.setString("customerId", "-1");
+    sharedPreferences.setString("customerName", "Please Login");
+    sharedPreferences.setBool("isLogin", false);
+    sharedPreferences.setInt("isAdmin", 0);
+    customerFirstName = "Please Login";
+    customerID = "-1";
+    isAdmin = 0;
+
+    //FIRSTNAME = "Please Login";
   }
 }
