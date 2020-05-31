@@ -88,4 +88,8 @@ public class WishListService {
         };
     }
 
+    public Long myWishListCount(Integer customerId) {
+        Customer customer = customerRepository.findByCustomerId(customerId);
+        return (long)customer.getCustomerWishList().size();
+    }
 }
