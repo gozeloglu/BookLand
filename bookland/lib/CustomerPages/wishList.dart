@@ -31,7 +31,10 @@ class WishListStateless extends StatelessWidget {
     GlobalKey<PaginatorState> paginatorGlobalKey = GlobalKey();
 
     return Scaffold(
-      appBar: MyAppBar(pageTitle: "Wish List", back: true, filter_list: true),
+      appBar: MyAppBar(pageTitle: "Wish List",loginIcon: false,
+        back: false,
+        filter_list: true,
+        search: true,),
       body: Paginator.listView(
         key: paginatorGlobalKey,
         pageLoadFuture: sendBooksDataRequest,

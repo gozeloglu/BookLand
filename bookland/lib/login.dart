@@ -57,7 +57,10 @@ class _LoginPageState extends State<LoginStatefulWidget> {
     return new Scaffold(
       appBar: MyAppBar(
         pageTitle: "Login",
-        back: false,
+        loginIcon: false,
+        back: true,
+        filter_list: false,
+        search: false,
       ),
       body: Stack(
         children: <Widget>[_showForm()],

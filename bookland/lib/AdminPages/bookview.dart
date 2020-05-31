@@ -26,9 +26,10 @@ class BookView extends StatelessWidget {
     return Scaffold(
         appBar: MyAppBar(
           pageTitle: "Book",
-         // backgroundColor: Color(0xFFFF1744),
-          back: true,
-
+          loginIcon: true,
+          back: false,
+          filter_list: false,
+          search: true,
 
         ),
         body: FutureBuilder(

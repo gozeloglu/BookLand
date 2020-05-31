@@ -61,7 +61,11 @@ class _SignUpPageState extends State<SignUpStatefulWidget> {
   Widget build(BuildContext context) {
     // TODO: implement build
     return  Scaffold(
-      appBar: MyAppBar(pageTitle: "Sig Up", back: false,),
+      appBar: MyAppBar(pageTitle: "Sig Up",
+        loginIcon: true,
+        back: false,
+        filter_list: false,
+        search: false,),
       body: Container(
         width: double.infinity,
         padding: EdgeInsets.only(top: 50, bottom: 50),

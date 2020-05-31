@@ -21,8 +21,10 @@ class customerPersonalInfo extends StatelessWidget {
     return Scaffold(
         appBar: MyAppBar(
           pageTitle: "Personal Info",
-          // backgroundColor: Color(0xFFFF1744),
-          back: true,
+          loginIcon: false,
+          back: false,
+          filter_list: false,
+          search: false,
         ),
         body: FutureBuilder(
           future: httpAdmin.adminGetCustomerDetails(customerId),

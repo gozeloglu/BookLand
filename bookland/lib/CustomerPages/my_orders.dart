@@ -38,30 +38,16 @@ class MyOrders extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     globalExploreContext = context;
-    return MaterialApp(
-      theme: ThemeData(
-        primarySwatch: Colors.red,
-      ),
-      title: 'My Orders Page',
-      home: MyOrdersPage(),
-    );
-  }
-}
 
-class MyOrdersPage extends StatefulWidget {
-  @override
-  State<StatefulWidget> createState() {
-    return MyOrdersState();
-  }
-}
-
-class MyOrdersState extends State<MyOrdersPage> {
   GlobalKey<PaginatorState> paginatorGlobalKey = GlobalKey();
 
-  @override
-  Widget build(BuildContext context) {
+
     return Scaffold(
-      appBar: MyAppBar(pageTitle: "My Orders" ),
+      appBar: MyAppBar(pageTitle: "My Orders",
+        loginIcon: true,
+        back: false,
+        filter_list: false,
+        search: true,),
       body: Paginator.listView(
         key: paginatorGlobalKey,
         pageLoadFuture: sendordersDataRequest,
@@ -187,7 +173,7 @@ class MyOrdersState extends State<MyOrdersPage> {
     title:  Text(text_part),
           onTap: (){
             Navigator.push(
-                context,
+                globalExploreContext,
                 MaterialPageRoute(
                   builder: (context) =>new OrderView(orderid : orderidPar),
                 ));
