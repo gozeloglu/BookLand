@@ -1,4 +1,5 @@
 import 'package:bookland/CustomerPages/my_orders.dart';
+import 'package:bookland/elements/drawer.dart';
 import 'package:bookland/services/globalVariable.dart';
 import 'package:bookland/CustomerPages/user_account.dart';
 import 'package:flutter/foundation.dart';
@@ -232,102 +233,7 @@ class MyStatelessWidget extends StatelessWidget {
               ),
             ]),
       ),
-      drawer: Drawer(
-        child: ListView(
-          padding: EdgeInsets.zero,
-          children: <Widget>[
-            //  if(isAnyUserLogin == true)
-            new UserAccountsDrawerHeader(
-              accountName: new Text("HELLO\n" + customerFirstName,
-                  style: TextStyle(
-                      color: Colors.white,
-                      fontWeight: FontWeight.bold,
-                      fontSize: 25)),
-              // accountEmail: new Text('nurbuke.teker7@gmail.com'),
-              decoration: BoxDecoration(
-                image: DecorationImage(
-                  image: AssetImage("assets/bookland__pp.png"),
-                  fit: BoxFit.cover,
-                ),
-              ),
-            ),
-            new ListTile(
-              title: new Text("Account"),
-              trailing: new Icon(Icons.account_circle,color : Colors.blue),
-              onTap: () {
-                if (isLogin) {
-                  Navigator.push(
-                      context,
-                      new MaterialPageRoute(
-                          builder: (context) =>
-                              new AccountPageStateless(customerFirstName)));
-                } else {
-                  Navigator.push(
-                    context,
-                    new MaterialPageRoute(builder: (context) => new Login()),
-                  );
-                }
-              },
-            ),
-//Section Line
-            new Divider(),
-            new ListTile(
-              title: new Text("Orders"),
-              trailing: new Icon(Icons.add_shopping_cart,color: Colors.green,),
-              onTap: () {
-                Navigator.push(
-                  context,
-                  new MaterialPageRoute(builder: (context) => new MyOrders()),
-                );
-              },
-            ),
-//Section Line
-            new Divider(),
-
-            new ListTile(
-              title: new Text("Wish List"),
-              trailing: new Icon(Icons.favorite,color: Colors.red,),
-              onTap: () {
-                Navigator.push(
-                  context, new MaterialPageRoute(builder: (context) => new WishListStateless(-1)),
-                );
-
-
-              },
-            ),
-
-            new Divider(),
-            new ListTile(
-              title: new Text("Campaigns"),
-              trailing: new Icon(Icons.notifications_active,color: Colors.yellow,),
-              onTap: () {},
-            ),
-            new Divider(),
-            new ListTile(
-              title: new Text("Manuels"),
-              trailing: new Icon(Icons.help,color:  Colors.purple,),
-              onTap: () {},
-            ),
-            new Divider(),
-            new ListTile(
-              title: new Text("Logout"),
-              trailing: new Icon(Icons.exit_to_app),
-              onTap: () {
-                isAnyUserLogin = false;
-                //FIRSTNAME = "Please LogIn";
-                customerFirstName = "Please Login";
-                logout();
-                updateUser();
-                Navigator.push(
-                  context,
-                  new MaterialPageRoute(builder: (context) => new MyApp()),
-                );
-              },
-            ),
-            new Divider(),
-          ],
-        ),
-      ),
+      drawer: MyDrawer(),
       bottomNavigationBar: MyBottomNavigatorBar(),
     );
   }
