@@ -39,7 +39,7 @@ class customerPersonalInfo extends StatelessWidget {
                       fullName((snapshot.data.FirstName).toString(),
                           (snapshot.data.customerSurname).toString()),
                       Text("\n"),
-                      //customerIdWidget((snapshot.data.CustomerId).toString()),
+                      customerPhotoWidget(),
                       Text("\n"),
                       customerEmail((snapshot.data.customerEmail).toString()),
                       customerPhone((snapshot.data.customerPhone).toString()),
@@ -62,6 +62,17 @@ class customerPersonalInfo extends StatelessWidget {
           },
         ),
         bottomNavigationBar: MyBottomNavigatorBar());
+  }
+
+
+  Widget customerPhotoWidget() {
+    return Container(
+        child: Image.asset(
+          'assets/logo.png',
+          width: 200,
+          height: 200,
+        )
+    );
   }
 
 
@@ -132,7 +143,7 @@ class customerPersonalInfo extends StatelessWidget {
 
   Widget updateProfileButton(BuildContext context, AsyncSnapshot snapshot) {
     return new Container(
-        margin: EdgeInsets.only(top: 96.0),
+        margin: EdgeInsets.only(top: 56.0),
         child: new RaisedButton(
           onPressed: () {
             Navigator.push(
