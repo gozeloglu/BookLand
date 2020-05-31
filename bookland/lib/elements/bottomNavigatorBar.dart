@@ -1,12 +1,14 @@
-import 'package:bookland/adminOrders.dart';
+import 'package:bookland/AdminPages/adminOrders.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:bookland/CommonPages/explore.dart';
 
-import '../basket.dart';
-import '../category.dart';
-import '../explore.dart';
+import 'package:bookland/CustomerPages/basket.dart';
+import 'package:bookland/CommonPages/category.dart';
+import 'package:bookland/CommonPages/explore.dart';
 import '../login.dart';
 import '../main.dart';
+
 
 class MyBottomNavigatorBar extends StatelessWidget{
   @override

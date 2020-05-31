@@ -1,25 +1,18 @@
-import 'package:bookland/elements/appBar.dart';
-import 'package:bookland/elements/bottomNavigatorBar.dart';
-import 'package:bookland/my_orders.dart';
-import 'dart:math';
+import 'package:bookland/CustomerPages/my_orders.dart';
 import 'package:bookland/services/globalVariable.dart';
-import 'package:bookland/user_account.dart';
+import 'package:bookland/CustomerPages/user_account.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:bookland/login.dart';
-import 'package:bookland/explore.dart';
-import 'package:bookland/list_dynamic.dart';
-import 'package:bookland/list_main.dart';
-import 'package:bookland/bookview.dart';
-import 'package:bookland/category.dart';
-import 'package:bookland/adminAddBook.dart';
-import 'package:bookland/payment.dart';
-import 'package:bookland/adminOrders.dart';
-import 'package:bookland/ShippingCompany.dart';
-import 'package:bookland/basket.dart';
+import 'package:bookland/CommonPages/list_main.dart';
+import 'package:bookland/CommonPages/category.dart';
+import 'package:bookland/CustomerPages/basket.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:bookland/CustomerPages/Campaigns.dart';
-import 'Search.dart';
+import 'CommonPages/Search.dart';
+import 'package:bookland/elements/appBar.dart';
+import 'package:bookland/elements/bottomNavigatorBar.dart';
+
 
 String customerID;
 bool isLogin;

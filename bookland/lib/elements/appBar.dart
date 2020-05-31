@@ -1,9 +1,9 @@
-import 'package:bookland/adminOrders.dart';
-import 'package:bookland/filtering_page.dart';
+import 'package:bookland/AdminPages/adminOrders.dart';
+import 'package:bookland/CommonPages/filtering_page.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-import '../Search.dart';
+import 'package:bookland/CommonPages/Search.dart';
 import '../login.dart';
 import '../main.dart';
 

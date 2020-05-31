@@ -1,20 +1,15 @@
-import 'dart:async';
-
-import 'package:bookland/adminUpdateBook.dart';
 import 'package:bookland/services/globalVariable.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:shared_preferences/shared_preferences.dart';
-
-import '../AdminDeleteBook.dart';
-import '../AdminOrders.dart';
-import '../adminAddBook.dart';
-import '../adminCampaign.dart';
-import '../adminDiscount.dart';
-import '../admin_drawer_update_book.dart';
+import '../AdminPages/AdminDeleteBook.dart';
+import '../AdminPages/AdminOrders.dart';
+import '../AdminPages/adminAddBook.dart';
+import '../AdminPages/adminCampaign.dart';
+import '../AdminPages/adminDiscount.dart';
 import '../main.dart';
 import '../AdminPages/Admin_CustomerManage.dart';
-
+import 'package:shared_preferences/shared_preferences.dart';
+import 'dart:async';
 
 
 class MyDrawer extends StatelessWidget {
