@@ -50,7 +50,7 @@ class adminCampaign extends StatelessWidget {
         child: new ListView(
           shrinkWrap: true,
           children: <Widget>[
-            showIdInput(),
+            //showIdInput(),
             showCouponCodeInput(),
             showCouponDiscount(),
             showCampaignNameInput(),
@@ -90,32 +90,6 @@ class adminCampaign extends StatelessWidget {
     );
   }
 
-  Widget showIdInput() {
-    return Padding(
-      padding: const EdgeInsets.fromLTRB(0.0, 10, 0.0, 0.0),
-      child: new TextFormField(
-        controller: campaignIdController,
-        maxLines: 1,
-        keyboardType: TextInputType.text,
-        autofocus: false,
-        decoration: new InputDecoration(
-          hintText: 'Campaign Id?',
-          icon: new Icon(
-            Icons.info_outline,
-            color: Colors.grey,
-          ),
-          enabledBorder: const OutlineInputBorder(
-            borderSide: const BorderSide(color: Colors.grey, width: 0.0),
-          ),
-          focusedBorder: const OutlineInputBorder(
-            borderSide: const BorderSide(color: Colors.grey, width: 0.0),
-          ),
-        ),
-        //validator: (value) => value.isEmpty ? 'Email cannot be empty' : null,
-        //onSaved: (value) => _email = value.trim(),
-      ),
-    );
-  }
 
   //Kupon kodu min - 8 max 16 olmalı
   Widget showCouponCodeInput() {
@@ -209,7 +183,7 @@ class adminCampaign extends StatelessWidget {
         keyboardType: TextInputType.text,
         autofocus: false,
         decoration: new InputDecoration(
-          hintText: 'Due Date',
+          hintText: 'Due Date (YYYY-MM-DD)',
           icon: new Icon(
             Icons.date_range,
             color: Colors.grey,
@@ -254,7 +228,6 @@ class adminCampaign extends StatelessWidget {
             //print(isbn book_name,book_category,book_sub_category,book_author,book_img,book_description ,book_price);
 
             var result = httpAdmin.adminMakeCampaign(
-                campaingId,
                 couponCode,
                 couponDiscount,
                 campaignName,
