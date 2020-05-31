@@ -4,9 +4,11 @@ package com.bookland.demobookland.controller;
 import com.bookland.demobookland.model.Comment;
 import com.bookland.demobookland.model.Customer;
 import com.bookland.demobookland.model.projections.LoginInterface;
+import com.bookland.demobookland.model.projections.WishListProjection;
 import com.bookland.demobookland.model.validationGroups.LoginGroup;
 import com.bookland.demobookland.model.validationGroups.SignUpGroup;
 import com.bookland.demobookland.services.CustomerServices;
+import com.bookland.demobookland.services.WishListService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.validation.annotation.Validated;
@@ -21,6 +23,8 @@ public class CustomerController {
     @Autowired
     private CustomerServices customerServices;
 
+    @Autowired
+    private WishListService wishListService;
 
     @PostMapping(value = "/saveCustomer")
     public Integer saveCustomer(@Validated(SignUpGroup.class) @RequestBody Customer customer) {
@@ -50,5 +54,10 @@ public class CustomerController {
     @GetMapping(value = "/removeFromWishList/{customerId}/{ISBN}", produces = MediaType.APPLICATION_JSON_VALUE)
     public Integer removeWishList(@PathVariable Integer customerId, @PathVariable Integer ISBN) {
         return customerServices.removeWishList(customerId, ISBN);
+    }
+
+    @GetMapping(value = "/myWishList/{pageNo}/{pageSize}/{customerId}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public List<WishListProjection> myWishList(@PathVariable Integer pageNo, @PathVariable Integer pageSize, @PathVariable Integer customerId) {
+        return wishListService.myWishList(pageNo - 1, pageSize, customerId);
     }
 }
