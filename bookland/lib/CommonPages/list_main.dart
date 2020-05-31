@@ -13,7 +13,6 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
 import 'package:flutter_paginator/flutter_paginator.dart';
-
 int total = 0;
 SplayTreeSet isbnSet = new SplayTreeSet();
 var globalList_MainContext;
@@ -50,29 +49,8 @@ class List_MainStateless extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    GlobalKey<PaginatorState> paginatorGlobalKey = GlobalKey();
     globalList_MainContext = context;
-    return MaterialApp(
-      theme: ThemeData(
-        primarySwatch: Colors.red,
-      ),
-      title: title_main,
-      home: List_MainPage(),
-    );
-  }
-}
-
-class List_MainPage extends StatefulWidget {
-  @override
-  State<StatefulWidget> createState() {
-    return List_MainState();
-  }
-}
-
-class List_MainState extends State<List_MainPage> {
-  GlobalKey<PaginatorState> paginatorGlobalKey = GlobalKey();
-
-  @override
-  Widget build(BuildContext context) {
     return Scaffold(
       appBar: MyAppBar(
         pageTitle: title_main,
@@ -226,7 +204,7 @@ class List_MainState extends State<List_MainPage> {
           ),) ,
           onTap: () {
             Navigator.push(
-                context,
+                globalList_MainContext,
                 MaterialPageRoute(
                   builder: (context) =>
                   // new BookView(isbn: isbnSet.elementAt(index).toString()),
@@ -254,7 +232,7 @@ class List_MainState extends State<List_MainPage> {
           ),),
           onTap: () {
             Navigator.push(
-                context,
+                globalList_MainContext,
                 MaterialPageRoute(
                   builder: (context) =>
                   // new BookView(isbn: isbnSet.elementAt(index).toString()),

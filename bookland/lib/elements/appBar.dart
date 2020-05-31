@@ -19,7 +19,6 @@ class MyAppBar extends StatelessWidget with PreferredSizeWidget{
   @override
   Widget build(BuildContext context) {
     if(isAdmin == 1){
-      print("adminappbar");
       return adminAppBar(context);
     }else{
       return customerAppBar(context);
