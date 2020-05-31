@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:bookland/CustomerPages/basket.dart';
 import 'package:bookland/model/model_user.dart';
 import 'package:bookland/model/model_order.dart';
 import 'package:bookland/model/error.dart';
@@ -6,7 +7,6 @@ import 'package:http/http.dart' as http;
 import 'package:bookland/main.dart';
 import 'package:bookland/services/globalVariable.dart';
 import 'package:bookland/model/model_shippingcompany.dart';
-import 'file:///C:/Users/User/Desktop/1/bbm384-project-spring2020-nef-gb/bookland/lib/CustomerPages/basket.dart';
 
 class HTTPAll {
   static String basicAuth =
