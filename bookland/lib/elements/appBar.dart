@@ -1,5 +1,5 @@
-import 'package:bookland/adminOrders.dart';
-import 'package:bookland/filtering_page.dart';
+import 'file:///C:/Users/User/Desktop/1/bbm384-project-spring2020-nef-gb/bookland/lib/AdminPages/adminOrders.dart';
+import 'file:///C:/Users/User/Desktop/1/bbm384-project-spring2020-nef-gb/bookland/lib/CommonPages/filtering_page.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 

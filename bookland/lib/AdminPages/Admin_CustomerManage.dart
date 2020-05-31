@@ -3,12 +3,12 @@ import 'dart:collection';
 import 'dart:convert';
 import 'dart:io';
 
-import 'package:bookland/bookview.dart';
-import 'package:bookland/customerBookView.dart';
+import 'file:///C:/Users/User/Desktop/1/bbm384-project-spring2020-nef-gb/bookland/lib/AdminPages/bookview.dart';
+import 'file:///C:/Users/User/Desktop/1/bbm384-project-spring2020-nef-gb/bookland/lib/CustomerPages/customerBookView.dart';
 import 'package:bookland/elements/appBar.dart';
 import 'package:bookland/elements/bottomNavigatorBar.dart';
 import 'package:bookland/main.dart';
-import 'package:bookland/adminOrders.dart';
+import 'file:///C:/Users/User/Desktop/1/bbm384-project-spring2020-nef-gb/bookland/lib/AdminPages/adminOrders.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
