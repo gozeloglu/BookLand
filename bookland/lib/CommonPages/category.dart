@@ -2,18 +2,17 @@ import 'dart:convert';
 //import 'dart:html';
 
 import 'package:bookland/services/globalVariable.dart';
-import 'file:///C:/Users/User/Desktop/1/bbm384-project-spring2020-nef-gb/bookland/lib/CustomerPages/user_account.dart';
+import 'package:bookland/CustomerPages/user_account.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:bookland/login.dart';
-import 'file:///C:/Users/User/Desktop/1/bbm384-project-spring2020-nef-gb/bookland/lib/CommonPages/explore.dart';
-import 'file:///C:/Users/User/Desktop/1/bbm384-project-spring2020-nef-gb/bookland/lib/CommonPages/list_dynamic.dart';
-import 'file:///C:/Users/User/Desktop/1/bbm384-project-spring2020-nef-gb/bookland/lib/AdminPages/bookview.dart';
-import 'file:///C:/Users/User/Desktop/1/bbm384-project-spring2020-nef-gb/bookland/lib/CommonPages/category.dart';
-import 'file:///C:/Users/User/Desktop/1/bbm384-project-spring2020-nef-gb/bookland/lib/AdminPages/adminAddBook.dart';
+import 'package:bookland/CommonPages/explore.dart';
+import 'package:bookland/CommonPages/list_dynamic.dart';
+import 'package:bookland/AdminPages/bookview.dart';
+import 'package:bookland/CommonPages/category.dart';
+import 'package:bookland/AdminPages/adminAddBook.dart';
 import 'dart:convert';
-import 'file:///C:/Users/User/Desktop/1/bbm384-project-spring2020-nef-gb/bookland/lib/AdminPages/adminOrders.dart';
-
+import 'package:bookland/AdminPages/adminOrders.dart';
 import 'package:bookland/services/HTTP.dart';
 
 

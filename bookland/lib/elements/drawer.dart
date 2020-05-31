@@ -1,3 +1,6 @@
+import 'package:bookland/CustomerPages/my_orders.dart';
+import 'package:bookland/CustomerPages/user_account.dart';
+import 'package:bookland/CustomerPages/wishList.dart';
 import 'package:bookland/services/globalVariable.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -6,6 +9,7 @@ import '../AdminPages/AdminOrders.dart';
 import '../AdminPages/adminAddBook.dart';
 import '../AdminPages/adminCampaign.dart';
 import '../AdminPages/adminDiscount.dart';
+import '../login.dart';
 import '../main.dart';
 import '../AdminPages/Admin_CustomerManage.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -18,11 +22,118 @@ class MyDrawer extends StatelessWidget {
   const MyDrawer({Key key, this.drawerHeader}) : super(key: key);
   @override
   Widget build(BuildContext context) {
+    if(isAdmin == 1){
+      return adminDrawer(context);
+    }
+    else{
+      return customerDrawer(context);
+    }
+  }
+
+  Widget customerDrawer(BuildContext context){
+    return Drawer(
+      child: ListView(
+        padding: EdgeInsets.zero,
+        children: <Widget>[
+          //  if(isAnyUserLogin == true)
+          new UserAccountsDrawerHeader(
+            accountName: new Text("HELLO\n" + customerFirstName,
+                style: TextStyle(
+                    color: Colors.white,
+                    fontWeight: FontWeight.bold,
+                    fontSize: 25)),
+            // accountEmail: new Text('nurbuke.teker7@gmail.com'),
+            decoration: BoxDecoration(
+              image: DecorationImage(
+                image: AssetImage("assets/bookland__pp.png"),
+                fit: BoxFit.cover,
+              ),
+            ),
+          ),
+          new ListTile(
+            title: new Text("Account"),
+            trailing: new Icon(Icons.account_circle,color : Colors.blue),
+            onTap: () {
+              if (isLogin) {
+                Navigator.push(
+                    context,
+                    new MaterialPageRoute(
+                        builder: (context) =>
+                        new AccountPageStateless(customerFirstName)));
+              } else {
+                Navigator.push(
+                  context,
+                  new MaterialPageRoute(builder: (context) => new Login()),
+                );
+              }
+            },
+          ),
+//Section Line
+          new Divider(),
+          new ListTile(
+            title: new Text("Orders"),
+            trailing: new Icon(Icons.add_shopping_cart,color: Colors.green,),
+            onTap: () {
+              Navigator.push(
+                context,
+                new MaterialPageRoute(builder: (context) => new MyOrders()),
+              );
+            },
+          ),
+//Section Line
+          new Divider(),
+
+          new ListTile(
+            title: new Text("Wish List"),
+            trailing: new Icon(Icons.favorite,color: Colors.red,),
+            onTap: () {
+              Navigator.push(
+                context, new MaterialPageRoute(builder: (context) => new WishListStateless(-1)),
+              );
+
+
+            },
+          ),
+
+          new Divider(),
+          new ListTile(
+            title: new Text("Campaigns"),
+            trailing: new Icon(Icons.notifications_active,color: Colors.yellow,),
+            onTap: () {},
+          ),
+          new Divider(),
+          new ListTile(
+            title: new Text("Manuels"),
+            trailing: new Icon(Icons.help,color:  Colors.purple,),
+            onTap: () {},
+          ),
+          new Divider(),
+          new ListTile(
+            title: new Text("Logout"),
+            trailing: new Icon(Icons.exit_to_app),
+            onTap: () {
+              isAnyUserLogin = false;
+              //FIRSTNAME = "Please LogIn";
+              customerFirstName = "Please Login";
+              logout();
+              updateUser();
+              Navigator.push(
+                context,
+                new MaterialPageRoute(builder: (context) => new MyApp()),
+              );
+            },
+          ),
+          new Divider(),
+        ],
+      ),
+    );
+  }
+  Widget adminDrawer(BuildContext context){
     return Drawer(
       child: new ListView(
         children: <Widget>[
           new UserAccountsDrawerHeader(
-            accountName: Text(drawerHeader, style: TextStyle(fontSize: 35)),
+            accountName: Text("Admin", style: TextStyle(fontSize: 35)),
             decoration: new BoxDecoration(color: Colors.red),
             margin: const EdgeInsets.only(bottom: 10.0),
           ),
@@ -130,11 +241,11 @@ class MyDrawer extends StatelessWidget {
 
                 logout();
                 ///FIRSTNAME = "Please LogIn";
-    Timer(Duration(seconds: 1), () {
-                Navigator.push(
-                  context,
-                  new MaterialPageRoute(builder: (context) => new MyApp()),
-                );});
+                Timer(Duration(seconds: 1), () {
+                  Navigator.push(
+                    context,
+                    new MaterialPageRoute(builder: (context) => new MyApp()),
+                  );});
               },
               child: Text("Logout", style: TextStyle(fontSize: 22)),
             ),
@@ -155,5 +266,12 @@ class MyDrawer extends StatelessWidget {
     isAdmin = 0;
 
     //FIRSTNAME = "Please Login";
+  }
+  void updateUser() async {
+    SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
+    customerFirstName = sharedPreferences.getString("customerName");
+    isLogin = sharedPreferences.getBool("isLogin");
+    isAdmin = sharedPreferences.getInt("isAdmin");
+    customerID = sharedPreferences.getString("customerId");
   }
 }

@@ -5,6 +5,7 @@ import 'package:flutter_paginator/flutter_paginator.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter/cupertino.dart';
 import '../elements/appBar.dart';
+import '../main.dart';
 import 'explore.dart';
 
 class Search extends StatelessWidget {
@@ -89,7 +90,7 @@ class SearchState extends State<SearchPage> {
   Future<BooksData> searchBooksDataRequest(int page) async {
     try {
       getTotalCount();
-      var url = "http://10.0.2.2:8080/Search/$page/2/104?keyword=${keyword}";
+      var url = "http://10.0.2.2:8080/Search/$page/2/$customerID?keyword=${keyword}";
       print(url);
       String username = 'Daryl';
       String password = 'WalkingDead';

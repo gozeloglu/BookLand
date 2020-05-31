@@ -2,24 +2,23 @@ import 'dart:async';
 import 'dart:collection';
 import 'dart:convert';
 import 'dart:io';
-
-import 'package:bookland/AdminPages/bookview.dart';
+import 'package:bookland/CustomerPages/customerBookView.dart';
 import 'package:bookland/elements/appBar.dart';
 import 'package:bookland/elements/bottomNavigatorBar.dart';
+import 'package:bookland/main.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
-
 import 'package:flutter_paginator/flutter_paginator.dart';
 
 int total = 0;
 SplayTreeSet isbnSet = new SplayTreeSet();
-var globalExploreContext;
+var globalWishListContext;
 int deletedBookId = -1;
 
 List<String> oldPriceList = [];
 
-class ExploreStateless extends StatelessWidget {
-  ExploreStateless(int bookId) {
+class WishListStateless extends StatelessWidget {
+  WishListStateless(int bookId) {
     deletedBookId = bookId;
     if (isbnSet.contains(deletedBookId)) {
       isbnSet.remove(deletedBookId);
@@ -28,14 +27,13 @@ class ExploreStateless extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    globalExploreContext = context;
+    globalWishListContext = context;
     GlobalKey<PaginatorState> paginatorGlobalKey = GlobalKey();
 
-    
     return Scaffold(
-      appBar: MyAppBar(pageTitle: "Explore", back: true,filter_list:true ),
+      appBar: MyAppBar(pageTitle: "Wish List", back: true, filter_list: true),
       body: Paginator.listView(
-      key: paginatorGlobalKey,
+        key: paginatorGlobalKey,
         pageLoadFuture: sendBooksDataRequest,
         pageItemsGetter: listBooksGetter,
         listItemBuilder: listBookBuilder,
@@ -46,7 +44,6 @@ class ExploreStateless extends StatelessWidget {
         pageErrorChecker: pageErrorChecker,
         scrollPhysics: BouncingScrollPhysics(),
       ),
-
       floatingActionButton: FloatingActionButton(
         onPressed: () {
           paginatorGlobalKey.currentState.changeState(
@@ -54,10 +51,7 @@ class ExploreStateless extends StatelessWidget {
         },
         child: Icon(Icons.refresh),
       ),
-
-
       bottomNavigationBar: MyBottomNavigatorBar(),
-
     );
   }
 
@@ -67,7 +61,7 @@ class ExploreStateless extends StatelessWidget {
       String password = 'WalkingDead';
       String basicAuth =
           'Basic ' + base64Encode(utf8.encode('$username:$password'));
-      var urlBookCount = "http://10.0.2.2:8080/getBookCount";
+      var urlBookCount = "http://10.0.2.2:8080/myWishListCount/$customerID";
 
       String _urlBookCount = Uri.encodeFull(urlBookCount);
       http.Response responseCount = await http.get(
@@ -91,7 +85,7 @@ class ExploreStateless extends StatelessWidget {
   Future<BooksData> sendBooksDataRequest(int page) async {
     try {
       getTotalCount();
-      var url = "http://10.0.2.2:8080/allBooks/$page/10";
+      var url = "http://10.0.2.2:8080/myWishList/$page/10/$customerID";
       print(url);
       String username = 'Daryl';
       String password = 'WalkingDead';
@@ -123,10 +117,12 @@ class ExploreStateless extends StatelessWidget {
           "Author:\t" +
           booksData.authors[i] +
           "\n" +
-          "Price:\t"
-          + "|"+
-          booksData.prices[i].toString()
-          + "|"+ (booksData.img_list[i].toString()) + "|" + booksData.isbn_list[i].toString();
+          "|" +
+          booksData.prices[i].toString() +
+          "|" +
+          (booksData.img_list[i].toString()) +
+          "|" +
+          booksData.isbn_list[i].toString();
       // String img_val = (booksData.img_list[i].toString());
       bookNameList.add(val);
     }
@@ -143,65 +139,41 @@ class ExploreStateless extends StatelessWidget {
   }
 
   Widget listBookBuilder(value, int index) {
-
     var value_list = value.toString().split("|");
     String text_part = value_list[0];
-    String last_price_part = value_list[1];
     String img_part = value_list[2];
     String bookid_send = value_list[3];
-    String final_text = text_part;
-
-    if(oldPriceList[index] == "0" ){
-      final_text = final_text + last_price_part + "\$";
       return ListTile(
-          leading:  Image.network(img_part ,
-              height: 200,
-              fit:BoxFit.fill,),
-          title: Text(final_text,style: TextStyle(
-            fontSize: 18,
-            fontWeight: FontWeight.bold,
-          ),) ,
+            leading: Image.network(
+            img_part,
+            height: 200,
+            fit: BoxFit.fill,
+          ),
+
+          title: Text(
+            text_part,
+            style: TextStyle(
+              fontSize: 18,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
           onTap: () {
             BuildContext context;
             Navigator.push(
-                globalExploreContext,
+                globalWishListContext,
                 MaterialPageRoute(
                   builder: (context) =>
-                  // new BookView(isbn: isbnSet.elementAt(index).toString()),
-                  new BookView(isbn: bookid_send),
+                      // new BookView(isbn: isbnSet.elementAt(index).toString()),
+                      new CustomerBookView(isbn: bookid_send),
                 ));
-          });
-    }else{
-      final_text = final_text + last_price_part + "\$";
+          },
+          trailing: Wrap(
 
-      return ListTile(
+              spacing: 12, // space between two icons
+              children: <Widget>[
+         Icon(Icons.favorite ,color: Colors.red,),
+          ]));
 
-        //leading:  Image.network("https://dictionary.cambridge.org/tr/images/thumb/book_noun_001_01679.jpg?version=5.0.75"),
-          leading:  Image.network(img_part , height: 200,
-            fit:BoxFit.fill,),
-          title: Text(final_text,style: TextStyle(
-            fontSize: 18,
-            fontWeight: FontWeight.bold,
-          ),) ,
-          subtitle: Text(oldPriceList[index] +"\$" ,style: TextStyle(
-            decoration: TextDecoration.lineThrough,
-            decorationThickness: 2.5,
-            decorationColor: Colors.red,
-            color: Color.fromARGB(140, 0, 0, 0),
-            fontSize: 18,
-            fontWeight: FontWeight.bold,
-          ),),
-          onTap: () {
-            BuildContext context;
-            Navigator.push(
-                globalExploreContext,
-                MaterialPageRoute(
-                  builder: (context) =>
-                  // new BookView(isbn: isbnSet.elementAt(index).toString()),
-                  new BookView(isbn: bookid_send),
-                ));
-          });
-    }
   }
 
   Widget errorWidgetMaker(BooksData booksData, retryListener) {
@@ -268,7 +240,6 @@ class BooksData {
   DateTime releasedTime;
   List<double> priceList;
 
-
   BooksData.fromResponse(http.Response response) {
     this.statusCode = response.statusCode;
     List jsonData = json.decode(response.body);
@@ -294,15 +265,15 @@ class BooksData {
       isbn_list.add(jsonData[i]["bookId"]);
       String inDiscount = jsonData[i]["inDiscount"].toString();
 
-
-      if (inDiscount =="1" ){
-        oldPrice_List.add(jsonData[i]["priceList"][priceListLen - 2]["price"].toString());
-        oldPriceList.add(jsonData[i]["priceList"][priceListLen - 2]["price"].toString());
-      }else{
+      if (inDiscount == "1") {
+        oldPrice_List.add(
+            jsonData[i]["priceList"][priceListLen - 2]["price"].toString());
+        oldPriceList.add(
+            jsonData[i]["priceList"][priceListLen - 2]["price"].toString());
+      } else {
         oldPrice_List.add("0");
         oldPriceList.add("0");
       }
-
     }
     //oldPriceList = oldPrice_List ;
     nItems = books.length;

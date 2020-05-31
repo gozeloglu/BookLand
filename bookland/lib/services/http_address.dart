@@ -1,7 +1,7 @@
 import 'dart:convert';
-import 'file:///C:/Users/User/Desktop/1/bbm384-project-spring2020-nef-gb/bookland/lib/CustomerPages/address_update.dart';
+import 'package:bookland/CustomerPages/address_update.dart';
+import 'package:bookland/CustomerPages/customer_address_add.dart';
 import 'package:http/http.dart' as http;
-import 'file:///C:/Users/User/Desktop/1/bbm384-project-spring2020-nef-gb/bookland/lib/CustomerPages/customer_address_add.dart';
 
 class Address {
   /// @param: userId represents user's unique id to save in correct location in db
