@@ -42,7 +42,7 @@ public class Order {
 
     @JsonBackReference(value = "order-customerOrder")
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    @JoinColumn(name = "CustomerId", insertable = false, updatable = false)           /*Database column ismi*/
+    @JoinColumn(name = "CustomerId", insertable = false, updatable = false)
     private Customer customerOrder;
 
     @JsonBackReference(value = "order-OrderAddress")

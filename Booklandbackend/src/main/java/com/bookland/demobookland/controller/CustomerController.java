@@ -62,7 +62,7 @@ public class CustomerController {
     }
 
     @GetMapping(value = "/myWishListCount/{customerId}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public Long myWishListCount( @PathVariable Integer customerId) {
+    public Long myWishListCount(@PathVariable Integer customerId) {
         return wishListService.myWishListCount(customerId);
     }
 }

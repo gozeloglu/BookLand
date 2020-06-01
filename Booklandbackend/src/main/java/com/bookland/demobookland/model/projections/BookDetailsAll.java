@@ -7,5 +7,4 @@ public interface BookDetailsAll {
     Float getVoteRatio();
 
     Integer getInWishlist();
-
 }

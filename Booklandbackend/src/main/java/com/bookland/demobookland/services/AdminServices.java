@@ -308,6 +308,7 @@ public class AdminServices {
         return orderRepository.count();
     }
 
+    @Transactional
     public Integer confirmOrder(Integer orderId) {
         Optional<Order> order = orderRepository.findById(orderId);
         Order currentOrder = order.get();
@@ -397,7 +398,6 @@ public class AdminServices {
             List<UserSearchProjection> result = customerRepository.findByFirstNameContainsOrSurnameContainsOrEmailContains(keyword, keyword, keyword);
             return (long) result.size();
         }
-
     }
 }
 

@@ -11,5 +11,4 @@ import java.util.List;
 public interface SearchRepository extends PagingAndSortingRepository<Search, Integer> {
 
     List<KeywordProjection> findTop10ByCustomerIdOrderByReleasedTimeDesc(Integer customerId);
-
 }

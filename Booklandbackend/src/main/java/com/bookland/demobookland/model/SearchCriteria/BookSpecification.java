@@ -13,7 +13,7 @@ import java.util.List;
 
 @Data
 public class BookSpecification implements Specification<Book> {
-    //private static Object Book_;
+
     private List<SearchCriteria> list;
 
     public BookSpecification() {
@@ -77,7 +77,6 @@ public class BookSpecification implements Specification<Book> {
     public Specification<Book> forWords(ArrayList<String> categories) {
         if (categories == null || categories.isEmpty())
             return new BookSpecification();
-        //throw new RuntimeException("List of categories cannot be empty.");
 
         return (root, query, builder) -> categories.stream()
                 .map(String::toLowerCase)
@@ -91,7 +90,6 @@ public class BookSpecification implements Specification<Book> {
     public Specification<Book> forWordsAuthor(ArrayList<String> categories) {
         if (categories == null || categories.isEmpty())
             return new BookSpecification();
-        //throw new RuntimeException("List of categories cannot be empty.");
 
         return (root, query, builder) -> categories.stream()
                 .map(String::toLowerCase)
@@ -101,10 +99,4 @@ public class BookSpecification implements Specification<Book> {
                 .get();
 
     }
-   /* public static Specification<Book> spec() {
-        return (root, query, cb) -> {
-            final Join<Book, Price> prices = root.join("ISBN", JoinType.INNER);
-            prices.on(cb.lessThan(prices.get(Price_.), 10));
-            return cb.equal(works.get(ScientificWork_.name), "Black Holes");
-        };*/
 }

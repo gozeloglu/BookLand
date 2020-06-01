@@ -45,7 +45,6 @@ public class BookServices {
         String response;
         try {
             bookRepository.save(book);
-
             /*If admin is going to add books without the price if-else is going to add*/
             Price newPrice = new Price();
             newPrice.setISBN(book.getBookId());
@@ -59,14 +58,11 @@ public class BookServices {
         }
 
     }
-    /* Delete operation for book*/
 
     @Transactional
     public void deleteBook(int id) {
         bookRepository.deleteById(id);
     }
-
-    /* Update operations for book*/
 
     @Transactional
     public String updateBook(Integer id, Book book) {
@@ -128,8 +124,6 @@ public class BookServices {
 
     }
 
-    /*Get distinct categories*/
-
     public List<String> getCategory() {
         return bookRepository.findDistinctByCategory();
     }
@@ -152,13 +146,11 @@ public class BookServices {
     public Long getBookCountByHotList() {
         return bookRepository.countBookByInHotListEquals(1);
     }
-    /*Get distinct sub-categories*/
 
     public List<String> getSubCategory() {
         return bookRepository.findDistinctBySubCategory();
     }
 
-    /*Get hot-list*/
     public List<ExplorePageProjection> getHotList(Integer pageNo, Integer pageSize) {
         Pageable paging = PageRequest.of(pageNo, pageSize);
 
@@ -166,14 +158,12 @@ public class BookServices {
         return pagedResult.toList();
     }
 
-    /*get last released books limit 10*/
     public List<ExplorePageProjection> getLastReleased(Integer pageNo, Integer pageSize) {
         Pageable paging = PageRequest.of(pageNo, pageSize);
         Page<ExplorePageProjection> pagedResult = bookRepository.findTop10ByOrderByReleasedTimeDesc(paging);
         return pagedResult.toList();
     }
 
-    /*Get book details by id*/
     public BookDetailsAll getBookById(Integer ISBN, Integer customerId) {
 
         Optional<Book> book = bookRepository.findById(ISBN);
@@ -213,23 +203,17 @@ public class BookServices {
         BookSpecification filter_categories = new BookSpecification();
         List<BookDetailsProjection> finalBookList = new ArrayList<>();
 
-        List<Book> nopage = new ArrayList<>();
+        List<Book> nopage;
 
-        if (/*!author.equals("undefined")*/!author.isEmpty() && !category.isEmpty()) {
-            System.out.println("ikiside dolu");
+        if (!author.isEmpty() && !category.isEmpty()) {
             nopage = bookRepository.findAll(filter_categories.forWords(category).and(filter_categories.forWordsAuthor(author)));
-            //filter_categories.forWordsAuthor(author);
-            /*filter_categories.add(new SearchCriteria("author", author, SearchOperation.MATCH))*/
-            ;
         } else if (!category.isEmpty()) {
-            System.out.println("sadece category");
             nopage = bookRepository.findAll(filter_categories.forWords(category));
-            //filter_categories.forWords(category);
         } else if (!author.isEmpty()) {
-            System.out.println("sadece author");
             nopage = bookRepository.findAll(filter_categories.forWordsAuthor(author));
+        } else {
+            nopage = bookRepository.findAll(filter_categories);
         }
-        //List<Book> nopage = bookRepository.findAll(filter_categories.forWords(category).and(filter_categories.forWordsAuthor(author)));
         if (minPrice != -1 && maxPrice != -1) {
             for (Book b : nopage) {
                 if (b.getPriceList().get(b.getPriceList().size() - 1).getPrice() >= minPrice &&
@@ -271,7 +255,7 @@ public class BookServices {
     }
 
 
-    @Transactional //Applied discount to a single item
+    @Transactional
     public String applyDiscount(Integer book_id, Integer percentage) {
         Optional<Book> optionalBook = bookRepository.findById(book_id);
         Book book = optionalBook.get();
@@ -288,20 +272,20 @@ public class BookServices {
         return String.format("Old price = %.2f. New Price is =%.2f ", currentPrice, newPrice);
     }
 
-    public Long getBookCountByFilters(/*String author*/ArrayList<String> author, ArrayList<String> category, Integer minPrice, Integer maxPrice) {
+    public Long getBookCountByFilters(ArrayList<String> author, ArrayList<String> category, Integer minPrice, Integer maxPrice) {
         BookSpecification filter_categories = new BookSpecification();
         List<Book> finalBookList = new ArrayList<>();
-        List<Book> pre_list = new ArrayList<>();
+        List<Book> pre_list;
 
-        if (/*!author.equals("undefined")*/!author.isEmpty() && !category.isEmpty()) {
+        if (!author.isEmpty() && !category.isEmpty()) {
             pre_list = bookRepository.findAll(filter_categories.forWords(category).and(filter_categories.forWordsAuthor(author)));
-            //filter_categories.add(new SearchCriteria("author", author, SearchOperation.MATCH));
         } else if (!category.isEmpty()) {
             pre_list = bookRepository.findAll(filter_categories.forWords(category));
         } else if (!author.isEmpty()) {
             pre_list = bookRepository.findAll(filter_categories.forWordsAuthor(author));
+        } else {
+            pre_list = bookRepository.findAll(filter_categories);
         }
-        //pre_list = bookRepository.findAll(filter_categories.forWords(category).and(filter_categories));
         if (minPrice != -1 && maxPrice != -1) {
             for (Book b : pre_list) {
                 if (b.getPriceList().get(b.getPriceList().size() - 1).getPrice() >= minPrice &&
@@ -493,6 +477,7 @@ public class BookServices {
         };
     }
 
+    @Transactional
     public Float voteBook(Vote vote) {
         VotePk votePk = new VotePk();
         votePk.setCustomerId(vote.getCustomerId());

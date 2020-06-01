@@ -30,6 +30,6 @@ public class Search {
     private Date releasedTime = new Date();
 
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    @JoinColumn(name = "CustomerId", insertable = false, updatable = false)           /*Database column ismi*/
+    @JoinColumn(name = "CustomerId", insertable = false, updatable = false)
     private Customer customer;
 }

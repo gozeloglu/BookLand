@@ -8,6 +8,5 @@ import java.util.List;
 
 @Repository
 public interface ShippingCompanyRepository extends PagingAndSortingRepository<ShippingCompany, Integer> {
-
     List<ShippingCompany> findAll();
 }

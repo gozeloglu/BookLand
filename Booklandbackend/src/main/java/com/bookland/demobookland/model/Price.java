@@ -38,7 +38,7 @@ public class Price {
 
     @JsonBackReference
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    @JoinColumn(name = "ISBN", insertable = false, updatable = false)           /*Database column name*/
+    @JoinColumn(name = "ISBN", insertable = false, updatable = false)
     private Book bookPrices;
 
 }

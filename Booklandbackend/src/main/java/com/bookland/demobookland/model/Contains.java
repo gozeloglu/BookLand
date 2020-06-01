@@ -31,7 +31,6 @@ public class Contains {
     @Column(name = "Status")
     private Integer status;
 
-    /*Database column ismi*/
     @JsonBackReference(value = "contains-orders")
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "OrderId", insertable = false, updatable = false)
