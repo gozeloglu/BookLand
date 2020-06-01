@@ -225,14 +225,14 @@ class OrderViewAdmin extends StatelessWidget {
         children: <Widget>[
 
           Text("\t\tOrder Cost" ,style: TextStyle(fontWeight: FontWeight.bold,fontSize: 18), ),
-          Text("\t\t\$" + totalCost ,style: TextStyle(fontWeight: FontWeight.normal,fontSize: 15), ),
+          Text("\t\t\$" + ( double.parse(totalCost) - double.parse(shippingCost) ).toString() ,style: TextStyle(fontWeight: FontWeight.normal,fontSize: 15), ),
 
           Text("\t\tShipping Cost" ,style: TextStyle(fontWeight: FontWeight.bold,fontSize: 18), ),
           Text("\t\t\$" + shippingCost ,style: TextStyle(fontWeight: FontWeight.normal,fontSize: 15), ),
 
 
           Text("\t\tTotal Cost" ,style: TextStyle(fontWeight: FontWeight.bold,fontSize: 18), ),
-          Text("\t\t\$" +( double.parse(totalCost) + double.parse(shippingCost) ).toString(),style: TextStyle(fontWeight: FontWeight.normal,fontSize: 15), ),
+          Text("\t\t\$" +totalCost,style: TextStyle(fontWeight: FontWeight.normal,fontSize: 15), ),
           Text("\t\tCoupon Usage:" ,style: TextStyle(fontWeight: FontWeight.bold,fontSize: 18), ),
           Text("\t\t" + coupon ,style: TextStyle(fontWeight: FontWeight.normal,fontSize: 15), ),
 
