@@ -11,24 +11,6 @@ import 'package:bookland/services/http_admin.dart';
 
 class adminAddBook extends StatelessWidget {
   static const String _title = 'AdminAddBook';
-  @override
-  Widget build(BuildContext context) {
-    // TODO: implement build
-    return MaterialApp(
-      title: _title,
-      home: adminAddBookStatefulWidget(),
-    );
-  }
-}
-
-class adminAddBookStatefulWidget extends StatefulWidget {
-  adminAddBookStatefulWidget({Key key}) : super(key: key);
-
-  @override
-  _AdminAddBookPageState createState() => _AdminAddBookPageState();
-}
-
-class _AdminAddBookPageState extends State<adminAddBookStatefulWidget> {
   final HttpAdmin httpAdmin = HttpAdmin();
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   String isbn;
@@ -46,35 +28,36 @@ class _AdminAddBookPageState extends State<adminAddBookStatefulWidget> {
   TextEditingController book_nameController = new TextEditingController();
   TextEditingController book_categoryController = new TextEditingController();
   TextEditingController book_sub_categoryController =
-      new TextEditingController();
+  new TextEditingController();
   TextEditingController book_authorController = new TextEditingController();
   TextEditingController book_quantityController = new TextEditingController();
   TextEditingController book_hotlistController = new TextEditingController();
   TextEditingController book_imgController = new TextEditingController();
   TextEditingController book_descriptionController =
-      new TextEditingController();
+  new TextEditingController();
   TextEditingController book_priceController = new TextEditingController();
-
+  var globalAddBookContext;
   @override
   Widget build(BuildContext context) {
+    globalAddBookContext = context;
+
     // TODO: implement build
-    return MaterialApp(
-        theme: ThemeData(
-          primarySwatch: Colors.red,
+    return Scaffold(
+      appBar: MyAppBar(
+        pageTitle: "Add Book",
+        loginIcon: false,
+        back: true,
+        filter_list: false,
+        search: true,
+      ),
+      body: Container(
+        width: double.infinity,
+        padding: EdgeInsets.only(top: 10, bottom: 10),
+        child: new Stack(
+          children: <Widget>[_showForm()],
         ),
-        home: Scaffold(
-          appBar: MyAppBar(
-            pageTitle: "Add Book",
-            back: true,
-          ),
-          body: Container(
-            width: double.infinity,
-            padding: EdgeInsets.only(top: 10, bottom: 10),
-            child: new Stack(
-              children: <Widget>[_showForm()],
-            ),
-          ),
-        ));
+      ),
+    );
   }
 
   Widget _showForm() {
@@ -204,7 +187,7 @@ class _AdminAddBookPageState extends State<adminAddBookStatefulWidget> {
           ),
         ),
         validator: (value) =>
-            value.isEmpty ? 'Book Link cannot be empty' : null,
+        value.isEmpty ? 'Book Link cannot be empty' : null,
         //onSaved: (value) => _email = value.trim(),
       ),
     );
@@ -259,7 +242,7 @@ class _AdminAddBookPageState extends State<adminAddBookStatefulWidget> {
           ),
         ),
         validator: (value) =>
-            value.isEmpty ? 'Subcategory cannot be empty' : null,
+        value.isEmpty ? 'Subcategory cannot be empty' : null,
         //onSaved: (value) => _email = value.trim(),
       ),
     );
@@ -287,7 +270,7 @@ class _AdminAddBookPageState extends State<adminAddBookStatefulWidget> {
           ),
         ),
         validator: (value) =>
-            value.isEmpty ? 'Book ISBN cannot be empty' : null,
+        value.isEmpty ? 'Book ISBN cannot be empty' : null,
         //onSaved: (value) => _email = value.trim(),
       ),
     );
@@ -315,7 +298,7 @@ class _AdminAddBookPageState extends State<adminAddBookStatefulWidget> {
           ),
         ),
         validator: (value) =>
-            value.isEmpty ? 'Book author cannot be empty' : null,
+        value.isEmpty ? 'Book author cannot be empty' : null,
         //onSaved: (value) => _email = value.trim(),
       ),
     );
@@ -343,7 +326,7 @@ class _AdminAddBookPageState extends State<adminAddBookStatefulWidget> {
           ),
         ),
         validator: (value) =>
-            value.isEmpty ? 'Book Price cannot be empty' : null,
+        value.isEmpty ? 'Book Price cannot be empty' : null,
         //onSaved: (value) => _email = value.trim(),
       ),
     );
@@ -413,44 +396,19 @@ class _AdminAddBookPageState extends State<adminAddBookStatefulWidget> {
                 book_hotlist,
                 book_img,
                 book_description,
-                book_price );
+                book_price);
 
-           // print(result);
+            // print(result);
             //print("****" + errorControl.toString());
             Timer(Duration(seconds: 1), () {
-            if (errorControl == false) {
-              showDialog(
-                context: context,
-                builder: (BuildContext context) {
-                  // return object of type Dialog
-                  return AlertDialog(
-                    title: new Text("Add Book"),
-                    content: new Text("Adding book is successful"),
-                    actions: <Widget>[
-                      // usually buttons at the bottom of the dialog
-                      new FlatButton(
-                        child: new Text("Close"),
-                        onPressed: () {
-                          Navigator.of(context).pop();
-                        },
-                      ),
-                    ],
-                  );
-                },
-              );
-
-
-            }
-            else {
-              errorControl = false;
-              Timer(Duration(seconds: 1), () {
+              if (errorControl == false) {
                 showDialog(
-                  context: context,
+                  context: globalAddBookContext,
                   builder: (BuildContext context) {
                     // return object of type Dialog
                     return AlertDialog(
                       title: new Text("Add Book"),
-                      content: new Text(errorMessage),
+                      content: new Text("Adding book is successful"),
                       actions: <Widget>[
                         // usually buttons at the bottom of the dialog
                         new FlatButton(
@@ -463,8 +421,31 @@ class _AdminAddBookPageState extends State<adminAddBookStatefulWidget> {
                     );
                   },
                 );
-              });
-            }
+              }
+              else {
+                errorControl = false;
+                Timer(Duration(seconds: 1), () {
+                  showDialog(
+                    context: globalAddBookContext,
+                    builder: (BuildContext context) {
+                      // return object of type Dialog
+                      return AlertDialog(
+                        title: new Text("Add Book"),
+                        content: new Text(errorMessage),
+                        actions: <Widget>[
+                          // usually buttons at the bottom of the dialog
+                          new FlatButton(
+                            child: new Text("Close"),
+                            onPressed: () {
+                              Navigator.of(context).pop();
+                            },
+                          ),
+                        ],
+                      );
+                    },
+                  );
+                });
+              }
             });
             //TODO kullanıcya mesaj döndürülmeli
 
