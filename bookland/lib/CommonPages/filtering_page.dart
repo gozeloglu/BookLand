@@ -48,7 +48,10 @@ class _FilterPageState extends State<FilterStatefulWidget> {
         home: Scaffold(
           appBar: MyAppBar(
             pageTitle: "Filter Book",
+            loginIcon: false,
             back: false,
+            filter_list: false,
+            search: true,
           ),
 
           body: Container(

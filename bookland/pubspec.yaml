@@ -23,6 +23,7 @@ dependencies:
   grouped_buttons: ^1.0.4
   flutter_paginator: ^0.0.6
   flutter_webview_plugin: ^0.3.11
+  onesignal_flutter: ^2.0.0
   flutter:
     sdk: flutter
   # The following adds the Cupertino Icons font to your application.

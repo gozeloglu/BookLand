@@ -31,7 +31,10 @@ class adminCampaign extends StatelessWidget {
     return Scaffold(
       appBar: MyAppBar(
         pageTitle: "Create Campaign",
-        back: true,
+        loginIcon: false,
+        back: false,
+        filter_list: false,
+        search: true,
       ),
       body: Container(
         width: double.infinity,

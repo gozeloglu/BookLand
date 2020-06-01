@@ -20,11 +20,12 @@ class MyAppBar extends StatelessWidget with PreferredSizeWidget {
 
   @override
   Widget build(BuildContext context) {
-   // if (isAdmin == 1) {
-     // return adminAppBar(context);
-   // } else {
+    if (isAdmin == 1) {
+
+      return adminAppBar(context);
+    } else {
       return customerAppBar(context);
-   // }
+    }
   }
   Widget customerAppBar(BuildContext context){
     print("burasıııııııııııııııııııııııııııııııı");
@@ -97,25 +98,29 @@ class MyAppBar extends StatelessWidget with PreferredSizeWidget {
     );
   }
 
-/*
+
 
   Widget adminAppBar(BuildContext context) {
-    if (back == true) {
-      if (filter_list == true) {
+
         return AppBar(
           //backgroundColor: Colors.blue,
           title: Text(pageTitle,
               style:
                   TextStyle(color: Colors.white, fontWeight: FontWeight.bold)),
-          leading: new IconButton(
-            icon: new Icon(Icons.arrow_back, color: Colors.white),
-            onPressed: () {
-              Navigator.pop(context);
-            },
-          ),
+
           actions: <Widget>[
+            Visibility(
+                visible: back,
+            child: IconButton(
+              icon: new Icon(Icons.arrow_back, color: Colors.white),
+              onPressed: () {
+                Navigator.pop(context);
+              },
+            )),
             // action button
-            new IconButton(
+            Visibility(
+            visible: filter_list,
+            child :new IconButton(
               //child: new Text('OK', style: new TextStyle(color: Colors.white)),
               icon: new Icon(Icons.filter, color: Colors.white),
               color: Colors.green,
@@ -129,34 +134,13 @@ class MyAppBar extends StatelessWidget with PreferredSizeWidget {
                           new FilterStatefulWidget(pageTitle)), //TO
                 );
               },
-            ),
+            )),
           ],
         );
-      }
-      return AppBar(
-        title: Text(pageTitle,
-            style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold)),
-        //title: Text("Sign Up"),
-        centerTitle: true,
-        //drawer: ISADMIN == 1 ? MyDrawer(drawerHeader: "Hello Admin",) : MyDrawer(drawerHeader: "Hello User",),
 
-        leading: new IconButton(
-          icon: new Icon(Icons.arrow_back, color: Colors.white),
-          onPressed: () {
-            Navigator.pop(context);
-          },
-        ),
-      );
-    } else {
-      return AppBar(
-        title: Text(pageTitle,
-            style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold)),
-        //title: Text("Sign Up"),
-        centerTitle: true,
-        //drawer: ISADMIN == 1 ? MyDrawer(drawerHeader: "Hello Admin",) : MyDrawer(drawerHeader: "Hello User",),
-      );
-    }
-  }*/
+
+
+  }
 
   @override
   // TODO: implement preferredSize

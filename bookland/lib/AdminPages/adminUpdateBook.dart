@@ -9,49 +9,7 @@ import '../elements/appBar.dart';
 import 'package:bookland/services/http_admin.dart';
 
 import 'package:bookland/AdminPages/bookview.dart';
-/*
-void openPage(BuildContext context) {
-  Navigator.push(context, MaterialPageRoute(
-    builder: (BuildContext context) {
-      return Scaffold(
-        appBar: MyAppBar(pageTitle: "Update Book"),
-        body: Container(
-          child: Column(
-            children: <Widget>[
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: TextField(
-                  onChanged: (value) {},
-                  //controller: editingController,
-                  decoration: InputDecoration(
-                      labelText: "Search",
-                      hintText: "Search",
-                      prefixIcon: Icon(Icons.search),
-                      border: OutlineInputBorder(
-                          borderRadius:
-                              BorderRadius.all(Radius.circular(25.0)))),
-                ),
-              ),
-              Expanded(
-                child: ListView.builder(
-                  shrinkWrap: true,
-                  itemCount: 100,
-                  itemBuilder: (context, index) {
-                    return ListTile(
-                      title: Text(
-                          'book'), //https://blog.usejournal.com/flutter-search-in-listview-1ffa40956685
-                    );
-                  },
-                ),
-              ),
-            ],
-          ),
-        ),
-      );
-    },
-  ));
-}
-*/
+
 /***class adminUpdateBook extends StatelessWidget{
 
 
@@ -114,14 +72,13 @@ class adminUpdateBook extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
-    return MaterialApp(
-        theme: ThemeData(
-          primarySwatch: Colors.red,
-        ),
-        home: Scaffold(
+    return  Scaffold(
           appBar: MyAppBar(
             pageTitle: "Update Book",
+            loginIcon: false,
             back: true,
+            filter_list: false,
+            search: true,
           ),
           body: Container(
             width: double.infinity,
@@ -134,7 +91,7 @@ class adminUpdateBook extends StatelessWidget {
             drawerHeader: "Hello Admin",
           ),
           bottomNavigationBar: MyBottomNavigatorBar(),
-        ));
+        );
   }
 
   Widget _showForm(AsyncSnapshot book, BuildContext context) {
