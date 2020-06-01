@@ -140,7 +140,12 @@ class MyDrawer extends StatelessWidget {
         children: <Widget>[
           new UserAccountsDrawerHeader(
             accountName: Text("Admin", style: TextStyle(fontSize: 35)),
-            decoration: new BoxDecoration(color: Colors.red),
+            decoration: BoxDecoration(
+              image: DecorationImage(
+                image: AssetImage("assets/booklandLogo.png"),
+                fit: BoxFit.cover,
+              ),
+            ),
             margin: const EdgeInsets.only(bottom: 10.0),
           ),
           InkWell(

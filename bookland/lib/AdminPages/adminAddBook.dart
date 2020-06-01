@@ -45,8 +45,8 @@ class adminAddBook extends StatelessWidget {
     return Scaffold(
       appBar: MyAppBar(
         pageTitle: "Add Book",
-        loginIcon: false,
-        back: true,
+        loginIcon: true,
+        back: false,
         filter_list: false,
         search: true,
       ),

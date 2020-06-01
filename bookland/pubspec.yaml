@@ -66,6 +66,7 @@ flutter:
     - assets/shipping.png
     - assets/skyfall.png
     - assets/bookland__pp.png
+    - assets/booklandLogo.png
     - assets/booking/book1.jpg
     - assets/booking/book2.jpg
     - assets/booking/book3.jpg
@@ -84,7 +85,8 @@ flutter:
     - assets/orderdetails/background2.jpg
     - assets/orderdetails/background3.jpg
     - assets/orderdetails/backgroundAdmin.jpg
-    - assets/orderdetails/backgroundAdmin1.jpg
+    - assets/orderdetails/soft1.jpg
+    - assets/orderdetails/soft2.jpg
     - assets/mainPage/NBS.png
     - assets/mainPage/NC.png
     - assets/mainPage/NLR.png

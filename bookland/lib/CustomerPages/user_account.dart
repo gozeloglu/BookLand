@@ -28,7 +28,7 @@ class AccountPageStateless extends StatelessWidget {
             gradient: LinearGradient(
                 begin: Alignment.topRight,
                 end: Alignment.bottomLeft,
-                colors: [Colors.blue, Colors.red])),
+                colors: [ Colors.lightBlue.shade300, Colors.white])),
         //color: Colors.white,
         child: new ListView(
           children: <Widget>[

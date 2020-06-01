@@ -28,9 +28,19 @@ class MyAppBar extends StatelessWidget with PreferredSizeWidget {
     }
   }
   Widget customerAppBar(BuildContext context){
-    print("burasıııııııııııııııııııııııııııııııı");
     return AppBar(
-      title: Text(pageTitle,
+
+        flexibleSpace: Container(
+        decoration: BoxDecoration(
+        gradient: LinearGradient(
+        begin: Alignment.topLeft,
+        end: Alignment.bottomRight,
+        colors: <Color>[
+        Colors.lightBlue.shade300,
+        Colors.purpleAccent
+    ])
+    )),
+    title: Text(pageTitle,
           style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold)),
       centerTitle: true,
       actions: <Widget>[
@@ -69,7 +79,6 @@ class MyAppBar extends StatelessWidget with PreferredSizeWidget {
             color: Colors.green,
             padding: EdgeInsets.all(1.0),
             onPressed: () {
-              print(pageTitle);
               Navigator.push(
                 context,
                 new MaterialPageRoute(
@@ -101,9 +110,18 @@ class MyAppBar extends StatelessWidget with PreferredSizeWidget {
 
 
   Widget adminAppBar(BuildContext context) {
-
         return AppBar(
-          //backgroundColor: Colors.blue,
+          flexibleSpace: Container(
+              decoration: BoxDecoration(
+                  gradient: LinearGradient(
+                      begin: Alignment.topLeft,
+                      end: Alignment.bottomRight,
+                      colors: <Color>[
+                        Colors.red,
+                        Colors.purple,
+
+                      ])
+              )),
           title: Text(pageTitle,
               style:
                   TextStyle(color: Colors.white, fontWeight: FontWeight.bold)),
@@ -126,7 +144,6 @@ class MyAppBar extends StatelessWidget with PreferredSizeWidget {
               color: Colors.green,
               padding: EdgeInsets.all(1.0),
               onPressed: () {
-                print(pageTitle);
                 Navigator.push(
                   context,
                   new MaterialPageRoute(

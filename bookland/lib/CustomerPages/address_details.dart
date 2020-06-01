@@ -1,5 +1,6 @@
 import 'package:bookland/CustomerPages/address_update.dart';
 import 'package:bookland/CustomerPages/address_list.dart';
+import 'package:bookland/elements/appBar.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:bookland/services/http_address.dart';
@@ -34,8 +35,8 @@ class AddressDetails extends StatelessWidget {
     return MaterialApp(
       title: "Address Detail",
       home: Scaffold(
-        appBar: AppBar(
-          title: Text("Address Detail"),
+        appBar: MyAppBar(
+          pageTitle: "Address Detail",
         ),
         body: AddressDetailsLayout(),
       ),
@@ -68,7 +69,7 @@ class AddressDetailsState extends State<AddressDetailsLayout> {
             gradient: LinearGradient(
                 begin: Alignment.topRight,
                 end: Alignment.bottomLeft,
-                colors: [Colors.lightBlue, Colors.pinkAccent.shade200])),
+                colors: [Colors.lightBlue, Colors.green.shade200])),
         child :new Padding(
 
         padding: const EdgeInsets.all(32),
