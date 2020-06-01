@@ -24,7 +24,12 @@ class AccountPageStateless extends StatelessWidget {
         search: true,
       ),
       body: new Container(
-        color: Colors.white,
+        decoration: BoxDecoration(
+            gradient: LinearGradient(
+                begin: Alignment.topRight,
+                end: Alignment.bottomLeft,
+                colors: [Colors.blue, Colors.red])),
+        //color: Colors.white,
         child: new ListView(
           children: <Widget>[
             Column(
