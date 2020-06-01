@@ -87,6 +87,20 @@ public class BookSpecification implements Specification<Book> {
                 .get();
 
     }
+
+    public Specification<Book> forWordsAuthor(ArrayList<String> categories) {
+        if (categories == null || categories.isEmpty())
+            return new BookSpecification();
+        //throw new RuntimeException("List of categories cannot be empty.");
+
+        return (root, query, builder) -> categories.stream()
+                .map(String::toLowerCase)
+                .map(word -> "%" + word + "%")
+                .map(word -> builder.like(builder.lower(root.get("author")), word))
+                .reduce(builder::or)
+                .get();
+
+    }
    /* public static Specification<Book> spec() {
         return (root, query, cb) -> {
             final Join<Book, Price> prices = root.join("ISBN", JoinType.INNER);
