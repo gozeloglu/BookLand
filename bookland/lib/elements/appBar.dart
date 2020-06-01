@@ -75,7 +75,7 @@ class MyAppBar extends StatelessWidget with PreferredSizeWidget {
           visible: filter_list,
           child : IconButton(
             //child: new Text('OK', style: new TextStyle(color: Colors.white)),
-            icon: new Icon(Icons.filter, color: Colors.white),
+            icon: new Icon(Icons.filter_list, color: Colors.white),
             color: Colors.green,
             padding: EdgeInsets.all(1.0),
             onPressed: () {
@@ -140,7 +140,7 @@ class MyAppBar extends StatelessWidget with PreferredSizeWidget {
             visible: filter_list,
             child :new IconButton(
               //child: new Text('OK', style: new TextStyle(color: Colors.white)),
-              icon: new Icon(Icons.filter, color: Colors.white),
+              icon: new Icon(Icons.filter_list, color: Colors.white),
               color: Colors.green,
               padding: EdgeInsets.all(1.0),
               onPressed: () {

@@ -1,6 +1,7 @@
 import 'dart:convert';
 //import 'dart:html';
 
+import 'package:bookland/elements/appBar.dart';
 import 'package:bookland/services/globalVariable.dart';
 import 'package:bookland/CustomerPages/user_account.dart';
 import 'package:flutter/foundation.dart';
@@ -24,12 +25,13 @@ class NT extends StatelessWidget {
   Widget build(BuildContext context) {
     final title = 'Category';
 
-    return MaterialApp(
-      title: title,
-
-      home: Scaffold(
-        appBar: AppBar(
-          title: Text(title),
+    return Scaffold(
+        appBar: MyAppBar(
+            pageTitle: title,
+            loginIcon: false,
+            back: true,
+            filter_list: false,
+            search: true,
         ),
         backgroundColor: Colors.black,
 
@@ -82,7 +84,6 @@ class NT extends StatelessWidget {
             }
           },
         ),
-      ),
     );
   }
 

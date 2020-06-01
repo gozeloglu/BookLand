@@ -32,15 +32,16 @@ class AddressDetails extends StatelessWidget {
   }
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: "Address Detail",
-      home: Scaffold(
+    return Scaffold(
         appBar: MyAppBar(
           pageTitle: "Address Detail",
+          loginIcon: false,
+          back: true,
+          filter_list: false,
+          search: false,
         ),
         body: AddressDetailsLayout(),
-      ),
-    );
+      );
   }
 }
 
