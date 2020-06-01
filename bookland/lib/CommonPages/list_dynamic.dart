@@ -22,6 +22,7 @@ class List_DynamicStateless extends StatelessWidget {
   List_DynamicStateless(int bookId, String Category) {
     deletedBookId = bookId;
     title_category = Category;
+    print(title_category);
     if (isbnSet.contains(deletedBookId)) {
       isbnSet.remove(deletedBookId);
     }
@@ -54,7 +55,11 @@ class List_DynamicState extends State<List_DynamicPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: MyAppBar(pageTitle:title_category, back: true,filter_list: true),
+      appBar: MyAppBar(pageTitle:title_category ,
+        loginIcon: false,
+        back: true,
+        filter_list: true,
+        search: true,),
       body: Paginator.listView(
         key: paginatorGlobalKey,
         pageLoadFuture: sendBooksDataRequest,

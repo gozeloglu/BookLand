@@ -54,9 +54,10 @@ class Explore_FilteredState extends State<Explore_FilteredPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: MyAppBar(pageTitle: "Explore", loginIcon: false,
-        back: false,
-        filter_list: false,
+      appBar: MyAppBar(pageTitle: "Explore",
+        loginIcon: false,
+        back: true,
+        filter_list: true,
         search: true, ),
       body: Paginator.listView(
         key: paginatorGlobalKey,

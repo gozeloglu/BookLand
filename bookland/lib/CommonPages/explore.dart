@@ -33,7 +33,11 @@ class ExploreStateless extends StatelessWidget {
 
     
     return Scaffold(
-      appBar: MyAppBar(pageTitle: "Explore", back: true,filter_list:true ),
+      appBar: MyAppBar(pageTitle: "Explore",
+        loginIcon: false,
+        back: true,
+        filter_list: true,
+        search: true,),
       body: Paginator.listView(
       key: paginatorGlobalKey,
         pageLoadFuture: sendBooksDataRequest,
@@ -48,6 +52,7 @@ class ExploreStateless extends StatelessWidget {
       ),
 
       floatingActionButton: FloatingActionButton(
+
         onPressed: () {
           paginatorGlobalKey.currentState.changeState(
               pageLoadFuture: sendBooksDataRequest, resetState: true);

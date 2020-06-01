@@ -3,19 +3,7 @@ import 'package:bookland/elements/appBar.dart';
 import 'package:bookland/CommonPages/filtering_list.dart';
 
 String category_god ="-1";
-class filtering extends StatelessWidget {
-  static const String _title = 'Filter';
-
-  @override
-  Widget build(BuildContext context) {
-    // TODO: implement build
-    return MaterialApp(
-      title: _title,
-      home: FilterStatefulWidget(""),
-    );
-  }
-}
-class FilterStatefulWidget extends StatefulWidget {
+class FilterStatefulWidget extends StatelessWidget {
   FilterStatefulWidget(String title_category) {
     print("Filteropened");
     print(title_category);
@@ -30,22 +18,16 @@ class FilterStatefulWidget extends StatefulWidget {
   String filter_category;
   String filter_price;
 
-  @override
-  _FilterPageState createState() => _FilterPageState();
-}
 
-class _FilterPageState extends State<FilterStatefulWidget> {
   String chosenCat;
 
 
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
-    return MaterialApp(
-        theme: ThemeData(
-          primarySwatch: Colors.green,
-        ),
-        home: Scaffold(
+    return
+
+         Scaffold(
           appBar: MyAppBar(
             pageTitle: "Filter Book",
             loginIcon: false,
@@ -104,9 +86,9 @@ class _FilterPageState extends State<FilterStatefulWidget> {
                   color: Colors.purple,
                   onPressed:() { //TODO HTTPS CONNECTION SEND DATA PART
                     print("HTTTPPPP SENDDD");
-                        print(widget.filter_author);
-                        print(widget.filter_category);
-                        print(widget.filter_price);
+                        print(filter_author);
+                        print(filter_category);
+                        print(filter_price);
                     print("HTTTPPPP SENDDD");
 
                     /*if(widget.filter_author == null){
@@ -117,7 +99,7 @@ class _FilterPageState extends State<FilterStatefulWidget> {
                       widget.filter_price ="";
                     }*/
                     String filter_param = "";
-                    List<String> selectedList = [widget.filter_author,widget.filter_category,widget.filter_price];
+                    List<String> selectedList = [filter_author,filter_category,filter_price];
                     for (int i=0;i<3;i++){
                       if(selectedList[i] != null){
                         filter_param =filter_param +"&" + selectedList[i];
@@ -139,7 +121,7 @@ class _FilterPageState extends State<FilterStatefulWidget> {
               ],
             ),
           ),
-        )));
+        ));
   }_author_display(BuildContext context) async {
     final result = await Navigator.push(
       context,
@@ -147,7 +129,7 @@ class _FilterPageState extends State<FilterStatefulWidget> {
     );
     print("*********RESULT");
     print(result);
-    widget.filter_author = result;
+    filter_author = result;
 
   }_category_display(BuildContext context) async {
     final result = await Navigator.push(
@@ -156,7 +138,7 @@ class _FilterPageState extends State<FilterStatefulWidget> {
     );
     print("*********RESULT");
     print(result);
-    widget.filter_category = result;
+    filter_category = result;
 
   }_price_display(BuildContext context) async {
     final result = await Navigator.push(
@@ -165,7 +147,7 @@ class _FilterPageState extends State<FilterStatefulWidget> {
     );
     print("*********RESULT");
     print(result);
-    widget.filter_price= result;
+    filter_price= result;
   }
 }
 
@@ -182,7 +164,10 @@ class Price_FilterState extends State<Price_Filter> {
   @override
   Widget build(BuildContext context) {
     return new Scaffold(
-      appBar: new AppBar(title: new Text('Price Filter')),
+      appBar: new MyAppBar(pageTitle:  'Price Filter',loginIcon: false,
+        back: true,
+        filter_list: false,
+        search: false,),
       body: new ListView(
         children: book_price_dictionary.keys.map((String key) {
           return new CheckboxListTile(
@@ -275,7 +260,10 @@ class Category_FilterState extends State<Category_Filter> {
   @override
   Widget build(BuildContext context) {
     return new Scaffold(
-      appBar: new AppBar(title: new Text('Category Filter')),
+      appBar: new MyAppBar(pageTitle:  'Category Filter',loginIcon: false,
+      back: true,
+      filter_list: false,
+      search: false,),
       body: new ListView(
 
         children: (control_category(book_dictionary)).keys.map((String key) {
@@ -337,7 +325,10 @@ class Author_FilterState extends State<Author_Filter> {
   @override
   Widget build(BuildContext context) {
     return new Scaffold(
-      appBar: new AppBar(title: new Text('Category Filter')),
+      appBar: new MyAppBar(pageTitle:  'Category Filter',loginIcon: false,
+      back: true,
+      filter_list: false,
+      search: false,),
       body: new ListView(
         children: book_dictionary.keys.map((String key) {
           return new CheckboxListTile(
