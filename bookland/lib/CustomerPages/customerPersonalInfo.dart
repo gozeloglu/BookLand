@@ -33,8 +33,13 @@ class customerPersonalInfo extends StatelessWidget {
 
               print(snapshot.data.toString());
               return Container(
+                decoration: BoxDecoration(
+                    gradient: LinearGradient(
+                        begin: Alignment.topRight,
+                        end: Alignment.bottomLeft,
+                        colors: [Colors.blue, Colors.red])),
                 width: double.infinity,
-                padding: EdgeInsets.only(top: 20, bottom: 20),
+                padding: EdgeInsets.only(top: 20, bottom: 61),
                 child: new SingleChildScrollView(
                   child: Column(
                     children: <Widget>[

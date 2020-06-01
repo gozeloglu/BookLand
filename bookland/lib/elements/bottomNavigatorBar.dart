@@ -24,6 +24,11 @@ class MyBottomNavigatorBar extends StatelessWidget{
   Widget customerbottomNavi(BuildContext context){
     return BottomAppBar(
       child: Container(
+          decoration: BoxDecoration(
+              gradient: LinearGradient(
+                  begin: Alignment.topRight,
+                  end: Alignment.bottomLeft,
+                  colors: [Colors.lightBlue.shade300, Colors.greenAccent])),
           height: 50.0,
           child: Row(children: <Widget>[
             Text("           "),
@@ -74,6 +79,11 @@ class MyBottomNavigatorBar extends StatelessWidget{
     print("admiiiiin");
     return BottomAppBar(
       child: Container(
+          decoration: BoxDecoration(
+              gradient: LinearGradient(
+                  begin: Alignment.topRight,
+                  end: Alignment.bottomLeft,
+                  colors: [Colors.red, Colors.purple,Colors.red])),
           height: 50.0,
           child: Row(children: <Widget>[
             Text("           "), //TODO Değiştirilmesi gerek bu şekilde boşluk koymamalıyız
