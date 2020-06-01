@@ -28,7 +28,8 @@ class MyBottomNavigatorBar extends StatelessWidget{
               gradient: LinearGradient(
                   begin: Alignment.topRight,
                   end: Alignment.bottomLeft,
-                  colors: [Colors.lightBlue.shade300, Colors.greenAccent])),
+                  colors: [ Colors.lightBlue.shade300,
+                    Colors.purpleAccent.shade100])),
           height: 50.0,
           child: Row(children: <Widget>[
             Text("           "),
@@ -83,7 +84,7 @@ class MyBottomNavigatorBar extends StatelessWidget{
               gradient: LinearGradient(
                   begin: Alignment.topRight,
                   end: Alignment.bottomLeft,
-                  colors: [Colors.red, Colors.purple,Colors.red])),
+                  colors: [Colors.red, Colors.purple])),
           height: 50.0,
           child: Row(children: <Widget>[
             Text("           "), //TODO Değiştirilmesi gerek bu şekilde boşluk koymamalıyız

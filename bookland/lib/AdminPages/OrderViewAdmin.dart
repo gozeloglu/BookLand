@@ -20,8 +20,10 @@ class OrderViewAdmin extends StatelessWidget {
     return Scaffold(
         appBar: MyAppBar(
           pageTitle: "Admin Order Details",
-          // backgroundColor: Color(0xFFFF1744),
-          back: true,
+          loginIcon: true,
+          back: false,
+          filter_list: false,
+          search: true,
         ),
         body: FutureBuilder(
 
@@ -35,12 +37,12 @@ class OrderViewAdmin extends StatelessWidget {
               return Container(
                 width: double.infinity,
                 padding: EdgeInsets.only(top: 20, bottom: 20),
-                decoration: BoxDecoration(
+                /*decoration: BoxDecoration(
                   image: DecorationImage(
                     image: AssetImage("assets/orderdetails/backgroundAdmin.jpg"),
                     fit: BoxFit.cover,
                   ),
-                ),
+                ),*/
                 child: new SingleChildScrollView(
                   child: Column(
                     children: <Widget>[
@@ -100,7 +102,7 @@ class OrderViewAdmin extends StatelessWidget {
         //border: new Border.all(color: Colors.grey[500]),
         //color: Colors.indigo,
         image: DecorationImage(
-          image: AssetImage("assets/orderdetails/backgroundAdmin1.jpg"),
+          image: AssetImage("assets/orderdetails/soft2.jpg"),
           fit: BoxFit.fill,
 
         ),
@@ -137,7 +139,7 @@ class OrderViewAdmin extends StatelessWidget {
         //border: new Border.all(color: Colors.grey[500]),
         //color: Colors.indigo,
         image: DecorationImage(
-          image: AssetImage("assets/orderdetails/backgroundAdmin1.jpg"),
+          image: AssetImage("assets/orderdetails/soft2.jpg"),
           fit: BoxFit.fill,
 
         ),
@@ -172,7 +174,7 @@ class OrderViewAdmin extends StatelessWidget {
           //border: new Border.all(color: Colors.grey[500]),
           //color: Colors.indigo,
           image: DecorationImage(
-            image:AssetImage("assets/orderdetails/backgroundAdmin1.jpg"),
+            image:AssetImage("assets/orderdetails/soft2.jpg"),
             fit: BoxFit.fill,
 
           ),),
@@ -213,7 +215,7 @@ class OrderViewAdmin extends StatelessWidget {
         //border: new Border.all(color: Colors.grey[500]),
         //color: Colors.white,
         image: DecorationImage(
-          image: AssetImage("assets/orderdetails/backgroundAdmin1.jpg"),
+          image: AssetImage("assets/orderdetails/soft2.jpg"),
           fit: BoxFit.fill,
 
         ),
@@ -256,7 +258,7 @@ class OrderViewAdmin extends StatelessWidget {
         ),
         boxShadow: [
           BoxShadow(
-            color: Colors.deepOrange.withOpacity(1.0),
+            color: Colors.orangeAccent.withOpacity(1.0),
             spreadRadius: 5,
             blurRadius: 7,
             offset: Offset(0, 3), // changes position of shadow
