@@ -2,6 +2,8 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 
 class NotificationHttp {
+  /// This function sends notification to all users
+  /// TODO This function will be modified after notification page is created
   Future<String> sendNotification() async {
     String basicAuth = 'Basic ' +
         base64Encode(
