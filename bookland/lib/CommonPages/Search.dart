@@ -26,7 +26,7 @@ class Search extends StatelessWidget {
         appBar: MyAppBar(
           pageTitle: "Search",
           loginIcon: false,
-          back: true,
+          back: false,
           filter_list: false,
           search: true,
         ),

@@ -12,51 +12,7 @@ import 'package:bookland/AdminPages/OrderViewAdmin.dart';
 import 'package:flutter_paginator/flutter_paginator.dart';
 import 'package:bookland/services/HTTP.dart';
 import 'package:bookland/services/globalVariable.dart';
-/*
-void openPage(BuildContext context) {
-  Navigator.push(context, MaterialPageRoute(
-    builder: (BuildContext context) {
-      return Scaffold(
-        appBar: AppBar(
-          backgroundColor: Colors.red,
-          title: const Text('Search'),
-        ),
-        body: Container(
-          child: Column(
-            children: <Widget>[
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: TextField(
-                  onChanged: (value) {},
-                  //controller: editingController,
-                  decoration: InputDecoration(
-                      labelText: "Search",
-                      hintText: "Search",
-                      prefixIcon: Icon(Icons.search),
-                      border: OutlineInputBorder(
-                          borderRadius:
-                          BorderRadius.all(Radius.circular(25.0)))),
-                ),
-              ),
-              Expanded(
-                child: ListView.builder(
-                  shrinkWrap: true,
-                  itemCount: 100,
-                  itemBuilder: (context, index) {
-                    return ListTile(
-                      title: Text(
-                          'book'), //https://blog.usejournal.com/flutter-search-in-listview-1ffa40956685
-                    );
-                  },
-                ),
-              ),
-            ],
-          ),
-        ),
-      );
-    },
-  ));
-}*/
+
 
 
 Map<String, IconData> iconMapping = {
@@ -108,7 +64,11 @@ class AdminOrdersState extends State<AdminOrdersPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar:  MyAppBar(
-        pageTitle: "Order", back: false,
+        pageTitle: "Order",
+        loginIcon: false,
+        back: false,
+        filter_list: false,
+        search: true,
       ),
       drawer: MyDrawer(
         drawerHeader: "Hello Admin",

@@ -63,7 +63,14 @@ class AddressDetailsState extends State<AddressDetailsLayout> {
   Widget _addressDetailView(BuildContext context) {
     print(_userId);
     print(_addressId);
-    return new Padding(
+    return Container(
+        decoration: BoxDecoration(
+            gradient: LinearGradient(
+                begin: Alignment.topRight,
+                end: Alignment.bottomLeft,
+                colors: [Colors.lightBlue, Colors.pinkAccent.shade200])),
+        child :new Padding(
+
         padding: const EdgeInsets.all(32),
         child: new Column(
             //mainAxisSize: MainAxisSize.max,
@@ -171,6 +178,6 @@ class AddressDetailsState extends State<AddressDetailsLayout> {
                       ),
                     ),
                   ]),
-            ]));
+            ])));
   }
 }

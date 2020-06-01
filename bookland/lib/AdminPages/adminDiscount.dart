@@ -6,49 +6,7 @@ import 'package:flutter/material.dart';
 import '../elements/appBar.dart';
 import 'package:bookland/services/http_admin.dart';
 import 'package:bookland/AdminPages/bookview.dart';
-/*
-void openPage(BuildContext context) {
-  Navigator.push(context, MaterialPageRoute(
-    builder: (BuildContext context) {
-      return Scaffold(
-        appBar: MyAppBar(pageTitle: "Discount Book"),
-        body: Container(
-          child: Column(
-            children: <Widget>[
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: TextField(
-                  onChanged: (value) {},
-                  //controller: editingController,
-                  decoration: InputDecoration(
-                      labelText: "Search",
-                      hintText: "Search",
-                      prefixIcon: Icon(Icons.search),
-                      border: OutlineInputBorder(
-                          borderRadius:
-                          BorderRadius.all(Radius.circular(25.0)))),
-                ),
-              ),
-              Expanded(
-                child: ListView.builder(
-                  shrinkWrap: true,
-                  itemCount: 100,
-                  itemBuilder: (context, index) {
-                    return ListTile(
-                      title: Text(
-                          'book'), //https://blog.usejournal.com/flutter-search-in-listview-1ffa40956685
-                    );
-                  },
-                ),
-              ),
-            ],
-          ),
-        ),
-      );
-    },
-  ));
-}
-*/
+
 // ignore: slash_for_doc_comments
 /***class adminUpdateBook extends StatelessWidget{
 
@@ -102,7 +60,10 @@ class adminDiscount extends StatelessWidget {
         home: Scaffold(
           appBar: MyAppBar(
             pageTitle: "Discount Book",
+            loginIcon: false,
             back: true,
+            filter_list: false,
+            search: true,
           ),
           body: Container(
             width: double.infinity,
