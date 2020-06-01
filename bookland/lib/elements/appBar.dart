@@ -4,6 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import 'package:bookland/CommonPages/Search.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import '../login.dart';
 import '../main.dart';
 // appbar hata verirse 4 bool değişkeninin değerleri yerleştirilmeli
@@ -75,8 +76,8 @@ class MyAppBar extends StatelessWidget with PreferredSizeWidget {
           visible: filter_list,
           child : IconButton(
             //child: new Text('OK', style: new TextStyle(color: Colors.white)),
-            icon: new Icon(Icons.filter_list, color: Colors.white),
-            color: Colors.green,
+            icon: FaIcon(FontAwesomeIcons.filter, color: Colors.white,
+            size: 18),
             padding: EdgeInsets.all(1.0),
             onPressed: () {
               Navigator.push(
@@ -140,8 +141,8 @@ class MyAppBar extends StatelessWidget with PreferredSizeWidget {
             visible: filter_list,
             child :new IconButton(
               //child: new Text('OK', style: new TextStyle(color: Colors.white)),
-              icon: new Icon(Icons.filter_list, color: Colors.white),
-              color: Colors.green,
+              icon: FaIcon(FontAwesomeIcons.filter, color: Colors.white,
+              size: 18),
               padding: EdgeInsets.all(1.0),
               onPressed: () {
                 Navigator.push(
