@@ -4,10 +4,7 @@ import com.bookland.demobookland.model.Campaign;
 import com.bookland.demobookland.model.Contains;
 import com.bookland.demobookland.model.Customer;
 import com.bookland.demobookland.model.Order;
-import com.bookland.demobookland.model.projections.CustomerInfoProjection;
-import com.bookland.demobookland.model.projections.OrderAdminSimpleProjection;
-import com.bookland.demobookland.model.projections.OrderDetailAdminProjection;
-import com.bookland.demobookland.model.projections.OrderDifferentProjection;
+import com.bookland.demobookland.model.projections.*;
 import com.bookland.demobookland.repository.CampaignRepository;
 import com.bookland.demobookland.repository.CustomerRepository;
 import com.bookland.demobookland.repository.OrderRepository;
@@ -372,6 +369,35 @@ public class AdminServices {
 
     public Long getCustomerCount() {
         return customerRepository.count();
+    }
+
+    public List<UserSearchProjection> getCustomerBySearchCriteria(Integer pageNo, Integer pageSize, String keyword) {
+        try {
+            Integer customerId = Integer.parseInt(keyword);
+            Pageable paging = PageRequest.of(pageNo, pageSize);
+            Page<UserSearchProjection> pagedResult = customerRepository.findByCustomerId(paging, customerId);
+
+            return pagedResult.toList();
+        } catch (Exception e) {
+            Pageable paging = PageRequest.of(pageNo, pageSize);
+            Page<UserSearchProjection> pagedResult = customerRepository.findByFirstNameContainsOrSurnameContainsOrEmailContains(paging, keyword, keyword, keyword);
+
+            return pagedResult.toList();
+        }
+
+    }
+
+    public Long getCustomerCountBySearchCriteria(String keyword) {
+        try {
+            Integer customerId = Integer.parseInt(keyword);
+            List<UserSearchProjection> result = customerRepository.findAllByCustomerId(customerId);
+
+            return (long) result.size();
+        } catch (Exception e) {
+            List<UserSearchProjection> result = customerRepository.findByFirstNameContainsOrSurnameContainsOrEmailContains(keyword, keyword, keyword);
+            return (long) result.size();
+        }
+
     }
 }
 

@@ -104,7 +104,8 @@ public class BookController {
 
     @GetMapping(value = "/Filtering/{pageNo}/{pageSize}", produces = MediaType.APPLICATION_JSON_VALUE)
     public List<BookDetailsProjection> getBookByFilters(@PathVariable Integer pageNo, @PathVariable Integer pageSize,
-                                                        @RequestParam(value = "author", defaultValue = "undefined") String author,
+                                                        /*@RequestParam(value = "author", defaultValue = "undefined") String author*/
+                                                        @RequestParam(value = "author", defaultValue = "") ArrayList<String> author,
                                                         @RequestParam(value = "categories", defaultValue = "") ArrayList<String> categories,
                                                         @RequestParam(value = "minPrice", defaultValue = "-1") Integer minPrice,
                                                         @RequestParam(value = "maxPrice", defaultValue = "-1") Integer maxPrice) {

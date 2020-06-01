@@ -16,6 +16,7 @@ import 'package:bookland/CustomerPages/comment_view.dart';
 
 
 import '../services/http_customer.dart';
+import 'package:smooth_star_rating/smooth_star_rating.dart';
 
 /// This class contains the objects which is the same in GET allBooks method
 
@@ -70,7 +71,7 @@ class CustomerBookView extends StatelessWidget {
                       Text("\n"),
                       imageBook((snapshot.data.details.bookImage).toString()),
                       Post(),
-                      stars(),
+                      stars(snapshot.data.vote.toString()),
                       author((snapshot.data.details.author).toString()),
                       Text("\n"),
                       category((snapshot.data.details.category).toString()),
@@ -120,15 +121,25 @@ class CustomerBookView extends StatelessWidget {
     );
   }
 
-  Widget stars() {
+  Widget stars(String voteRatio) {
+    double vote ;
+    if(voteRatio.toString() == "0.0"){
+      vote = 0;
+    }else{
+      vote = double.parse(voteRatio);
+    }
+    print(vote);
     return Row(
       mainAxisSize: MainAxisSize.min,
       children: [
-        Icon(Icons.star, color: Colors.green[500]),
-        Icon(Icons.star, color: Colors.green[500]),
-        Icon(Icons.star, color: Colors.green[500]),
-        Icon(Icons.star, color: Colors.black),
-        Icon(Icons.star, color: Colors.black),
+        IconTheme(
+          data: IconThemeData(
+            color: Colors.amber,
+            size: 48,
+          ),
+          child: StarRating(rating : vote,color: Colors.yellow,) ,//StarDisplay(value: vote),
+        ),
+
       ],
     );
   }
@@ -596,4 +607,41 @@ class PostState extends State<Post> {
 class PostHeader extends StatelessWidget {
   @override
   Widget build(BuildContext context) {}
+}
+
+class StarRating extends StatelessWidget {
+  final int starCount;
+  final double rating;
+  final Color color;
+
+  StarRating({this.starCount = 5, this.rating = .0,  this.color});
+
+  Widget buildStar(BuildContext context, int index) {
+    Icon icon;
+    if (index >= rating) {
+      icon = new Icon(
+        Icons.star_border,
+        color: Theme.of(context).buttonColor,
+      );
+    }
+    else if (index > rating - 1 && index < rating) {
+      icon = new Icon(
+        Icons.star_half,
+        color: color ?? Theme.of(context).primaryColor,
+      );
+    } else {
+      icon = new Icon(
+        Icons.star,
+        color: color ?? Theme.of(context).primaryColor,
+      );
+    }
+    return new InkResponse(
+      child: icon,
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return new Row(children: new List.generate(starCount, (index) => buildStar(context, index)));
+  }
 }
