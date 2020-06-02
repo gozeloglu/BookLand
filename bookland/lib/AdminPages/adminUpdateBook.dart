@@ -76,7 +76,7 @@ class adminUpdateBook extends StatelessWidget {
           appBar: MyAppBar(
             pageTitle: "Update Book",
             loginIcon: false,
-            back: true,
+            back: false,
             filter_list: false,
             search: true,
           ),
@@ -87,9 +87,7 @@ class adminUpdateBook extends StatelessWidget {
               children: <Widget>[_showForm(book, context)],
             ),
           ),
-          drawer: MyDrawer(
-            drawerHeader: "Hello Admin",
-          ),
+
           bottomNavigationBar: MyBottomNavigatorBar(),
         );
   }

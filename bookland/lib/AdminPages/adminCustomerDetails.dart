@@ -23,7 +23,10 @@ class adminCustomerDetails extends StatelessWidget {
         appBar: MyAppBar(
           pageTitle: customerId.toString(),
           // backgroundColor: Color(0xFFFF1744),
-          back: true,
+          back: false,
+          loginIcon: false,
+          filter_list: false,
+          search: false,
         ),
         body: FutureBuilder(
           future: httpAdmin.adminGetCustomerDetails(customerId),
