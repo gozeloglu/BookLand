@@ -1,4 +1,6 @@
 import 'package:bookland/CustomerPages/address_select.dart';
+import 'package:bookland/elements/appBar.dart';
+import 'package:bookland/elements/bottomNavigatorBar.dart';
 import 'package:flutter/material.dart';
 import 'package:bookland/main.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -21,14 +23,16 @@ class Basket extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     _sharedPrefBooks.getOrdersFromSharedPref(customerID);
-    return MaterialApp(
-      title: "My Basket",
-      home: Scaffold(
-        appBar: AppBar(
-          title: Text("My Basket"),
-          centerTitle: true,
+    return Scaffold(
+        appBar: MyAppBar(
+          pageTitle: "My Basket",
+          loginIcon: false,
+          back: false,
+          filter_list: false,
+          search: false,
         ),
         body: BasketLayout(),
+        bottomNavigationBar: MyBottomNavigatorBar(),
         floatingActionButton: FloatingActionButton(
           child: Icon(Icons.navigate_next),
           backgroundColor: Colors.green,
@@ -78,8 +82,7 @@ class Basket extends StatelessWidget {
             }
           },
         ),
-      ),
-    );
+      );
   }
 }
 

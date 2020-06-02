@@ -1,5 +1,7 @@
 import 'package:bookland/CustomerPages/basket.dart';
 import 'package:bookland/CustomerPages/customer_address_add.dart';
+import 'package:bookland/elements/appBar.dart';
+import 'package:bookland/elements/bottomNavigatorBar.dart';
 import 'package:bookland/services/http_address.dart';
 import 'package:flutter/material.dart';
 import 'package:bookland/main.dart';
@@ -9,13 +11,16 @@ import 'package:bookland/CommonPages/ShippingCompany.dart';
 class AddressSelect extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: "Address Selection",
-      home: Scaffold(
-        appBar: AppBar(
-          title: Text("Address Selection"),
+    return Scaffold(
+        appBar: MyAppBar(
+          pageTitle: "Address Selection",
+          loginIcon: false,
+          back: false,
+          search: false,
+          filter_list: false,
         ),
         body: AddressSelectLayout(),
+        bottomNavigationBar: MyBottomNavigatorBar(),
         floatingActionButton: FloatingActionButton(
           child: Icon(Icons.add),
           backgroundColor: Colors.green,
@@ -27,8 +32,7 @@ class AddressSelect extends StatelessWidget {
             );
           },
         ),
-      ),
-    );
+      );
   }
 }
 

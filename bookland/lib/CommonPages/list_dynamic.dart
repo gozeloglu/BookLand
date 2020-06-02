@@ -3,6 +3,7 @@ import 'dart:collection';
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:bookland/AdminPages/bookview.dart';
 import 'package:bookland/CustomerPages/customerBookView.dart';
 import 'package:bookland/elements/appBar.dart';
 import 'package:bookland/elements/bottomNavigatorBar.dart';
@@ -10,6 +11,8 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
 import 'package:flutter_paginator/flutter_paginator.dart';
+
+import '../main.dart';
 
 int total = 0;
 SplayTreeSet isbnSet = new SplayTreeSet();
@@ -32,12 +35,8 @@ class List_DynamicStateless extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     globalList_DynamicContext = context;
-    return MaterialApp(
-      theme: ThemeData(
-        primarySwatch: Colors.red,
-      ),
-      title: title_category,
-      home: List_DynamicPage(),
+    return Scaffold(
+      body: List_DynamicPage(),
     );
   }
 }
@@ -57,7 +56,7 @@ class List_DynamicState extends State<List_DynamicPage> {
     return Scaffold(
       appBar: MyAppBar(pageTitle:title_category ,
         loginIcon: false,
-        back: true,
+        back: false,
         filter_list: true,
         search: true,),
       body: Paginator.listView(
@@ -190,13 +189,23 @@ class List_DynamicState extends State<List_DynamicPage> {
             fontWeight: FontWeight.bold,
           ),) ,
           onTap: () {
-            Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) =>
-                  // new BookView(isbn: isbnSet.elementAt(index).toString()),
-                  new CustomerBookView(isbn: bookid_send),
-                ));
+            if(isAdmin == 1){
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) =>
+                    // new BookView(isbn: isbnSet.elementAt(index).toString()),
+                    new BookView(isbn: bookid_send),
+                  ));
+            }else{
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) =>
+                    // new BookView(isbn: isbnSet.elementAt(index).toString()),
+                    new CustomerBookView(isbn: bookid_send),
+                  ));
+            }
           });
     }else{
       final_text = final_text + last_price_part + " \$";

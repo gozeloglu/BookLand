@@ -126,7 +126,7 @@ class _PaymentPageState extends State<PaymentStatefulWidget> {
           appBar: MyAppBar(
             pageTitle: "Payment",
             loginIcon: false,
-            back: true,
+            back: false,
             filter_list: false,
             search: false,
           ),

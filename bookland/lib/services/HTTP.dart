@@ -130,9 +130,9 @@ class HTTPAll {
       Error msg = Error.fromJson(json.decode(response.body));
       errorControl = true;
       errorMessage = msg.errors[0].toString();
-      print(response.body);
-      print(msg.errors[0].toString());
-      print("-----" + errorControl.toString());
+      //print(response.body);
+      //print(msg.errors[0].toString());
+     // print("-----" + errorControl.toString());
       return "SORRRY" ;
     }
   }

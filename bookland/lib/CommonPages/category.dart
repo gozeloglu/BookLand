@@ -2,6 +2,7 @@ import 'dart:convert';
 //import 'dart:html';
 
 import 'package:bookland/elements/appBar.dart';
+import 'package:bookland/elements/bottomNavigatorBar.dart';
 import 'package:bookland/services/globalVariable.dart';
 import 'package:bookland/CustomerPages/user_account.dart';
 import 'package:flutter/foundation.dart';
@@ -29,7 +30,7 @@ class NT extends StatelessWidget {
         appBar: MyAppBar(
             pageTitle: title,
             loginIcon: false,
-            back: true,
+            back: false,
             filter_list: false,
             search: true,
         ),
@@ -84,6 +85,7 @@ class NT extends StatelessWidget {
             }
           },
         ),
+      bottomNavigationBar: MyBottomNavigatorBar(),
     );
   }
 
