@@ -1,7 +1,6 @@
 package com.bookland.demobookland.model;
 
 import com.bookland.demobookland.model.validationGroups.OrderCreation;
-import com.bookland.demobookland.model.validationGroups.SaveCardGroup;
 import lombok.Data;
 import org.hibernate.validator.constraints.Length;
 

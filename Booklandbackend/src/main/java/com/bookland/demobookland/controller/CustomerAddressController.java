@@ -9,7 +9,6 @@ import org.springframework.http.MediaType;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
-import javax.persistence.EntityManager;
 import javax.transaction.Transactional;
 import java.util.List;
 
@@ -18,9 +17,6 @@ public class CustomerAddressController {
 
     @Autowired
     private CustomerAddressServices customerAddressServices;
-
-    @Autowired
-    private EntityManager em;
 
     @Transactional
     @PostMapping(value = "/saveAddress/{customerId}", produces = MediaType.APPLICATION_JSON_VALUE)

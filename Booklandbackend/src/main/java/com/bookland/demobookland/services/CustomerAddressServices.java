@@ -16,7 +16,6 @@ import java.util.List;
 @Service
 public class CustomerAddressServices {
 
-
     @Autowired
     private CustomerRepository customerRepository;
 
@@ -87,7 +86,6 @@ public class CustomerAddressServices {
             }
             return "Address Updated";
         } catch (Exception e) {
-            System.out.println(e);
             return "Address cannot updated";
 
         }

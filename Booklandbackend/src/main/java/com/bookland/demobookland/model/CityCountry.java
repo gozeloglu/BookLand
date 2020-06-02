@@ -31,7 +31,6 @@ public class CityCountry {
     @JsonBackReference
     @OneToMany(fetch = FetchType.LAZY,
             mappedBy = "city")
-    //orphanRemoval = true)
     private List<PostalCodeCity> postalCodeCities = new ArrayList<>();
 
 }

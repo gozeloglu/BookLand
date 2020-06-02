@@ -3,8 +3,6 @@ package com.bookland.demobookland.services;
 import com.bookland.demobookland.model.Book;
 import com.bookland.demobookland.model.Comment;
 import com.bookland.demobookland.model.Customer;
-import com.bookland.demobookland.model.Price;
-import com.bookland.demobookland.model.projections.BestSellerProjection;
 import com.bookland.demobookland.model.projections.LoginInterface;
 import com.bookland.demobookland.repository.BookRepository;
 import com.bookland.demobookland.repository.CommentRepository;
@@ -16,14 +14,11 @@ import org.springframework.stereotype.Service;
 
 import javax.security.auth.login.LoginException;
 import javax.transaction.Transactional;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Optional;
 
 @Service
 
 public class CustomerServices {
-    /*Injection of repository*/
     @Autowired
     private PasswordEncoder encoder;
 
@@ -50,7 +45,6 @@ public class CustomerServices {
         }
     }
 
-
     /*Returns existing customer id if login is successful*/
     public LoginInterface getLogin(Customer customer) throws LoginException {
         LoginInterface loginUser = customerRepository.findAllByEmail(customer.getEmail());
@@ -71,13 +65,15 @@ public class CustomerServices {
 
     }
 
+    @Transactional
     public Comment comment(Integer bookId, Integer customerId, Comment comment) {
         comment.setBookId(bookId);
         comment.setCustomerId(customerId);
         return commentRepository.save(comment);
     }
 
-    public Customer updateCustomer(Customer customer, Integer customerId) throws LoginException {
+    @Transactional
+    public Customer updateCustomer(Customer customer, Integer customerId) {
         try {
             Customer currentCustomer = customerRepository.findByCustomerId(customerId);
             if (customer.getFirstName() != null) {

@@ -36,12 +36,6 @@ public class Address {
     @NotBlank(message = "Give an address title", groups = AddAddressGroup.class)
     private String addressTitle;
 
-    /*Merge updates if the postal code exist.For example if we have a record in database like 06530-Ankara
-     * and if we call saveAddress with parameters 06530-Istanbul it will update as 06530-Istanbul in database
-     * in real life for a city postal codes are unique so there cannot be situation like this so that's why it does
-     * not create a problem*/
-
-    //@JsonManagedReference
     @Valid
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.MERGE)
     @JoinColumn(name = "postalCode")

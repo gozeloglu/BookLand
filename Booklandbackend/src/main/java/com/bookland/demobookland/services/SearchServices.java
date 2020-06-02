@@ -11,6 +11,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -22,11 +23,10 @@ public class SearchServices {
     @Autowired
     private BookRepository bookRepository;
 
-
     @Autowired
     private SearchRepository searchRepository;
 
-
+    @Transactional
     public List<ExplorePageProjection> getBookBySearchCriteria(Integer pageNo, Integer pageSize, Integer customerId, String keyword) {
         try {
             Long isbn = Long.parseLong(keyword);
@@ -78,8 +78,6 @@ public class SearchServices {
         if (customerId.equals(-1)) {
             return bookRepository.findTop10ByInHotListEquals(1);
         }
-
-        /*top5 yaparsan son 5 aradığı kelimeye göre önerilen kitapları getirir*/
         List<KeywordProjection> lastSearchedWords = searchRepository.findTop10ByCustomerIdOrderByReleasedTimeDesc(customerId);
 
         /*If there is no search history just recommend the last released books or decide what to show later*/

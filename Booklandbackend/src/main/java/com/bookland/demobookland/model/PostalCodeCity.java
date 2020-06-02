@@ -26,14 +26,12 @@ public class PostalCodeCity {
     @NotBlank(message = "PostalCode cannot be empty", groups = AddAddressGroup.class)
     private String postalCode;
 
-    //@JsonManagedReference
     @Valid
     @NotNull(message = "City cannot be empty", groups = AddAddressGroup.class)
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.MERGE)
     @JoinColumn(name = "city")
     private CityCountry city;
 
-    /*For result set and the relationship*/
     @JsonBackReference
     @OneToMany(fetch = FetchType.LAZY
             , mappedBy = "postalCodeCity")

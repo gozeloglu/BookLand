@@ -9,7 +9,6 @@ import org.springframework.http.MediaType;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
-import javax.transaction.Transactional;
 import java.util.List;
 import java.util.Map;
 
@@ -18,7 +17,6 @@ public class PaymentController {
     @Autowired
     private PaymentServices paymentServices;
 
-    @Transactional
     @PostMapping(value = "/createOrder/{customerId}/{addressId}/{shippingId}", produces = MediaType.APPLICATION_JSON_VALUE)
     public String orderCreation(@Validated(OrderCreation.class) @RequestBody OrderCreateDao orderInfo,
                                 @PathVariable Integer customerId, @PathVariable Integer addressId,

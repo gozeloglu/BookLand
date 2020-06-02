@@ -29,7 +29,6 @@ public class CommentServices {
         for (Comment comment : commentsBook) {
             Integer commenter_id = comment.getCustomerId();
             Customer commenter = customerRepository.findByCustomerId(commenter_id);
-            System.out.println(commenter.getFirstName());
             commentsProjection.add(CommentConvert(commenter.getFirstName(), commenter.getSurname(), comment.getCommentText()));
         }
         return commentsProjection;
