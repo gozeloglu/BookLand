@@ -57,6 +57,10 @@ class BookView extends StatelessWidget {
                       Text("\n"),
                       quantity((snapshot.data.details.quantity).toString()),
                       Text("\n"),
+                      (snapshot.data.details.inDiscount == 1)
+                          ? firstPrice(
+                          (snapshot.data.details.firstPrice).toString())
+                          : emptyWidget(),
                       priceBook((snapshot.data.details.price).toString()),
                       description((snapshot.data.details.description).toString()),
                       Text("\n"),
@@ -84,6 +88,62 @@ class BookView extends StatelessWidget {
         ),
         bottomNavigationBar: MyBottomNavigatorBar()
     );
+  }
+
+
+  Widget emptyWidget() {
+    mainAxisSize:
+    MainAxisSize.min;
+    return new Row(
+      children: <Widget>[Text(" ")],
+    );
+  }
+
+  //Discountsuz hali
+  Widget firstPrice(String price) {
+    String stringPrice;
+    double realPrice = double.parse(
+        price); //Convert to double the string price that comes from parameters
+    stringPrice = realPrice
+        .toStringAsFixed(2); //Convert to string with 2 digits fractional part.
+
+    var fiyatNum = Row(
+      mainAxisAlignment: MainAxisAlignment.start,
+      children: <Widget>[
+        Text(
+          stringPrice,
+          style: TextStyle(
+            decoration: TextDecoration.lineThrough,
+            decorationThickness: 2.5,
+            decorationColor: Colors.red,
+            color: Color.fromARGB(140, 0, 0, 0),
+            fontSize: 30,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+        Text(
+          '\$',
+          style: TextStyle(
+            color: Color.fromARGB(140, 0, 0, 0),
+            decoration: TextDecoration.lineThrough,
+            fontSize: 30,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+      ],
+    );
+    var fiyat = Text(
+      '             ',
+      style: TextStyle(
+        fontSize: 20,
+        fontWeight: FontWeight.bold,
+      ),
+    );
+
+    return new Row(mainAxisAlignment: MainAxisAlignment.spaceEvenly, children: [
+      fiyat,
+      fiyatNum,
+    ]);
   }
 
   Widget imageBook(String url) {
