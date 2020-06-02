@@ -58,7 +58,7 @@ class Explore_FilteredState extends State<Explore_FilteredPage> {
       appBar: MyAppBar(pageTitle: "Explore",
         loginIcon: false,
         back: true,
-        filter_list: true,
+        filter_list: false,
         search: true, ),
       body: Paginator.listView(
         key: paginatorGlobalKey,

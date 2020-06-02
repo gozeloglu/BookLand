@@ -1,5 +1,6 @@
 import 'package:bookland/CustomerPages/customer_address_add.dart';
 import 'package:bookland/elements/appBar.dart';
+import 'package:bookland/elements/bottomNavigatorBar.dart';
 import 'package:bookland/services/http_address.dart';
 import 'package:flutter/material.dart';
 import 'package:bookland/main.dart';
@@ -11,11 +12,12 @@ class MyAddresses extends StatelessWidget {
     return  Scaffold(
         appBar: MyAppBar( pageTitle : "My Addresses",
           loginIcon: false,
-          back: true,
+          back: false,
           filter_list: false,
-          search: true,
+          search: false,
         ),
         body: MyAddressLayout(),
+        bottomNavigationBar: MyBottomNavigatorBar(),
         floatingActionButton: FloatingActionButton(
           child: Icon(Icons.add),
           backgroundColor: Colors.green,

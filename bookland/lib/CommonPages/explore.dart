@@ -107,6 +107,7 @@ class ExploreStateless extends StatelessWidget {
         _url,
         headers: <String, String>{'authorization': basicAuth},
       );
+      print(response.body);
       return BooksData.fromResponse(response);
     } catch (e) {
       if (e is IOException) {
@@ -312,6 +313,7 @@ class BooksData {
     }
     //oldPriceList = oldPrice_List ;
     nItems = books.length;
+
   }
 
   BooksData.withError(String errorMessage) {

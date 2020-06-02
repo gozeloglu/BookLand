@@ -1,6 +1,7 @@
 import 'package:bookland/CustomerPages/address_update.dart';
 import 'package:bookland/CustomerPages/address_list.dart';
 import 'package:bookland/elements/appBar.dart';
+import 'package:bookland/elements/bottomNavigatorBar.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:bookland/services/http_address.dart';
@@ -36,11 +37,12 @@ class AddressDetails extends StatelessWidget {
         appBar: MyAppBar(
           pageTitle: "Address Detail",
           loginIcon: false,
-          back: true,
+          back: false,
           filter_list: false,
           search: false,
         ),
         body: AddressDetailsLayout(),
+      bottomNavigationBar: MyBottomNavigatorBar(),
       );
   }
 }

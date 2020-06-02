@@ -1,4 +1,5 @@
 import 'package:bookland/elements/appBar.dart';
+import 'package:bookland/elements/bottomNavigatorBar.dart';
 import 'package:flutter/material.dart';
 import 'package:bookland/services/HTTP.dart';
 import 'package:bookland/model/model_shippingcompany.dart';
@@ -29,7 +30,7 @@ class ShippingCompanyState extends State<ShippingCompany> {
         appBar: MyAppBar(
           pageTitle: "Shipping Companies",
             loginIcon: false,
-            back: true,
+            back: false,
             filter_list: false,
             search: false,
         ),
@@ -149,7 +150,10 @@ class ShippingCompanyState extends State<ShippingCompany> {
                 print("EROROOROR");
                 return Center(child: CircularProgressIndicator());
               }
-            }));
+            }),
+      bottomNavigationBar: MyBottomNavigatorBar(),
+    );
+
   }
 
   Widget chooseShippingComp() {

@@ -47,11 +47,11 @@ class MyBottomNavigatorBar extends StatelessWidget{
             IconButton(
                 icon: Icon(Icons.explore),
                 onPressed: () {
-                  /* Navigator.push(
+                   Navigator.push(
                       context,
                       new MaterialPageRoute(
                           builder: (context) => new ExploreStateless(-1)),
-                    );*/
+                    );
                 }),
             Text("           "),
             IconButton(
@@ -77,7 +77,6 @@ class MyBottomNavigatorBar extends StatelessWidget{
     );
   }
   Widget adminbootomNavi(BuildContext context){
-    print("admiiiiin");
     return BottomAppBar(
       child: Container(
           decoration: BoxDecoration(
@@ -99,7 +98,10 @@ class MyBottomNavigatorBar extends StatelessWidget{
             IconButton(
                 icon: Icon(Icons.category),
                 onPressed: () {
-                  print("Icon category Pressed !!");
+                  Navigator.push(
+                    context,
+                    new MaterialPageRoute(builder: (context) => new NT()),
+                  );
                 }),
             Text("           "),
             IconButton(
