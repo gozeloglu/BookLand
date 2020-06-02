@@ -13,41 +13,45 @@ class MyAppBar extends StatelessWidget with PreferredSizeWidget {
   final String pageTitle;
   bool back = false;
   bool filter_list = false;
-  bool loginIcon  = false;
+  bool loginIcon = false;
   bool search = false;
 
-  MyAppBar({Key key, this.pageTitle, this.back, this.filter_list, this.loginIcon, this.search})
+  MyAppBar(
+      {Key key,
+      this.pageTitle,
+      this.back,
+      this.filter_list,
+      this.loginIcon,
+      this.search})
       : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     if (isAdmin == 1) {
-
       return adminAppBar(context);
     } else {
       return customerAppBar(context);
     }
   }
-  Widget customerAppBar(BuildContext context){
-    return AppBar(
 
-        flexibleSpace: Container(
-        decoration: BoxDecoration(
-        gradient: LinearGradient(
-        begin: Alignment.topLeft,
-        end: Alignment.bottomRight,
-        colors: <Color>[
-        Colors.lightBlue.shade300,
-        Colors.purpleAccent
-    ])
-    )),
-    title: Text(pageTitle,
+  Widget customerAppBar(BuildContext context) {
+    return AppBar(
+      flexibleSpace: Container(
+          decoration: BoxDecoration(
+              gradient: LinearGradient(
+                  begin: Alignment.topLeft,
+                  end: Alignment.bottomRight,
+                  colors: <Color>[
+            Colors.lightBlue.shade300,
+            Colors.purpleAccent
+          ]))),
+      title: Text(pageTitle,
           style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold)),
       centerTitle: true,
       actions: <Widget>[
         Visibility(
           visible: back,
-          child : IconButton(
+          child: IconButton(
             icon: new Icon(Icons.arrow_back, color: Colors.white),
             onPressed: () {
               Navigator.pop(context);
@@ -68,26 +72,27 @@ class MyAppBar extends StatelessWidget with PreferredSizeWidget {
               );
               // TODO Login page will be here
             },
-          ) ,
+          ),
         ),
 
         //Text('PROFILE', style: new TextStyle(color: Colors.white)),
         Visibility(
           visible: filter_list,
-          child : IconButton(
+          child: IconButton(
             //child: new Text('OK', style: new TextStyle(color: Colors.white)),
-            icon: FaIcon(FontAwesomeIcons.filter, color: Colors.white,
-            size: 18),
+            icon:
+                FaIcon(FontAwesomeIcons.filter, color: Colors.white, size: 18),
             padding: EdgeInsets.all(1.0),
             onPressed: () {
               Navigator.push(
                 context,
                 new MaterialPageRoute(
                     builder: (context) =>
-                    new FilterStatefulWidget(pageTitle)), //TO
+                        new FilterStatefulWidget(pageTitle)), //TO
               );
             },
-          ),),
+          ),
+        ),
         Visibility(
           visible: search,
           child: IconButton(
@@ -103,46 +108,40 @@ class MyAppBar extends StatelessWidget with PreferredSizeWidget {
             },
           ),
         ),
-
       ],
     );
   }
 
-
-
   Widget adminAppBar(BuildContext context) {
-        return AppBar(
-          flexibleSpace: Container(
-              decoration: BoxDecoration(
-                  gradient: LinearGradient(
-                      begin: Alignment.topLeft,
-                      end: Alignment.bottomRight,
-                      colors: <Color>[
-                        Colors.red,
-                        Colors.purple,
-
-                      ])
-              )),
-          title: Text(pageTitle,
-              style:
-                  TextStyle(color: Colors.white, fontWeight: FontWeight.bold)),
-
-          actions: <Widget>[
-            Visibility(
-                visible: back,
+    return AppBar(
+      flexibleSpace: Container(
+          decoration: BoxDecoration(
+              gradient: LinearGradient(
+                  begin: Alignment.topLeft,
+                  end: Alignment.bottomRight,
+                  colors: <Color>[
+            Colors.red,
+            Colors.purple,
+          ]))),
+      title: Text(pageTitle,
+          style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold)),
+      centerTitle: true,
+      actions: <Widget>[
+        Visibility(
+            visible: back,
             child: IconButton(
               icon: new Icon(Icons.arrow_back, color: Colors.white),
               onPressed: () {
                 Navigator.pop(context);
               },
             )),
-            // action button
-            Visibility(
+        // action button
+        Visibility(
             visible: filter_list,
-            child :new IconButton(
+            child: new IconButton(
               //child: new Text('OK', style: new TextStyle(color: Colors.white)),
-              icon: FaIcon(FontAwesomeIcons.filter, color: Colors.white,
-              size: 18),
+              icon: FaIcon(FontAwesomeIcons.filter,
+                  color: Colors.white, size: 18),
               padding: EdgeInsets.all(1.0),
               onPressed: () {
                 Navigator.push(
@@ -153,11 +152,8 @@ class MyAppBar extends StatelessWidget with PreferredSizeWidget {
                 );
               },
             )),
-          ],
-        );
-
-
-
+      ],
+    );
   }
 
   @override
