@@ -148,8 +148,11 @@ class List_DynamicState extends State<List_DynamicPage> {
           "\n" +
           "Price:\t" +
           "|"+
-          booksData.prices[i].toString()
-          + "|"+ (booksData.img_list[i].toString()) + "|" + booksData.isbn_list[i].toString();
+          booksData.prices[i].toString() +
+          "|" +
+          (booksData.img_list[i].toString()) +
+          "|" +
+          booksData.isbn_list[i].toString();
       // String img_val = (booksData.img_list[i].toString());
       bookNameList.add(val);
     }
@@ -175,7 +178,8 @@ class List_DynamicState extends State<List_DynamicPage> {
 
 
     String final_text = text_part;
-
+    print("HEEREE WEE AREEE");
+    print(oldPriceList[index] );
     if(oldPriceList[index] == "0" ){
       final_text = final_text + last_price_part + " \$";
       return ListTile(
@@ -248,6 +252,7 @@ class List_DynamicState extends State<List_DynamicPage> {
     booksData.prices.clear();
     booksData.img_list.clear();
     booksData.isbn_list.clear();
+    oldPriceList = [];
     return Center(
       child: Text("No books in the list"),
     );
@@ -291,6 +296,7 @@ class BooksData {
 
 
   BooksData.fromResponse(http.Response response) {
+    oldPriceList = [];
     this.statusCode = response.statusCode;
     List jsonData = json.decode(response.body);
     print(jsonData);
@@ -310,15 +316,15 @@ class BooksData {
       lastPrice += jsonData[i]["priceList"][priceListLen - 1]["price"];
       bool moreThanOne = false;
 
-      prices.add(lastPrice);
+      prices.add(lastPrice.toStringAsFixed(2));
       img_list.add(jsonData[i]["bookImage"]);
       isbn_list.add(jsonData[i]["bookId"]);
       String inDiscount = jsonData[i]["inDiscount"].toString();
-
-
-      if (inDiscount =="1" ){
+      print(inDiscount);
+      if (inDiscount == "1" ){
         oldPrice_List.add(jsonData[i]["priceList"][priceListLen - 2]["price"].toString());
-        oldPriceList.add(jsonData[i]["priceList"][priceListLen - 2]["price"].toString());
+        oldPriceList.add(double.parse(jsonData[i]["priceList"][priceListLen - 2]["price"].toString()).toStringAsFixed(2));
+        print(oldPriceList);
       }else{
         oldPrice_List.add("0");
         oldPriceList.add("0");

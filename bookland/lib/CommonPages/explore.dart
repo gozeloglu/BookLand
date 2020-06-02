@@ -232,6 +232,7 @@ class ExploreStateless extends StatelessWidget {
     booksData.prices.clear();
     booksData.img_list.clear();
     booksData.isbn_list.clear();
+    oldPriceList = [];
     return Center(
       child: Text("No books in the list"),
     );
@@ -294,7 +295,7 @@ class BooksData {
       lastPrice += jsonData[i]["priceList"][priceListLen - 1]["price"];
       bool moreThanOne = false;
 
-      prices.add(lastPrice);
+      prices.add((lastPrice).toStringAsFixed(2));
       img_list.add(jsonData[i]["bookImage"]);
       isbn_list.add(jsonData[i]["bookId"]);
       String inDiscount = jsonData[i]["inDiscount"].toString();
@@ -302,7 +303,7 @@ class BooksData {
 
       if (inDiscount =="1" ){
         oldPrice_List.add(jsonData[i]["priceList"][priceListLen - 2]["price"].toString());
-        oldPriceList.add(jsonData[i]["priceList"][priceListLen - 2]["price"].toString());
+        oldPriceList.add(double.parse(jsonData[i]["priceList"][priceListLen - 2]["price"].toString()).toStringAsFixed(2));
       }else{
         oldPrice_List.add("0");
         oldPriceList.add("0");
