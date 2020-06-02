@@ -53,7 +53,7 @@ public class Book {
     private Integer inHotList;
 
     @Column(name = "InDiscount")
-    private Integer inDiscount;
+    private Integer inDiscount=0;
 
     @Column(name = "Quantity", nullable = false)
     @NotNull(message = "Quantity field cannot be empty", groups = AddBookGroup.class)
