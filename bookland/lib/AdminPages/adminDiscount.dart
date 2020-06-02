@@ -131,7 +131,7 @@ class adminDiscount extends StatelessWidget {
           onPressed: () {
             //_formKey.currentState.validate();
 
-            isbn = book.data.bookId.toString();
+            isbn = book.data.details.bookId.toString();
             percentage = percentageController.text;
 
             var result = httpAdmin.adminDiscountBook(isbn, percentage);
