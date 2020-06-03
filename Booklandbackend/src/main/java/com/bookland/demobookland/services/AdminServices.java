@@ -360,6 +360,7 @@ public class AdminServices {
             } else {
                 c.getPurchasedDetailedInfo().setStatus("Cancelled");
                 isValid = true;
+                currentOrder.getCard().setCardBudget(currentOrder.getCard().getCardBudget() + currentOrder.getTotalAmount());
             }
         }
         orderRepository.save(currentOrder);
