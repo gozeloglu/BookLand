@@ -1,3 +1,5 @@
+import 'package:bookland/elements/appBar.dart';
+import 'package:bookland/elements/bottomNavigatorBar.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:bookland/services/http_comment_vote.dart';
@@ -20,12 +22,15 @@ class _CommentViewState extends State<CommentView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-          centerTitle: true,
-          title: Text("Comments"),
-          backgroundColor: Colors.blue,
+        appBar: MyAppBar(
+          pageTitle: "Comments",
+          loginIcon: false,
+          back: false,
+          search: false,
+          filter_list: false,
         ),
-        body: commentPage());
+        body: commentPage(),
+    bottomNavigationBar: MyBottomNavigatorBar(),);
   }
 
   Widget commentPage() {

@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:bookland/AdminPages/adminOrders.dart';
+import 'package:bookland/elements/bottomNavigatorBar.dart';
 import 'package:bookland/main.dart';
 import 'package:bookland/services/globalVariable.dart';
 import 'package:flutter/material.dart';
@@ -19,9 +20,9 @@ class Login extends StatelessWidget {
   Widget build(BuildContext context) {
     globalContext = context;
     // TODO: implement build
-    return MaterialApp(
-      title: _title,
-      home: LoginStatefulWidget(),
+    return Scaffold(
+
+      body: LoginStatefulWidget(),
     );
   }
 }
@@ -58,13 +59,14 @@ class _LoginPageState extends State<LoginStatefulWidget> {
       appBar: MyAppBar(
         pageTitle: "Login",
         loginIcon: false,
-        back: true,
+        back: false,
         filter_list: false,
         search: false,
       ),
       body: Stack(
         children: <Widget>[_showForm()],
       ),
+      bottomNavigationBar: MyBottomNavigatorBar(),
     );
   }
 

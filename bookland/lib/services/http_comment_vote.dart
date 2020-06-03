@@ -86,7 +86,7 @@ class CommentVote {
   /// @param rating is customer's rating for the book
   /// @return Average rating
   /// This function saves the customer's rating on the database
-  Future<double> giveRating(
+  Future<String> giveRating(
       String customerId, String bookId, int rating) async {
     String username = 'Daryl';
     String password = 'WalkingDead';

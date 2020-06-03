@@ -36,7 +36,7 @@ class CampaignsStateless extends StatelessWidget {
 
     return Scaffold(
       appBar: MyAppBar(pageTitle: "CAMPAIGNS", loginIcon: false,
-        back: true,
+        back: false,
         filter_list: false,
         search: true, ),
       body: Paginator.listView(
