@@ -53,7 +53,7 @@ class Explore_FilteredState extends State<Explore_FilteredPage> {
     return Scaffold(
       appBar: MyAppBar(pageTitle: "Explore",
         loginIcon: false,
-        back: true,
+        back: false,
         filter_list: false,
         search: true, ),
       body: Paginator.listView(
