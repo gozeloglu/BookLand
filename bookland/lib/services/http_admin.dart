@@ -240,12 +240,12 @@ class HttpAdmin {
       ),
     );
 
-    print(response.body);
+   // print(response.body);
     if (response.statusCode < 400) {
-      print("Durum ne? İYİ");
+     // print("Durum ne? İYİ");
       return "PERFECT";
     } else {
-      print("Durum ne? Kötü");
+     // print("Durum ne? Kötü");
       return "BADBADBAD";
       errorControl = true;
       errorMessage = "Discounting Book has Failed";

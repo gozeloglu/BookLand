@@ -1,3 +1,4 @@
+import 'package:bookland/elements/bottomNavigatorBar.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -13,7 +14,7 @@ class Manual extends StatelessWidget {
         loginIcon: true,
         back: false,
         filter_list: false,
-        search: true,
+        search: false,
     ),
       body: new Container(
           decoration: BoxDecoration(
@@ -85,6 +86,7 @@ class Manual extends StatelessWidget {
           ],
         )
       ),
+      bottomNavigationBar: MyBottomNavigatorBar(),
     );
   }
 

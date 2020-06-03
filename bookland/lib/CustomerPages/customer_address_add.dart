@@ -1,5 +1,6 @@
 import 'package:bookland/CustomerPages/address_select.dart';
 import 'package:bookland/elements/appBar.dart';
+import 'package:bookland/elements/bottomNavigatorBar.dart';
 import 'package:bookland/main.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -19,9 +20,8 @@ class CustomerAddressAdd extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: _title,
-      home: CustomerAddressAddStateful(),
+    return Scaffold(
+      body: CustomerAddressAddStateful(),
     );
   }
 }
@@ -52,14 +52,15 @@ class _AddressAddPageState extends State<CustomerAddressAddStateful> {
     return new Scaffold(
       appBar: MyAppBar(
         pageTitle: "Add Address",
-        loginIcon: true,
+        loginIcon: false,
         back: false,
         filter_list: false,
-        search: true,
+        search: false,
       ),
       body: Stack(
         children: <Widget>[_showForm()],
       ),
+      bottomNavigationBar: MyBottomNavigatorBar(),
     );
   }
 

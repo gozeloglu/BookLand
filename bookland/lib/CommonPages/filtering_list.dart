@@ -29,12 +29,8 @@ class Explore_FilteredStateless extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     globalExploreContext = context;
-    return MaterialApp(
-      theme: ThemeData(
-        primarySwatch: Colors.red,
-      ),
-      title: 'Explore FİLTER NEW Page',
-      home: Explore_FilteredPage(),
+    return Scaffold(
+      body: Explore_FilteredPage(),
     );
   }
 }

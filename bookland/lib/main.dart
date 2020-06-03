@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:bookland/CustomerPages/my_orders.dart';
 import 'package:bookland/elements/drawer.dart';
 import 'package:bookland/services/globalVariable.dart';
@@ -140,11 +142,12 @@ class MyStatelessWidget extends StatelessWidget {
                     width: 500,
                   ),
                   onPressed: () {
+                Timer(Duration(seconds: 1), () {
                     Navigator.push(
                       context,
                       new MaterialPageRoute(
                           builder: (context) => new CampaignsStateless(-1)),
-                    );
+                    );});
                   },
                   color: Colors.blueGrey.shade100,
                 ),

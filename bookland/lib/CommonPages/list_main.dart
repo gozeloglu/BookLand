@@ -131,8 +131,8 @@ class List_MainStateless extends StatelessWidget {
         getTotalCount2();
         page = 1;
       }
-      print(parameter);
-      print(page);
+     // print(parameter);
+     // print(page);
       var url = "http://10.0.2.2:8080/${parameter}/${page}/10";
       print(url);
       String username = 'Daryl';

@@ -1,4 +1,8 @@
+import 'dart:async';
+
 import 'package:bookland/CustomerPages/customerBookView.dart';
+import 'package:bookland/elements/appBar.dart';
+import 'package:bookland/elements/bottomNavigatorBar.dart';
 import 'package:bookland/services/http_comment_vote.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -15,9 +19,8 @@ class CommentWrite extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: "Write Comment",
-      home: CommentWriteStateful(),
+    return Scaffold(
+      body: CommentWriteStateful(),
     );
   }
 }
@@ -35,15 +38,18 @@ class _CommentWriteState extends State<CommentWriteStateful> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        centerTitle: true,
-        title: Text("Write Comment"),
-      ),
+      appBar: MyAppBar(
+          pageTitle: "Write Comment",
+          loginIcon: false,
+          back: false,
+          filter_list: false,
+          search: false),
       body: Stack(
         children: [
           commentField(),
         ],
       ),
+      bottomNavigationBar: MyBottomNavigatorBar(),
     );
   }
 
@@ -102,67 +108,64 @@ class _CommentWriteState extends State<CommentWriteStateful> {
             if (comment == "") {
               isEmpty = true;
             }
+              // Show up alert dialog if comment field is empty
+              if (isEmpty) {
+                showDialog(
+                    context: context,
+                    builder: (BuildContext context) {
+                      return AlertDialog(
+                        title: Text("Error!"),
+                        content: Text("Comment cannot be empty!"),
+                        shape: new RoundedRectangleBorder(
+                            borderRadius: new BorderRadius.circular(25)),
+                      );
+                    });
+              } else {
+                // Save on the database
+                commentVote.sendComment(bookId, customerId, comment);
+              }
+            Timer(Duration(seconds: 1), () {
 
-            // Show up alert dialog if comment field is empty
-            if (isEmpty) {
-              showDialog(
-                  context: context,
-                  builder: (BuildContext context) {
-                    return AlertDialog(
-                      title: Text("Error!"),
-                      content: Text("Comment cannot be empty!"),
-                      shape: new RoundedRectangleBorder(
-                          borderRadius: new BorderRadius.circular(25)),
-                    );
-                  });
-            } else {
-              // Save on the database
-              commentVote.sendComment(bookId, customerId, comment);
-            }
-
-            // If comment is send successfully, show up an alert dialog
-            if (isCommentSend) {
-              showDialog(
-                  context: context,
-                  builder: (BuildContext context) {
-                    return AlertDialog(
-                      title: Text("Successful!"),
-                      content: Text("Comment is sent!"),
-                      shape: new RoundedRectangleBorder(
-                          borderRadius: new BorderRadius.circular(25)),
-                      actions: [
-                        new FlatButton(
-                            onPressed: () {
-                              Navigator.push(
-                                  context,
-                                  new MaterialPageRoute(
-                                      builder: (context) =>
-                                          new CustomerBookView(isbn: bookId)));
-                            },
-                            child: Text("OK")),
-                      ],
-                    );
-                  });
-            } else if (!isCommentSend && !isEmpty) {
-              // If comment could not saved and comment field is filled
-              showDialog(
-                  context: context,
-                  builder: (BuildContext context) {
-                    return AlertDialog(
-                      title: Text("Error!"),
-                      content: Text("Comment could not sent!"),
-                      shape: new RoundedRectangleBorder(
-                          borderRadius: new BorderRadius.circular(25)),
-                      actions: [
-                        new FlatButton(
-                            onPressed: () {
-                              Navigator.of(context).pop();
-                            },
-                            child: Text("Close")),
-                      ],
-                    );
-                  });
-            }
+              // If comment is send successfully, show up an alert dialog
+              if (isCommentSend) {
+                showDialog(
+                    context: context,
+                    builder: (BuildContext context) {
+                      return AlertDialog(
+                        title: Text("Successful!"),
+                        content: Text("Comment is sent!"),
+                        shape: new RoundedRectangleBorder(
+                            borderRadius: new BorderRadius.circular(25)),
+                        actions: [
+                          new FlatButton(
+                              onPressed: () {
+                                Navigator.of(context).pop();
+                              },
+                              child: Text("OK")),
+                        ],
+                      );
+                    });
+              } else if (!isCommentSend && !isEmpty) {
+                // If comment could not saved and comment field is filled
+                showDialog(
+                    context: context,
+                    builder: (BuildContext context) {
+                      return AlertDialog(
+                        title: Text("Error!"),
+                        content: Text("Comment could not sent!"),
+                        shape: new RoundedRectangleBorder(
+                            borderRadius: new BorderRadius.circular(25)),
+                        actions: [
+                          new FlatButton(
+                              onPressed: () {
+                                Navigator.of(context).pop();
+                              },
+                              child: Text("Close")),
+                        ],
+                      );
+                    });
+              }
+            });
           }),
     );
   }

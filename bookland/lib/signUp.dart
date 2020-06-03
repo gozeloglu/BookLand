@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:bookland/elements/appBar.dart';
+import 'package:bookland/elements/bottomNavigatorBar.dart';
 import 'package:bookland/services/HTTP.dart';
 import 'package:bookland/services/globalVariable.dart';
 import 'package:flutter/cupertino.dart';
@@ -20,9 +21,8 @@ class SignUp extends StatelessWidget {
     globalContext = context;
 
     // TODO: implement build
-    return MaterialApp(
-      title: _title,
-      home: SignUpStatefulWidget(),
+    return Scaffold(
+      body: SignUpStatefulWidget(),
     );
   }
 }
@@ -61,7 +61,7 @@ class _SignUpPageState extends State<SignUpStatefulWidget> {
   Widget build(BuildContext context) {
     // TODO: implement build
     return  Scaffold(
-      appBar: MyAppBar(pageTitle: "Sig Up",
+      appBar: MyAppBar(pageTitle: "Sign Up",
         loginIcon: true,
         back: false,
         filter_list: false,
@@ -85,6 +85,7 @@ class _SignUpPageState extends State<SignUpStatefulWidget> {
           ),
         ),
       ),
+      bottomNavigationBar: MyBottomNavigatorBar(),
     );
   }
 

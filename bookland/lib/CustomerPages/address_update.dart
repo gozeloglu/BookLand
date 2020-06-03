@@ -1,4 +1,5 @@
 import 'package:bookland/elements/appBar.dart';
+import 'package:bookland/elements/bottomNavigatorBar.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:bookland/services/http_address.dart';
@@ -36,9 +37,9 @@ class CustomerAddressUpdate extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: _title,
-      home: CustomerAddressUpdateStateful(),
+    return Scaffold(
+
+      body: CustomerAddressUpdateStateful(),
     );
   }
 }
@@ -72,11 +73,15 @@ class _AddressUpdatePageState extends State<CustomerAddressUpdateStateful> {
     return new Scaffold(
       appBar: MyAppBar(
         pageTitle: "Update Address",
-        back: true,
+        back: false,
+        loginIcon: false,
+        search: false,
+        filter_list: false,
       ),
       body: Stack(
         children: <Widget>[_showUpdateForm()],
       ),
+      bottomNavigationBar: MyBottomNavigatorBar(),
     );
   }
 
