@@ -100,7 +100,7 @@ class HTTPAll {
     print("***---***");
     print(totalcost);
 
-    if(month == "MONTH" || year == "YEAR" || cvc == ""){
+    if(month == "MONTH" || year == "YEAR" || cvc == ""){ //early control for if empty value come
       errorControl = true;
       errorMessage = "Please fill in the empty fields to pay.";
       return "EMPTY";
@@ -124,7 +124,17 @@ class HTTPAll {
     );
 
     if (response.statusCode < 400) {
-
+      String text = response.body;
+      print(text);
+      if(text =="-2"){    //Invalid payment information
+        errorControl = true;
+        errorMessage = 'Invalid payment information'.toString();
+        return "SORRRY" ;
+      }else if (text =="-1"){ //If customer dont have enough monety for pay
+        errorControl = true;
+        errorMessage = 'You do not have sufficient balance to make payment'.toString();
+        return "SORRRY" ;
+      }
       return "PERFECT";
     } else {
       Error msg = Error.fromJson(json.decode(response.body));
