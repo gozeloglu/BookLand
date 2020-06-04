@@ -149,7 +149,6 @@ class NotificationStateless extends StatelessWidget {
           style: new TextStyle(fontSize: 20, color: Colors.white),
         ),
         onPressed: () {
-          // NotificationLogic();
           NotificationHttp notificationHttp = new NotificationHttp();
           notificationHttp.sendNotification();
         },
