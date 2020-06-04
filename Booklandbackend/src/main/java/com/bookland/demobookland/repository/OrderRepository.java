@@ -15,7 +15,5 @@ public interface OrderRepository extends PagingAndSortingRepository<Order, Integ
 
     Page<Order> findByCustomerId(Pageable paging, Integer customerId);
 
-    void deleteByCustomerIdAndOrderId(Integer customerId, Integer orderId);
-
     Page<Order> findAllByOrderByOrderedTimeDescOrderIdDesc(Pageable paging);
 }

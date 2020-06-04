@@ -37,7 +37,7 @@ class customerPersonalInfo extends StatelessWidget {
                     gradient: LinearGradient(
                         begin: Alignment.topRight,
                         end: Alignment.bottomLeft,
-                        colors: [Colors.blue, Colors.red])),
+                        colors: [Colors.blue.shade400, Colors.white,Colors.blue.shade400])),
                 width: double.infinity,
                 padding: EdgeInsets.only(top: 20, bottom: 61),
                 child: new SingleChildScrollView(

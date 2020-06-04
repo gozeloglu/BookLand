@@ -1,4 +1,5 @@
 import 'package:bookland/elements/appBar.dart';
+import 'package:bookland/elements/bottomNavigatorBar.dart';
 import 'package:flutter/material.dart';
 import 'package:bookland/services/http_admin.dart';
 
@@ -43,6 +44,7 @@ class adminCampaign extends StatelessWidget {
           children: <Widget>[_showForm()],
         ),
       ),
+      bottomNavigationBar: MyBottomNavigatorBar(),
     );
   }
 

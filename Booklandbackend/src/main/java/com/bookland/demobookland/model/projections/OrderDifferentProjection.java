@@ -12,5 +12,4 @@ public interface OrderDifferentProjection {
     String getBookImage();
 
     Integer getTrackingNumber();
-
 }

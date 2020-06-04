@@ -6,12 +6,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:bookland/services/http_admin.dart';
 
-void main() {
-  runApp(new MaterialApp(
-    debugShowCheckedModeBanner: false,
-    home: DeletePage(),
-  ));
-}
 
 
 class DeletePage extends StatefulWidget {
@@ -28,10 +22,12 @@ class _DeletePageState extends State<DeletePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: MyAppBar(pageTitle: "Delete Book", loginIcon: false,
-        back: true,
+      appBar: MyAppBar(pageTitle: "Delete Book",
+        loginIcon: true,
+        back: false,
         filter_list: false,
-        search: true,),
+        search: true,
+      ),
       body: Container(
         child: Column(children: <Widget>[
           Padding(

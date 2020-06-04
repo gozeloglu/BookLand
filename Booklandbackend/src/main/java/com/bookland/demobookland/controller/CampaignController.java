@@ -16,7 +16,6 @@ public class CampaignController {
     @Autowired
     CampaignServices campaignServices;
 
-
     @GetMapping(value = "/getCampaigns/{pageNo}/{pageSize}", produces = MediaType.APPLICATION_JSON_VALUE)
     public List<Campaign> getCampaigns(@PathVariable Integer pageNo, @PathVariable Integer pageSize) {
         return campaignServices.getCampaigns(pageNo - 1, pageSize);

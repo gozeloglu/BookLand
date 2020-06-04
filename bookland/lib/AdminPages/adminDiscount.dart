@@ -53,17 +53,13 @@ class adminDiscount extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
-    return MaterialApp(
-        theme: ThemeData(
-          primarySwatch: Colors.red,
-        ),
-        home: Scaffold(
+    return  Scaffold(
           appBar: MyAppBar(
             pageTitle: "Discount Book",
             loginIcon: false,
-            back: true,
+            back: false,
             filter_list: false,
-            search: true,
+            search: false,
           ),
           body: Container(
             width: double.infinity,
@@ -72,11 +68,9 @@ class adminDiscount extends StatelessWidget {
               children: <Widget>[_showForm(book, context)],
             ),
           ),
-          drawer: MyDrawer(
-            drawerHeader: "Hello Admin",
-          ),
+
           bottomNavigationBar: MyBottomNavigatorBar(),
-        ));
+        );
   }
 
   Widget _showForm(AsyncSnapshot book, BuildContext context) {
@@ -137,7 +131,7 @@ class adminDiscount extends StatelessWidget {
           onPressed: () {
             //_formKey.currentState.validate();
 
-            isbn = book.data.bookId.toString();
+            isbn = book.data.details.bookId.toString();
             percentage = percentageController.text;
 
             var result = httpAdmin.adminDiscountBook(isbn, percentage);

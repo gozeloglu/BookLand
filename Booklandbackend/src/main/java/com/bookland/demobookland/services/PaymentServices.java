@@ -34,7 +34,7 @@ public class PaymentServices {
     @Autowired
     private CustomerRepository customerRepository;
 
-
+    @Transactional
     public Boolean saveMyCard(String cardNo, String cardOwner, Integer customerId) {
         Customer customer = customerRepository.findByCustomerId(customerId);
 
@@ -123,7 +123,6 @@ public class PaymentServices {
         return "Your order has been received";
     }
 
-
     public double applyCoupon(Map<String, Float> couponCode) {
         Date today = new Date();
 
@@ -140,8 +139,6 @@ public class PaymentServices {
                 && campaign.getEndDate().compareTo(today) > 0
                 && (totalAmount * campaign.getCouponDiscount()) / 100 > 0) {
             return (float) totalAmount - ((totalAmount * campaign.getCouponDiscount()) / 100);
-        } else {
-            System.out.println("Coupon Code is not valid");
         }
         return (float) 0;
     }

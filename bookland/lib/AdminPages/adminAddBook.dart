@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:bookland/elements/appBar.dart';
+import 'package:bookland/elements/bottomNavigatorBar.dart';
 import 'package:bookland/elements/drawer.dart';
 import 'package:bookland/services/globalVariable.dart';
 import 'package:flutter/material.dart';
@@ -45,8 +46,8 @@ class adminAddBook extends StatelessWidget {
     return Scaffold(
       appBar: MyAppBar(
         pageTitle: "Add Book",
-        loginIcon: false,
-        back: true,
+        loginIcon: true,
+        back: false,
         filter_list: false,
         search: true,
       ),
@@ -57,6 +58,7 @@ class adminAddBook extends StatelessWidget {
           children: <Widget>[_showForm()],
         ),
       ),
+      bottomNavigationBar: MyBottomNavigatorBar(),
     );
   }
 

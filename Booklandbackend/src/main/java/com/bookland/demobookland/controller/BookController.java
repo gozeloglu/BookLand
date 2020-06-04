@@ -16,11 +16,10 @@ import java.util.Map;
 
 @RestController
 public class BookController {
+
     @Autowired
     private BookServices bookServices;
 
-
-    // GET All Books
     @GetMapping(value = "/allBooks/{pageNo}/{pageSize}", produces = MediaType.APPLICATION_JSON_VALUE)
     public List<ExplorePageProjection> getBooks(@PathVariable Integer pageNo, @PathVariable Integer pageSize) {
         return bookServices.getAllBooks(pageNo - 1, pageSize);
@@ -48,8 +47,6 @@ public class BookController {
     public String updateBook(@PathVariable Integer id, @RequestBody Book book) { //{required false varmış
         return bookServices.updateBook(id, book);
     }
-
-    /*List of all distinct categories of books*/
 
     @GetMapping(value = "/getCategory", produces = MediaType.APPLICATION_JSON_VALUE)
     public List<String> getCategory() {
@@ -104,7 +101,6 @@ public class BookController {
 
     @GetMapping(value = "/Filtering/{pageNo}/{pageSize}", produces = MediaType.APPLICATION_JSON_VALUE)
     public List<BookDetailsProjection> getBookByFilters(@PathVariable Integer pageNo, @PathVariable Integer pageSize,
-                                                        /*@RequestParam(value = "author", defaultValue = "undefined") String author*/
                                                         @RequestParam(value = "author", defaultValue = "") ArrayList<String> author,
                                                         @RequestParam(value = "categories", defaultValue = "") ArrayList<String> categories,
                                                         @RequestParam(value = "minPrice", defaultValue = "-1") Integer minPrice,
@@ -113,7 +109,7 @@ public class BookController {
     }
 
     @GetMapping(value = "/getBookCountByFilters", produces = MediaType.APPLICATION_JSON_VALUE)
-    public Long getBookCountByFilters(@RequestParam(value = "author", defaultValue = "undefined") String author,
+    public Long getBookCountByFilters(@RequestParam(value = "author", defaultValue = "") ArrayList<String> author,
                                       @RequestParam(value = "categories", defaultValue = "") ArrayList<String> categories,
                                       @RequestParam(value = "minPrice", defaultValue = "-1") Integer minPrice,
                                       @RequestParam(value = "maxPrice", defaultValue = "-1") Integer maxPrice) {

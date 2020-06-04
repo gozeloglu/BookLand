@@ -28,7 +28,10 @@ class ShippingCompanyState extends State<ShippingCompany> {
     return Scaffold(
         appBar: MyAppBar(
           pageTitle: "Shipping Companies",
-          back: true,
+            loginIcon: false,
+            back: true,
+            filter_list: false,
+            search: false,
         ),
         body: FutureBuilder(
             future: http_obj.getCompanies(),

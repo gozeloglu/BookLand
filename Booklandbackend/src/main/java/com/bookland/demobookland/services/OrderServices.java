@@ -23,7 +23,6 @@ public class OrderServices {
     @Autowired
     private OrderRepository orderRepository;
 
-
     public List<OrderSimpleProjection> getMyOrders(Integer pageNo, Integer pageSize, Integer customerID) {
         Pageable paging = PageRequest.of(pageNo, pageSize);
         List<OrderSimpleProjection> orderSimpleProjections = new ArrayList<>();
@@ -174,8 +173,6 @@ public class OrderServices {
         for (Contains c : order.getContainsList()) {
             if (c.getPurchasedDetailedInfo().getReleasedTime() != null && c.getPurchasedDetailedInfo().getReleasedTime().compareTo(today) <= 0) {
                 c.getPurchasedDetailedInfo().setStatus("Delivered");
-                System.out.println(c.getTrackingNumber());
-                System.out.println(c.getPurchasedDetailedInfo().getStatus());
             }
         }
         orderRepository.save(order);

@@ -16,6 +16,4 @@ public interface CustomerInfoProjection {
     String getEmail();
 
     Integer getStatus();
-
-    //List<Order> getCustomerOrdersList();
 }

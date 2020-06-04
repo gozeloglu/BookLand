@@ -8,7 +8,7 @@ import 'package:bookland/model/model_shippingcompany.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 String nt_price = "";
-//TODO CUSTOMER SPECIAL
+
 
 
 class Payment extends StatelessWidget {
@@ -25,9 +25,8 @@ class Payment extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
-    return MaterialApp(
-      title: _title,
-      home: PaymentStatefulWidget(totalcost,shippingcompany_id,customerid,addressid),
+    return Scaffold(
+      body :PaymentStatefulWidget(totalcost,shippingcompany_id,customerid,addressid),
     );
   }
 }
@@ -73,7 +72,7 @@ class _PaymentPageState extends State<PaymentStatefulWidget> {
 
 
   //https://www.youtube.com/watch?v=FGfhnS6skMQ
-     createAlertDialog(BuildContext context)  {
+  createAlertDialog(BuildContext context)  {
   return showDialog(context:context ,builder : (context) {
     return AlertDialog(
       title: Text("Promocode"),
@@ -122,15 +121,14 @@ class _PaymentPageState extends State<PaymentStatefulWidget> {
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
-    return MaterialApp(
-        theme: ThemeData(
-          primarySwatch: Colors.red,
-        ),
-        home: Scaffold(
+    return  Scaffold(
           resizeToAvoidBottomPadding: false,
           appBar: MyAppBar(
             pageTitle: "Payment",
+            loginIcon: false,
             back: true,
+            filter_list: false,
+            search: false,
           ),
           body: Container(
             width: double.infinity,
@@ -139,7 +137,7 @@ class _PaymentPageState extends State<PaymentStatefulWidget> {
               children: <Widget>[_showForm(context,totalcost)],
             ),
           ),
-        ));
+        );
   }
 
   Widget _showForm(BuildContext context,String totalcost ) {

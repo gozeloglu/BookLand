@@ -21,26 +21,20 @@ public interface BookRepository extends PagingAndSortingRepository<Book, Integer
 
     Long countBookByInHotListEquals(Integer hotList);
 
-    /*Find distinct categories*//*change this one maybe later*/
     @Query("SELECT DISTINCT b.category FROM Book b")
     List<String> findDistinctByCategory();
 
-    /*Find distinct subcategories*/
     @Query("SELECT DISTINCT b.subCategory FROM Book b")
     List<String> findDistinctBySubCategory();
 
-    //Book findByBookId(Integer id);
-
     BookDetailsProjection findByBookId(Integer id);
 
-    /*Last released 10 books*/
     Page<ExplorePageProjection> findTop10ByOrderByReleasedTimeDesc(Pageable paging);
 
     List<ExplorePageProjection> findTop10ByOrderByReleasedTimeDesc();
 
     Page<ExplorePageProjection> findByCategoryEquals(Pageable paging, String category);
 
-    /*If we want to return all the properties of book just change the return type to book*/
     Page<ExplorePageProjection> findByInHotListEquals(Pageable paging, Integer hotList);
 
     List<ExplorePageProjection> findTop10ByInHotListEquals(Integer hotList);
@@ -54,5 +48,4 @@ public interface BookRepository extends PagingAndSortingRepository<Book, Integer
     List<ExplorePageProjection> findByAuthorContainsOrBookNameContainsOrCategoryContainsOrSubCategoryContains(String searchedItem, String searchedItem1, String searchedItem2, String searchedItem3);
 
     List<ExplorePageProjection> findTop10ByAuthorContainsOrBookNameContainsOrCategoryContainsOrSubCategoryContains(String searchedItem, String searchedItem1, String searchedItem2, String searchedItem3);
-
 }
