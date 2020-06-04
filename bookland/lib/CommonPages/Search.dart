@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:io';
 import 'package:bookland/AdminPages/bookview.dart';
 import 'package:bookland/CustomerPages/customerBookView.dart';
+import 'package:bookland/elements/bottomNavigatorBar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_paginator/flutter_paginator.dart';
 import 'package:http/http.dart' as http;
@@ -48,15 +49,17 @@ class Search extends StatelessWidget {
               scrollPhysics: BouncingScrollPhysics(),
             ),
           ],
-        ))
-
-        // bottomNavigationBar: MyBottomNavigatorBar(),
+        )),
+        bottomNavigationBar: MyBottomNavigatorBar(),
 
         );
   }
 
   Widget MySearch() {
-    return TextField(
+    return Container(
+      width: 375,
+      margin: EdgeInsets.only(top: 5, bottom: 8),
+        child: TextField(
       /// value değiştikçe istek atıyor
       onChanged: (value) {
         keyword = value;
@@ -70,8 +73,8 @@ class Search extends StatelessWidget {
           hintText: "Search",
           prefixIcon: Icon(Icons.search),
           border: OutlineInputBorder(
-              borderRadius: BorderRadius.all(Radius.circular(25.0)))),
-    );
+              borderRadius: BorderRadius.all(Radius.circular(10.0)))),
+    ));
   }
 
 //TODO customerId eklenmeli
