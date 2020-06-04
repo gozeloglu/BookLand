@@ -1,7 +1,10 @@
 import 'package:bookland/elements/bottomNavigatorBar.dart';
 import 'package:bookland/elements/appBar.dart';
+import 'package:bookland/services/http_notification.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+
+import 'notification_logic.dart';
 
 class NotificationStateless extends StatelessWidget {
   final String _couponCode;
@@ -145,7 +148,11 @@ class NotificationStateless extends StatelessWidget {
           "Send Notification",
           style: new TextStyle(fontSize: 20, color: Colors.white),
         ),
-        onPressed: () {},
+        onPressed: () {
+          // NotificationLogic();
+          NotificationHttp notificationHttp = new NotificationHttp();
+          notificationHttp.sendNotification();
+        },
       ),
     );
   }
