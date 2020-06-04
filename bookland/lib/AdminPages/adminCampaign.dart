@@ -307,10 +307,61 @@ class adminCampaign extends StatelessWidget {
           child: new Text("Create This Campaign!",
               style: new TextStyle(fontSize: 20.0, color: Colors.white)),
           onPressed: () {
-            Navigator.push(
-                context,
-                new MaterialPageRoute(
-                    builder: (context) => new NotificationStateless()));
+            String _couponCode = couponCodeController.text;
+            String _couponDiscount = couponDiscountController.text;
+            String _campaignName = campaignNameController.text;
+            String _endDate = endDateController.text;
+            String errorMsg = "";
+            if (_couponCode == "") {
+              errorMsg += "Coupon code is empty";
+            } else if (_couponDiscount == "") {
+              errorMsg += "Coupon discount is empty";
+            } else if (_campaignName == "") {
+              errorMsg += "Campaign name is empty";
+            } else if (_endDate == "") {
+              errorMsg += "Date is empty!";
+            }
+
+            if (errorMsg != "") {
+              showDialog(
+                context: context,
+                builder: (BuildContext context) {
+                  // return object of type Dialog
+                  return AlertDialog(
+                    shape: new RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(25),
+                    ),
+                    title: new Text("Empty Field Warning"),
+                    content: new Text(errorMsg),
+                    actions: <Widget>[
+                      // usually buttons at the bottom of the dialog
+                      new FlatButton(
+                        shape: new RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(20),
+                        ),
+                        color: Colors.blue,
+                        child: new Text(
+                          "Close",
+                          style: TextStyle(color: Colors.white),
+                        ),
+                        onPressed: () {
+                          Navigator.of(context).pop();
+                        },
+                      ),
+                    ],
+                  );
+                },
+              );
+            } else {
+              Navigator.push(
+                  context,
+                  new MaterialPageRoute(
+                      builder: (context) => new NotificationStateless(
+                          _couponCode,
+                          _couponDiscount,
+                          _campaignName,
+                          _endDate)));
+            }
           }),
     );
   }

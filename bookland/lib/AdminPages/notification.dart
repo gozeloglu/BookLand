@@ -4,6 +4,14 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class NotificationStateless extends StatelessWidget {
+  final String _couponCode;
+  final String _couponDiscount;
+  final String _campaignName;
+  final String _endDate;
+
+  NotificationStateless(this._couponCode, this._couponDiscount,
+      this._campaignName, this._endDate);
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -59,14 +67,14 @@ class NotificationStateless extends StatelessWidget {
           child: ListTile(
             leading: Icon(Icons.more),
             title: const Text("Coupon Code"),
-            subtitle: Text("FDSA7DSA7"), // TODO Will be dynamic
+            subtitle: Text(_couponCode), // TODO Will be dynamic
           ),
         ),
         Card(
           child: ListTile(
             leading: Icon(Icons.trending_down),
             title: const Text("Discount"),
-            subtitle: Text("15%"), // TODO Will be dynamic
+            subtitle: Text(_couponDiscount + "%"), // TODO Will be dynamic
           ),
         ),
         Card(
@@ -74,14 +82,14 @@ class NotificationStateless extends StatelessWidget {
             leading: Icon(Icons.category),
             title: const Text("Campaign"),
             subtitle: Text(
-                "Black Friday is coming up! We applied 50% discount for all books"), // TODO Will be dynamic
+                _campaignName), // TODO Will be dynamic
           ),
         ),
         Card(
           child: ListTile(
             leading: Icon(Icons.date_range),
             title: const Text("Date"),
-            subtitle: Text("21.10.2020 - 30.10.2020"), // TODO Will be dynamic
+            subtitle: Text(_endDate), // TODO Will be dynamic
           ),
         ),
         notificationTitle(),
@@ -127,21 +135,18 @@ class NotificationStateless extends StatelessWidget {
 
   Widget sendNotificationButton() {
     return Padding(
-      padding: const EdgeInsets.fromLTRB(0, 20, 0, 0),
-        child: RaisedButton(
-          elevation: 5,
-          shape: new RoundedRectangleBorder(
-              borderRadius: new BorderRadius.circular(30)),
-          color: Colors.green,
-          child: new Text(
-            "Send Notification",
-            style: new TextStyle(fontSize: 20, color: Colors.white),
-          ),
-          onPressed: () {
-
-          },
+      padding: const EdgeInsets.fromLTRB(20, 30, 20, 0),
+      child: RaisedButton(
+        elevation: 5,
+        shape: new RoundedRectangleBorder(
+            borderRadius: new BorderRadius.circular(30)),
+        color: Colors.green,
+        child: new Text(
+          "Send Notification",
+          style: new TextStyle(fontSize: 20, color: Colors.white),
         ),
-
+        onPressed: () {},
+      ),
     );
   }
 }
