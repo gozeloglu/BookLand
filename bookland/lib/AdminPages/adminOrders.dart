@@ -42,7 +42,7 @@ class AdminOrders extends StatelessWidget {
     globalExploreContext = context;
     return MaterialApp(
       theme: ThemeData(
-        primarySwatch: Colors.red,
+        //primarySwatch: Colors.red,
       ),
       title: 'Admin  Orders Page',
       home: AdminOrdersPage(),
@@ -88,6 +88,7 @@ class AdminOrdersState extends State<AdminOrdersPage> {
       ),
 
       floatingActionButton: FloatingActionButton(
+        backgroundColor: Colors.redAccent,
         onPressed: () {
           paginatorGlobalKey.currentState.changeState(
               pageLoadFuture: sendordersDataRequest, resetState: true);

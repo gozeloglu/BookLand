@@ -33,6 +33,9 @@ public class Card {
     @NotBlank(message = "Owner Surname cannot be empty", groups = SaveCardGroup.class)
     private String ownerSurname;
 
+    @Column(name = "CardBudget")
+    private Float cardBudget = (float) 200;
+
     @JsonBackReference(value = "card-customerCardList")
     @ManyToMany(mappedBy = "customerCardList")
     private List<Customer> customerCardList = new ArrayList<>();

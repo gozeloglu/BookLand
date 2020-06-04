@@ -1,3 +1,4 @@
+import 'package:bookland/elements/bottomNavigatorBar.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -13,7 +14,7 @@ class Manual extends StatelessWidget {
         loginIcon: true,
         back: false,
         filter_list: false,
-        search: true,
+        search: false,
     ),
       body: new Container(
           decoration: BoxDecoration(
@@ -57,34 +58,13 @@ class Manual extends StatelessWidget {
                   ),
                 ),
 
-                Container(
-                  height: 60,
-                  margin: EdgeInsets.only(top: 130),
-                  padding: EdgeInsets.all(5.0),
-                  child: Column(
-                    children: <Widget>[
-                      Divider(
-                        color: Colors.grey,
-                        thickness: 1.5,
-                      ),
-                      new Padding(
-                          padding: EdgeInsets.only(top:10),
-                          child: Text("Bookland - 2020",
-                              style: TextStyle(
-                                fontSize: 18.0,
-                                fontWeight: FontWeight.w300,
-                              )
-                          )
-                      )
-                    ],
-                  ),
-                )
 
               ],
             )
           ],
         )
       ),
+      bottomNavigationBar: MyBottomNavigatorBar(),
     );
   }
 

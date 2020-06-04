@@ -15,7 +15,7 @@ var globalCampaignsContext;
 int deletedcampaignId = -1;
 
 List<String> imgURLlist = ["https://images-na.ssl-images-amazon.com/images/I/51pQPZjF-hL._AC_SL1000_.jpg",
-  "https://lh3.googleusercontent.com/proxy/BVJnxJnGfdVoWX9jR7DJx1NUhZJGcT1GJ3SLvRuLyDT3BnSkkbHGp9_pUGF1QaHqhM55fDrPnYsIR6b2pmvhaTLEYf4XHFE",
+  "https://thumbs.dreamstime.com/b/celebration-background-golden-champagne-bottle-confetti-stars-party-streamers-christmas-birthday-wedding-flat-lay-161039153.jpg",
   "https://images.unsplash.com/photo-1513151233558-d860c5398176?ixlib=rb-1.2.1&w=1000&q=80",
   "https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcSomn0EWJ4eTQu4mTWneupKdB1GxebNqvL0hzfWhz2jmli9fR8e&usqp=CAU",
   "https://i.pinimg.com/originals/b7/c6/07/b7c6079ee7e5dc09dfeec57393c719ba.jpg"];
@@ -36,7 +36,7 @@ class CampaignsStateless extends StatelessWidget {
 
     return Scaffold(
       appBar: MyAppBar(pageTitle: "CAMPAIGNS", loginIcon: false,
-        back: true,
+        back: false,
         filter_list: false,
         search: true, ),
       body: Paginator.listView(

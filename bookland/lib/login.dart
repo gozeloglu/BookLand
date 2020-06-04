@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:bookland/AdminPages/adminOrders.dart';
+import 'package:bookland/elements/bottomNavigatorBar.dart';
 import 'package:bookland/main.dart';
 import 'package:bookland/services/globalVariable.dart';
 import 'package:flutter/material.dart';
@@ -19,9 +20,9 @@ class Login extends StatelessWidget {
   Widget build(BuildContext context) {
     globalContext = context;
     // TODO: implement build
-    return MaterialApp(
-      title: _title,
-      home: LoginStatefulWidget(),
+    return Scaffold(
+
+      body: LoginStatefulWidget(),
     );
   }
 }
@@ -58,13 +59,14 @@ class _LoginPageState extends State<LoginStatefulWidget> {
       appBar: MyAppBar(
         pageTitle: "Login",
         loginIcon: false,
-        back: true,
+        back: false,
         filter_list: false,
         search: false,
       ),
       body: Stack(
         children: <Widget>[_showForm()],
       ),
+      bottomNavigationBar: MyBottomNavigatorBar(),
     );
   }
 
@@ -78,7 +80,7 @@ class _LoginPageState extends State<LoginStatefulWidget> {
             showEmailInput(),
             showPasswordInput(),
             showLoginButton(),
-            showForgotPasswordButton(),
+            //showForgotPasswordButton(),
             showSignUpButton(),
           ],
         ),
@@ -212,14 +214,14 @@ class _LoginPageState extends State<LoginStatefulWidget> {
     );
   }
 
-  Widget showForgotPasswordButton() {
+  /*Widget showForgotPasswordButton() {
     return new FlatButton(
         onPressed: null,
         child: new Text(
             // WARNING _isLoginForm may not be true variable for this one
             'Forgot My Password',
             style: new TextStyle(fontSize: 18.0, fontWeight: FontWeight.w300)));
-  }
+  }*/
 
   Widget showSignUpButton() {
     return new FlatButton(
@@ -229,8 +231,8 @@ class _LoginPageState extends State<LoginStatefulWidget> {
             new MaterialPageRoute(builder: (context) => new SignUp()),
           );
         },
-        child: new Text('Sign Up',
-            style: new TextStyle(fontSize: 18.0, fontWeight: FontWeight.w300)));
+        child: new Text('\nDon\'t you have an account?',
+            style: new TextStyle(fontSize: 18.0, fontWeight: FontWeight.w300,)));
   }
 
   /// @param _customerId represents the logged in customer's id

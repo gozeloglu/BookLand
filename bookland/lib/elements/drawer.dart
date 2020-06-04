@@ -186,7 +186,7 @@ class MyDrawer extends StatelessWidget {
               leading: Icon(Icons.update),
             ),
           ),*/
-          InkWell(
+          /*InkWell(
             onTap: () {
               Navigator.push(
                 context,
@@ -198,7 +198,7 @@ class MyDrawer extends StatelessWidget {
               title: Text("Discount", style: TextStyle(fontSize: 18)),
               leading: Icon(Icons.arrow_drop_down),
             ),
-          ),
+          ),*/
           InkWell(
             onTap: () {
               Navigator.push(

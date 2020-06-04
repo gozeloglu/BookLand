@@ -4,12 +4,15 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:bookland/AdminPages/bookview.dart';
+import 'package:bookland/CustomerPages/customerBookView.dart';
 import 'package:bookland/elements/appBar.dart';
 import 'package:bookland/elements/bottomNavigatorBar.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
 import 'package:flutter_paginator/flutter_paginator.dart';
+
+import '../main.dart';
 
 int total = 0;
 SplayTreeSet isbnSet = new SplayTreeSet();
@@ -35,7 +38,7 @@ class ExploreStateless extends StatelessWidget {
     return Scaffold(
       appBar: MyAppBar(pageTitle: "Explore",
         loginIcon: false,
-        back: true,
+        back: false,
         filter_list: true,
         search: true,),
       body: Paginator.listView(
@@ -107,6 +110,7 @@ class ExploreStateless extends StatelessWidget {
         _url,
         headers: <String, String>{'authorization': basicAuth},
       );
+      print(response.body);
       return BooksData.fromResponse(response);
     } catch (e) {
       if (e is IOException) {
@@ -168,13 +172,23 @@ class ExploreStateless extends StatelessWidget {
           ),) ,
           onTap: () {
             BuildContext context;
-            Navigator.push(
-                globalExploreContext,
-                MaterialPageRoute(
-                  builder: (context) =>
-                  // new BookView(isbn: isbnSet.elementAt(index).toString()),
-                  new BookView(isbn: bookid_send),
-                ));
+            if (isAdmin == 1){
+              Navigator.push(
+                  globalExploreContext,
+                  MaterialPageRoute(
+                    builder: (context) =>
+                    // new BookView(isbn: isbnSet.elementAt(index).toString()),
+                    new BookView(isbn: bookid_send),
+                  ));
+            }else{
+              Navigator.push(
+                  globalExploreContext,
+                  MaterialPageRoute(
+                    builder: (context) =>
+                    // new BookView(isbn: isbnSet.elementAt(index).toString()),
+                    new CustomerBookView(isbn: bookid_send),
+                  ));
+            }
           });
     }else{
       final_text = final_text + last_price_part + "\$";
@@ -232,6 +246,7 @@ class ExploreStateless extends StatelessWidget {
     booksData.prices.clear();
     booksData.img_list.clear();
     booksData.isbn_list.clear();
+    oldPriceList = [];
     return Center(
       child: Text("No books in the list"),
     );
@@ -294,7 +309,7 @@ class BooksData {
       lastPrice += jsonData[i]["priceList"][priceListLen - 1]["price"];
       bool moreThanOne = false;
 
-      prices.add(lastPrice);
+      prices.add((lastPrice).toStringAsFixed(2));
       img_list.add(jsonData[i]["bookImage"]);
       isbn_list.add(jsonData[i]["bookId"]);
       String inDiscount = jsonData[i]["inDiscount"].toString();
@@ -302,7 +317,7 @@ class BooksData {
 
       if (inDiscount =="1" ){
         oldPrice_List.add(jsonData[i]["priceList"][priceListLen - 2]["price"].toString());
-        oldPriceList.add(jsonData[i]["priceList"][priceListLen - 2]["price"].toString());
+        oldPriceList.add(double.parse(jsonData[i]["priceList"][priceListLen - 2]["price"].toString()).toStringAsFixed(2));
       }else{
         oldPrice_List.add("0");
         oldPriceList.add("0");
@@ -311,6 +326,7 @@ class BooksData {
     }
     //oldPriceList = oldPrice_List ;
     nItems = books.length;
+
   }
 
   BooksData.withError(String errorMessage) {

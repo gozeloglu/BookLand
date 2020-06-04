@@ -35,7 +35,7 @@ public class PaymentServices {
     private CustomerRepository customerRepository;
 
     @Transactional
-    public Boolean saveMyCard(String cardNo, String cardOwner, Integer customerId) {
+    public Integer saveMyCard(String cardNo, String cardOwner, Integer customerId, Float amount) {
         Customer customer = customerRepository.findByCustomerId(customerId);
 
         Card cardExist = paymentRepository.findByCardNo(cardNo);
@@ -52,11 +52,13 @@ public class PaymentServices {
 
         if (cardExist != null) {
             if (!name.equals(cardExist.getOwnerName()) || !surname.equals(cardExist.getOwnerSurname()))
-                return false;
-            if (customer.getCustomerCardList().contains(cardExist))
-                return true;
-            customer.getCustomerCardList().add(cardExist);
-            return true;
+                return -2;/*Invalid payment information*/
+            if (!customer.getCustomerCardList().contains(cardExist)) {
+                customer.getCustomerCardList().add(cardExist);
+            }
+            if (cardExist.getCardBudget() >= amount)
+                return 1;/*Successful payment*/
+            return -1;/*Not enough card limit*/
         }
         Card card = new Card();
         card.setCardNo(cardNo);
@@ -66,7 +68,10 @@ public class PaymentServices {
         cardExist = paymentRepository.save(card);
         customer.getCustomerCardList().add(cardExist);
         cardExist.getCustomerCardList().add(customer);
-        return true;
+
+        if (cardExist.getCardBudget() >= amount)
+            return 1;/*Successful payment*/
+        return -1;/*Not enough card limit*/
     }
 
     @Transactional
@@ -84,8 +89,8 @@ public class PaymentServices {
     }
 
     @Transactional
-    public String orderCreate(String basketInfo, Float totalAmount, Integer customerId,
-                              Integer addressId, Integer shippingId, String cardNo, String coupon) {
+    public Integer orderCreate(String basketInfo, Float totalAmount, Integer customerId,
+                               Integer addressId, Integer shippingId, String cardNo, String coupon) {
         List<Integer> bookIds = new ArrayList<>();
         List<Integer> quantities = new ArrayList<>();
 
@@ -120,7 +125,11 @@ public class PaymentServices {
             contains.setTrackingNumber(cargoCreation(shippingId));
             containsRepository.save(contains);
         }
-        return "Your order has been received";
+
+        Card card = paymentRepository.findByCardNo(cardNo);
+        card.setCardBudget(card.getCardBudget() - totalAmount);
+        paymentRepository.save(card);
+        return 1;
     }
 
     public double applyCoupon(Map<String, Float> couponCode) {
@@ -140,6 +149,6 @@ public class PaymentServices {
                 && (totalAmount * campaign.getCouponDiscount()) / 100 > 0) {
             return (float) totalAmount - ((totalAmount * campaign.getCouponDiscount()) / 100);
         }
-        return (float) 0;
+        return (float) 0 /*it means coupon code is invalid*/;
     }
 }

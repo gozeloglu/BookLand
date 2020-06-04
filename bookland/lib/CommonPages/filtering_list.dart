@@ -8,6 +8,7 @@ import 'package:bookland/elements/bottomNavigatorBar.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter_paginator/flutter_paginator.dart';
+import 'package:bookland/CustomerPages/customerBookView.dart';
 
 int total = 0;
 SplayTreeSet isbnSet = new SplayTreeSet();
@@ -28,12 +29,8 @@ class Explore_FilteredStateless extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     globalExploreContext = context;
-    return MaterialApp(
-      theme: ThemeData(
-        primarySwatch: Colors.red,
-      ),
-      title: 'Explore FİLTER NEW Page',
-      home: Explore_FilteredPage(),
+    return Scaffold(
+      body: Explore_FilteredPage(),
     );
   }
 }
@@ -56,8 +53,8 @@ class Explore_FilteredState extends State<Explore_FilteredPage> {
     return Scaffold(
       appBar: MyAppBar(pageTitle: "Explore",
         loginIcon: false,
-        back: true,
-        filter_list: true,
+        back: false,
+        filter_list: false,
         search: true, ),
       body: Paginator.listView(
         key: paginatorGlobalKey,
@@ -151,8 +148,11 @@ class Explore_FilteredState extends State<Explore_FilteredPage> {
           "\n" +
           "Price:\t" +
           "|"+
-          booksData.prices[i].toString()
-          + "|"+ (booksData.img_list[i].toString()) + "|" + booksData.isbn_list[i].toString();
+          booksData.prices[i].toString() +
+          "|" +
+          (booksData.img_list[i].toString()) +
+          "|" +
+          booksData.isbn_list[i].toString();
       // String img_val = (booksData.img_list[i].toString());
       bookNameList.add(val);
     }
@@ -174,19 +174,56 @@ class Explore_FilteredState extends State<Explore_FilteredPage> {
     String last_price_part = value_list[1];
     String img_part = value_list[2];
     String bookid_send = value_list[3];
-    text_part = text_part + last_price_part;
-    return ListTile(
-        leading:  Image.network(img_part),
-        title: Text(text_part),
-        onTap: () {
-          Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (context) =>
-               // new BookView(isbn: isbnSet.elementAt(index).toString()),
-                new BookView(isbn: bookid_send),
-              ));
-        });
+    String final_text = text_part;
+
+    if(oldPriceList[index] == "0" ){
+      final_text = final_text + last_price_part + "  \$";
+      return ListTile(
+        //leading:  Image.network("https://dictionary.cambridge.org/tr/images/thumb/book_noun_001_01679.jpg?version=5.0.75"),
+          leading:  Image.network(img_part),
+          title: Text(final_text ,style: TextStyle(
+            fontSize: 18,
+            fontWeight: FontWeight.bold,
+          ),) ,
+          onTap: () {
+            Navigator.push(
+                globalExploreContext,
+                MaterialPageRoute(
+                  builder: (context) =>
+                  // new BookView(isbn: isbnSet.elementAt(index).toString()),
+                  new CustomerBookView(isbn: bookid_send),
+                ));
+          });
+    }else{
+      final_text = final_text +last_price_part  + " \$";
+
+      return ListTile(
+
+        //leading:  Image.network("https://dictionary.cambridge.org/tr/images/thumb/book_noun_001_01679.jpg?version=5.0.75"),
+          leading:  Image.network(img_part),
+          title: Text(final_text ,style: TextStyle(
+            fontSize: 18,
+            fontWeight: FontWeight.bold,
+          ),) ,
+          subtitle: Text(oldPriceList[index] + " \$" ,style: TextStyle(
+            decoration: TextDecoration.lineThrough,
+            decorationThickness: 2.5,
+            decorationColor: Colors.red,
+            color: Color.fromARGB(140, 0, 0, 0),
+            fontSize: 18,
+            fontWeight: FontWeight.bold,
+          ),),
+          onTap: () {
+            Navigator.push(
+                globalExploreContext,
+                MaterialPageRoute(
+                  builder: (context) =>
+                  // new BookView(isbn: isbnSet.elementAt(index).toString()),
+                  new CustomerBookView(isbn: bookid_send),
+                ));
+          });
+    }
+
   }
 
   Widget errorWidgetMaker(BooksData booksData, retryListener) {
@@ -212,6 +249,7 @@ class Explore_FilteredState extends State<Explore_FilteredPage> {
     booksData.prices.clear();
     booksData.img_list.clear();
     booksData.isbn_list.clear();
+    oldPriceList = [];
     return Center(
       child: Text("No books in the list"),
     );
@@ -274,7 +312,7 @@ class BooksData {
       lastPrice += jsonData[i]["priceList"][priceListLen - 1]["price"];
       bool moreThanOne = false;
 
-      prices.add(lastPrice);
+      prices.add(lastPrice.toStringAsFixed(2));
       img_list.add(jsonData[i]["bookImage"]);
       isbn_list.add(jsonData[i]["bookId"]);
       String inDiscount = jsonData[i]["inDiscount"].toString();
@@ -282,7 +320,7 @@ class BooksData {
 
       if (inDiscount =="1" ){
         oldPrice_List.add(jsonData[i]["priceList"][priceListLen - 2]["price"].toString());
-        oldPriceList.add(jsonData[i]["priceList"][priceListLen - 2]["price"].toString());
+        oldPriceList.add(double.parse(jsonData[i]["priceList"][priceListLen - 2]["price"].toString()).toStringAsFixed(2));
       }else{
         oldPrice_List.add("0");
         oldPriceList.add("0");
