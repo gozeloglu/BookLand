@@ -1,9 +1,12 @@
+import 'package:bookland/AdminPages/notification.dart';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 
 class NotificationHttp {
-  /// This function sends notification to all users
-  /// TODO This function will be modified after notification page is created
+  /// @param notificationTitle represents title of the notification
+  /// @param notificationMessage represents message body of the notification
+  /// This function sends notification to all users and updates the
+  /// notificationSent variable
   Future<String> sendNotification(
       String notificationTitle, String notificationMessage) async {
     String basicAuth = 'Basic ' +
@@ -27,9 +30,11 @@ class NotificationHttp {
 
     if (response.statusCode < 400) {
       print("Notification is sent!");
+      notificationSent = true;
       return "Successful!";
     } else {
       print("Could not send notification");
+      notificationSent = false;
       throw Exception("Could not send notification!");
     }
   }

@@ -1,8 +1,12 @@
+import 'dart:async';
+
 import 'package:bookland/elements/bottomNavigatorBar.dart';
 import 'package:bookland/elements/appBar.dart';
 import 'package:bookland/services/http_notification.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+
+bool notificationSent = false;
 
 class NotificationStateful extends StatefulWidget {
   final String _couponCode;
@@ -194,6 +198,71 @@ class NotificationState extends State<NotificationStateful> {
             NotificationHttp notificationHttp = new NotificationHttp();
             notificationHttp.sendNotification(
                 notificationTitle, notificationMessage);
+            Timer(Duration(seconds: 1), () {
+              if (notificationSent) {
+                showDialog(
+                  context: context,
+                  builder: (BuildContext context) {
+                    // return object of type Dialog
+                    return AlertDialog(
+                      shape: new RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(25),
+                      ),
+                      title: new Text("Notification"),
+                      content: new Text("Notification is sent!"),
+                      actions: <Widget>[
+                        // usually buttons at the bottom of the dialog
+                        new FlatButton(
+                          shape: new RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(20),
+                          ),
+                          color: Colors.blue,
+                          child: new Text(
+                            "Close",
+                            style: TextStyle(color: Colors.white),
+                          ),
+                          onPressed: () {
+                            Navigator.of(context).pop();
+                          },
+                        ),
+                      ],
+                    );
+                  },
+                );
+              } else {
+                if (notificationSent) {
+                  showDialog(
+                    context: context,
+                    builder: (BuildContext context) {
+                      // return object of type Dialog
+                      return AlertDialog(
+                        shape: new RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(25),
+                        ),
+                        title: new Text("Notification Error"),
+                        content: new Text("Notification could not send!"),
+                        actions: <Widget>[
+                          // usually buttons at the bottom of the dialog
+                          new FlatButton(
+                            shape: new RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(20),
+                            ),
+                            color: Colors.blue,
+                            child: new Text(
+                              "Close",
+                              style: TextStyle(color: Colors.white),
+                            ),
+                            onPressed: () {
+                              Navigator.of(context).pop();
+                            },
+                          ),
+                        ],
+                      );
+                    },
+                  );
+                }
+              }
+            });
           }
         },
       ),
