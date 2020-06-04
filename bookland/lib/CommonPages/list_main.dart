@@ -4,6 +4,7 @@ import 'dart:collection';
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:bookland/AdminPages/bookview.dart';
 import 'package:bookland/CustomerPages/customerBookView.dart';
 import 'package:bookland/elements/appBar.dart';
 import 'package:bookland/elements/bottomNavigatorBar.dart';
@@ -26,7 +27,7 @@ class List_MainStateless extends StatelessWidget {
     deletedBookId = bookId;
     main_page_num = MainPage;
     if (MainPage == 1) {
-      title_main = "HotList";
+      title_main = "Best Sellers";
       parameter = "getHotList";
     } else if (MainPage == 2) {
       title_main = "Campaigns";
@@ -38,7 +39,7 @@ class List_MainStateless extends StatelessWidget {
       print(parameter);
       title_main = "Last Views";
     } else if (MainPage == 5) {
-      title_main = "Best Sellers";
+      title_main = "Top List";
       parameter = "getBestSeller";
     }
 
@@ -206,13 +207,23 @@ class List_MainStateless extends StatelessWidget {
             fontWeight: FontWeight.bold,
           ),) ,
           onTap: () {
-            Navigator.push(
-                globalList_MainContext,
-                MaterialPageRoute(
-                  builder: (context) =>
-                  // new BookView(isbn: isbnSet.elementAt(index).toString()),
-                  new CustomerBookView(isbn: bookid_send),
-                ));
+            if (isAdmin == 1){
+              Navigator.push(
+                  globalList_MainContext,
+                  MaterialPageRoute(
+                    builder: (context) =>
+                    // new BookView(isbn: isbnSet.elementAt(index).toString()),
+                    new BookView(isbn: bookid_send),
+                  ));
+            }else{
+              Navigator.push(
+                  globalList_MainContext,
+                  MaterialPageRoute(
+                    builder: (context) =>
+                    // new BookView(isbn: isbnSet.elementAt(index).toString()),
+                    new CustomerBookView(isbn: bookid_send),
+                  ));
+            }
           });
     }else{
       final_text = final_text +last_price_part  + " \$";
@@ -234,13 +245,23 @@ class List_MainStateless extends StatelessWidget {
             fontWeight: FontWeight.bold,
           ),),
           onTap: () {
-            Navigator.push(
-                globalList_MainContext,
-                MaterialPageRoute(
-                  builder: (context) =>
-                  // new BookView(isbn: isbnSet.elementAt(index).toString()),
-                  new CustomerBookView(isbn: bookid_send),
-                ));
+            if (isAdmin == 1){
+              Navigator.push(
+                  globalList_MainContext,
+                  MaterialPageRoute(
+                    builder: (context) =>
+                    // new BookView(isbn: isbnSet.elementAt(index).toString()),
+                    new BookView(isbn: bookid_send),
+                  ));
+            }else{
+              Navigator.push(
+                  globalList_MainContext,
+                  MaterialPageRoute(
+                    builder: (context) =>
+                    // new BookView(isbn: isbnSet.elementAt(index).toString()),
+                    new CustomerBookView(isbn: bookid_send),
+                  ));
+            }
           });
     }
 

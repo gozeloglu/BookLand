@@ -191,7 +191,7 @@ class List_DynamicState extends State<List_DynamicPage> {
           onTap: () {
             if(isAdmin == 1){
               Navigator.push(
-                  context,
+                  globalList_DynamicContext,
                   MaterialPageRoute(
                     builder: (context) =>
                     // new BookView(isbn: isbnSet.elementAt(index).toString()),
@@ -199,7 +199,7 @@ class List_DynamicState extends State<List_DynamicPage> {
                   ));
             }else{
               Navigator.push(
-                  context,
+                  globalList_DynamicContext,
                   MaterialPageRoute(
                     builder: (context) =>
                     // new BookView(isbn: isbnSet.elementAt(index).toString()),
@@ -227,13 +227,23 @@ class List_DynamicState extends State<List_DynamicPage> {
             fontWeight: FontWeight.bold,
           ),),
           onTap: () {
-            Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) =>
-                  // new BookView(isbn: isbnSet.elementAt(index).toString()),
-                  new CustomerBookView(isbn: bookid_send),
-                ));
+            if (isAdmin == 1){
+              Navigator.push(
+                  globalList_DynamicContext,
+                  MaterialPageRoute(
+                    builder: (context) =>
+                    // new BookView(isbn: isbnSet.elementAt(index).toString()),
+                    new BookView(isbn: bookid_send),
+                  ));
+            }else{
+              Navigator.push(
+                  globalList_DynamicContext,
+                  MaterialPageRoute(
+                    builder: (context) =>
+                    // new BookView(isbn: isbnSet.elementAt(index).toString()),
+                    new CustomerBookView(isbn: bookid_send),
+                  ));
+            }
           });
     }
   }
