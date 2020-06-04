@@ -4,7 +4,8 @@ import 'package:http/http.dart' as http;
 class NotificationHttp {
   /// This function sends notification to all users
   /// TODO This function will be modified after notification page is created
-  Future<String> sendNotification() async {
+  Future<String> sendNotification(
+      String notificationTitle, String notificationMessage) async {
     String basicAuth = 'Basic ' +
         base64Encode(
             utf8.encode('MTUwNDdkMmItMmZlZS00NDJjLThlY2EtNzAxMjZlZWQwMWVl'));
@@ -18,11 +19,8 @@ class NotificationHttp {
             },
             body: jsonEncode(<String, dynamic>{
               "app_id": "0ecd191c-68ae-4386-ad78-9ca1d677a390",
-              "headings": {"en": "Notification Title"},
-              "contents": {
-                "en":
-                    "This is notification content. This part will be changed with campaign."
-              },
+              "headings": {"en": notificationTitle},
+              "contents": {"en": notificationMessage},
               "included_segments": ["Active Users"]
             }));
     print(response.statusCode);

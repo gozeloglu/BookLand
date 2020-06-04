@@ -187,7 +187,8 @@ class NotificationState extends State<NotificationStateful> {
             );
           } else {
             NotificationHttp notificationHttp = new NotificationHttp();
-            notificationHttp.sendNotification();
+            notificationHttp.sendNotification(
+                notificationTitle, notificationMessage);
           }
         },
       ),
