@@ -12,10 +12,10 @@ class NotificationStateful extends StatefulWidget {
   final String _couponCode;
   final String _couponDiscount;
   final String _campaignName;
-  final String _endDate;
+  final String _dueDate;
 
   NotificationStateful(this._couponCode, this._couponDiscount,
-      this._campaignName, this._endDate);
+      this._campaignName, this._dueDate);
 
   @override
   NotificationState createState() => NotificationState();
@@ -91,7 +91,7 @@ class NotificationState extends State<NotificationStateful> {
           child: ListTile(
             leading: Icon(Icons.date_range),
             title: const Text("Date"),
-            subtitle: Text(widget._endDate), // TODO Will be dynamic
+            subtitle: Text(widget._dueDate), // TODO Will be dynamic
           ),
         ),
         notificationTitle(),
@@ -110,7 +110,6 @@ class NotificationState extends State<NotificationStateful> {
         maxLines: 1,
         keyboardType: TextInputType.text,
         decoration: new InputDecoration(
-          //hintText: "Notification Title",
           labelText: "Notification Title",
           border: OutlineInputBorder(),
           icon: Icon(Icons.title),
@@ -127,7 +126,6 @@ class NotificationState extends State<NotificationStateful> {
         maxLines: 3,
         keyboardType: TextInputType.text,
         decoration: new InputDecoration(
-          // hintText: "Notification Message"
           labelText: "Notification Message",
           border: OutlineInputBorder(),
           icon: Icon(Icons.message),
@@ -153,12 +151,15 @@ class NotificationState extends State<NotificationStateful> {
           String notificationMessage = notificationMsgController.text;
           String errorMessage = "";
 
+          // Control the text fields
+          // If any of them is empty, create a error message
           if (notificationTitle == "") {
             errorMessage += "Notification title is empty!";
           } else if (notificationMessage == "") {
             errorMessage += "Notification message is empty!";
           }
 
+          // If there is a field that is empty, show up an alert dialog
           if (errorMessage != "") {
             showDialog(
               context: context,
@@ -190,14 +191,17 @@ class NotificationState extends State<NotificationStateful> {
               },
             );
           } else {
+            // Add coupon code and due date at the end of the notification msg
             notificationMessage += "\n\n";
             notificationMessage += "Coupon Code: ";
             notificationMessage += widget._couponCode;
             notificationMessage += "\nDue Date: ";
-            notificationMessage += widget._endDate;
+            notificationMessage += widget._dueDate;
             NotificationHttp notificationHttp = new NotificationHttp();
             notificationHttp.sendNotification(
                 notificationTitle, notificationMessage);
+
+            // Adds a time delay to get response from backend
             Timer(Duration(seconds: 1), () {
               if (notificationSent) {
                 showDialog(
