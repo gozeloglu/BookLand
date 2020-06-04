@@ -186,6 +186,11 @@ class NotificationState extends State<NotificationStateful> {
               },
             );
           } else {
+            notificationMessage += "\n\n";
+            notificationMessage += "Coupon Code: ";
+            notificationMessage += widget._couponCode;
+            notificationMessage += "\nDue Date: ";
+            notificationMessage += widget._endDate;
             NotificationHttp notificationHttp = new NotificationHttp();
             notificationHttp.sendNotification(
                 notificationTitle, notificationMessage);
