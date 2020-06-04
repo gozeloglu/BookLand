@@ -4,16 +4,23 @@ import 'package:bookland/services/http_notification.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-import 'notification_logic.dart';
-
-class NotificationStateless extends StatelessWidget {
+class NotificationStateful extends StatefulWidget {
   final String _couponCode;
   final String _couponDiscount;
   final String _campaignName;
   final String _endDate;
 
-  NotificationStateless(this._couponCode, this._couponDiscount,
+  NotificationStateful(this._couponCode, this._couponDiscount,
       this._campaignName, this._endDate);
+
+  @override
+  NotificationState createState() => NotificationState();
+}
+
+class NotificationState extends State<NotificationStateful> {
+  TextEditingController notificationTitleController =
+      new TextEditingController();
+  TextEditingController notificationMsgController = new TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -46,18 +53,6 @@ class NotificationStateless extends StatelessWidget {
           flex: 10,
           child: campaignInfo(),
         ),
-        /*Expanded(
-          flex: 2,
-          child: notificationTitle(),
-        ),
-        Expanded(
-          flex: 3,
-          child: notificationMessage(),
-        ),
-        Expanded(
-          flex: 1,
-          child: sendNotificationButton(),
-        )*/
       ],
     );
   }
@@ -70,29 +65,29 @@ class NotificationStateless extends StatelessWidget {
           child: ListTile(
             leading: Icon(Icons.more),
             title: const Text("Coupon Code"),
-            subtitle: Text(_couponCode), // TODO Will be dynamic
+            subtitle: Text(widget._couponCode), // TODO Will be dynamic
           ),
         ),
         Card(
           child: ListTile(
             leading: Icon(Icons.trending_down),
             title: const Text("Discount"),
-            subtitle: Text(_couponDiscount + "%"), // TODO Will be dynamic
+            subtitle:
+                Text(widget._couponDiscount + "%"), // TODO Will be dynamic
           ),
         ),
         Card(
           child: ListTile(
             leading: Icon(Icons.category),
             title: const Text("Campaign"),
-            subtitle: Text(
-                _campaignName), // TODO Will be dynamic
+            subtitle: Text(widget._campaignName), // TODO Will be dynamic
           ),
         ),
         Card(
           child: ListTile(
             leading: Icon(Icons.date_range),
             title: const Text("Date"),
-            subtitle: Text(_endDate), // TODO Will be dynamic
+            subtitle: Text(widget._endDate), // TODO Will be dynamic
           ),
         ),
         notificationTitle(),
@@ -106,7 +101,8 @@ class NotificationStateless extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.fromLTRB(20, 30, 20, 0),
       child: TextFormField(
-        controller: null, // TODO This will be changed with controller
+        controller: notificationTitleController,
+        // TODO This will be changed with controller
         maxLines: 1,
         keyboardType: TextInputType.text,
         decoration: new InputDecoration(
@@ -123,7 +119,7 @@ class NotificationStateless extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.fromLTRB(20, 30, 20, 0),
       child: TextFormField(
-        controller: null,
+        controller: notificationMsgController,
         maxLines: 3,
         keyboardType: TextInputType.text,
         decoration: new InputDecoration(
@@ -149,8 +145,50 @@ class NotificationStateless extends StatelessWidget {
           style: new TextStyle(fontSize: 20, color: Colors.white),
         ),
         onPressed: () {
-          NotificationHttp notificationHttp = new NotificationHttp();
-          notificationHttp.sendNotification();
+          String notificationTitle = notificationTitleController.text;
+          String notificationMessage = notificationMsgController.text;
+          String errorMessage = "";
+
+          if (notificationTitle == "") {
+            errorMessage += "Notification title is empty!";
+          } else if (notificationMessage == "") {
+            errorMessage += "Notification message is empty!";
+          }
+
+          if (errorMessage != "") {
+            showDialog(
+              context: context,
+              builder: (BuildContext context) {
+                // return object of type Dialog
+                return AlertDialog(
+                  shape: new RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(25),
+                  ),
+                  title: new Text("Empty Field Warning"),
+                  content: new Text(errorMessage),
+                  actions: <Widget>[
+                    // usually buttons at the bottom of the dialog
+                    new FlatButton(
+                      shape: new RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(20),
+                      ),
+                      color: Colors.blue,
+                      child: new Text(
+                        "Close",
+                        style: TextStyle(color: Colors.white),
+                      ),
+                      onPressed: () {
+                        Navigator.of(context).pop();
+                      },
+                    ),
+                  ],
+                );
+              },
+            );
+          } else {
+            NotificationHttp notificationHttp = new NotificationHttp();
+            notificationHttp.sendNotification();
+          }
         },
       ),
     );

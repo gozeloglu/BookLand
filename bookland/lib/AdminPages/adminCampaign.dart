@@ -356,7 +356,7 @@ class adminCampaign extends StatelessWidget {
               Navigator.push(
                   context,
                   new MaterialPageRoute(
-                      builder: (context) => new NotificationStateless(
+                      builder: (context) => new NotificationStateful(
                           _couponCode,
                           _couponDiscount,
                           _campaignName,
