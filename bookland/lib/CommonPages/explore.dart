@@ -212,13 +212,23 @@ class ExploreStateless extends StatelessWidget {
           ),),
           onTap: () {
             BuildContext context;
-            Navigator.push(
-                globalExploreContext,
-                MaterialPageRoute(
-                  builder: (context) =>
-                  // new BookView(isbn: isbnSet.elementAt(index).toString()),
-                  new BookView(isbn: bookid_send),
-                ));
+            if (isAdmin == 1){
+              Navigator.push(
+                  globalExploreContext,
+                  MaterialPageRoute(
+                    builder: (context) =>
+                    // new BookView(isbn: isbnSet.elementAt(index).toString()),
+                    new BookView(isbn: bookid_send),
+                  ));
+            }else{
+              Navigator.push(
+                  globalExploreContext,
+                  MaterialPageRoute(
+                    builder: (context) =>
+                    // new BookView(isbn: isbnSet.elementAt(index).toString()),
+                    new CustomerBookView(isbn: bookid_send),
+                  ));
+            }
           });
     }
   }
