@@ -33,7 +33,12 @@ class MyBottomNavigatorBar extends StatelessWidget{
           height: 50.0,
           child: Row(children: <Widget>[
             Text("           "),
-            IconButton(icon: Icon(Icons.home, color: Colors.white), onPressed: () {}),
+            IconButton(icon: Icon(Icons.home, color: Colors.white), onPressed: () {
+              Navigator.push(
+                context,
+                new MaterialPageRoute(builder: (context) => new MyApp())
+              );
+            }),
             Text("           "),
             IconButton(
                 icon: Icon(Icons.category, color: Colors.white),

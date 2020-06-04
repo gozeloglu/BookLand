@@ -2,6 +2,7 @@ import 'package:bookland/elements/appBar.dart';
 import 'package:bookland/elements/bottomNavigatorBar.dart';
 import 'package:flutter/material.dart';
 import 'package:bookland/services/http_admin.dart';
+import 'package:bookland/AdminPages/notification.dart';
 
 class adminCampaign extends StatelessWidget {
   static const String _title = 'Create Campaign';
@@ -15,15 +16,13 @@ class adminCampaign extends StatelessWidget {
   String endDate;
   String participantQuantity;
 
-
   TextEditingController campaignIdController = new TextEditingController();
   TextEditingController couponCodeController = new TextEditingController();
   TextEditingController couponDiscountController = new TextEditingController();
-  TextEditingController campaignNameController =
-  new TextEditingController();
+  TextEditingController campaignNameController = new TextEditingController();
   TextEditingController endDateController = new TextEditingController();
-  TextEditingController participantQuantityController = new TextEditingController();
-
+  TextEditingController participantQuantityController =
+      new TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -41,14 +40,14 @@ class adminCampaign extends StatelessWidget {
         width: double.infinity,
         padding: EdgeInsets.only(top: 10, bottom: 10),
         child: new Stack(
-          children: <Widget>[_showForm()],
+          children: <Widget>[_showForm(context)],
         ),
       ),
       bottomNavigationBar: MyBottomNavigatorBar(),
     );
   }
 
-  Widget _showForm() {
+  Widget _showForm(BuildContext context) {
     return new Container(
       padding: EdgeInsets.all(1.0),
       child: new Form(
@@ -61,7 +60,8 @@ class adminCampaign extends StatelessWidget {
             showCampaignNameInput(),
             showDateInput(),
             showQuantityInput(),
-            CreateCampaignButton()
+            CreateCampaignButton(),
+            notificationButton(context),
           ],
         ),
       ),
@@ -94,7 +94,6 @@ class adminCampaign extends StatelessWidget {
       ),
     );
   }
-
 
   //Kupon kodu min - 8 max 16 olmalı
   Widget showCouponCodeInput() {
@@ -146,7 +145,7 @@ class adminCampaign extends StatelessWidget {
           ),
         ),
         validator: (value) =>
-        value.isEmpty ? 'Book Link cannot be empty' : null,
+            value.isEmpty ? 'Book Link cannot be empty' : null,
         //onSaved: (value) => _email = value.trim(),
       ),
     );
@@ -200,13 +199,11 @@ class adminCampaign extends StatelessWidget {
             borderSide: const BorderSide(color: Colors.grey, width: 0.0),
           ),
         ),
-        validator: (value) =>
-        value.isEmpty ? 'Due Date cannot be empty' : null,
+        validator: (value) => value.isEmpty ? 'Due Date cannot be empty' : null,
         //onSaved: (value) => _email = value.trim(),
       ),
     );
   }
-
 
   Widget CreateCampaignButton() {
     return new Padding(
@@ -232,12 +229,8 @@ class adminCampaign extends StatelessWidget {
 
             //print(isbn book_name,book_category,book_sub_category,book_author,book_img,book_description ,book_price);
 
-            var result = httpAdmin.adminMakeCampaign(
-                couponCode,
-                couponDiscount,
-                campaignName,
-                endDate,
-                participantQuantity );
+            var result = httpAdmin.adminMakeCampaign(couponCode, couponDiscount,
+                campaignName, endDate, participantQuantity);
 
             print(result);
             //print("****" + errorControl.toString());
@@ -298,6 +291,77 @@ class adminCampaign extends StatelessWidget {
                   builder: (context) => new MyApp(),
             )
             );*/
+          }),
+    );
+  }
+
+  Widget notificationButton(BuildContext context) {
+    return Padding(
+      padding: EdgeInsets.fromLTRB(10.0, 10.0, 10.0, 0.0),
+      child: new RaisedButton(
+          elevation: 5.0,
+          shape: new RoundedRectangleBorder(
+              borderRadius: new BorderRadius.circular(10.0)),
+          color: Colors.green,
+          //add this to your code,
+          child: new Text("Create This Campaign!",
+              style: new TextStyle(fontSize: 20.0, color: Colors.white)),
+          onPressed: () {
+            String _couponCode = couponCodeController.text;
+            String _couponDiscount = couponDiscountController.text;
+            String _campaignName = campaignNameController.text;
+            String _endDate = endDateController.text;
+            String errorMsg = "";
+            if (_couponCode == "") {
+              errorMsg += "Coupon code is empty";
+            } else if (_couponDiscount == "") {
+              errorMsg += "Coupon discount is empty";
+            } else if (_campaignName == "") {
+              errorMsg += "Campaign name is empty";
+            } else if (_endDate == "") {
+              errorMsg += "Date is empty!";
+            }
+
+            if (errorMsg != "") {
+              showDialog(
+                context: context,
+                builder: (BuildContext context) {
+                  // return object of type Dialog
+                  return AlertDialog(
+                    shape: new RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(25),
+                    ),
+                    title: new Text("Empty Field Warning"),
+                    content: new Text(errorMsg),
+                    actions: <Widget>[
+                      // usually buttons at the bottom of the dialog
+                      new FlatButton(
+                        shape: new RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(20),
+                        ),
+                        color: Colors.blue,
+                        child: new Text(
+                          "Close",
+                          style: TextStyle(color: Colors.white),
+                        ),
+                        onPressed: () {
+                          Navigator.of(context).pop();
+                        },
+                      ),
+                    ],
+                  );
+                },
+              );
+            } else {
+              Navigator.push(
+                  context,
+                  new MaterialPageRoute(
+                      builder: (context) => new NotificationStateful(
+                          _couponCode,
+                          _couponDiscount,
+                          _campaignName,
+                          _endDate)));
+            }
           }),
     );
   }
