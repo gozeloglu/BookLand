@@ -74,7 +74,8 @@ class _CommentWriteState extends State<CommentWriteStateful> {
       padding: const EdgeInsets.fromLTRB(0, 100, 0, 0),
       child: new TextFormField(
         controller: commentTextController,
-        maxLines: 10,
+        maxLines: 8,
+        maxLength: 255,
         autofocus: false,
         decoration: new InputDecoration(
           border: OutlineInputBorder(),
