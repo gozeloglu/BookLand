@@ -77,10 +77,17 @@ class MyDrawer extends StatelessWidget {
               color: Colors.green,
             ),
             onTap: () {
-              Navigator.push(
-                context,
-                new MaterialPageRoute(builder: (context) => new MyOrders()),
-              );
+              if (isLogin) {
+                Navigator.push(
+                  context,
+                  new MaterialPageRoute(builder: (context) => new MyOrders()),
+                );
+              } else {
+                Navigator.push(
+                  context,
+                  new MaterialPageRoute(builder: (context) => new Login()),
+                );
+              }
             },
           ),
 //Section Line
