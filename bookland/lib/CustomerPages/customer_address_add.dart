@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:bookland/CustomerPages/address_select.dart';
 import 'package:bookland/elements/appBar.dart';
 import 'package:bookland/elements/bottomNavigatorBar.dart';
@@ -16,6 +18,7 @@ class CustomerAddressAdd extends StatelessWidget {
   CustomerAddressAdd(bool _isAddressSelectPage) {
     isAddressSelectPage = _isAddressSelectPage;
   }
+
   static const String _title = "Add Address";
 
   @override
@@ -261,47 +264,51 @@ class _AddressAddPageState extends State<CustomerAddressAddStateful> {
             // Show up alert dialogs
             // If address is saved successfully, show up successful message
             // If address is not saved successfully, show up successful message
-            if (isSaved) {
-              showDialog(
-                  context: context,
-                  builder: (BuildContext context) {
-                    return AlertDialog(
-                      title: Text("Saved!"),
-                      content: Text("Address is saved successfully!"),
-                      shape: new RoundedRectangleBorder(
-                          borderRadius: new BorderRadius.circular(25)),
-                      actions: <Widget>[
-                        new FlatButton(
-                          child: new Text("Close"),
-                          onPressed: () {
-                            if (isAddressSelectPage) {
-                              Navigator.push(
-                                  context,
-                                  new MaterialPageRoute(
-                                      builder: (context) => new AddressSelect()));
-                            } else {
-                              Navigator.push(
-                                  context,
-                                  new MaterialPageRoute(
-                                      builder: (context) => new MyAddresses()));
-                            }
-                          },
-                        )
-                      ],
-                    );
-                  });
-            } else if (isSaved != true && error == false) {
-              showDialog(
-                  context: context,
-                  builder: (BuildContext context) {
-                    return AlertDialog(
-                      title: Text("Error!"),
-                      content: Text("Address could not saved!"),
-                      shape: new RoundedRectangleBorder(
-                          borderRadius: new BorderRadius.circular(25)),
-                    );
-                  });
-            }
+            Timer(Duration(seconds: 1), () {
+              if (isSaved) {
+                showDialog(
+                    context: context,
+                    builder: (BuildContext context) {
+                      return AlertDialog(
+                        title: Text("Saved!"),
+                        content: Text("Address is saved successfully!"),
+                        shape: new RoundedRectangleBorder(
+                            borderRadius: new BorderRadius.circular(25)),
+                        actions: <Widget>[
+                          new FlatButton(
+                            child: new Text("Close"),
+                            onPressed: () {
+                              if (isAddressSelectPage) {
+                                Navigator.push(
+                                    context,
+                                    new MaterialPageRoute(
+                                        builder: (context) =>
+                                            new AddressSelect()));
+                              } else {
+                                Navigator.push(
+                                    context,
+                                    new MaterialPageRoute(
+                                        builder: (context) =>
+                                            new MyAddresses()));
+                              }
+                            },
+                          )
+                        ],
+                      );
+                    });
+              } else if (isSaved != true && error == false) {
+                showDialog(
+                    context: context,
+                    builder: (BuildContext context) {
+                      return AlertDialog(
+                        title: Text("Error!"),
+                        content: Text("Address could not saved!"),
+                        shape: new RoundedRectangleBorder(
+                            borderRadius: new BorderRadius.circular(25)),
+                      );
+                    });
+              }
+            });
           }),
     );
   }
