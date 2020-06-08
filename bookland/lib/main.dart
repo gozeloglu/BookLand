@@ -10,6 +10,7 @@ import 'package:bookland/login.dart';
 import 'package:bookland/CommonPages/list_main.dart';
 import 'package:bookland/CommonPages/category.dart';
 import 'package:bookland/CustomerPages/basket.dart';
+import 'package:onesignal_flutter/onesignal_flutter.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:bookland/CustomerPages/Campaigns.dart';
 import 'CommonPages/Search.dart';
@@ -62,7 +63,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: MyStatelessWidget(),
+      home: MyAppLayout(),
     );
   }
 }
@@ -72,9 +73,33 @@ class MyApp extends StatelessWidget {
 final duplicateItems = List<String>.generate(10000, (i) => "Item $i");
 var items = List<String>();
 
+class MyAppLayout extends StatefulWidget {
+  @override
+  MyAppLayoutState createState() => MyAppLayoutState();
+}
 /// This is the stateless widget that the main application instantiates.
-class MyStatelessWidget extends StatelessWidget {
-  MyStatelessWidget({Key key}) : super(key: key);
+class MyAppLayoutState extends State<MyAppLayout> {
+  //MyStatelessWidget({Key key}) : super(key: key);
+  String notificationContent;
+
+  @override
+  void initState() {
+    super.initState();
+    configSignal();
+  }
+
+  void configSignal() async {
+    await OneSignal.shared.init("0ecd191c-68ae-4386-ad78-9ca1d677a390");
+
+    OneSignal.shared.setInFocusDisplayType(OSNotificationDisplayType.notification);
+
+    OneSignal.shared.setNotificationReceivedHandler((notification) {
+      setState(() {
+        notificationContent = notification.jsonRepresentation().replaceAll('\\n', '\n');
+      });
+    });
+  }
+
 
   @override
   Widget build(BuildContext context) {

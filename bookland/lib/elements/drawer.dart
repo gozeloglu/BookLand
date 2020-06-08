@@ -16,22 +16,21 @@ import '../AdminPages/Admin_CustomerManage.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'dart:async';
 
-
 class MyDrawer extends StatelessWidget {
   final String drawerHeader;
 
   const MyDrawer({Key key, this.drawerHeader}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
-    if(isAdmin == 1){
+    if (isAdmin == 1) {
       return adminDrawer(context);
-    }
-    else{
+    } else {
       return customerDrawer(context);
     }
   }
 
-  Widget customerDrawer(BuildContext context){
+  Widget customerDrawer(BuildContext context) {
     return Drawer(
       child: ListView(
         padding: EdgeInsets.zero,
@@ -53,14 +52,14 @@ class MyDrawer extends StatelessWidget {
           ),
           new ListTile(
             title: new Text("Account"),
-            trailing: new Icon(Icons.account_circle,color : Colors.blue),
+            trailing: new Icon(Icons.account_circle, color: Colors.blue),
             onTap: () {
               if (isLogin) {
                 Navigator.push(
                     context,
                     new MaterialPageRoute(
                         builder: (context) =>
-                        new AccountPageStateless(customerFirstName)));
+                            new AccountPageStateless(customerFirstName)));
               } else {
                 Navigator.push(
                   context,
@@ -73,12 +72,22 @@ class MyDrawer extends StatelessWidget {
           new Divider(),
           new ListTile(
             title: new Text("Orders"),
-            trailing: new Icon(Icons.add_shopping_cart,color: Colors.green,),
+            trailing: new Icon(
+              Icons.add_shopping_cart,
+              color: Colors.green,
+            ),
             onTap: () {
-              Navigator.push(
-                context,
-                new MaterialPageRoute(builder: (context) => new MyOrders()),
-              );
+              if (isLogin) {
+                Navigator.push(
+                  context,
+                  new MaterialPageRoute(builder: (context) => new MyOrders()),
+                );
+              } else {
+                Navigator.push(
+                  context,
+                  new MaterialPageRoute(builder: (context) => new Login()),
+                );
+              }
             },
           ),
 //Section Line
@@ -86,26 +95,42 @@ class MyDrawer extends StatelessWidget {
 
           new ListTile(
             title: new Text("Wish List"),
-            trailing: new Icon(Icons.favorite,color: Colors.red,),
+            trailing: new Icon(
+              Icons.favorite,
+              color: Colors.red,
+            ),
             onTap: () {
-              Navigator.push(
-                context, new MaterialPageRoute(builder: (context) => new WishListStateless(-1)),
-              );
-
-
+              if (isLogin) {
+                Navigator.push(
+                  context,
+                  new MaterialPageRoute(
+                      builder: (context) => new WishListStateless(-1)),
+                );
+              } else {
+                Navigator.push(
+                  context,
+                  new MaterialPageRoute(builder: (context) => new Login()),
+                );
+              }
             },
           ),
 
           new Divider(),
           new ListTile(
             title: new Text("Campaigns"),
-            trailing: new Icon(Icons.notifications_active,color: Colors.yellow,),
+            trailing: new Icon(
+              Icons.notifications_active,
+              color: Colors.yellow,
+            ),
             onTap: () {},
           ),
           new Divider(),
           new ListTile(
             title: new Text("Manual"),
-            trailing: new Icon(Icons.help,color:  Colors.purple,),
+            trailing: new Icon(
+              Icons.help,
+              color: Colors.purple,
+            ),
             onTap: () {
               Navigator.push(
                 context,
@@ -134,7 +159,8 @@ class MyDrawer extends StatelessWidget {
       ),
     );
   }
-  Widget adminDrawer(BuildContext context){
+
+  Widget adminDrawer(BuildContext context) {
     return Drawer(
       child: new ListView(
         children: <Widget>[
@@ -203,8 +229,7 @@ class MyDrawer extends StatelessWidget {
             onTap: () {
               Navigator.push(
                 context,
-                new MaterialPageRoute(
-                    builder: (context) => new AdminOrders()),
+                new MaterialPageRoute(builder: (context) => new AdminOrders()),
               );
             },
             child: ListTile(
@@ -217,7 +242,7 @@ class MyDrawer extends StatelessWidget {
               Navigator.push(
                 context,
                 new MaterialPageRoute(
-                    builder: (context) => new adminCampaign() ),
+                    builder: (context) => new adminCampaign()),
               );
             },
             child: ListTile(
@@ -230,7 +255,8 @@ class MyDrawer extends StatelessWidget {
               Navigator.push(
                 context,
                 new MaterialPageRoute(
-                    builder: (context) => new Admin_customerManageStateless(-1) ),
+                    builder: (context) =>
+                        new Admin_customerManageStateless(-1)),
               );
             },
             child: ListTile(
@@ -251,12 +277,14 @@ class MyDrawer extends StatelessWidget {
                 isAnyUserLogin = false;
 
                 logout();
+
                 ///FIRSTNAME = "Please LogIn";
                 Timer(Duration(seconds: 1), () {
                   Navigator.push(
                     context,
                     new MaterialPageRoute(builder: (context) => new MyApp()),
-                  );});
+                  );
+                });
               },
               child: Text("Logout", style: TextStyle(fontSize: 22)),
             ),
@@ -278,6 +306,7 @@ class MyDrawer extends StatelessWidget {
 
     //FIRSTNAME = "Please Login";
   }
+
   void updateUser() async {
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
     customerFirstName = sharedPreferences.getString("customerName");

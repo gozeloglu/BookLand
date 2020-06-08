@@ -1,5 +1,7 @@
 import 'package:bookland/AdminPages/adminOrders.dart';
 import 'package:bookland/CommonPages/filtering_page.dart';
+import 'package:bookland/CustomerPages/user_account.dart';
+import 'package:bookland/services/globalVariable.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -66,10 +68,20 @@ class MyAppBar extends StatelessWidget with PreferredSizeWidget {
               color: Colors.white,
             ),
             onPressed: () {
-              Navigator.push(
-                context,
-                new MaterialPageRoute(builder: (context) => new Login()),
-              );
+              if (isLogin) {
+                Navigator.push(
+                  context,
+                  new MaterialPageRoute(
+                      builder: (context) =>
+                          new AccountPageStateless(customerFirstName)),
+                );
+              } else {
+                Navigator.push(
+                  context,
+                  new MaterialPageRoute(builder: (context) => new Login()),
+                );
+              }
+
               // TODO Login page will be here
             },
           ),

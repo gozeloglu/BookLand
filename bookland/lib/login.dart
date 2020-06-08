@@ -80,7 +80,7 @@ class _LoginPageState extends State<LoginStatefulWidget> {
             showEmailInput(),
             showPasswordInput(),
             showLoginButton(),
-            showForgotPasswordButton(),
+            //showForgotPasswordButton(),
             showSignUpButton(),
           ],
         ),
@@ -214,14 +214,14 @@ class _LoginPageState extends State<LoginStatefulWidget> {
     );
   }
 
-  Widget showForgotPasswordButton() {
+  /*Widget showForgotPasswordButton() {
     return new FlatButton(
         onPressed: null,
         child: new Text(
             // WARNING _isLoginForm may not be true variable for this one
             'Forgot My Password',
             style: new TextStyle(fontSize: 18.0, fontWeight: FontWeight.w300)));
-  }
+  }*/
 
   Widget showSignUpButton() {
     return new FlatButton(
@@ -231,8 +231,8 @@ class _LoginPageState extends State<LoginStatefulWidget> {
             new MaterialPageRoute(builder: (context) => new SignUp()),
           );
         },
-        child: new Text('Sign Up',
-            style: new TextStyle(fontSize: 18.0, fontWeight: FontWeight.w300)));
+        child: new Text('\nDon\'t you have an account?',
+            style: new TextStyle(fontSize: 18.0, fontWeight: FontWeight.w300,)));
   }
 
   /// @param _customerId represents the logged in customer's id

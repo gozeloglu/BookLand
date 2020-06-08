@@ -25,7 +25,6 @@ dependencies:
   flutter_paginator: ^0.0.6
   gradient_app_bar: ^0.0.1
   flutter_webview_plugin: ^0.3.11
-  onesignal_flutter: ^2.0.0
   flutter:
     sdk: flutter
   # The following adds the Cupertino Icons font to your application.
@@ -35,6 +34,7 @@ dependencies:
   shared_preferences: ^0.5.7+3
   flappy_search_bar: 1.4.1
   smooth_star_rating: ^1.1.1
+  onesignal_flutter: ^2.0.0
 
 
 dev_dependencies:

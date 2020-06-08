@@ -33,10 +33,15 @@ class MyBottomNavigatorBar extends StatelessWidget{
           height: 50.0,
           child: Row(children: <Widget>[
             Text("           "),
-            IconButton(icon: Icon(Icons.home), onPressed: () {}),
+            IconButton(icon: Icon(Icons.home, color: Colors.white), onPressed: () {
+              Navigator.push(
+                context,
+                new MaterialPageRoute(builder: (context) => new MyApp())
+              );
+            }),
             Text("           "),
             IconButton(
-                icon: Icon(Icons.category),
+                icon: Icon(Icons.category, color: Colors.white),
                 onPressed: () {
                   Navigator.push(
                     context,
@@ -45,7 +50,7 @@ class MyBottomNavigatorBar extends StatelessWidget{
                 }),
             Text("           "),
             IconButton(
-                icon: Icon(Icons.explore),
+                icon: Icon(Icons.explore, color: Colors.white),
                 onPressed: () {
                    Navigator.push(
                       context,
@@ -55,7 +60,7 @@ class MyBottomNavigatorBar extends StatelessWidget{
                 }),
             Text("           "),
             IconButton(
-                icon: Icon(Icons.shopping_basket),
+                icon: Icon(Icons.shopping_basket, color: Colors.white),
                 onPressed: () async {
                   if (isLogin) {
                     Basket basket = new Basket(0);
@@ -85,27 +90,27 @@ class MyBottomNavigatorBar extends StatelessWidget{
                   end: Alignment.bottomLeft,
                   colors: [Colors.red, Colors.purple])),
           height: 50.0,
-          child: Row(children: <Widget>[
-            Text("           "), //TODO Değiştirilmesi gerek bu şekilde boşluk koymamalıyız
+          child: Row(children: <Widget>[ //TODO Değiştirilmesi gerek bu şekilde boşluk koymamalıyız
             IconButton(
-                icon: Icon(Icons.home),
+              padding: EdgeInsets.only(left: 80),
+                icon: Icon(Icons.home, color: Colors.white),
                 onPressed: () {
                   Navigator.push(
                     context, new MaterialPageRoute(builder: (context) => new AdminOrders()),
                   );
                 }),
-            Text("           "),
             IconButton(
-                icon: Icon(Icons.category),
+                padding: EdgeInsets.only(left: 87),
+                icon: Icon(Icons.category, color: Colors.white),
                 onPressed: () {
                   Navigator.push(
                     context,
                     new MaterialPageRoute(builder: (context) => new NT()),
                   );
                 }),
-            Text("           "),
             IconButton(
-                icon: Icon(Icons.search),
+                padding: EdgeInsets.only(left: 87),
+                icon: Icon(Icons.explore, color: Colors.white),
                 onPressed :() {
                   Navigator.push(
                     context, new MaterialPageRoute(builder: (context) => new ExploreStateless(-1)),

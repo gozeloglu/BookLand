@@ -14,7 +14,6 @@ import 'package:bookland/login.dart';
 import 'package:smooth_star_rating/smooth_star_rating.dart';
 import 'package:bookland/CustomerPages/comment_view.dart';
 
-
 import '../services/http_customer.dart';
 import 'package:smooth_star_rating/smooth_star_rating.dart';
 
@@ -37,7 +36,7 @@ class CustomerBookView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    getTotalCommentCount();   // Fetch total comment before comment view page
+    getTotalCommentCount(); // Fetch total comment before comment view page
     return Scaffold(
         appBar: MyAppBar(
           pageTitle: "Book",
@@ -51,9 +50,9 @@ class CustomerBookView extends StatelessWidget {
           builder: (BuildContext context, AsyncSnapshot snapshot) {
             if (snapshot.hasData) {
               print("snapshot has data");
-              if(snapshot.data.inWishlist.toString() == "1"){
+              if (snapshot.data.inWishlist.toString() == "1") {
                 inWhistlist = true;
-              }else{
+              } else {
                 inWhistlist = false;
               }
 
@@ -88,7 +87,7 @@ class CustomerBookView extends StatelessWidget {
                       Text("\n"),
                       addBasketButton(context, customerID, isLogin),
                       commentField(context),
-                      rateField(),
+                      rateField(context),
                     ],
                   ),
                 ),
@@ -122,10 +121,10 @@ class CustomerBookView extends StatelessWidget {
   }
 
   Widget stars(String voteRatio) {
-    double vote ;
-    if(voteRatio.toString() == "0.0"){
+    double vote;
+    if (voteRatio.toString() == "0.0") {
       vote = 0;
-    }else{
+    } else {
       vote = double.parse(voteRatio);
     }
     print(vote);
@@ -137,9 +136,11 @@ class CustomerBookView extends StatelessWidget {
             color: Colors.amber,
             size: 48,
           ),
-          child: StarRating(rating : vote,color: Colors.yellow,) ,//StarDisplay(value: vote),
+          child: StarRating(
+            rating: vote,
+            color: Colors.yellow,
+          ), //StarDisplay(value: vote),
         ),
-
       ],
     );
   }
@@ -435,12 +436,12 @@ class CustomerBookView extends StatelessWidget {
   }
 
   /// This widget keeps the rating starts and button in row
-  Widget rateField() {
+  Widget rateField(BuildContext context) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       children: [
         rate(),
-        rateButton(),
+        rateButton(context),
       ],
     );
   }
@@ -467,7 +468,7 @@ class CustomerBookView extends StatelessWidget {
   }
 
   /// This function builds a button for giving vote
-  Widget rateButton() {
+  Widget rateButton(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.fromLTRB(0, 25, 0, 0),
       child: RaisedButton(
@@ -480,8 +481,71 @@ class CustomerBookView extends StatelessWidget {
           borderRadius: BorderRadius.circular(15),
         ),
         onPressed: () {
-          // Save rating on the database
-          commentVote.giveRating(customerID, isbn, (rating).toInt());
+          if (isLogin) {
+            // Save rating on the database
+            commentVote.giveRating(customerID, isbn, (rating).toInt());
+            int vote = (rating).toInt();
+            showDialog(
+              context: context,
+              builder: (BuildContext context) {
+                // return object of type Dialog
+                return AlertDialog(
+                  shape: new RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(25),
+                  ),
+                  title: new Text("Vote"),
+                  content: new Text("Your vote is $vote."),
+                  actions: <Widget>[
+                    // usually buttons at the bottom of the dialog
+                    new FlatButton(
+                      shape: new RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(20),
+                      ),
+                      color: Colors.blue,
+                      child: new Text(
+                        "OK",
+                        style: TextStyle(color: Colors.white),
+                      ),
+                      onPressed: () {
+                        Navigator.of(context).pop();
+                      },
+                    ),
+                  ],
+                );
+              },
+            );
+          } else {
+            showDialog(
+              context: context,
+              builder: (BuildContext context) {
+                // return object of type Dialog
+                return AlertDialog(
+                  shape: new RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(25),
+                  ),
+                  title: new Text("Vote Error"),
+                  content: new Text(
+                      "You cannot give vote! You did not login the system!"),
+                  actions: <Widget>[
+                    // usually buttons at the bottom of the dialog
+                    new FlatButton(
+                      shape: new RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(20),
+                      ),
+                      color: Colors.blue,
+                      child: new Text(
+                        "OK",
+                        style: TextStyle(color: Colors.white),
+                      ),
+                      onPressed: () {
+                        Navigator.of(context).pop();
+                      },
+                    ),
+                  ],
+                );
+              },
+            );
+          }
         },
       ),
     );
@@ -570,9 +634,9 @@ class CustomerBookView extends StatelessWidget {
 // Kalp oluşturabilmek için bir widget oluşturdum.
 // Post methodunu da yukarda widget arrayinde 53.satır'da çağırdım.
 // Backend'i yazıldıktan sonra eklemeler buraya yapılabilir.
-bool inWhistlist ;
-class Post extends StatefulWidget {
+bool inWhistlist;
 
+class Post extends StatefulWidget {
   @override
   PostState createState() => new PostState();
 }
@@ -614,7 +678,7 @@ class StarRating extends StatelessWidget {
   final double rating;
   final Color color;
 
-  StarRating({this.starCount = 5, this.rating = .0,  this.color});
+  StarRating({this.starCount = 5, this.rating = .0, this.color});
 
   Widget buildStar(BuildContext context, int index) {
     Icon icon;
@@ -623,8 +687,7 @@ class StarRating extends StatelessWidget {
         Icons.star_border,
         color: Theme.of(context).buttonColor,
       );
-    }
-    else if (index > rating - 1 && index < rating) {
+    } else if (index > rating - 1 && index < rating) {
       icon = new Icon(
         Icons.star_half,
         color: color ?? Theme.of(context).primaryColor,
@@ -642,6 +705,8 @@ class StarRating extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return new Row(children: new List.generate(starCount, (index) => buildStar(context, index)));
+    return new Row(
+        children:
+            new List.generate(starCount, (index) => buildStar(context, index)));
   }
 }

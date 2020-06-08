@@ -17,12 +17,17 @@ public class PaymentController {
     @Autowired
     private PaymentServices paymentServices;
 
+
+    /*-2--> invalid payment information
+     * -1--> not enough budget
+     * 1--> payment successful*/
     @PostMapping(value = "/createOrder/{customerId}/{addressId}/{shippingId}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public String orderCreation(@Validated(OrderCreation.class) @RequestBody OrderCreateDao orderInfo,
-                                @PathVariable Integer customerId, @PathVariable Integer addressId,
-                                @PathVariable Integer shippingId) {
-        if (!paymentServices.saveMyCard(orderInfo.getCardNo(), orderInfo.getCardOwner(), customerId)) {
-            return "Payment Information Failed";
+    public Integer orderCreation(@Validated(OrderCreation.class) @RequestBody OrderCreateDao orderInfo,
+                                 @PathVariable Integer customerId, @PathVariable Integer addressId,
+                                 @PathVariable Integer shippingId) {
+        Integer result = paymentServices.saveMyCard(orderInfo.getCardNo(), orderInfo.getCardOwner(), customerId, orderInfo.getTotalAmount());
+        if (result != 1) {
+            return result;
         }
 
         return paymentServices.orderCreate(orderInfo.getBasketInfo(), orderInfo.getTotalAmount(),
