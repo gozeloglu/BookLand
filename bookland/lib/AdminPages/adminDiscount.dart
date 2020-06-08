@@ -133,8 +133,13 @@ class adminDiscount extends StatelessWidget {
 
             isbn = book.data.details.bookId.toString();
             percentage = percentageController.text;
+            if (percentage != null){
+              if(int.parse(percentage) > 0){
+                var result = httpAdmin.adminDiscountBook(isbn, percentage);
+              }
+            }
 
-            var result = httpAdmin.adminDiscountBook(isbn, percentage);
+
 
             Timer(Duration(seconds: 1), () {
               if (errorControl == false) {
