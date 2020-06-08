@@ -35,6 +35,7 @@ import 'package:bookland/AdminPages/bookview.dart';
 class adminDiscount extends StatelessWidget {
   static const String _title = 'AdminUpdateBook';
   final AsyncSnapshot book;
+  var globalDiscountContext;
 
   adminDiscount({Key key, @required this.book}) : super(key: key);
 
@@ -52,6 +53,7 @@ class adminDiscount extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    globalDiscountContext = context;
     // TODO: implement build
     return  Scaffold(
           appBar: MyAppBar(
@@ -133,8 +135,10 @@ class adminDiscount extends StatelessWidget {
 
             isbn = book.data.details.bookId.toString();
             percentage = percentageController.text;
-            if (percentage != null){
+            errorControl = true;
+            if (!percentage.isEmpty){
               if(int.parse(percentage) > 0){
+                print("burassşalcmaşscmaşscmaşsmlcşasmcşasmcşamcşamcaşcmaşcma");
                 var result = httpAdmin.adminDiscountBook(isbn, percentage);
               }
             }
@@ -155,7 +159,11 @@ class adminDiscount extends StatelessWidget {
                         new FlatButton(
                           child: new Text("Close"),
                           onPressed: () {
-                            Navigator.of(context).pop();
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => new BookView(isbn: isbn),
+                                ));
                           },
                         ),
                       ],
@@ -170,7 +178,7 @@ class adminDiscount extends StatelessWidget {
                     // return object of type Dialog
                     return AlertDialog(
                       title: new Text("Discount Book"),
-                      content: new Text(errorMessage),
+                      content: new Text("Discount operation is fail!!"),
                       actions: <Widget>[
                         // usually buttons at the bottom of the dialog
                         new FlatButton(
@@ -186,11 +194,11 @@ class adminDiscount extends StatelessWidget {
               }
             });
             //Navigator.pop(context);
-            Navigator.push(
+            /*Navigator.push(
                 context,
                 MaterialPageRoute(
                   builder: (context) => new BookView(isbn: isbn),
-                ));
+                ));*/
             /*Navigator.push(
                 context,
                 new MaterialPageRoute(

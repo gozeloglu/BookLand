@@ -180,10 +180,12 @@ class HttpAdmin {
     );
 
     if (response.statusCode < 400) {
+      errorControl = false;
       return "PERFECT";
     } else {
-      return "BADBADBAD";
       errorControl = true;
+      return "BADBADBAD";
+
       errorMessage = "Discounting Book has Failed";
       // If the server did not return a 201 CREATED response,
       // then throw an exception.
