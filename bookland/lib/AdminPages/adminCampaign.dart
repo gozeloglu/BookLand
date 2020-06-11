@@ -232,7 +232,6 @@ class adminCampaign extends StatelessWidget {
             var result = httpAdmin.adminMakeCampaign(couponCode, couponDiscount,
                 campaignName, endDate, participantQuantity);
 
-            print(result);
             //print("****" + errorControl.toString());
             /* Timer(Duration(seconds: 1), () {
               if (errorControl == false) {
@@ -302,10 +301,10 @@ class adminCampaign extends StatelessWidget {
           elevation: 5.0,
           shape: new RoundedRectangleBorder(
               borderRadius: new BorderRadius.circular(10.0)),
-          color: Colors.green,
+          color: Colors.yellow,
           //add this to your code,
-          child: new Text("Create This Campaign!",
-              style: new TextStyle(fontSize: 20.0, color: Colors.white)),
+          child: new Text("Send Notification!",
+              style: new TextStyle(fontSize: 20.0, color: Colors.black)),
           onPressed: () {
             String _couponCode = couponCodeController.text;
             String _couponDiscount = couponDiscountController.text;
