@@ -165,7 +165,7 @@ class Price_FilterState extends State<Price_Filter> {
   Widget build(BuildContext context) {
     return new Scaffold(
       appBar: new MyAppBar(pageTitle:  'Price Filter',loginIcon: false,
-        back: true,
+        back: false,
         filter_list: false,
         search: false,),
       body: new ListView(
@@ -241,8 +241,7 @@ class Category_FilterState extends State<Category_Filter> {
   }
   List<String> control_list( List<String> selectedlist,Map<String, bool> book_dictionary ){
     if(category_god != "-1"){
-      print("CATEGORY vaaar");
-      print(category_god);
+
       int control = 0;
       if(book_dictionary[category_god] == true){
        for (int i = 0 ; i< selectedlist.length ; i++){
@@ -261,7 +260,7 @@ class Category_FilterState extends State<Category_Filter> {
   Widget build(BuildContext context) {
     return new Scaffold(
       appBar: new MyAppBar(pageTitle:  'Category Filter',loginIcon: false,
-      back: true,
+      back: false,
       filter_list: false,
       search: false,),
       body: new ListView(
@@ -326,7 +325,7 @@ class Author_FilterState extends State<Author_Filter> {
   Widget build(BuildContext context) {
     return new Scaffold(
       appBar: new MyAppBar(pageTitle:  'Category Filter',loginIcon: false,
-      back: true,
+      back: false,
       filter_list: false,
       search: false,),
       body: new ListView(

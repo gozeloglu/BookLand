@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:bookland/AdminPages/adminOrders.dart';
 import 'package:bookland/CommonPages/filtering_page.dart';
 import 'package:bookland/CustomerPages/user_account.dart';
@@ -68,6 +70,7 @@ class MyAppBar extends StatelessWidget with PreferredSizeWidget {
               color: Colors.white,
             ),
             onPressed: () {
+    Timer(Duration(seconds: 1), () {
               if (isLogin) {
                 Navigator.push(
                   context,
@@ -81,7 +84,7 @@ class MyAppBar extends StatelessWidget with PreferredSizeWidget {
                   new MaterialPageRoute(builder: (context) => new Login()),
                 );
               }
-
+    });
               // TODO Login page will be here
             },
           ),
