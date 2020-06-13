@@ -32,7 +32,7 @@ class Admin_customerManageStateless extends StatelessWidget {
     globalAdmin_customerManageContext = context;
     GlobalKey<PaginatorState> paginatorGlobalKey = GlobalKey();
     return Scaffold(
-      appBar: MyAppBar(pageTitle: "Customer Manage", loginIcon: false,
+      appBar: MyAppBar(pageTitle: "User Manage", loginIcon: false,
         back: false,
         filter_list: false,
         search: true, ),

@@ -37,7 +37,7 @@ class List_MainStateless extends StatelessWidget {
     } else if (MainPage == 4) {
       parameter = "SearchRecommendation/" + customerID.toString();
       print(parameter);
-      title_main = "Last Views";
+      title_main = "Recommended For You";
     } else if (MainPage == 5) {
       title_main = "Top List";
       parameter = "getBestSeller";
