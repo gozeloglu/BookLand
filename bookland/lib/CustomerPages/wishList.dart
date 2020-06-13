@@ -33,7 +33,7 @@ class WishListStateless extends StatelessWidget {
     return Scaffold(
       appBar: MyAppBar(pageTitle: "Wish List",loginIcon: false,
         back: false,
-        filter_list: true,
+        filter_list: false,
         search: true,),
       body: Paginator.listView(
         key: paginatorGlobalKey,

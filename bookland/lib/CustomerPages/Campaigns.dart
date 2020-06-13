@@ -35,7 +35,7 @@ class CampaignsStateless extends StatelessWidget {
 
 
     return Scaffold(
-      appBar: MyAppBar(pageTitle: "CAMPAIGNS", loginIcon: false,
+      appBar: MyAppBar(pageTitle: "Campaigns", loginIcon: false,
         back: false,
         filter_list: false,
         search: true, ),

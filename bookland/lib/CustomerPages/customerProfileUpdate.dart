@@ -32,14 +32,13 @@ class CustomerProfileUpdate extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-        theme: ThemeData(
-          primarySwatch: Colors.blue,
-        ),
-        home: Scaffold(
+    return Scaffold(
           appBar: MyAppBar(
             pageTitle: "Update Profile",
-            back: true,
+            back: false,
+            loginIcon: false,
+            filter_list: false,
+            search: false,
           ),
           body: Container(
             width: double.infinity,
@@ -50,7 +49,7 @@ class CustomerProfileUpdate extends StatelessWidget {
           ),
           bottomNavigationBar: MyBottomNavigatorBar(),
         )
-    );
+    ;
   }
 
   Widget _showForm(AsyncSnapshot snapshot, BuildContext context) {

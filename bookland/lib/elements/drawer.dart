@@ -1,3 +1,4 @@
+import 'package:bookland/CustomerPages/Campaigns.dart';
 import 'package:bookland/CustomerPages/my_orders.dart';
 import 'package:bookland/CustomerPages/user_account.dart';
 import 'package:bookland/CustomerPages/wishList.dart';
@@ -122,7 +123,13 @@ class MyDrawer extends StatelessWidget {
               Icons.notifications_active,
               color: Colors.yellow,
             ),
-            onTap: () {},
+            onTap: () {
+              Navigator.push(
+                context,
+                new MaterialPageRoute(
+                    builder: (context) => new CampaignsStateless(-1)),
+              );
+            },
           ),
           new Divider(),
           new ListTile(
@@ -260,7 +267,7 @@ class MyDrawer extends StatelessWidget {
               );
             },
             child: ListTile(
-              title: Text("Customer Manage", style: TextStyle(fontSize: 18)),
+              title: Text("User Manage", style: TextStyle(fontSize: 18)),
               leading: Icon(Icons.people),
             ),
           ),

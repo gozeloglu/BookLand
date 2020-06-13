@@ -647,7 +647,12 @@ class PostState extends State<Post> {
 
   _pressedLikeButton() {
     setState(() {
-      liked = !liked;
+      if (isLogin) {
+        liked = !liked;
+      } else {
+        liked = liked;
+      }
+
     });
     if (liked == true) {
       httpCustomer.addToWishList(customerID, customerBookId);
