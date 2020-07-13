@@ -8,11 +8,11 @@ BookLand is an online book store mobile application. It is designed by 5 develop
 
 - **Esra Kabakbaş:** Software Architect - Mobile Developer
 
-- **Gökhan Özeloğlu:** Software Configuration Manager - Mobie Developer
+- **Gökhan Özeloğlu:** Software Configuration Manager - Mobile Developer
 
 - **Burak Yılmaz:** Software Analyst - Backend Developer
 
-- **Fatma Usalan:** Software Tester - Backend Developer
+- **Fatma Usalan:** Software Tester - Mobile Developer
 
 ## :computer: Technology Stack
 
