@@ -14,16 +14,28 @@ description: A new Flutter application.
 version: 1.0.0+1
 
 environment:
-  sdk: ">=2.1.0 <3.0.0"
+  sdk: ">=2.2.0 <3.0.0"
 
 dependencies:
+  font_awesome_flutter: '>= 4.7.0'
+  http: ^0.12.0+4
+  http_auth: ^0.2.9
+  flutter_pagination_helper: ^1.0.1+2
   grouped_buttons: ^1.0.4
+  flutter_paginator: ^0.0.6
+  gradient_app_bar: ^0.0.1
+  flutter_webview_plugin: ^0.3.11
   flutter:
     sdk: flutter
-
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^0.1.2
+  sprintf: "^4.0.0"
+  shared_preferences: ^0.5.7+3
+  flappy_search_bar: 1.4.1
+  smooth_star_rating: ^1.1.1
+  onesignal_flutter: ^2.0.0
+
 
 dev_dependencies:
   flutter_test:
@@ -51,7 +63,11 @@ flutter:
     - assets/toplist.png
     - assets/campaign.png
     - assets/person.jpg
+    - assets/payment.jpg
+    - assets/shipping.png
+    - assets/skyfall.png
     - assets/bookland__pp.png
+    - assets/booklandLogo.png
     - assets/booking/book1.jpg
     - assets/booking/book2.jpg
     - assets/booking/book3.jpg
@@ -60,7 +76,24 @@ flutter:
     - assets/booking/book6.jpg
     - assets/booking/book7.jpg
     - assets/filter_books.jpg
-
+    - assets/booking/bookback.jpg
+    - assets/booking/bookback2.jpg
+    - assets/orderdetails/japan.jpg
+    - assets/orderdetails/japan2.jpg
+    - assets/orderdetails/japan3.jpg
+    - assets/orderdetails/background0.jpg
+    - assets/orderdetails/background1.jpg
+    - assets/orderdetails/background2.jpg
+    - assets/orderdetails/background3.jpg
+    - assets/orderdetails/backgroundAdmin.jpg
+    - assets/orderdetails/soft1.jpg
+    - assets/orderdetails/soft2.jpg
+    - assets/mainPage/NBS.png
+    - assets/mainPage/NC.png
+    - assets/mainPage/NLR.png
+    - assets/mainPage/NRFY.png
+    - assets/mainPage/NTL.png
+    - assets/logo.png
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.
 
